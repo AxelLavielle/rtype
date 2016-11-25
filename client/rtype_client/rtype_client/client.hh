@@ -1,8 +1,18 @@
 #pragma once
-class client
+
+#include "SFML.hh"
+#include "SFMLEvent.hh"
+#include "Menu.hh"
+
+class Client
 {
 public:
-	client();
-	~client();
+	Client();
+	~Client();
+	bool launch();
+private:
+	IGraphManager		*_graph;
+	IEventManager		*_event;
+	IMenu				*_menu;
 };
 

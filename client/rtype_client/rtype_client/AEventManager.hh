@@ -6,5 +6,9 @@ class AEventManager :
 public:
 	AEventManager();
 	virtual ~AEventManager();
+	virtual bool refresh() = 0;
+	virtual void setGraphManager(IGraphManager *graph) = 0;
+	virtual std::string getKeyStroke() const = 0;
+	virtual bool getCloseEvent() const = 0;
 };
 

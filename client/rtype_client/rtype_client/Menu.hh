@@ -6,5 +6,7 @@ class Menu :
 public:
 	Menu();
 	virtual ~Menu();
+	virtual bool init();
+	virtual bool launch();
 };
 

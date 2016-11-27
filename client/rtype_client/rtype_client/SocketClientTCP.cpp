@@ -62,10 +62,10 @@ bool				SocketClientTCP::sendData(const char *data)
 		std::cout << "send failed: " << WSAGetLastError() << std::endl;
 		closesocket(_connectSocket);
 		WSACleanup();
-		return (bool);
+		return (false);
 	}
 
-	printf("Bytes Sent: %ld\n", iResult);
+	std::cout << "Bytes Sent: " << iResult << std::endl;
 
 	iResult = shutdown(_connectSocket, SD_SEND);
 	if (iResult == SOCKET_ERROR)
@@ -73,7 +73,7 @@ bool				SocketClientTCP::sendData(const char *data)
 		std::cout << "shutdown failed: " << WSAGetLastError() << std::endl;
 		closesocket(_connectSocket);
 		WSACleanup();
-		return (bool);
+		return (false);
 	}
 }
 
@@ -84,15 +84,12 @@ char				*SocketClientTCP::receiveData()
 	int				iResult;
 
 	iResult = recv(_connectSocket, recvbuf, recvbuflen, 0);
-	while (iResult > 0)
+	if (iResult > 0)
+		return (recvbuf);
+	else
 	{
-		iResult = recv(_connectSocket, recvbuf, recvbuflen, 0);
-		if (iResult > 0)
-			std::cout << "Bytes received: " << iResult << std::endl;
-		else if (iResult == 0)
-			std::cout << "Connection closed" << std::endl;
-		else
-			std::cout << "recv failed: " << WSAGetLastError() << std::endl;
+		std::cout << "recv failed: " << WSAGetLastError() << std::endl;
+		return (NULL);
 	}
 }
 

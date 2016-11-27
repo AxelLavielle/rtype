@@ -80,12 +80,15 @@ bool				SocketClientTCP::sendData(const char *data)
 char				*SocketClientTCP::receiveData()
 {
 	int				recvbuflen = DEFAULT_BUFLEN;
-	char			recvbuf[DEFAULT_BUFLEN];
+	char			*recvbuf = new char[DEFAULT_BUFLEN];
 	int				iResult;
 
 	iResult = recv(_connectSocket, recvbuf, recvbuflen, 0);
 	if (iResult > 0)
+	{
+		recvbuf[iResult - 1] = '\0';
 		return (recvbuf);
+	}
 	else
 	{
 		std::cout << "recv failed: " << WSAGetLastError() << std::endl;

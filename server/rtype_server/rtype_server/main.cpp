@@ -16,7 +16,6 @@ int main()
 	}
 	OutputDebugString("INIT OK\n");
 
-	
 	while (42)
 	{
 		if ((clientSocketID = socketServer.acceptNewClient()) != -1)

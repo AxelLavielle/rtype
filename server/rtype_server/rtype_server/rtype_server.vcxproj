@@ -110,11 +110,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ASocketServer.hh" />
     <ClInclude Include="server.hh" />
+    <ClInclude Include="SocketServerTCP.hh" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ASocketServer.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="server.cpp" />
+    <ClCompile Include="SocketServerTCP.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

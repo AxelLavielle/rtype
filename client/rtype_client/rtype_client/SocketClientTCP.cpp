@@ -112,3 +112,17 @@ bool				SocketClientTCP::connectToServer()
 		return (false);
 	}
 }
+
+bool			SocketClientTCP::close()
+{
+	int			iResult;
+
+	iResult = shutdown(_connectSocket, SD_SEND);
+	if (iResult == SOCKET_ERROR)
+	{
+		std::cout << "shutdown failed: " << WSAGetLastError();
+		closesocket(_connectSocket);
+		WSACleanup();
+		return (false);
+	}
+}

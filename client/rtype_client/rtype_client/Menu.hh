@@ -18,5 +18,6 @@ private:
 	void initButton();
 	void drawButton();
 	void ButtonEvent();
+	void roomButton();
 };
 

@@ -17,12 +17,12 @@ bool Button::draw()
 	if (!_over)
 	{
 		_graph->drawRectangle("../../res/img/button.jpg", _rect);
-		_graph->drawText("PLAY", _rect.getX() + _posXText, _rect.getY() + _posYText, _textSize, Color(224, 224, 224, 255), "../../res/fonts/Aerospace.ttf");
+		_graph->drawText(_txt, _rect.getX() + _posXText, _rect.getY() + _posYText, _textSize, Color(224, 224, 224, 255), "../../res/fonts/Aerospace.ttf");
 	}
 	else
 	{
 		_graph->drawRectangle("../../res/img/button.jpg", _rect);
-		_graph->drawText("PLAY", _rect.getX() + _posXText, _rect.getY() + _posYText, _textSize, Color(224, 224, 224, 255), "../../res/fonts/Aerospace.ttf");
+		_graph->drawText(_txt, _rect.getX() + _posXText, _rect.getY() + _posYText, _textSize, Color(224, 224, 224, 255), "../../res/fonts/Aerospace.ttf");
 	}
 	return (true);
 }

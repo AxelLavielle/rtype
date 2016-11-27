@@ -1,7 +1,5 @@
 #include "Menu.hh"
 
-
-
 Menu::Menu()
 {
 }
@@ -19,14 +17,18 @@ bool Menu::init()
 void Menu::initButton()
 {
 	Button		play(_graph, _event, Rect(380, 150, 90, 310), "PLAY");
-	Button		quit(_graph, _event, Rect(380, 500, 90, 310), "QUIT");
+	Button		quit(_graph, _event, Rect(380, 600, 90, 310), "QUIT");
+	Button		option(_graph, _event, Rect(380, 380, 90, 310), "OPTION");
 
 	play.setTextPos(70, 10);
 	play.setTextSize(60);
 	quit.setTextPos(70, 10);
 	quit.setTextSize(60);
+	option.setTextPos(20, 10);
+	option.setTextSize(60);
 	_buttons.push_back(play);
 	_buttons.push_back(quit);
+	_buttons.push_back(option);
 }
 
 void Menu::drawButton()
@@ -53,6 +55,11 @@ void Menu::ButtonEvent()
 	}
 }
 
+void Menu::roomButton()
+{
+
+}
+
 bool Menu::launch()
 {
 	initButton();
@@ -68,7 +75,7 @@ bool Menu::launch()
 		_graph->clearWindow();
 		_graph->setBackground("../../res/img/background_menu2.jpg");
 		drawButton();
-		_graph->drawText("Hen Type", 350, 0, 70, Color(224, 224, 224, 255), "../../res/fonts/Aerospace.ttf");
+		_graph->drawText("Hen Type", 300, 0, 90, Color(224, 224, 224, 255), "../../res/fonts/Aerospace.ttf");
 		_graph->refresh();
 	}
 	return (false);

@@ -54,7 +54,14 @@
     <ClCompile Include="Rect.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Color.cpp">
+=======
+    <ClCompile Include="ASocketClient.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SocketClientTCP.cpp">
+>>>>>>> 87552498c1f29c8baa181edcb803c45c36fbbd5f
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -107,7 +114,17 @@
     <ClInclude Include="Rect.hh">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Color.hh">
+=======
+    <ClInclude Include="ASocketClient.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="ISocket.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="SocketClientTCP.hh">
+>>>>>>> 87552498c1f29c8baa181edcb803c45c36fbbd5f
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

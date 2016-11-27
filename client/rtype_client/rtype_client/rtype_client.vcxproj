@@ -135,6 +135,7 @@
     <ClInclude Include="Button.hh" />
     <ClInclude Include="client.hh" />
     <ClInclude Include="CmdManager.hh" />
+    <ClInclude Include="Color.hh" />
     <ClInclude Include="IEventManager.hpp" />
     <ClInclude Include="IGraphManager.hpp" />
     <ClInclude Include="IMenu.hpp" />
@@ -153,6 +154,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="client.cpp" />
     <ClCompile Include="CmdManager.cpp" />
+    <ClCompile Include="Color.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Rect.cpp" />

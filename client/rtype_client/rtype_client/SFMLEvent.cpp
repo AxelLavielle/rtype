@@ -31,6 +31,16 @@ std::string SFMLEvent::getKeyStroke() const
 			return ("ECHAP");
 		}
 	}
+	else if (_event.type == sf::Event::MouseButtonPressed)
+	{
+		switch (_event.mouseButton.button)
+		{
+			case sf::Mouse::Right:
+				return ("MR");
+			case sf::Mouse::Left:
+				return ("ML");
+		}
+	}
 	return ("");
 }
 
@@ -41,7 +51,7 @@ bool SFMLEvent::getCloseEvent() const
 	return (false);
 }
 
-std::pair<int, int> SFMLEvent::getMousePOs() const
+std::pair<int, int> SFMLEvent::getMousePos() const
 {
 	std::pair<int, int> pos(-1, -1);
 
@@ -51,5 +61,20 @@ std::pair<int, int> SFMLEvent::getMousePOs() const
 		pos.second = _event.mouseMove.y;
 	}
 	return (pos);
+}
+
+std::pair<int, int> SFMLEvent::getClickMousePos() const
+{
+	std::pair<int, int>		res(-1, -1);
+
+	if (_event.type == sf::Event::MouseButtonPressed)
+	{
+		if (_event.mouseButton.button == sf::Mouse::Left)
+		{
+			res.first = _event.mouseButton.x;
+			res.second = _event.mouseButton.y;
+		}
+	}
+	return (res);
 }
 

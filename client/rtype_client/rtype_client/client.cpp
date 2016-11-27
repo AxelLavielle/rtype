@@ -23,9 +23,19 @@ bool Client::launch()
 	_graph->init();
 	_event->setGraphManager(_graph);
 	_menu->init();
-
 	_menu->setEventManager(_event);
 	_menu->setGraphManager(_graph);
-	_menu->launch();
+	if (!_menu->launch())
+		return (false);
+	while (_graph->isWindowOpen())
+	{
+		while (_event->refresh())
+		{
+			if (_event->getCloseEvent() || _event->getKeyStroke() == "ECHAP")
+				_graph->close();
+		}
+		_graph->clearWindow();
+		_graph->refresh();
+	}
 	return (true);
 }

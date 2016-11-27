@@ -10,6 +10,7 @@ public:
 	virtual void setGraphManager(IGraphManager *graph) = 0;
 	virtual std::string getKeyStroke() const = 0;
 	virtual bool getCloseEvent() const = 0;
-	virtual std::pair<int, int> getMousePOs() const = 0;
+	virtual std::pair<int, int> getMousePos() const = 0;
+	virtual std::pair<int, int> getClickMousePos() const = 0;
 };
 

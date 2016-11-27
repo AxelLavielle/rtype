@@ -14,6 +14,7 @@ public:
 	virtual void setGraphManager(IGraphManager *graph);
 	virtual std::string getKeyStroke() const;
 	virtual bool getCloseEvent() const;
+	virtual std::pair<int, int> getMousePOs() const;
 private:
 	SFML					*_graph;
 	sf::Event				_event;

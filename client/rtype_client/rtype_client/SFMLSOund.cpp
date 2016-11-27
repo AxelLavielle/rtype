@@ -1,12 +1,12 @@
-#include "SFMLSOund.hh"
+#include "SFMLSound.hh"
 
 
 
-SFMLSOund::SFMLSOund()
+SFMLSound::SFMLSound()
 {
 }
 
 
-SFMLSOund::~SFMLSOund()
+SFMLSound::~SFMLSound()
 {
 }

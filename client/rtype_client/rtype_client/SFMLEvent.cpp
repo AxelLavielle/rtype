@@ -1,7 +1,5 @@
 #include "SFMLEvent.hh"
 
-
-
 SFMLEvent::SFMLEvent()
 {
 }
@@ -42,3 +40,16 @@ bool SFMLEvent::getCloseEvent() const
 		return (true);
 	return (false);
 }
+
+std::pair<int, int> SFMLEvent::getMousePOs() const
+{
+	std::pair<int, int> pos(-1, -1);
+
+	if (_event.type == sf::Event::MouseMoved)
+	{
+		pos.first = _event.mouseMove.x;
+		pos.second = _event.mouseMove.y;
+	}
+	return (pos);
+}
+

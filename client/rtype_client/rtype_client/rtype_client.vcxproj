@@ -132,6 +132,7 @@
     <ClInclude Include="AGraphManager.hh" />
     <ClInclude Include="AMenu.hh" />
     <ClInclude Include="ASoundManager.hh" />
+    <ClInclude Include="Button.hh" />
     <ClInclude Include="client.hh" />
     <ClInclude Include="CmdManager.hh" />
     <ClInclude Include="IEventManager.hpp" />
@@ -139,6 +140,7 @@
     <ClInclude Include="IMenu.hpp" />
     <ClInclude Include="ISoundManager.hpp" />
     <ClInclude Include="Menu.hh" />
+    <ClInclude Include="Rect.hh" />
     <ClInclude Include="SFML.hh" />
     <ClInclude Include="SFMLEvent.hh" />
     <ClInclude Include="SFMLSOund.hh" />
@@ -148,10 +150,12 @@
     <ClCompile Include="AGraphManager.cpp" />
     <ClCompile Include="AMenu.cpp" />
     <ClCompile Include="ASoundManager.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="client.cpp" />
     <ClCompile Include="CmdManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Rect.cpp" />
     <ClCompile Include="SFML.cpp" />
     <ClCompile Include="SFMLEvent.cpp" />
     <ClCompile Include="SFMLSOund.cpp" />

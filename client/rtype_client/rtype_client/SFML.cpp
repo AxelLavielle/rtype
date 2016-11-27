@@ -47,6 +47,19 @@ void SFML::close()
 	_window->close();
 }
 
+bool SFML::drawRectangle(const std::string & spritePath, const Rect &rect)
+{
+	sf::Texture		img;
+	sf::Sprite		sprite;
+
+	if (!img.loadFromFile(spritePath))
+		return (false);
+	_texture.push_back(img);
+	sprite.setTexture(_texture.back());
+	_img.push_back(sprite);
+	return (true);
+}
+
 bool SFML::setBackground(const std::string & imagePath)
 {
 	sf::Texture		img;

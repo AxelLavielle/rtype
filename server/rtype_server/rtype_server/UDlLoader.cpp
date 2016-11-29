@@ -8,7 +8,7 @@ UDlLoader::~UDlLoader()
 {
 }
 
-IEntity	UDlLoader::getInstance(void)
+IEntity	*UDlLoader::getInstance(void)
 {
 }
 

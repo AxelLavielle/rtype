@@ -6,8 +6,8 @@ class WDlLoader : public ADlLoader
 {
 public:
   WDlLoader();
-  ~WDlLoader();
+  virtual ~WDlLoader();
 
-  IEntity	getInstance(void);
-  bool		load(const std::string &);
+  virtual IEntity	*getInstance(void);
+  virtual bool		load(const std::string &);
 };

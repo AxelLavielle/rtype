@@ -8,7 +8,7 @@ WDlLoader::~WDlLoader()
 {
 }
 
-IEntity		WDlLoader::getInstance()
+IEntity		*WDlLoader::getInstance()
 {
 
 }

@@ -8,7 +8,7 @@ ADlLoader::~ADlLoader()
 {
 }
 
-IEntity		ADlLoader::getInstance()
+IEntity		*ADlLoader::getInstance()
 {
 }
 

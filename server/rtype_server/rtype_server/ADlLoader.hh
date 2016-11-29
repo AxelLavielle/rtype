@@ -6,9 +6,9 @@ class ADlLoader : public IDlLoader
 {
 public:
 	ADlLoader();
-	virtual		~ADlLoader();
-	IEntity		getInstance();
-	bool		load(const std::string &path);
+	virtual			~ADlLoader();
+	virtual IEntity		*getInstance();
+	virtual bool		load(const std::string &path);
 private:
-	std::string	_dlPath;
+	std::string		_dlPath;
 };

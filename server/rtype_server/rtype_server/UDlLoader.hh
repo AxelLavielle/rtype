@@ -6,7 +6,7 @@ class UDlLoader : public ADlLoader
 {
 public:
   UDlLoader();
-  ~UDlLoader();
-  IEnity	getInstance(void);
-  bool		load(const std::string &path);
+  virtual ~UDlLoader();
+  virtual IEntity	*getInstance(void);
+  virtual bool		load(const std::string &path);
 };

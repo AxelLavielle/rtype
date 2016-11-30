@@ -10,6 +10,7 @@ UDlLoader::~UDlLoader()
 
 IEntity	*UDlLoader::getInstance(void)
 {
+
 }
 
 bool	UDlLoader::load(const std::string &path)

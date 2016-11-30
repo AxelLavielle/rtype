@@ -1,6 +1,6 @@
 #include "ADlLoader.hh"
 
-ADlLoader::ADlLoader()
+ADlLoader::ADlLoader() : _dlHandle(NULL)
 {
 }
 
@@ -8,12 +8,18 @@ ADlLoader::~ADlLoader()
 {
 }
 
-IEntity		*ADlLoader::getInstance()
+void		*ADlLoader::getHandle()
 {
+  return (_dlHandle);
 }
 
-bool		ADlLoader::load(const std::string &file)
+bool		ADlLoader::closeHandle()
 {
-  (void)file;
-  return (true);
+  if (_dlHandle)
+    {
+      dlclose(_dlHandle);
+      _dlHandle = NULL;
+      return (true);
+    }
+  return (false);
 }

@@ -19,6 +19,7 @@ public:
 	virtual void close();
 	virtual bool drawText(const std::string & text, const int & posX, const int & posY, const int &size, const Color &color, const std::string & font = "../../res/font/Aerospace.ttf");
 	virtual bool drawRectangle(const std::string & spritePath, const Rect & rect);
+	virtual bool drawRectangle(const Color & color, const Rect & rect);
 	virtual bool setBackground(const std::string &imagePath);
 private:
 	sf::RenderWindow											*_window;

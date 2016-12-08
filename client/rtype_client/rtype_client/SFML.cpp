@@ -109,6 +109,16 @@ bool SFML::drawRectangle(const std::string & spritePath, const Rect &rect)
 	return (true);
 }
 
+bool SFML::drawRectangle(const Color & color, const Rect & rect)
+{
+	sf::RectangleShape	rec(sf::Vector2f(rect.getWidth(), rect.getHeight()));
+
+	rec.setFillColor(sf::Color(color.getR(), color.getG(), color.getB()));
+	rec.setPosition(rect.getX(), rect.getY());
+	_window->draw(rec);
+	return (true);
+}
+
 sf::Texture *SFML::getTexture(const std::string &path) const
 {
 	std::vector<std::pair<sf::Texture*, std::string>>::const_iterator it;

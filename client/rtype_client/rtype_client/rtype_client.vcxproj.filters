@@ -1,131 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Fichiers sources">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Fichiers d%27en-tête">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Fichiers de ressources">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="AEventManager.cpp" />
+    <ClCompile Include="AGraphManager.cpp" />
+    <ClCompile Include="AMenu.cpp" />
+    <ClCompile Include="ASocketClient.cpp" />
+    <ClCompile Include="ASoundManager.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="client.cpp" />
+    <ClCompile Include="CmdManager.cpp" />
+    <ClCompile Include="Color.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Rect.cpp" />
+    <ClCompile Include="SFML.cpp" />
+    <ClCompile Include="SFMLEvent.cpp" />
+    <ClCompile Include="SFMLSOund.cpp" />
+    <ClCompile Include="SocketClientTCP.cpp" />
+    <ClCompile Include="ListBox.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AGraphManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="client.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="SFML.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="ASoundManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="SFMLSOund.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="AEventManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="SFMLEvent.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="AMenu.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Menu.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="CmdManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Rect.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-<<<<<<< HEAD
-    <ClCompile Include="Color.cpp">
-=======
-    <ClCompile Include="ASocketClient.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="SocketClientTCP.cpp">
->>>>>>> 87552498c1f29c8baa181edcb803c45c36fbbd5f
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AGraphManager.hh">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="client.hh">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="IGraphManager.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="SFML.hh">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="ISoundManager.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="ASoundManager.hh">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="SFMLSOund.hh">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="IEventManager.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="AEventManager.hh">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="SFMLEvent.hh">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="IMenu.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="AMenu.hh">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu.hh">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="CmdManager.hh">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.hh">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Rect.hh">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="Color.hh">
-=======
-    <ClInclude Include="ASocketClient.hh">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="ISocket.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="SocketClientTCP.hh">
->>>>>>> 87552498c1f29c8baa181edcb803c45c36fbbd5f
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
+    <ClInclude Include="AEventManager.hh" />
+    <ClInclude Include="AGraphManager.hh" />
+    <ClInclude Include="AMenu.hh" />
+    <ClInclude Include="ASocketClient.hh" />
+    <ClInclude Include="ASoundManager.hh" />
+    <ClInclude Include="Button.hh" />
+    <ClInclude Include="client.hh" />
+    <ClInclude Include="CmdManager.hh" />
+    <ClInclude Include="Color.hh" />
+    <ClInclude Include="IEventManager.hpp" />
+    <ClInclude Include="IGraphManager.hpp" />
+    <ClInclude Include="IMenu.hpp" />
+    <ClInclude Include="ISocket.hpp" />
+    <ClInclude Include="ISoundManager.hpp" />
+    <ClInclude Include="Menu.hh" />
+    <ClInclude Include="Rect.hh" />
+    <ClInclude Include="SFML.hh" />
+    <ClInclude Include="SFMLEvent.hh" />
+    <ClInclude Include="SFMLSOund.hh" />
+    <ClInclude Include="SocketClientTCP.hh" />
+    <ClInclude Include="ListBox.hh" />
   </ItemGroup>
 </Project>

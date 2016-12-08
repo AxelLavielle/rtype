@@ -16,12 +16,15 @@ bool Button::draw()
 {
 	if (!_over)
 	{
-		_graph->drawRectangle("../../res/img/button.jpg", _rect);
+		if (_backgroundColor.getA() == -1)
+			_graph->drawRectangle("../../res/img/button.jpg", _rect);
+		else
+			_graph->drawRectangle(_backgroundColor, _rect);
 		_graph->drawText(_txt, _rect.getX() + _posXText, _rect.getY() + _posYText, _textSize, Color(224, 224, 224, 255), "../../res/fonts/Aerospace.ttf");
 	}
 	else
 	{
-		_graph->drawRectangle("../../res/img/button.jpg", _rect);
+		_graph->drawRectangle("../../res/img/button_over.jpg", _rect);
 		_graph->drawText(_txt, _rect.getX() + _posXText, _rect.getY() + _posYText, _textSize, Color(224, 224, 224, 255), "../../res/fonts/Aerospace.ttf");
 	}
 	return (true);
@@ -53,6 +56,11 @@ bool Button::click()
 			&& pos.second > _rect.getY() && pos.second < _rect.getY() + _rect.getHeight())
 		return (true);
 	return (false);
+}
+
+void Button::setBackgroundColor(const Color & color)
+{
+	_backgroundColor = color;
 }
 
 void Button::setTextPos(const int & x, const int & y)

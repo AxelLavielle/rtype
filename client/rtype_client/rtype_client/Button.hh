@@ -12,6 +12,7 @@ public:
 	virtual bool draw();
 	bool over();
 	bool click();
+	void setBackgroundColor(const Color & color);
 	void setTextPos(const int &x, const int &y);
 	void setTextSize(const int &size);
 private:
@@ -19,6 +20,7 @@ private:
 	IEventManager		*_event;
 	Rect				_rect;
 	std::string			_txt;
+	Color				_backgroundColor;
 
 	int					_textSize;
 	int					_posXText;

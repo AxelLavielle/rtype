@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <sstream>
 #include "Button.hh"
 #include "IGraphManager.hpp"
 #include "IEventManager.hpp"
@@ -12,6 +13,7 @@ public:
 	~ListBox();
 	bool draw();
 	void setElements(const std::vector<std::string> &elements);
+	int click();
 
 private:
 	void drawButton();
@@ -20,7 +22,10 @@ private:
 	IEventManager				*_event;
 	std::vector<std::string>	_elements;
 	std::vector<Button>			_buttons;
+	Button						_nextButton;
+	Button						_prevButton;
 	Rect						_rect;
 	unsigned int				_height;
+	int							_currentPage;
 };
 

@@ -140,6 +140,7 @@
     <ClInclude Include="IEventManager.hpp" />
     <ClInclude Include="IGraphManager.hpp" />
     <ClInclude Include="IMenu.hpp" />
+    <ClInclude Include="InputBox.hh" />
     <ClInclude Include="ISocket.hpp" />
     <ClInclude Include="ISoundManager.hpp" />
     <ClInclude Include="ListBox.hh" />
@@ -160,6 +161,7 @@
     <ClCompile Include="client.cpp" />
     <ClCompile Include="CmdManager.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="InputBox.cpp" />
     <ClCompile Include="ListBox.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />

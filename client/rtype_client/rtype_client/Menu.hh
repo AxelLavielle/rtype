@@ -4,6 +4,7 @@
 #include "AMenu.hh"
 #include "Button.hh"
 #include "ListBox.hh"
+#include "InputBox.hh"
 
 class Menu :
 	public AMenu
@@ -26,10 +27,12 @@ private:
 	std::vector<Button>		_buttons;
 	PAGE					_pagenb;
 	std::vector<ListBox>	_listBox;
+	std::vector<InputBox>	_input;
 
 	void initButton();
 	void drawButton();
 	void drawListBox();
+	void drawInput();
 	void roomList();
 	void createRoom();
 	void settings();

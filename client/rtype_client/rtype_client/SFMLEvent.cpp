@@ -21,6 +21,17 @@ void SFMLEvent::setGraphManager(IGraphManager * graph)
 	_graph = static_cast<SFML*>(graph);
 }
 
+std::string SFMLEvent::getTextEntered()
+{
+	if (_event.type == sf::Event::TextEntered)
+	{
+		std::string res = "";
+		res += static_cast<char>(_event.text.unicode);
+		return (res);
+	}
+	return ("");
+}
+
 std::string SFMLEvent::getKeyStroke() const
 {
 	if (_event.type == sf::Event::KeyPressed)

@@ -24,6 +24,7 @@ void Menu::initButton()
 	_pagenb = PAGE::ACCEUIL;
 	_buttons.clear();
 	_listBox.clear();
+	_input.clear();
 	play.setTextPos(70, 10);
 	play.setTextSize(60);
 	quit.setTextPos(70, 10);
@@ -59,6 +60,18 @@ void Menu::drawListBox()
 	}
 }
 
+void	Menu::drawInput()
+{
+	std::vector<InputBox>::iterator		itInput;
+
+	itInput = _input.begin();
+	while (itInput != _input.end())
+	{
+		itInput->draw();
+		++itInput;
+	}
+}
+
 void Menu::roomList()
 {
 	Button						play(_graph, _event, Rect(750, 600, 90, 310), "JOIN");
@@ -69,9 +82,23 @@ void Menu::roomList()
 
 	elements.push_back("ELEMENT 1");
 	elements.push_back("ELEMENT NEXT");
+	elements.push_back("ELEMENT NEXT");
+	elements.push_back("ELEMENT NEXT");
+	elements.push_back("ELEMENT NEXT");
+	elements.push_back("ELEMENT NEXT");
+	elements.push_back("ELEMENT NEXT");
+	elements.push_back("ELEMENT NEXT NEXT");
+	elements.push_back("ELEMENT NEXT NEXT");
+	elements.push_back("ELEMENT NEXT NEXT");
+	elements.push_back("ELEMENT NEXT NEXT");
+	elements.push_back("ELEMENT NEXT NEXT");
+	elements.push_back("ELEMENT NEXT NEXT");
+	elements.push_back("ELEMENT NEXT NEXT");
+	elements.push_back("ELEMENT NEXT NEXT NEXT");
 	list.setElements(elements);
 	_buttons.clear();
 	_listBox.clear();
+	_input.clear();
 	_pagenb = PAGE::ROOMLIST;
 	play.setTextPos(70, 10);
 	play.setTextSize(60);
@@ -86,9 +113,13 @@ void Menu::createRoom()
 {
 	Button		play(_graph, _event, Rect(750, 600, 90, 310), "JOIN");
 	Button		quit(_graph, _event, Rect(20, 600, 90, 310), "BACK");
+	InputBox	input(_graph, _event, Rect(200, 300, 30, 700));
 
 	_buttons.clear();
 	_listBox.clear();
+	_input.clear();
+	input.setEvent(_event);
+	input.setGraph(_graph);
 	_pagenb = PAGE::ROOMCREATE;
 	play.setTextPos(70, 10);
 	play.setTextSize(60);
@@ -96,6 +127,7 @@ void Menu::createRoom()
 	quit.setTextSize(60);
 	_buttons.push_back(play);
 	_buttons.push_back(quit);
+	_input.push_back(input);
 }
 
 void Menu::settings()
@@ -105,6 +137,7 @@ void Menu::settings()
 
 	_buttons.clear();
 	_listBox.clear();
+	_input.clear();
 	_pagenb = PAGE::SETTINGS;
 	play.setTextPos(70, 10);
 	play.setTextSize(60);
@@ -117,11 +150,25 @@ void Menu::settings()
 char Menu::buttonEvent() //A CORRIGER
 {
 	std::vector<Button>::iterator		it;
+	std::vector<ListBox>::iterator		itList;
+	std::vector<InputBox>::iterator		itInput;
 
+	itInput = _input.begin();
+	while (itInput != _input.end())
+	{
+		itInput->getInput();
+		++itInput;
+	}
+	itList = _listBox.begin();
+	while (itList != _listBox.end())
+	{
+		std::cout << itList->click() << std::endl;
+		++itList;
+	}
 	it = _buttons.begin();
 	while (it != _buttons.end())
 	{
-		(*it).over();
+		it->over();
 		++it;
 	}
 	if (_buttons[0].click())
@@ -165,6 +212,7 @@ void Menu::roomButton()
 	_pagenb = PAGE::PLAY;
 	_buttons.clear();
 	_listBox.clear();
+	_input.clear();
 	play.setTextPos(70, 10);
 	play.setTextSize(60);
 	quit.setTextPos(70, 10);
@@ -196,6 +244,7 @@ bool Menu::launch()
 		_graph->setBackground("../../res/img/background_menu2.jpg");
 		drawButton();
 		drawListBox();
+		drawInput();
 		_graph->drawText("Hen Type", 300, 0, 90, Color(224, 224, 224, 255), "../../res/fonts/Aerospace.ttf");
 		if (_pagenb == PAGE::ROOMLIST)
 			_graph->drawText("Choice a room", 350, 150, 40, Color(224, 224, 224, 255), "../../res/fonts/Aerospace.ttf");

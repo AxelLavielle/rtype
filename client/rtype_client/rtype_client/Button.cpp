@@ -8,6 +8,12 @@ Button::Button(IGraphManager *graph, IEventManager *event, const Rect &rect, con
 	_txt = txt;
 }
 
+Button::Button()
+{
+	_graph = NULL;
+	_event = NULL;
+}
+
 Button::~Button()
 {
 }
@@ -16,7 +22,7 @@ bool Button::draw()
 {
 	if (!_over)
 	{
-		if (_backgroundColor.getA() == -1)
+		if (_backgroundColor.getR() == -1)
 			_graph->drawRectangle("../../res/img/button.jpg", _rect);
 		else
 			_graph->drawRectangle(_backgroundColor, _rect);
@@ -24,7 +30,10 @@ bool Button::draw()
 	}
 	else
 	{
-		_graph->drawRectangle("../../res/img/button_over.jpg", _rect);
+		if (_backgroundColorOver.getR() == -1)
+			_graph->drawRectangle("../../res/img/button_over.jpg", _rect);
+		else
+			_graph->drawRectangle(_backgroundColorOver, _rect);
 		_graph->drawText(_txt, _rect.getX() + _posXText, _rect.getY() + _posYText, _textSize, Color(224, 224, 224, 255), "../../res/fonts/Aerospace.ttf");
 	}
 	return (true);
@@ -46,7 +55,7 @@ bool Button::over()
 	return (false);
 }
 
-bool Button::click()
+bool Button::click() const
 {
 	std::pair<int, int>		pos;
 
@@ -63,6 +72,11 @@ void Button::setBackgroundColor(const Color & color)
 	_backgroundColor = color;
 }
 
+void Button::setBackgroundColorOver(const Color & color)
+{
+	_backgroundColorOver = color;
+}
+
 void Button::setTextPos(const int & x, const int & y)
 {
 	_posXText = x;
@@ -72,4 +86,24 @@ void Button::setTextPos(const int & x, const int & y)
 void Button::setTextSize(const int & size)
 {
 	_textSize = size;
+}
+
+void Button::setGraph(IGraphManager * graph)
+{
+	_graph = graph;
+}
+
+void Button::setEvent(IEventManager * event)
+{
+	_event = event;
+}
+
+void Button::setPos(const Rect & rect)
+{
+	_rect = rect;
+}
+
+void Button::setText(const std::string & txt)
+{
+	_txt = txt;
 }

@@ -12,5 +12,6 @@ public:
 	virtual bool getCloseEvent() const = 0;
 	virtual std::pair<int, int> getMousePos() const = 0;
 	virtual std::pair<int, int> getClickMousePos() const = 0;
+	virtual std::string getTextEntered() = 0;
 };
 

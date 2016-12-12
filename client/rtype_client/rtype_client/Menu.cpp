@@ -15,6 +15,14 @@ bool Menu::init()
 	return (true);
 }
 
+void Menu::clear()
+{
+	_buttons.clear();
+	_listBox.clear();
+	_input.clear();
+	_cursorBox.clear();
+}
+
 void Menu::initButton()
 {
 	Button		play(_graph, _event, Rect(380, 150, 90, 310), "PLAY");
@@ -22,9 +30,7 @@ void Menu::initButton()
 	Button		option(_graph, _event, Rect(380, 380, 90, 310), "OPTION");
 
 	_pagenb = PAGE::ACCEUIL;
-	_buttons.clear();
-	_listBox.clear();
-	_input.clear();
+	clear();
 	play.setTextPos(70, 10);
 	play.setTextSize(60);
 	quit.setTextPos(70, 10);
@@ -72,6 +78,18 @@ void	Menu::drawInput()
 	}
 }
 
+void Menu::drawCursorBox()
+{
+	std::vector<CursorBox>::iterator		itCursor;
+
+	itCursor = _cursorBox.begin();
+	while (itCursor != _cursorBox.end())
+	{
+		itCursor->draw();
+		++itCursor;
+	}
+}
+
 void Menu::roomList()
 {
 	Button						play(_graph, _event, Rect(750, 600, 90, 310), "JOIN");
@@ -96,9 +114,7 @@ void Menu::roomList()
 	elements.push_back("ELEMENT NEXT NEXT");
 	elements.push_back("ELEMENT NEXT NEXT NEXT");
 	list.setElements(elements);
-	_buttons.clear();
-	_listBox.clear();
-	_input.clear();
+	clear();
 	_pagenb = PAGE::ROOMLIST;
 	play.setTextPos(70, 10);
 	play.setTextSize(60);
@@ -115,9 +131,7 @@ void Menu::createRoom()
 	Button		quit(_graph, _event, Rect(20, 600, 90, 310), "BACK");
 	InputBox	input(_graph, _event, Rect(200, 300, 30, 700));
 
-	_buttons.clear();
-	_listBox.clear();
-	_input.clear();
+	clear();
 	input.setEvent(_event);
 	input.setGraph(_graph);
 	_pagenb = PAGE::ROOMCREATE;
@@ -134,10 +148,10 @@ void Menu::settings()
 {
 	Button		play(_graph, _event, Rect(750, 600, 90, 310), "SAVE");
 	Button		quit(_graph, _event, Rect(20, 600, 90, 310), "BACK");
+	CursorBox	music(_graph, _event, Rect(300, 300, 30, 500));
+	CursorBox	sound(_graph, _event, Rect(300, 300, 30, 500));
 
-	_buttons.clear();
-	_listBox.clear();
-	_input.clear();
+	clear();
 	_pagenb = PAGE::SETTINGS;
 	play.setTextPos(70, 10);
 	play.setTextSize(60);
@@ -145,6 +159,8 @@ void Menu::settings()
 	quit.setTextSize(60);
 	_buttons.push_back(play);
 	_buttons.push_back(quit);
+	_cursorBox.push_back(music);
+	_cursorBox.push_back(sound);
 }
 
 char Menu::buttonEvent() //A CORRIGER
@@ -152,7 +168,14 @@ char Menu::buttonEvent() //A CORRIGER
 	std::vector<Button>::iterator		it;
 	std::vector<ListBox>::iterator		itList;
 	std::vector<InputBox>::iterator		itInput;
+	std::vector<CursorBox>::iterator	itCursor;
 
+	itCursor = _cursorBox.begin();
+	while (itCursor != _cursorBox.end())
+	{
+		itCursor->click();
+		++itCursor;
+	}
 	itInput = _input.begin();
 	while (itInput != _input.end())
 	{
@@ -211,9 +234,7 @@ void Menu::roomButton()
 	Button		create(_graph, _event, Rect(300, 150, 90, 500), "CREATE ROOM");
 
 	_pagenb = PAGE::PLAY;
-	_buttons.clear();
-	_listBox.clear();
-	_input.clear();
+	clear();
 	play.setTextPos(70, 10);
 	play.setTextSize(60);
 	quit.setTextPos(70, 10);
@@ -244,8 +265,12 @@ bool Menu::launch()
 		_graph->clearWindow();
 		_graph->setBackground("../../res/img/background_menu2.jpg");
 		drawButton();
-		drawListBox();
-		drawInput();
+		if (_pagenb == PAGE::ROOMLIST)
+			drawListBox();
+		if (_pagenb == PAGE::ROOMCREATE)
+			drawInput();
+		if (_pagenb == PAGE::SETTINGS)
+			drawCursorBox();
 		_graph->drawText("Hen Type", 300, 0, 90, Color(224, 224, 224, 255), "../../res/fonts/Aerospace.ttf");
 		if (_pagenb == PAGE::ROOMLIST)
 			_graph->drawText("Choice a room", 350, 150, 40, Color(224, 224, 224, 255), "../../res/fonts/Aerospace.ttf");

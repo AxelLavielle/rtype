@@ -5,6 +5,7 @@
 #include "Button.hh"
 #include "ListBox.hh"
 #include "InputBox.hh"
+#include "CursorBox.hh"
 
 class Menu :
 	public AMenu
@@ -28,15 +29,18 @@ private:
 	PAGE					_pagenb;
 	std::vector<ListBox>	_listBox;
 	std::vector<InputBox>	_input;
+	std::vector<CursorBox>	_cursorBox;
 
 	void initButton();
 	void drawButton();
 	void drawListBox();
 	void drawInput();
+	void drawCursorBox();
 	void roomList();
 	void createRoom();
 	void settings();
 	char buttonEvent();
 	void roomButton();
+	void clear();
 };
 

@@ -72,7 +72,7 @@ bool	ListBox::click()
 	else if (_prevButton.click())
 		_currentPage = (_currentPage - 1);
 	if (_currentPage < 0)
-		_currentPage = 0;
+		_currentPage = max - 1;
 	if (_selectedID != -1)
 		return (true);
 	return (false);

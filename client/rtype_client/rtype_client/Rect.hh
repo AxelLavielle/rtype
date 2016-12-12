@@ -11,10 +11,11 @@ public:
 	int getY() const;
 	int getHeight() const;
 	int getWidth() const;
-	int setX() const;
-	int setY() const;
-	int setHeight() const;
-	int setWidth() const;
+	void setX(const int x);
+	void setY(const int y);
+	void setHeight(const int height);
+	void setWidth(const int width);
+
 	Rect &operator=(const Rect &r);
 private:
 	int _x;

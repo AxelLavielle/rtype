@@ -20,6 +20,8 @@
     <ClCompile Include="ListBox.cpp" />
     <ClCompile Include="InputBox.cpp" />
     <ClCompile Include="AGUIElement.cpp" />
+    <ClCompile Include="CursorBox.cpp" />
+    <ClCompile Include="CheckBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />
@@ -46,5 +48,7 @@
     <ClInclude Include="InputBox.hh" />
     <ClInclude Include="IGUIElement.hpp" />
     <ClInclude Include="AGUIElement.hh" />
+    <ClInclude Include="CursorBox.hh" />
+    <ClInclude Include="CheckBox.hh" />
   </ItemGroup>
 </Project>

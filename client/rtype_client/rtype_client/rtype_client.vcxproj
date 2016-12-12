@@ -135,6 +135,7 @@
     <ClInclude Include="ASocketClient.hh" />
     <ClInclude Include="ASoundManager.hh" />
     <ClInclude Include="Button.hh" />
+    <ClInclude Include="CheckBox.hh" />
     <ClInclude Include="client.hh" />
     <ClInclude Include="CmdManager.hh" />
     <ClInclude Include="Color.hh" />
@@ -148,6 +149,7 @@
     <ClInclude Include="ListBox.hh" />
     <ClInclude Include="Menu.hh" />
     <ClInclude Include="Rect.hh" />
+    <ClInclude Include="CursorBox.hh" />
     <ClInclude Include="SFML.hh" />
     <ClInclude Include="SFMLEvent.hh" />
     <ClInclude Include="SFMLSOund.hh" />
@@ -161,6 +163,7 @@
     <ClCompile Include="ASocketClient.cpp" />
     <ClCompile Include="ASoundManager.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="CheckBox.cpp" />
     <ClCompile Include="client.cpp" />
     <ClCompile Include="CmdManager.cpp" />
     <ClCompile Include="Color.cpp" />
@@ -169,6 +172,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Rect.cpp" />
+    <ClCompile Include="CursorBox.cpp" />
     <ClCompile Include="SFML.cpp" />
     <ClCompile Include="SFMLEvent.cpp" />
     <ClCompile Include="SFMLSOund.cpp" />

@@ -45,24 +45,24 @@ int Rect::getWidth() const
 	return (_width);
 }
 
-int Rect::setX() const
+void Rect::setX(const int x)
 {
-	return (_x);
+	_x = x;
 }
 
-int Rect::setY() const
+void Rect::setY(const int y)
 {
-	return (_y);
+	_y = y;
 }
 
-int Rect::setHeight() const
+void Rect::setHeight(const int height)
 {
-	return (_height);
+	_height = height;
 }
 
-int Rect::setWidth() const
+void Rect::setWidth(const int width)
 {
-	return (_width);
+	_width = width;
 }
 
 Rect & Rect::operator=(const Rect & r)

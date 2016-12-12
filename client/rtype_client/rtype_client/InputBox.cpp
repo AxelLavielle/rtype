@@ -47,7 +47,7 @@ bool InputBox::draw()
 	_graph->drawText(_key, _rect.getX(), _rect.getY(), 20, Color(0, 0, 0), "../../res/fonts/OpenSans-Regular.ttf");
 	return (true);
 }
-#include <iostream>
+
 bool InputBox::click()
 {
 	std::pair<int, int>		pos;
@@ -57,9 +57,9 @@ bool InputBox::click()
 		&& pos.first > _rect.getX() && pos.first < _rect.getX() + _rect.getWidth()
 		&& pos.second > _rect.getY() && pos.second < _rect.getY() + _rect.getHeight())
 	{
-		_backgroundColor.setR(0);
-		_backgroundColor.setG(0);
-		_backgroundColor.setB(0);
+		_backgroundColor.setR(192);
+		_backgroundColor.setG(192);
+		_backgroundColor.setB(192);
 		return (true);
 	}
 	else if (pos.first != -1 && pos.second != -1)

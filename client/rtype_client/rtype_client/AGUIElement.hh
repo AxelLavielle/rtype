@@ -20,5 +20,7 @@ protected:
 	IGraphManager	*_graph;
 	IEventManager	*_event;
 	Rect			_rect;
+	Color				_backgroundColor;
+	Color				_backgroundColorOver;
 };
 

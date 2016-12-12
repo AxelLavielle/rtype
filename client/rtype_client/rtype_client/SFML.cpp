@@ -85,7 +85,13 @@ bool SFML::drawText(const std::string & text, const int & posX, const int & posY
 	txt.setFont(*font);
 	txt.setString(text);
 	txt.setCharacterSize(size);
+
+#ifndef __linux__
 	txt.setFillColor(sf::Color(color.getR(), color.getG(), color.getB(), color.getA()));
+#else
+	txt.setColor(sf::Color(color.getR(), color.getG(), color.getB(), color.getA()));
+#endif // __linux__
+	
 	txt.setPosition(posX, posY);
 	_window->draw(txt);
 	return (true);

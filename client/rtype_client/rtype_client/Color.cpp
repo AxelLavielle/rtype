@@ -38,20 +38,20 @@ int Color::getA() const
 
 void Color::setR(const int r)
 {
-	_r = r;
+  _r = r;
 }
 
 void Color::setG(const int g)
 {
-	_g = g;
+  _g = g;
 }
 
 void Color::setB(const int b)
 {
-	_b = b;
+  _b = b;
 }
 
 void Color::setA(const int a)
 {
-	_a = a;
+  _a = a;
 }

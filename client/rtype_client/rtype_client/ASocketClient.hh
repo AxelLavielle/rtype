@@ -2,7 +2,9 @@
 
 #include "ISocket.hpp"
 
-#pragma comment(lib, "Ws2_32.lib")
+#ifdef _WIN32
+	#pragma comment(lib, "Ws2_32.lib")
+#endif
 
 class ASocketClient : public ISocket
 {

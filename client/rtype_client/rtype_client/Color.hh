@@ -13,7 +13,6 @@ public:
 	void setG(const int g);
 	void setB(const int b);
 	void setA(const int a);
-
 private:
 	int		_r;
 	int		_g;

@@ -9,10 +9,10 @@ public:
 	int getG() const;
 	int getB() const;
 	int getA() const;
-	int setR(const int r) const;
-	int setG(const int g) const;
-	int setB(const int b) const;
-	int setA(const int a) const;
+	void setR(const int r);
+	void setG(const int g);
+	void setB(const int b);
+	void setA(const int a);
 private:
 	int		_r;
 	int		_g;

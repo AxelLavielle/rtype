@@ -36,22 +36,22 @@ int Color::getA() const
 	return (_a);
 }
 
-int Color::setR(const int r) const
+void Color::setR(const int r)
 {
-	return (_r);
+  _r = r;
 }
 
-int Color::setG(const int g) const
+void Color::setG(const int g)
 {
-	return (_g);
+  _g = g;
 }
 
-int Color::setB(const int b) const
+void Color::setB(const int b)
 {
-	return (_b);
+  _b = b;
 }
 
-int Color::setA(const int a) const
+void Color::setA(const int a)
 {
-	return (_a);
+  _a = a;
 }

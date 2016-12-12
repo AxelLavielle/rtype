@@ -19,6 +19,7 @@
     <ClCompile Include="SocketClientTCP.cpp" />
     <ClCompile Include="ListBox.cpp" />
     <ClCompile Include="InputBox.cpp" />
+    <ClCompile Include="AGUIElement.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />
@@ -43,5 +44,7 @@
     <ClInclude Include="SocketClientTCP.hh" />
     <ClInclude Include="ListBox.hh" />
     <ClInclude Include="InputBox.hh" />
+    <ClInclude Include="IGUIElement.hpp" />
+    <ClInclude Include="AGUIElement.hh" />
   </ItemGroup>
 </Project>

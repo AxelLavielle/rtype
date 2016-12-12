@@ -111,7 +111,7 @@ void Menu::roomList()
 
 void Menu::createRoom()
 {
-	Button		play(_graph, _event, Rect(750, 600, 90, 310), "JOIN");
+	Button		play(_graph, _event, Rect(750, 600, 90, 310), "CREATE");
 	Button		quit(_graph, _event, Rect(20, 600, 90, 310), "BACK");
 	InputBox	input(_graph, _event, Rect(200, 300, 30, 700));
 
@@ -121,7 +121,7 @@ void Menu::createRoom()
 	input.setEvent(_event);
 	input.setGraph(_graph);
 	_pagenb = PAGE::ROOMCREATE;
-	play.setTextPos(70, 10);
+	play.setTextPos(25, 10);
 	play.setTextSize(60);
 	quit.setTextPos(70, 10);
 	quit.setTextSize(60);

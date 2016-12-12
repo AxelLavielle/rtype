@@ -130,6 +130,7 @@
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />
     <ClInclude Include="AGraphManager.hh" />
+    <ClInclude Include="AGUIElement.hh" />
     <ClInclude Include="AMenu.hh" />
     <ClInclude Include="ASocketClient.hh" />
     <ClInclude Include="ASoundManager.hh" />
@@ -139,6 +140,7 @@
     <ClInclude Include="Color.hh" />
     <ClInclude Include="IEventManager.hpp" />
     <ClInclude Include="IGraphManager.hpp" />
+    <ClInclude Include="IGUIElement.hpp" />
     <ClInclude Include="IMenu.hpp" />
     <ClInclude Include="InputBox.hh" />
     <ClInclude Include="ISocket.hpp" />
@@ -154,6 +156,7 @@
   <ItemGroup>
     <ClCompile Include="AEventManager.cpp" />
     <ClCompile Include="AGraphManager.cpp" />
+    <ClCompile Include="AGUIElement.cpp" />
     <ClCompile Include="AMenu.cpp" />
     <ClCompile Include="ASocketClient.cpp" />
     <ClCompile Include="ASoundManager.cpp" />

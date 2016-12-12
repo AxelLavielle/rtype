@@ -1,7 +1,5 @@
 #include "InputBox.hh"
 
-
-
 InputBox::InputBox(IGraphManager *graph, IEventManager *event, const Rect &rect)
 {
 	_graph = graph;
@@ -18,7 +16,12 @@ InputBox::InputBox()
 	_graph = NULL;
 	_event = NULL;
 }
-#include <iostream>
+
+std::string InputBox::getText() const
+{
+	return (_key);
+}
+
 bool InputBox::getInput()
 {
 	std::string key;

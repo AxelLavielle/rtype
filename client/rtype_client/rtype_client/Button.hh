@@ -1,8 +1,7 @@
 #pragma once
 
 #include <iostream>
-#include "IGraphManager.hpp"
-#include "IEventManager.hpp"
+#include "AGUIElement.hh"
 
 class Button
 {

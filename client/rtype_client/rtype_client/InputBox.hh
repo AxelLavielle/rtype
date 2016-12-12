@@ -9,6 +9,7 @@ public:
 	InputBox(IGraphManager *graph, IEventManager *event, const Rect &rect);
 	~InputBox();
 	InputBox();
+	std::string getText() const;
 	bool getInput();
 	bool draw();
 	void setGraph(IGraphManager *graph);

@@ -2,11 +2,9 @@
 
 
 
-ListBox::ListBox(IGraphManager *graph, IEventManager *event, const Rect &rect)
+ListBox::ListBox(IGraphManager *graph, IEventManager *event, const Rect &rect) : AGUIElement(graph, event, rect)
 {
-	_graph = graph;
-	_event = event;
-	_rect = rect;
+	_selectedID = -1;
 	_height = 30;
 	_currentPage = 0;
 	_nextButton.setGraph(graph);
@@ -50,23 +48,22 @@ void	ListBox::drawButton()
 
 }
 
-int	ListBox::click()
+bool	ListBox::click()
 {
-	int res;
 	int	i;
 	int max;
-	std::vector<Button>::const_iterator	it;
+	std::vector<Button>::iterator	it;
 
 	max = _elements.size() / (_rect.getHeight() / (_height + 10));
 	if (_elements.size() % (_rect.getHeight() / (_height + 10)))
 		max++;
 	it = _buttons.begin();
-	res = -1;
+	_selectedID = -1;
 	i = 0;
 	while (it != _buttons.end())
 	{
 		if (it->click())
-			res = i;
+			_selectedID = i;
 		++it;
 		i++;
 	}
@@ -76,7 +73,14 @@ int	ListBox::click()
 		_currentPage = (_currentPage - 1);
 	if (_currentPage < 0)
 		_currentPage = 0;
-	return (res);
+	if (_selectedID != -1)
+		return (true);
+	return (false);
+}
+
+int ListBox::getSelectedID(void) const
+{
+	return (_selectedID);
 }
 
 bool ListBox::draw()
@@ -96,6 +100,11 @@ bool ListBox::draw()
 	ss << _currentPage + 1 << " / " << max;
 	_graph->drawText(ss.str(), _rect.getX() + _rect.getWidth() - 120, _rect.getY() + _rect.getHeight() + 10, 20, Color(255, 255, 255), "../../res/fonts/OpenSans-Regular.ttf");
 	return (true);
+}
+
+bool ListBox::over()
+{
+	return (false);
 }
 
 void ListBox::setElements(const std::vector<std::string>& elements)

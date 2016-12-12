@@ -3,29 +3,28 @@
 #include <vector>
 #include <sstream>
 #include "Button.hh"
-#include "IGraphManager.hpp"
-#include "IEventManager.hpp"
+#include "AGUIElement.hh"
 
-class ListBox
+class ListBox : public AGUIElement
 {
 public:
 	ListBox(IGraphManager *graph, IEventManager *event, const Rect &rect);
 	~ListBox();
-	bool draw();
+	virtual bool draw();
+	virtual bool over();
 	void setElements(const std::vector<std::string> &elements);
-	int click();
+	virtual bool click();
+	int getSelectedID(void) const;
 
 private:
 	void drawButton();
 
-	IGraphManager				*_graph;
-	IEventManager				*_event;
 	std::vector<std::string>	_elements;
 	std::vector<Button>			_buttons;
 	Button						_nextButton;
 	Button						_prevButton;
-	Rect						_rect;
 	unsigned int				_height;
 	int							_currentPage;
+	int							_selectedID;
 };
 

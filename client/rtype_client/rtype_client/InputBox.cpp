@@ -1,20 +1,15 @@
 #include "InputBox.hh"
 
-InputBox::InputBox(IGraphManager *graph, IEventManager *event, const Rect &rect)
+InputBox::InputBox(IGraphManager *graph, IEventManager *event, const Rect &rect) : AGUIElement(graph, event, rect)
 {
-	_graph = graph;
-	_event = event;
-	_rect = rect;
 }
 
 InputBox::~InputBox()
 {
 }
 
-InputBox::InputBox()
+InputBox::InputBox() : AGUIElement()
 {
-	_graph = NULL;
-	_event = NULL;
 }
 
 std::string InputBox::getText() const
@@ -45,6 +40,18 @@ bool InputBox::draw()
 	_graph->drawRectangle(Color(255, 255, 255), _rect);
 	_graph->drawText(_key, _rect.getX(), _rect.getY(), 20, Color(0, 0, 0), "../../res/fonts/OpenSans-Regular.ttf");
 	return (true);
+}
+
+bool InputBox::click()
+{
+	//Not implemented
+	return (false);
+}
+
+bool InputBox::over()
+{
+	//Not implemented
+	return (false);
 }
 
 void InputBox::setGraph(IGraphManager * graph)

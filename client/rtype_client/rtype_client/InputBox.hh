@@ -1,9 +1,8 @@
 #pragma once
 
-#include "IGraphManager.hpp"
-#include "IEventManager.hpp"
+#include "AGUIElement.hh"
 
-class InputBox
+class InputBox : public AGUIElement
 {
 public:
 	InputBox(IGraphManager *graph, IEventManager *event, const Rect &rect);
@@ -11,14 +10,13 @@ public:
 	InputBox();
 	std::string getText() const;
 	bool getInput();
-	bool draw();
+	virtual bool draw();
+	virtual bool click();
+	virtual bool over();
 	void setGraph(IGraphManager *graph);
 	void setEvent(IEventManager *event);
 
 private:
-	Rect			_rect;
-	IGraphManager	*_graph;
-	IEventManager	*_event;
 	std::string		_key;
 };
 

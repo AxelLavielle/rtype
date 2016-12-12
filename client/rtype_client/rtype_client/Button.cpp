@@ -1,17 +1,12 @@
 #include "Button.hh"
 
-Button::Button(IGraphManager *graph, IEventManager *event, const Rect &rect, const std::string &txt)
+Button::Button(IGraphManager *graph, IEventManager *event, const Rect &rect, const std::string &txt) : AGUIElement(graph, event, rect)
 {
-	_graph = graph;
-	_event = event;
-	_rect = rect;
 	_txt = txt;
 }
 
-Button::Button()
+Button::Button() : AGUIElement()
 {
-	_graph = NULL;
-	_event = NULL;
 }
 
 Button::~Button()
@@ -55,7 +50,7 @@ bool Button::over()
 	return (false);
 }
 
-bool Button::click() const
+bool Button::click()
 {
 	std::pair<int, int>		pos;
 
@@ -86,21 +81,6 @@ void Button::setTextPos(const int & x, const int & y)
 void Button::setTextSize(const int & size)
 {
 	_textSize = size;
-}
-
-void Button::setGraph(IGraphManager * graph)
-{
-	_graph = graph;
-}
-
-void Button::setEvent(IEventManager * event)
-{
-	_event = event;
-}
-
-void Button::setPos(const Rect & rect)
-{
-	_rect = rect;
 }
 
 void Button::setText(const std::string & txt)

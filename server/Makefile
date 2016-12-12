@@ -21,8 +21,6 @@ OBJ	=	$(SRC:.cpp=.o)
 
 CPPFLAGS=	-W -Wall -Wextra -ansi -pedantic -g -I$(DIR)
 
-LDFLAGS	=	-lsfml-graphics -lsfml-window -lsfml-system
-
 
 all:		$(NAME)
 

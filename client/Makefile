@@ -25,9 +25,9 @@ SRC	=	$(DIR)/AEventManager.cpp 	\
 
 OBJ	=	$(SRC:.cpp=.o)
 
-CPPFLAGS=	-W -Wall -Wextra -ansi -pedantic -g -I$(DIR)
+CPPFLAGS=	-W -Wall -Wextra -ansi -pedantic -g -I$(DIR) -Ires/lib/SFML/include/SFML -Ires/lib/SFML/include/SFML/Audio -Ires/lib/SFML/include/SFML/Graphics -Ires/lib/SFML/include/SFML/Network -Ires/lib/SFML/include/SFMLSystem -Ires/lib/SFML/include/SFML/Window
 
-LDFLAGS	=	-lsfml-graphics -lsfml-window -lsfml-system
+LDFLAGS	=	-Lres/lib/SFML/lib/ -lsfml-graphics -lsfml-window -lsfml-system
 
 
 all:		$(NAME)

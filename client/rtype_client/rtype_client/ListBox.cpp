@@ -29,7 +29,7 @@ ListBox::~ListBox()
 void	ListBox::drawButton()
 {
 	std::vector<Button>::iterator	it;
-	int i;
+	unsigned int i;
 
 	i = 0;
 	it = _buttons.begin();

@@ -23,8 +23,8 @@ public:
 	virtual bool setBackground(const std::string &imagePath);
 private:
 	sf::RenderWindow											*_window;
-	std::vector<std::pair<sf::Texture*, std::string>>			_texture;
-	std::vector<std::pair<sf::Font*, std::string>>				_fonts;
+	std::vector<std::pair<sf::Texture*, std::string> >			_texture;
+	std::vector<std::pair<sf::Font*, std::string> >				_fonts;
 	//std::vector<sf::Drawable*>			_elem;
 
 	sf::Texture *getTexture(const std::string & path) const;

@@ -157,6 +157,7 @@ char Menu::buttonEvent() //A CORRIGER
 	while (itInput != _input.end())
 	{
 		itInput->getInput();
+		itInput->click();
 		++itInput;
 	}
 	itList = _listBox.begin();

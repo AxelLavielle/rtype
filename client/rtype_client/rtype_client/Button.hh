@@ -19,8 +19,6 @@ public:
 	void setText(const std::string &txt);
 private:
 	std::string			_txt;
-	Color				_backgroundColor;
-	Color				_backgroundColorOver;
 
 	int					_textSize;
 	int					_posXText;

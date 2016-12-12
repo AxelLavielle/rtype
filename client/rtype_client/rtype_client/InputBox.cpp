@@ -2,6 +2,9 @@
 
 InputBox::InputBox(IGraphManager *graph, IEventManager *event, const Rect &rect) : AGUIElement(graph, event, rect)
 {
+	_backgroundColor.setR(255);
+	_backgroundColor.setG(255);
+	_backgroundColor.setB(255);
 }
 
 InputBox::~InputBox()
@@ -10,6 +13,9 @@ InputBox::~InputBox()
 
 InputBox::InputBox() : AGUIElement()
 {
+	_backgroundColor.setR(255);
+	_backgroundColor.setG(255);
+	_backgroundColor.setB(255);
 }
 
 std::string InputBox::getText() const
@@ -37,14 +43,31 @@ bool InputBox::getInput()
 
 bool InputBox::draw()
 {
-	_graph->drawRectangle(Color(255, 255, 255), _rect);
+	_graph->drawRectangle(_backgroundColor, _rect);
 	_graph->drawText(_key, _rect.getX(), _rect.getY(), 20, Color(0, 0, 0), "../../res/fonts/OpenSans-Regular.ttf");
 	return (true);
 }
-
+#include <iostream>
 bool InputBox::click()
 {
-	//Not implemented
+	std::pair<int, int>		pos;
+
+	pos = _event->getClickMousePos();
+	if (pos.first != -1 && pos.second != -1
+		&& pos.first > _rect.getX() && pos.first < _rect.getX() + _rect.getWidth()
+		&& pos.second > _rect.getY() && pos.second < _rect.getY() + _rect.getHeight())
+	{
+		_backgroundColor.setR(0);
+		_backgroundColor.setG(0);
+		_backgroundColor.setB(0);
+		return (true);
+	}
+	else if (pos.first != -1 && pos.second != -1)
+	{
+		_backgroundColor.setR(255);
+		_backgroundColor.setG(255);
+		_backgroundColor.setB(255);
+	}
 	return (false);
 }
 

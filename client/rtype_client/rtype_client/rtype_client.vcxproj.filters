@@ -24,6 +24,7 @@
     <ClCompile Include="CheckBox.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="RectDecor.cpp" />
+    <ClCompile Include="SocketClientUDP.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />
@@ -54,5 +55,6 @@
     <ClInclude Include="CheckBox.hh" />
     <ClInclude Include="Game.hh" />
     <ClInclude Include="RectDecor.hh" />
+    <ClInclude Include="SocketClientUDP.hh" />
   </ItemGroup>
 </Project>

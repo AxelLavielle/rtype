@@ -63,6 +63,7 @@ bool				SocketClientTCP::init(const std::string &addr, int port)
 	_server.sin_port = htons(port);
 
 #endif
+	return (true);
 }
 
 bool				SocketClientTCP::sendData(const char *data)
@@ -71,7 +72,7 @@ bool				SocketClientTCP::sendData(const char *data)
 	const char		*sendbuf = data;
 	int				iResult;
 
-	iResult = send(_connectSocket, sendbuf, (int)strlen(sendbuf), 0);
+	iResult = send(_connectSocket, sendbuf, static_cast<int>(strlen(sendbuf)), 0);
 	if (iResult == SOCKET_ERROR)
 	{
 		std::cerr << "Send failed: " << WSAGetLastError() << std::endl;
@@ -99,12 +100,13 @@ bool				SocketClientTCP::sendData(const char *data)
 	}
 
 #endif
+	return (true);
 }
 
 char				*SocketClientTCP::receiveData()
 {
-	int				recvbuflen = DEFAULT_BUFLEN;
-	char			*recvbuf = new char[DEFAULT_BUFLEN];
+	int				recvbuflen = TCP_BUFLEN;
+	char			*recvbuf = new char[TCP_BUFLEN];
 
 #ifdef _WIN32
 	int				iResult;
@@ -139,7 +141,7 @@ bool				SocketClientTCP::connectToServer()
 #ifdef _WIN32
 	int				iResult;
 
-	iResult = connect(_connectSocket, _ptr->ai_addr, (int)_ptr->ai_addrlen);
+	iResult = connect(_connectSocket, _ptr->ai_addr, static_cast<int>(_ptr->ai_addrlen));
 	if (iResult == SOCKET_ERROR)
 	{
 		closesocket(_connectSocket);

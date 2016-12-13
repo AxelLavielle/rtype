@@ -156,6 +156,7 @@
     <ClInclude Include="SFMLEvent.hh" />
     <ClInclude Include="SFMLSOund.hh" />
     <ClInclude Include="SocketClientTCP.hh" />
+    <ClInclude Include="SocketClientUDP.hh" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AEventManager.cpp" />
@@ -181,6 +182,7 @@
     <ClCompile Include="SFMLEvent.cpp" />
     <ClCompile Include="SFMLSOund.cpp" />
     <ClCompile Include="SocketClientTCP.cpp" />
+    <ClCompile Include="SocketClientUDP.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

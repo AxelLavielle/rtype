@@ -1,6 +1,6 @@
 #pragma once
 
-# define DEFAULT_BUFLEN 512
+# define TCP_BUFLEN 65471
 
 #ifdef _WIN32
 	# include <winsock2.h>

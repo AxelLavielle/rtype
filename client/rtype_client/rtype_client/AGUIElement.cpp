@@ -32,6 +32,11 @@ void AGUIElement::setPos(const Rect & rect)
 	_rect = rect;
 }
 
+Rect	AGUIElement::getPos() const
+{
+	return (_rect);
+}
+
 void AGUIElement::setBackgroundColor(const Color & color)
 {
 	_backgroundColor = color;
@@ -50,4 +55,9 @@ void AGUIElement::setBackgroundSprite(const std::string & path)
 void AGUIElement::setBackgroundOverSprite(const std::string & path)
 {
 	_backgroundOverSprite = path;
+}
+
+void AGUIElement::setTransparentColor(const Color & color)
+{
+	_transparantColor = color;
 }

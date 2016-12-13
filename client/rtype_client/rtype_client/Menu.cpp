@@ -1,8 +1,11 @@
+#include "AGUIElement.hh"
 #include "Menu.hh"
 
 Menu::Menu()
 {
 	_pagenb = PAGE::ACCEUIL;
+	_animInc = 0;
+	_first = true;
 }
 
 
@@ -54,11 +57,15 @@ void Menu::initButton()
 	Button		option(_graph, _event, Rect(380, 380, 90, 310), "OPTION");
 	RectDecor	*bottomDecor = new RectDecor(_graph, _event, Rect(290, 150, 50, 500));
 	RectDecor	*topDecor = new RectDecor(_graph, _event, Rect(290, 650, 50, 500));
+	RectDecor	*vaisseau = new RectDecor(_graph, _event, Rect(290, 650, 30, 70));
 
 	_pagenb = PAGE::ACCEUIL;
+	t1 = std::chrono::high_resolution_clock::now();
 	clear();
 	bottomDecor->setBackgroundSprite("../../res/img/bordureHaut.png");
 	topDecor->setBackgroundSprite("../../res/img/bordureBas.png");
+	vaisseau->setTransparentColor(Color(0, 0, 0));
+	vaisseau->setBackgroundSprite("../../res/img/vaisseau1.png");
 	play.setTextPos(70, 10);
 	play.setTextSize(60);
 	quit.setTextPos(70, 10);
@@ -66,22 +73,46 @@ void Menu::initButton()
 	option.setTextPos(20, 10);
 	option.setTextSize(60);
 	_buttons.push_back(play);
-	_buttons.push_back(quit);
 	_buttons.push_back(option);
+	_buttons.push_back(quit);
 	_guiElement.push_back(bottomDecor);
 	_guiElement.push_back(topDecor);
+	_guiElement.push_back(vaisseau);
 	setButtonSprite();
+}
+
+void Menu::firstAnim(const int i, std::vector<Button>::iterator	it)
+{
+	Rect								tmp;
+	std::chrono::high_resolution_clock::time_point        t2;
+
+	if (_animInc < 190 * i && _first)
+	{
+		t2 = std::chrono::high_resolution_clock::now();
+		_animDuration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+		if (_animDuration > ANIMDURATION)
+		{
+			t1 = std::chrono::high_resolution_clock::now();
+			_animInc++;
+		}
+		tmp = it->getPos();
+		it->setPos(Rect(tmp.getX(), _animInc, tmp.getHeight(), tmp.getWidth()));
+	}
 }
 
 void Menu::drawButton()
 {
 	std::vector<Button>::iterator		it;
+	int									i;
 
 	it = _buttons.begin();
+	i = 1;
 	while (it != _buttons.end())
 	{
-		(*it).draw();
+		firstAnim(i, it);
+		it->draw();
 		++it;
+		i++;
 	}
 }
 
@@ -214,6 +245,7 @@ void Menu::settings()
 	CheckBox	check(_graph, _event, Rect(300, 200, 40, 40));
 
 	_pagenb = PAGE::SETTINGS;
+	_first = false;
 	clear();
 	play.setTextPos(70, 10);
 	play.setTextSize(60);
@@ -295,15 +327,13 @@ char Menu::buttonEvent() //A CORRIGER
 		else if (_pagenb == PAGE::SETTINGS)
 			initButton();
 		else if (_pagenb == PAGE::ACCEUIL)
-			return (2); //Doit quitter
+			settings();
 	}
 	else if (_pagenb == PAGE::PLAY && _buttons[3].click())
 		createRoom();
-	else if (_pagenb == PAGE::ACCEUIL && _buttons[2].click())
-		settings();
 	else if (_pagenb == PAGE::PLAY && _buttons[2].click())
 		roomList();
-	else if ((_buttons[1].click() && _pagenb == PAGE::ACCEUIL) || _event->getCloseEvent() || _event->getKeyStroke() == "ECHAP")
+	else if ((_pagenb == PAGE::ACCEUIL && _buttons[2].click()) || _event->getCloseEvent() || _event->getKeyStroke() == "ECHAP")
 		_graph->close();
 	return (0);
 }
@@ -316,6 +346,7 @@ void Menu::roomButton()
 	Button		create(_graph, _event, Rect(300, 150, 90, 500), "CREATE ROOM");
 
 	_pagenb = PAGE::PLAY;
+	_first = false;
 	clear();
 	play.setTextPos(70, 10);
 	play.setTextSize(60);

@@ -9,6 +9,8 @@ SFML::~SFML()
 {
 	std::vector<std::pair<sf::Texture*, std::string>>::iterator			it;
 	std::vector<std::pair<sf::Font*, std::string>>::iterator			it2;
+	std::vector<std::pair<sf::Image*, std::string>>::iterator			it3;
+
 	it = _texture.begin();
 	while (it != _texture.end())
 	{
@@ -20,6 +22,12 @@ SFML::~SFML()
 	{
 		delete (*it2).first;
 		++it2;
+	}
+	it3 = _img.begin();
+	while (it3 != _img.end())
+	{
+		delete (*it3).first;
+		++it3;
 	}
 	delete _window;
 }
@@ -35,9 +43,6 @@ bool SFML::setFullScreen(const bool mode)
 {
 	if (mode)
 	{
-		//_window->close();
-		//delete _window;
-		//_window = new sf::RenderWindow();
 		sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
 		_window->create(sf::VideoMode(desktop.width, desktop.height), "RTYPE", sf::Style::Fullscreen);
 	}
@@ -98,15 +103,36 @@ bool SFML::drawText(const std::string & text, const int & posX, const int & posY
 	txt.setFont(*font);
 	txt.setString(text);
 	txt.setCharacterSize(size);
-
-#ifndef __linux__
-	txt.setFillColor(sf::Color(color.getR(), color.getG(), color.getB(), color.getA()));
-#else
-	txt.setColor(sf::Color(color.getR(), color.getG(), color.getB(), color.getA()));
-#endif // __linux__
-	
+	txt.setFillColor(sf::Color(color.getR(), color.getG(), color.getB(), color.getA()));	
 	txt.setPosition(posX, posY);
 	_window->draw(txt);
+	return (true);
+}
+
+bool SFML::drawRectangle(const std::string & spritePath, const Rect &rect, const Color & transparantColor)
+{
+	sf::Image			*image;
+	sf::Texture			*texture;
+	sf::RectangleShape	rec(sf::Vector2f(rect.getWidth(), rect.getHeight()));
+
+	if (!(image = getImage(spritePath)))
+	{
+		image = new sf::Image();
+		if (!image->loadFromFile(spritePath))
+			return (false);
+		texture = new sf::Texture();
+		image->createMaskFromColor(sf::Color(0, 0, 0));
+		_img.push_back(std::pair<sf::Image*, std::string>(image, spritePath));
+		_texture.push_back(std::pair<sf::Texture*, std::string>(texture, spritePath));
+	}
+	else
+	{
+		texture = getTexture(spritePath);
+	}
+	texture->loadFromImage(*image);
+	rec.setTexture(texture);
+	rec.setPosition(rect.getX(), rect.getY());
+	_window->draw(rec);
 	return (true);
 }
 
@@ -144,6 +170,20 @@ sf::Texture *SFML::getTexture(const std::string &path) const
 
 	it = _texture.begin();
 	while (it != _texture.end())
+	{
+		if ((*it).second == path)
+			return ((*it).first);
+		++it;
+	}
+	return (NULL);
+}
+
+sf::Image *SFML::getImage(const std::string &path) const
+{
+	std::vector<std::pair<sf::Image*, std::string>>::const_iterator it;
+
+	it = _img.begin();
+	while (it != _img.end())
 	{
 		if ((*it).second == path)
 			return ((*it).first);

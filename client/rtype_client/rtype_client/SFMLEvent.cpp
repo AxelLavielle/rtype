@@ -40,16 +40,20 @@ std::string SFMLEvent::getKeyStroke() const
 		{
 		case sf::Keyboard::Escape:
 			return ("ECHAP");
+		default:
+		  break;
 		}
 	}
 	else if (_event.type == sf::Event::MouseButtonPressed)
 	{
 		switch (_event.mouseButton.button)
 		{
-			case sf::Mouse::Right:
-				return ("MR");
-			case sf::Mouse::Left:
-				return ("ML");
+		case sf::Mouse::Right:
+		  return ("MR");
+		case sf::Mouse::Left:
+		  return ("ML");
+		default:
+		  break;
 		}
 	}
 	return ("");
@@ -97,4 +101,3 @@ std::pair<int, int> SFMLEvent::getClickMousePos() const
 	}
 	return (res);
 }
-

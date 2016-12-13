@@ -12,7 +12,7 @@ SocketClientTCP::~SocketClientTCP()
 }
 
 bool				SocketClientTCP::init(const std::string &addr, int port)
-{	
+{
 #ifdef _WIN32
 	int				iResult;
 
@@ -53,7 +53,7 @@ bool				SocketClientTCP::init(const std::string &addr, int port)
 	}
 
 #elif __linux__
-	if ((_sock = socket(AF_INET, SOCK_STREAM, 0)) == -1);
+	if ((_sock = socket(AF_INET, SOCK_STREAM, 0)) == -1)
 	{
 		std::cout << "Could not create socket" << std::endl;
 		return (false);
@@ -61,7 +61,6 @@ bool				SocketClientTCP::init(const std::string &addr, int port)
 	_server.sin_addr.s_addr = inet_addr(addr.c_str());
 	_server.sin_family = AF_INET;
 	_server.sin_port = htons(port);
-
 #endif
 	return (true);
 }
@@ -117,11 +116,8 @@ char				*SocketClientTCP::receiveData()
 		recvbuf[iResult - 1] = '\0';
 		return (recvbuf);
 	}
-	else
-	{
-		std::cerr << "Receive failed: " << WSAGetLastError() << std::endl;
-		return (NULL);
-	}
+	std::cerr << "Receive failed: " << WSAGetLastError() << std::endl;
+	return (NULL);
 
 #elif __linux__
 	int				ret;
@@ -164,9 +160,10 @@ bool				SocketClientTCP::connectToServer()
 	}
 
 #endif
+	return (true);
 }
 
-bool			SocketClientTCP::close()
+bool			SocketClientTCP::closure()
 {
 #ifdef _WIN32
 	int			iResult;
@@ -184,4 +181,5 @@ bool			SocketClientTCP::close()
 	close(_sock);
 
 #endif
+	return (true);
 }

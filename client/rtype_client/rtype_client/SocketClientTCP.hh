@@ -13,8 +13,9 @@
 	# include <arpa/inet.h>
 #endif
 
+#include <string.h>
+#include <unistd.h>
 #include "ASocketClient.hh"
-
 class					SocketClientTCP : public ASocketClient
 {
 public:
@@ -24,7 +25,7 @@ public:
 	virtual bool		init(const std::string &, int);
 	virtual bool		sendData(const char *);
 	virtual char		*receiveData();
-	virtual bool		close();
+	virtual bool		closure();
 	virtual bool		connectToServer();
 
 private:

@@ -17,4 +17,5 @@ public:
 	virtual void setBackgroundColorOver(const Color & color) = 0;
 	virtual void setBackgroundSprite(const std::string & path) = 0;
 	virtual void setBackgroundOverSprite(const std::string & path) = 0;
+	virtual Rect getPos() const = 0;
 };

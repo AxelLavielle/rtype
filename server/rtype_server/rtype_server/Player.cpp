@@ -1,7 +1,9 @@
 #include "Player.hh"
+#include "EntityType.hh"
 
 Player::Player()
 {
+  this->setType(rtype::PLAYER);
 }
 
 Player::~Player()
@@ -30,4 +32,9 @@ void		Player::setName(const std::string &name)
 
 void		Player::update(void)
 {
+}
+
+extern "C" IEntity	*createEntity()
+{
+  return (new Player);
 }

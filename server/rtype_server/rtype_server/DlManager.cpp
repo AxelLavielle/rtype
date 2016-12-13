@@ -1,6 +1,8 @@
 #include "DlManager.hh"
+#include "UDlLoader.hh"
+#include "UDirectoryBrowser.hh"
 
-DlManager::DlManager() : _DlLoader(NULL)
+DlManager::DlManager() : _DlLoader(new UDlLoader), _browser(new UDirectoryBrowser)
 {
 }
 
@@ -10,12 +12,12 @@ DlManager::~DlManager()
 
 std::string						DlManager::getFolderPath() const
 {
-  return (_folderPath);
+ return (_folderPath);
 }
 
 void							DlManager::setFolderPath(const std::string &path)
 {
-  _folderPath = path;
+  this->getBrowser()->setPath(path);
 }
 
 IEntity							*DlManager::getdl(const std::string &dlname) const
@@ -31,4 +33,25 @@ IEntity							*DlManager::getdl(const std::string &dlname) const
 std::vector<std::pair<IEntity*, std::string> > 		DlManager::getAlldl() const
 {
   return (_dl);
+}
+
+bool							DlManager::refresh()
+{
+  this->clearEntities();
+
+}
+
+void							DlManager::clearEntities()
+{
+  _dl.clear();
+}
+
+IDirectoryBrowser					*DlManager::getBrowser()
+{
+  return (_browser);
+}
+
+void							DlManager::setBrowser(IDirectoryBrowser *DB)
+{
+  _browser = DB;
 }

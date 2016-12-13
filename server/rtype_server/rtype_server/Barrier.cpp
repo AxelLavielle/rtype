@@ -2,6 +2,7 @@
 
 Barrier::Barrier()
 {
+  this->setType(rtype::BARRIER);
 }
 
 Barrier::~Barrier()

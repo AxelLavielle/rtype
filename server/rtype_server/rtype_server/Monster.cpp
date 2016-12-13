@@ -2,6 +2,7 @@
 
 Monster::Monster()
 {
+  this->setType(rtype::MONSTER);
 }
 
 Monster::~Monster()

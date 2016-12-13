@@ -5,7 +5,7 @@ Rect::Rect()
 
 }
 
-Rect::Rect(const int & x, const int & y, const int & height, const int & width)
+Rect::Rect(const int x, const int y, const int height, const int width)
 {
 	_x = x;
 	_y = y;

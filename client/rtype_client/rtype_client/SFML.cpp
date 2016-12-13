@@ -38,6 +38,14 @@ std::pair<int, int>	SFML::getScreenSize() const
 	return (std::pair<int, int>(desktop.width, desktop.height));
 }
 
+std::pair<int, int> SFML::getWindowSize() const
+{
+	sf::Vector2u		vector;
+
+	vector = _window->getSize();
+	return (std::pair<int, int>(vector.x, vector.y));
+}
+
 bool SFML::init()
 {
 	_window = new sf::RenderWindow();
@@ -115,7 +123,7 @@ bool SFML::drawText(const std::string & text, const int & posX, const int & posY
 	return (true);
 }
 
-bool SFML::drawRectangle(const std::string & spritePath, const Rect &rect, const Color & transparantColor)
+bool SFML::drawRectangle(const std::string & spritePath, const Rect &rect, const Color & transparentColor)
 {
 	sf::Image			*image;
 	sf::Texture			*texture;
@@ -127,7 +135,7 @@ bool SFML::drawRectangle(const std::string & spritePath, const Rect &rect, const
 		if (!image->loadFromFile(spritePath))
 			return (false);
 		texture = new sf::Texture();
-		image->createMaskFromColor(sf::Color(transparantColor.getR(), transparantColor.getG(), transparantColor.getB(), transparantColor.getA()));
+		image->createMaskFromColor(sf::Color(transparentColor.getR(), transparentColor.getG(), transparentColor.getB(), transparentColor.getA()));
 		_img.push_back(std::pair<sf::Image*, std::string>(image, spritePath));
 		_texture.push_back(std::pair<sf::Texture*, std::string>(texture, spritePath));
 	}

@@ -4,7 +4,7 @@ class Rect
 {
 public:
 	Rect();
-	Rect(const int &x, const int &y, const int &height, const int &width);
+	Rect(const int x, const int y, const int height, const int width);
 	Rect(const Rect &r);
 	~Rect();
 	int getX() const;

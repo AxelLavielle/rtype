@@ -27,10 +27,10 @@ bool Button::draw()
 	}
 	else
 	{
-		if (_backgroundColorOver.getR() == -1)
+		if (_backgroundOverColor.getR() == -1)
 			_graph->drawRectangle(_backgroundOverSprite, _rect);
 		else
-			_graph->drawRectangle(_backgroundColorOver, _rect);
+			_graph->drawRectangle(_backgroundOverColor, _rect);
 		_graph->drawText(_txt, _rect.getX() + _posXText, _rect.getY() + _posYText, _textSize, Color(135, 206, 250, 255), "../../res/fonts/Aerospace.ttf");
 	}
 	return (true);

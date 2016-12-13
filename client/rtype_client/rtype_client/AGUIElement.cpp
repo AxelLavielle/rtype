@@ -42,9 +42,9 @@ void AGUIElement::setBackgroundColor(const Color & color)
 	_backgroundColor = color;
 }
 
-void AGUIElement::setBackgroundColorOver(const Color & color)
+void AGUIElement::setBackgroundOverColor(const Color & color)
 {
-	_backgroundColorOver = color;
+	_backgroundOverColor = color;
 }
 
 void AGUIElement::setBackgroundSprite(const std::string & path)
@@ -59,5 +59,5 @@ void AGUIElement::setBackgroundOverSprite(const std::string & path)
 
 void AGUIElement::setTransparentColor(const Color & color)
 {
-	_transparantColor = color;
+	_transparentColor = color;
 }

@@ -1,4 +1,4 @@
-#include "Client.hh"
+#include "client.hh"
 #include "SocketClientTCP.hh"
 
 int main()

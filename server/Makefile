@@ -21,7 +21,6 @@ OBJ	=	$(SRC:.cpp=.o)
 
 CPPFLAGS=	-W -Wall -Wextra -ansi -pedantic -g -I$(DIR)
 
-
 all:		$(NAME)
 
 $(NAME):	$(OBJ)

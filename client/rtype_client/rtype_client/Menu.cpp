@@ -1,3 +1,4 @@
+#include "AGUIElement.hh"
 #include "Menu.hh"
 
 Menu::Menu()

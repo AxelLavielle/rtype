@@ -15,8 +15,8 @@ ListBox::ListBox(IGraphManager *graph, IEventManager *event, const Rect &rect) :
 	_prevButton.setEvent(event);
 	_nextButton.setBackgroundColor(Color(255, 255, 255, 0));
 	_prevButton.setBackgroundColor(Color(255, 255, 255, 0));
-	_prevButton.setBackgroundColorOver(Color(255, 255, 255, 0));
-	_nextButton.setBackgroundColorOver(Color(255, 255, 255, 0));
+	_prevButton.setBackgroundOverColor(Color(255, 255, 255, 0));
+	_nextButton.setBackgroundOverColor(Color(255, 255, 255, 0));
 	_nextButton.setPos(Rect(rect.getX() + rect.getWidth() - 70, rect.getY() + rect.getHeight() + 10, 20, 70));
 	_prevButton.setPos(Rect(rect.getX() + rect.getWidth() - 200, rect.getY() + rect.getHeight() + 10, 20, 70));
 	_nextButton.setText("Next");

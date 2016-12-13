@@ -21,7 +21,7 @@ public:
 	sf::RenderWindow *getWindow(void) const;
 	virtual void close();
 	virtual bool drawText(const std::string & text, const int & posX, const int & posY, const int &size, const Color &color, const std::string & font = "../../res/font/Aerospace.ttf");
-	virtual bool drawRectangle(const std::string & spritePath, const Rect & rect, const Color & transparantColor);
+	virtual bool drawRectangle(const std::string & spritePath, const Rect & rect, const Color & transparentColor);
 	virtual bool drawRectangle(const std::string & spritePath, const Rect & rect);
 	virtual bool drawRectangle(const Color & color, const Rect & rect);
 	virtual bool setBackground(const std::string &imagePath, const float scaleX, const float scaleY);

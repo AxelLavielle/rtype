@@ -123,7 +123,7 @@ bool SFML::drawText(const std::string & text, const int & posX, const int & posY
 	return (true);
 }
 
-bool SFML::drawRectangle(const std::string & spritePath, const Rect &rect, const Color & transparantColor)
+bool SFML::drawRectangle(const std::string & spritePath, const Rect &rect, const Color & transparentColor)
 {
 	sf::Image			*image;
 	sf::Texture			*texture;
@@ -135,7 +135,7 @@ bool SFML::drawRectangle(const std::string & spritePath, const Rect &rect, const
 		if (!image->loadFromFile(spritePath))
 			return (false);
 		texture = new sf::Texture();
-		image->createMaskFromColor(sf::Color(transparantColor.getR(), transparantColor.getG(), transparantColor.getB(), transparantColor.getA()));
+		image->createMaskFromColor(sf::Color(transparentColor.getR(), transparentColor.getG(), transparentColor.getB(), transparentColor.getA()));
 		_img.push_back(std::pair<sf::Image*, std::string>(image, spritePath));
 		_texture.push_back(std::pair<sf::Texture*, std::string>(texture, spritePath));
 	}

@@ -11,6 +11,7 @@ class SFML :
 public:
 	SFML();
 	virtual ~SFML();
+	virtual std::pair<int, int> getScreenSize() const;
 	virtual bool init();
 	virtual bool setFullScreen(const bool mode);
 	virtual bool isWindowOpen();

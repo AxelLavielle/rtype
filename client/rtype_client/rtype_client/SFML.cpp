@@ -32,6 +32,12 @@ SFML::~SFML()
 	delete _window;
 }
 
+std::pair<int, int>	SFML::getScreenSize() const
+{
+	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
+	return (std::pair<int, int>(desktop.width, desktop.height));
+}
+
 bool SFML::init()
 {
 	_window = new sf::RenderWindow();
@@ -121,7 +127,7 @@ bool SFML::drawRectangle(const std::string & spritePath, const Rect &rect, const
 		if (!image->loadFromFile(spritePath))
 			return (false);
 		texture = new sf::Texture();
-		image->createMaskFromColor(sf::Color(0, 0, 0));
+		image->createMaskFromColor(sf::Color(transparantColor.getR(), transparantColor.getG(), transparantColor.getB(), transparantColor.getA()));
 		_img.push_back(std::pair<sf::Image*, std::string>(image, spritePath));
 		_texture.push_back(std::pair<sf::Texture*, std::string>(texture, spritePath));
 	}

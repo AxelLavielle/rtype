@@ -6,6 +6,25 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rtype_client", "rtype_client\rtype_client.vcxproj", "{D2950D2B-8B09-4EC9-82D8-AD5F6CBC1A2C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5366646F-FC14-4121-A431-8DF197C5C5A3}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\commonSource\AMutex.cpp = ..\..\commonSource\AMutex.cpp
+		..\..\commonSource\AMutex.hh = ..\..\commonSource\AMutex.hh
+		..\..\commonSource\AThread.cpp = ..\..\commonSource\AThread.cpp
+		..\..\commonSource\AThread.hh = ..\..\commonSource\AThread.hh
+		..\..\commonSource\AThreadPool.cpp = ..\..\commonSource\AThreadPool.cpp
+		..\..\commonSource\AThreadPool.hh = ..\..\commonSource\AThreadPool.hh
+		..\..\commonSource\IMutex.hpp = ..\..\commonSource\IMutex.hpp
+		..\..\commonSource\IThread.hpp = ..\..\commonSource\IThread.hpp
+		..\..\commonSource\IThreadPool.hpp = ..\..\commonSource\IThreadPool.hpp
+		..\..\commonSource\MemTools.cpp = ..\..\commonSource\MemTools.cpp
+		..\..\commonSource\MemTools.hh = ..\..\commonSource\MemTools.hh
+		..\..\commonSource\Mutex.cpp = ..\..\commonSource\Mutex.cpp
+		..\..\commonSource\Mutex.hh = ..\..\commonSource\Mutex.hh
+		..\..\commonSource\Thread.cpp = ..\..\commonSource\Thread.cpp
+		..\..\commonSource\Thread.hh = ..\..\commonSource\Thread.hh
+		..\..\commonSource\ThreadPool.cpp = ..\..\commonSource\ThreadPool.cpp
+		..\..\commonSource\ThreadPool.hh = ..\..\commonSource\ThreadPool.hh
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

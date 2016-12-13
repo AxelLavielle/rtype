@@ -50,9 +50,10 @@ bool CursorBox::click()
 	}
 	key = _event->isPressed("ML");
 	pos = _event->getMousePos();
-	if (key && _status && pos.first - _rectBox.getWidth() / 2 < _rect.getX() + _rect.getWidth() && pos.first - _rectBox.getWidth() / 2 > _rect.getX() - _rectBox.getWidth() / 2)
+	if (key && _status)
 	{
-		_rectBox.setX(pos.first - _rectBox.getWidth() / 2);
+		if (pos.first - _rectBox.getWidth() / 2 < _rect.getX() + _rect.getWidth() - _rectBox.getWidth() && pos.first - _rectBox.getWidth() / 2 > _rect.getX())
+			_rectBox.setX(pos.first - _rectBox.getWidth() / 2);
 	}
 	else
 		_status = false;

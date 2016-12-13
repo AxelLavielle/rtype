@@ -32,6 +32,11 @@ void AGUIElement::setPos(const Rect & rect)
 	_rect = rect;
 }
 
+Rect	AGUIElement::getPos() const
+{
+	return (_rect);
+}
+
 void AGUIElement::setBackgroundColor(const Color & color)
 {
 	_backgroundColor = color;

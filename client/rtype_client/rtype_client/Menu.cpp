@@ -3,6 +3,8 @@
 Menu::Menu()
 {
 	_pagenb = PAGE::ACCEUIL;
+	_animInc = 0;
+	_first = true;
 }
 
 
@@ -56,6 +58,7 @@ void Menu::initButton()
 	RectDecor	*topDecor = new RectDecor(_graph, _event, Rect(290, 650, 50, 500));
 
 	_pagenb = PAGE::ACCEUIL;
+	t1 = std::chrono::high_resolution_clock::now();
 	clear();
 	bottomDecor->setBackgroundSprite("../../res/img/bordureHaut.png");
 	topDecor->setBackgroundSprite("../../res/img/bordureBas.png");
@@ -73,15 +76,35 @@ void Menu::initButton()
 	setButtonSprite();
 }
 
+void Menu::firstAnim(const int i, std::vector<Button>::iterator	it)
+{
+	Rect								tmp;
+	std::chrono::high_resolution_clock::time_point        t2;
+
+	if (_animInc < 190 * i && _first)
+	{
+		t2 = std::chrono::high_resolution_clock::now();
+		_animDuration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+		if (_animDuration > 10000000)
+			_animInc++;
+		tmp = it->getPos();
+		it->setPos(Rect(tmp.getX(), _animInc, tmp.getHeight(), tmp.getWidth()));
+	}
+}
+
 void Menu::drawButton()
 {
 	std::vector<Button>::iterator		it;
+	int									i;
 
 	it = _buttons.begin();
+	i = 1;
 	while (it != _buttons.end())
 	{
-		(*it).draw();
+		firstAnim(i, it);
+		it->draw();
 		++it;
+		i++;
 	}
 }
 
@@ -214,6 +237,7 @@ void Menu::settings()
 	CheckBox	check(_graph, _event, Rect(300, 200, 40, 40));
 
 	_pagenb = PAGE::SETTINGS;
+	_first = false;
 	clear();
 	play.setTextPos(70, 10);
 	play.setTextSize(60);
@@ -316,6 +340,7 @@ void Menu::roomButton()
 	Button		create(_graph, _event, Rect(300, 150, 90, 500), "CREATE ROOM");
 
 	_pagenb = PAGE::PLAY;
+	_first = false;
 	clear();
 	play.setTextPos(70, 10);
 	play.setTextSize(60);

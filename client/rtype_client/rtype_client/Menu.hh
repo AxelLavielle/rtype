@@ -1,6 +1,8 @@
 #pragma once
 
 #include <vector>
+#include <chrono>
+#include <ctime>
 #include "AMenu.hh"
 #include "Button.hh"
 #include "ListBox.hh"
@@ -28,16 +30,21 @@ private:
 		SETTINGS
 	};
 
-	std::vector<Button>		_buttons;
-	PAGE					_pagenb;
-	std::vector<ListBox>	_listBox;
-	std::vector<InputBox>	_input;
-	std::vector<CursorBox>	_cursorBox;
+	std::vector<Button>			_buttons;
+	PAGE						_pagenb;
+	std::vector<ListBox>		_listBox;
+	std::vector<InputBox>		_input;
+	std::vector<CursorBox>		_cursorBox;
 	std::vector<CheckBox>		_checkBox;
 	std::vector<AGUIElement* >	_guiElement;
-	Game					_game;
+	Game						_game;
+	int							_animInc;
+	bool						_first;
+	double						_animDuration;
+	std::chrono::high_resolution_clock::time_point        t1;
 
 	void initButton();
+	void firstAnim(const int i, std::vector<Button>::iterator it);
 	void drawButton();
 	void drawListBox();
 	void drawInput();

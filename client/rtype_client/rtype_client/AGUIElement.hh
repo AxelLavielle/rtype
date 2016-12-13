@@ -15,6 +15,7 @@ public:
 	virtual void setGraph(IGraphManager * graph);
 	virtual void setEvent(IEventManager * event);
 	virtual void setPos(const Rect & rect);
+	virtual Rect getPos() const;
 	virtual void setBackgroundColor(const Color & color);
 	virtual void setBackgroundColorOver(const Color & color);
 	virtual void setBackgroundSprite(const std::string & path);

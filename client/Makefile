@@ -26,7 +26,8 @@ SRC	=	$(DIR)/AEventManager.cpp 	\
 		$(DIR)/SFML.cpp 		\
 		$(DIR)/SFMLEvent.cpp 		\
 		$(DIR)/SFMLSOund.cpp 		\
-		$(DIR)/SocketClientTCP.cpp
+		$(DIR)/SocketClientTCP.cpp	\
+		$(DIR)/SocketClientUDP.cpp	\
 
 OBJ	=	$(SRC:.cpp=.o)
 

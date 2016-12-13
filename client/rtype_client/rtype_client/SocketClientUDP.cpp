@@ -25,12 +25,12 @@ bool			SocketClientUDP::init(const std::string &addr, int port)
 		return (false);
 	}
 
-	memset((char *)&_siOther, 0, sizeof(_siOther));
+	memset(reinterpret_cast<char *>(&_siOther), 0, sizeof(_siOther));
 	_siOther.sin_family = AF_INET;
 	_siOther.sin_port = htons(port);
 	inet_pton(AF_INET, addr.c_str(), &_siOther.sin_addr.S_un.S_addr);
 
-	sendto(_sock, "", 1, 0, (struct sockaddr *)&_siOther, sizeof(_siOther));
+	sendto(_sock, "", 1, 0, reinterpret_cast<struct sockaddr *>(&_siOther), sizeof(_siOther));
 
 #elif __linux__
 	if ((_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1)
@@ -39,10 +39,16 @@ bool			SocketClientUDP::init(const std::string &addr, int port)
 		return (false);
 	}
 
-	memset((char *)&_siMe, 0, sizeof(_siMe));
-	_siMe.sin_family = AF_INET;
-	_siMe.sin_port = htons(port);
-	_siMe.sin_addr.s_addr = htonl(addr.c_str());
+	memset(reinterpret_cast<char *>(&_siOther), 0, sizeof(_siOther));
+	_siOther.sin_family = AF_INET;
+	_siOther.sin_port = htons(port);
+	if (inet_aton(addr.c_str() , &_siOther.sin_addr) == 0)
+	  {
+	    perror("inet_aton");
+	    return (false);
+	  }
+
+	sendto(_sock, "", 1, 0, reinterpret_cast<struct sockaddr *>(&_siOther), sizeof(_siOther));
 
 #endif
 	return (true);
@@ -53,15 +59,15 @@ bool			SocketClientUDP::sendData(const char *data)
 	int			slen = sizeof(_siOther);
 
 #ifdef _WIN32
-	if (sendto(_sock, data, strlen(data), 0, (struct sockaddr *)&_siOther, slen) == SOCKET_ERROR)
+	if (sendto(_sock, data, strlen(data), 0, reinterpret_cast<struct sockaddr *>(&_siOther), slen) == SOCKET_ERROR)
 	{
 		std::cerr << "sendto() failed with error code : " << WSAGetLastError() << std::endl;
 		return (false);
 	}
 #elif __linux__
-	if (sendto(_sock, data, strlen(data), 0, (struct sockaddr*)&_siOther, slen) == -1)
+	if (sendto(_sock, data, strlen(data), 0, reinterpret_cast<struct sockaddr *>(&_siOther), slen) == -1)
 	{
-		std::cerr << "Send failed" << std::endl;
+		perror("sendto");
 		return (false);
 	}
 #endif
@@ -71,28 +77,26 @@ bool			SocketClientUDP::sendData(const char *data)
 char			*SocketClientUDP::receiveData()
 {
 	char		*buf = new char[UDP_BUFLEN];
-	int			slen = sizeof(_siOther);
+	int		slen = sizeof(_siOther);
 
 #ifdef _WIN32
 	memset(buf, '\0', UDP_BUFLEN);
-	if (recvfrom(_sock, buf, UDP_BUFLEN, 0, (struct sockaddr *)&_siOther, &slen) == SOCKET_ERROR)
+	if (recvfrom(_sock, buf, UDP_BUFLEN, 0, reinterpret_cast<struct sockaddr *>(&_siOther), &slen) == SOCKET_ERROR)
 	{
-		std::cerr << "recvfrom() failed with error code : " << WSAGetLastError() << std::endl;
 		return (NULL);
 	}
 
 #elif __linux__
-	if (recvfrom(_sock, buf, UDP_BUFLEN, 0, (struct sockaddr *)&_siOther, &slen) == -1)
+	memset(buf, '\0', UDP_BUFLEN);
+	if (recvfrom(_sock, buf, UDP_BUFLEN, 0, reinterpret_cast<struct sockaddr *>(&_siOther), reinterpret_cast<socklen_t *>(&slen)) == -1)
 	{
-		std::cerr << "Receive failed" << std::endl;
 		return (NULL);
 	}
-
 #endif
 	return (buf);
 }
 
-bool			SocketClientUDP::close()
+bool			SocketClientUDP::closure()
 {
 #ifdef _WIN32
 	closesocket(_sock);
@@ -107,12 +111,5 @@ bool			SocketClientUDP::close()
 
 bool			SocketClientUDP::connectToServer()
 {
-#ifdef __linux__
-	if (bind(_sock, (struct sockaddr*)&_siMe, sizeof(_siMe)) == -1)
-	{
-		std::cout << "Error in bind" << std::endl;
-		return (false);
-	}
-#endif
 	return (true);
 }

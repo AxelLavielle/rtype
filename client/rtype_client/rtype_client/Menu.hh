@@ -12,6 +12,8 @@
 #include "Game.hh"
 #include "RectDecor.hh"
 
+#define ANIMDURATION 1000
+
 class Menu :
 	public AMenu
 {

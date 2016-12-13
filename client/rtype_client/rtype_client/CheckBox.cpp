@@ -4,13 +4,19 @@
 
 CheckBox::CheckBox(IGraphManager * graph, IEventManager * event, const Rect & rect) : AGUIElement(graph, event, rect)
 {
+	_backgroundColor.setR(255);
+	_backgroundColor.setG(255);
+	_backgroundColor.setB(255);
+	_status = false;
 }
 
 CheckBox::CheckBox() : AGUIElement()
 {
+	_backgroundColor.setR(255);
+	_backgroundColor.setG(255);
+	_backgroundColor.setB(255);
 	_status = false;
 }
-
 
 CheckBox::~CheckBox()
 {
@@ -18,13 +24,35 @@ CheckBox::~CheckBox()
 
 bool CheckBox::draw()
 {
-	//Not implemented
+	_graph->drawRectangle(_backgroundColor, _rect);
 	return (true);
 }
 
 bool CheckBox::click()
 {
-	//Not implemented
+	std::pair<int, int>		pos;
+
+	pos = _event->getClickMousePos();
+	if (pos.first != -1 && pos.second != -1
+		&& pos.first > _rect.getX() && pos.first < _rect.getX() + _rect.getWidth()
+		&& pos.second > _rect.getY() && pos.second < _rect.getY() + _rect.getHeight())
+	{
+
+		_status = !_status;
+		if (_status)
+		{
+			_backgroundColor.setR(192);
+			_backgroundColor.setG(192);
+			_backgroundColor.setB(192);
+		}
+		else
+		{
+			_backgroundColor.setR(255);
+			_backgroundColor.setG(255);
+			_backgroundColor.setB(255);
+		}
+		return (true);
+	}
 	return (false);
 }
 

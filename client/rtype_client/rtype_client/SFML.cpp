@@ -27,7 +27,20 @@ SFML::~SFML()
 bool SFML::init()
 {
 	_window = new sf::RenderWindow();
-	_window->create(sf::VideoMode(_winX, _winY), "RType");
+	_window->create(sf::VideoMode(_winX, _winY), "RTYPE");
+	return (true);
+}
+
+bool SFML::setFullScreen(const bool mode)
+{
+	if (mode)
+	{
+		//_window->close();
+		//delete _window;
+		//_window = new sf::RenderWindow();
+		sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
+		_window->create(sf::VideoMode(desktop.width, desktop.height), "RTYPE", sf::Style::Fullscreen);
+	}
 	return (true);
 }
 
@@ -139,7 +152,7 @@ sf::Texture *SFML::getTexture(const std::string &path) const
 	return (NULL);
 }
 
-bool SFML::setBackground(const std::string & imagePath)
+bool SFML::setBackground(const std::string & imagePath, const float scaleX, const float scaleY)
 {
 	sf::Texture		*img;
 	sf::Sprite		sprite;
@@ -152,7 +165,8 @@ bool SFML::setBackground(const std::string & imagePath)
 		_texture.push_back(std::pair<sf::Texture*, std::string>(img, imagePath));
 	}
 	sprite.setTexture(*img);
-	sprite.scale(0.6f, 0.7f);
+	if (scaleX != -1)
+		sprite.scale(scaleX, scaleY);
 	_window->draw(sprite);
 	return (true);
 }

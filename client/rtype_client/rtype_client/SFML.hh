@@ -12,6 +12,7 @@ public:
 	SFML();
 	virtual ~SFML();
 	virtual bool init();
+	virtual bool setFullScreen(const bool mode);
 	virtual bool isWindowOpen();
 	virtual void clearWindow();
 	virtual void refresh();
@@ -20,7 +21,7 @@ public:
 	virtual bool drawText(const std::string & text, const int & posX, const int & posY, const int &size, const Color &color, const std::string & font = "../../res/font/Aerospace.ttf");
 	virtual bool drawRectangle(const std::string & spritePath, const Rect & rect);
 	virtual bool drawRectangle(const Color & color, const Rect & rect);
-	virtual bool setBackground(const std::string &imagePath);
+	virtual bool setBackground(const std::string &imagePath, const float scaleX, const float scaleY);
 private:
 	sf::RenderWindow											*_window;
 	std::vector<std::pair<sf::Texture*, std::string> >			_texture;

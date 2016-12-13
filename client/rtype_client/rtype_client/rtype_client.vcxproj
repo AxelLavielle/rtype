@@ -139,6 +139,7 @@
     <ClInclude Include="client.hh" />
     <ClInclude Include="CmdManager.hh" />
     <ClInclude Include="Color.hh" />
+    <ClInclude Include="Game.hh" />
     <ClInclude Include="IEventManager.hpp" />
     <ClInclude Include="IGraphManager.hpp" />
     <ClInclude Include="IGUIElement.hpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="Menu.hh" />
     <ClInclude Include="Rect.hh" />
     <ClInclude Include="CursorBox.hh" />
+    <ClInclude Include="RectDecor.hh" />
     <ClInclude Include="SFML.hh" />
     <ClInclude Include="SFMLEvent.hh" />
     <ClInclude Include="SFMLSOund.hh" />
@@ -167,12 +169,14 @@
     <ClCompile Include="client.cpp" />
     <ClCompile Include="CmdManager.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="InputBox.cpp" />
     <ClCompile Include="ListBox.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="CursorBox.cpp" />
+    <ClCompile Include="RectDecor.cpp" />
     <ClCompile Include="SFML.cpp" />
     <ClCompile Include="SFMLEvent.cpp" />
     <ClCompile Include="SFMLSOund.cpp" />

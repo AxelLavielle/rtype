@@ -22,6 +22,8 @@
     <ClCompile Include="AGUIElement.cpp" />
     <ClCompile Include="CursorBox.cpp" />
     <ClCompile Include="CheckBox.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="RectDecor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />
@@ -50,5 +52,7 @@
     <ClInclude Include="AGUIElement.hh" />
     <ClInclude Include="CursorBox.hh" />
     <ClInclude Include="CheckBox.hh" />
+    <ClInclude Include="Game.hh" />
+    <ClInclude Include="RectDecor.hh" />
   </ItemGroup>
 </Project>

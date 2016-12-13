@@ -15,12 +15,18 @@ public:
 	virtual void setGraph(IGraphManager * graph);
 	virtual void setEvent(IEventManager * event);
 	virtual void setPos(const Rect & rect);
+	virtual void setBackgroundColor(const Color & color);
+	virtual void setBackgroundColorOver(const Color & color);
+	virtual void setBackgroundSprite(const std::string & path);
+	virtual void setBackgroundOverSprite(const std::string & path);
 
 protected:
 	IGraphManager	*_graph;
 	IEventManager	*_event;
 	Rect			_rect;
-	Color				_backgroundColor;
-	Color				_backgroundColorOver;
+	Color			_backgroundColor;
+	Color			_backgroundColorOver;
+	std::string		_backgroundSprite;
+	std::string		_backgroundOverSprite;
 };
 

@@ -10,3 +10,9 @@ CmdManager::CmdManager()
 CmdManager::~CmdManager()
 {
 }
+
+bool CmdManager::newCmd(const std::string & cmd)
+{
+	//Not implemented
+	return (true);
+}

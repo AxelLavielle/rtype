@@ -32,7 +32,7 @@ bool CursorBox::draw()
 	_graph->drawRectangle(_backgroundColor, _rectBox);
 	return (true);
 }
-#include <iostream>
+
 bool CursorBox::click()
 {
 	std::pair<int, int>		pos;

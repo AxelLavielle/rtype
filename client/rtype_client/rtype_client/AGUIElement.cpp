@@ -31,3 +31,23 @@ void AGUIElement::setPos(const Rect & rect)
 {
 	_rect = rect;
 }
+
+void AGUIElement::setBackgroundColor(const Color & color)
+{
+	_backgroundColor = color;
+}
+
+void AGUIElement::setBackgroundColorOver(const Color & color)
+{
+	_backgroundColorOver = color;
+}
+
+void AGUIElement::setBackgroundSprite(const std::string & path)
+{
+	_backgroundSprite = path;
+}
+
+void AGUIElement::setBackgroundOverSprite(const std::string & path)
+{
+	_backgroundOverSprite = path;
+}

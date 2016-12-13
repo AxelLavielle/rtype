@@ -17,20 +17,49 @@ bool Menu::init()
 
 void Menu::clear()
 {
+	std::vector<AGUIElement* >::iterator		it;
+
 	_buttons.clear();
 	_listBox.clear();
 	_input.clear();
 	_cursorBox.clear();
+	_checkBox.clear();
+
+	it = _guiElement.begin();
+	while (it != _guiElement.end())
+	{
+		delete ((*it));
+		++it;
+	}
+	_guiElement.clear();
+}
+
+void	Menu::setButtonSprite()
+{
+	std::vector<Button>::iterator		it;
+
+	it = _buttons.begin();
+	while (it != _buttons.end())
+	{
+		it->setBackgroundSprite("../../res/img/button.png");
+		it->setBackgroundOverSprite("../../res/img/buttonOver.png");
+		std::cout << "COUCOU" << std::endl;
+		++it;
+	}
 }
 
 void Menu::initButton()
 {
-	Button		play(_graph, _event, Rect(380, 150, 90, 310), "PLAY");
-	Button		quit(_graph, _event, Rect(380, 600, 90, 310), "QUIT");
+	Button		play(_graph, _event, Rect(380, 200, 90, 310), "PLAY");
+	Button		quit(_graph, _event, Rect(380, 550, 90, 310), "QUIT");
 	Button		option(_graph, _event, Rect(380, 380, 90, 310), "OPTION");
+	RectDecor	*bottomDecor = new RectDecor(_graph, _event, Rect(290, 150, 50, 500));
+	RectDecor	*topDecor = new RectDecor(_graph, _event, Rect(290, 650, 50, 500));
 
 	_pagenb = PAGE::ACCEUIL;
 	clear();
+	bottomDecor->setBackgroundSprite("../../res/img/bordureHaut.png");
+	topDecor->setBackgroundSprite("../../res/img/bordureBas.png");
 	play.setTextPos(70, 10);
 	play.setTextSize(60);
 	quit.setTextPos(70, 10);
@@ -40,6 +69,9 @@ void Menu::initButton()
 	_buttons.push_back(play);
 	_buttons.push_back(quit);
 	_buttons.push_back(option);
+	_guiElement.push_back(bottomDecor);
+	_guiElement.push_back(topDecor);
+	setButtonSprite();
 }
 
 void Menu::drawButton()
@@ -90,6 +122,30 @@ void Menu::drawCursorBox()
 	}
 }
 
+void Menu::drawCheckBox()
+{
+	std::vector<CheckBox>::iterator		itCheck;
+
+	itCheck = _checkBox.begin();
+	while (itCheck != _checkBox.end())
+	{
+		itCheck->draw();
+		++itCheck;
+	}
+}
+
+void Menu::drawGUIElement()
+{
+	std::vector<AGUIElement* >::iterator		it;
+
+	it = _guiElement.begin();
+	while (it != _guiElement.end())
+	{
+		(*it)->draw();
+		++it;
+	}
+}
+
 void Menu::roomList()
 {
 	Button						play(_graph, _event, Rect(750, 600, 90, 310), "JOIN");
@@ -123,6 +179,7 @@ void Menu::roomList()
 	_buttons.push_back(play);
 	_buttons.push_back(quit);
 	_listBox.push_back(list);
+	setButtonSprite();
 }
 
 void Menu::createRoom()
@@ -131,10 +188,10 @@ void Menu::createRoom()
 	Button		quit(_graph, _event, Rect(20, 600, 90, 310), "BACK");
 	InputBox	input(_graph, _event, Rect(200, 300, 30, 700));
 
+	_pagenb = PAGE::ROOMCREATE;
 	clear();
 	input.setEvent(_event);
 	input.setGraph(_graph);
-	_pagenb = PAGE::ROOMCREATE;
 	play.setTextPos(25, 10);
 	play.setTextSize(60);
 	quit.setTextPos(70, 10);
@@ -142,6 +199,7 @@ void Menu::createRoom()
 	_buttons.push_back(play);
 	_buttons.push_back(quit);
 	_input.push_back(input);
+	setButtonSprite();
 }
 
 void Menu::settings()
@@ -149,10 +207,11 @@ void Menu::settings()
 	Button		play(_graph, _event, Rect(750, 600, 90, 310), "SAVE");
 	Button		quit(_graph, _event, Rect(20, 600, 90, 310), "BACK");
 	CursorBox	music(_graph, _event, Rect(300, 300, 30, 500));
-	CursorBox	sound(_graph, _event, Rect(300, 300, 30, 500));
+	CursorBox	sound(_graph, _event, Rect(300, 500, 30, 500));
+	CheckBox	check(_graph, _event, Rect(300, 200, 20, 20));
 
-	clear();
 	_pagenb = PAGE::SETTINGS;
+	clear();
 	play.setTextPos(70, 10);
 	play.setTextSize(60);
 	quit.setTextPos(70, 10);
@@ -161,6 +220,8 @@ void Menu::settings()
 	_buttons.push_back(quit);
 	_cursorBox.push_back(music);
 	_cursorBox.push_back(sound);
+	_checkBox.push_back(check);
+	setButtonSprite();
 }
 
 char Menu::buttonEvent() //A CORRIGER
@@ -169,7 +230,14 @@ char Menu::buttonEvent() //A CORRIGER
 	std::vector<ListBox>::iterator		itList;
 	std::vector<InputBox>::iterator		itInput;
 	std::vector<CursorBox>::iterator	itCursor;
+	std::vector<CheckBox>::iterator		itCheck;
 
+	itCheck = _checkBox.begin();
+	while (itCheck != _checkBox.end())
+	{
+		itCheck->click();
+		++itCheck;
+	}
 	itCursor = _cursorBox.begin();
 	while (itCursor != _cursorBox.end())
 	{
@@ -200,7 +268,12 @@ char Menu::buttonEvent() //A CORRIGER
 		if (_pagenb == PAGE::ACCEUIL)
 			roomButton();
 		else if (_pagenb == PAGE::PLAY)
-			return (1); //Doit lancer le jeu
+		{
+			_game.setGraph(_graph);
+			_game.setEvent(_event);
+			_game.launch();
+			return (2); //Doit lancer le jeu
+		}
 	}
 	else if (_buttons[1].click())
 	{
@@ -247,12 +320,14 @@ void Menu::roomButton()
 	_buttons.push_back(quit);
 	_buttons.push_back(join);
 	_buttons.push_back(create);
+	setButtonSprite();
 }
 
 bool Menu::launch()
 {
 	char ret;
 	initButton();
+	//_graph->setFullScreen(true);
 	while (_graph->isWindowOpen())
 	{
 		while (_event->refresh())
@@ -263,15 +338,14 @@ bool Menu::launch()
 				return (false);
 		}
 		_graph->clearWindow();
-		_graph->setBackground("../../res/img/background_menu2.jpg");
+		_graph->setBackground("../../res/img/background_menu3.jpg", 0.6f, 0.7f);
 		drawButton();
-		if (_pagenb == PAGE::ROOMLIST)
-			drawListBox();
-		if (_pagenb == PAGE::ROOMCREATE)
-			drawInput();
-		if (_pagenb == PAGE::SETTINGS)
-			drawCursorBox();
-		_graph->drawText("Hen Type", 300, 0, 90, Color(224, 224, 224, 255), "../../res/fonts/Aerospace.ttf");
+		drawListBox();
+		drawInput();
+		drawCursorBox();
+		drawCheckBox();
+		drawGUIElement();
+		_graph->drawText("Hen Type", 300, 0, 90, Color(135, 206, 250, 255), "../../res/fonts/Aerospace.ttf");
 		if (_pagenb == PAGE::ROOMLIST)
 			_graph->drawText("Choice a room", 350, 150, 40, Color(224, 224, 224, 255), "../../res/fonts/Aerospace.ttf");
 		_graph->refresh();

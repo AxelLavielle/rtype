@@ -6,6 +6,9 @@
 #include "ListBox.hh"
 #include "InputBox.hh"
 #include "CursorBox.hh"
+#include "CheckBox.hh"
+#include "Game.hh"
+#include "RectDecor.hh"
 
 class Menu :
 	public AMenu
@@ -30,17 +33,23 @@ private:
 	std::vector<ListBox>	_listBox;
 	std::vector<InputBox>	_input;
 	std::vector<CursorBox>	_cursorBox;
+	std::vector<CheckBox>		_checkBox;
+	std::vector<AGUIElement* >	_guiElement;
+	Game					_game;
 
 	void initButton();
 	void drawButton();
 	void drawListBox();
 	void drawInput();
 	void drawCursorBox();
+	void drawCheckBox();
+	void drawGUIElement();
 	void roomList();
 	void createRoom();
 	void settings();
 	char buttonEvent();
 	void roomButton();
 	void clear();
+	void setButtonSprite();
 };
 

@@ -32,7 +32,7 @@ OBJ	=	$(SRC:.cpp=.o)
 
 CPPFLAGS=	-W -Wall -Wextra -ansi -pedantic -g -I$(DIR) -std=c++11 -std=gnu++11
 
-LDFLAGS	=	-lsfml-graphics -lsfml-window -lsfml-system
+LDFLAGS	=	-Llibsfml-audio.so.2.4 -Llibsfml-system.so.2.4 -Llibsfml-graphics.so.2.4 -Llibsfml-window.so.2.4 -lsfml-graphics -lsfml-window -lsfml-system
 
 all:		$(NAME)
 

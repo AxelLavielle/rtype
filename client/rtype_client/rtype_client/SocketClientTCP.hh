@@ -11,10 +11,10 @@
 	# include <stdlib.h>
 	# include <sys/socket.h>
 	# include <arpa/inet.h>
+	# include <unistd.h>
 #endif
 
 #include <string.h>
-#include <unistd.h>
 #include "ASocketClient.hh"
 class					SocketClientTCP : public ASocketClient
 {

@@ -139,6 +139,7 @@
     <ClInclude Include="client.hh" />
     <ClInclude Include="CmdManager.hh" />
     <ClInclude Include="Color.hh" />
+    <ClInclude Include="D:\RTYPE\saveConfig.hh" />
     <ClInclude Include="Game.hh" />
     <ClInclude Include="IEventManager.hpp" />
     <ClInclude Include="IGraphManager.hpp" />
@@ -169,6 +170,7 @@
     <ClCompile Include="client.cpp" />
     <ClCompile Include="CmdManager.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="D:\RTYPE\saveConfig.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="InputBox.cpp" />
     <ClCompile Include="ListBox.cpp" />

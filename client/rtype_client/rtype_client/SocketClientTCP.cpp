@@ -80,8 +80,6 @@ bool				SocketClientTCP::sendData(const char *data)
 		return (false);
 	}
 
-//	std::cout << "Bytes Sent: " << iResult << std::endl;
-
 	iResult = shutdown(_connectSocket, SD_SEND);
 	if (iResult == SOCKET_ERROR)
 	{
@@ -104,7 +102,7 @@ bool				SocketClientTCP::sendData(const char *data)
 
 char				*SocketClientTCP::receiveData()
 {
-	int				recvbuflen = TCP_BUFLEN;
+	int			recvbuflen = TCP_BUFLEN;
 	char			*recvbuf = new char[TCP_BUFLEN];
 
 #ifdef _WIN32
@@ -116,7 +114,6 @@ char				*SocketClientTCP::receiveData()
 		recvbuf[iResult - 1] = '\0';
 		return (recvbuf);
 	}
-	std::cerr << "Receive failed: " << WSAGetLastError() << std::endl;
 	return (NULL);
 
 #elif __linux__
@@ -124,7 +121,6 @@ char				*SocketClientTCP::receiveData()
 
 	if ((ret = recv(_sock, recvbuf, recvbuflen, 0)) < 0)
 	{
-		std::cerr << "Receive failed" << std::endl;
 		return (NULL);
 	}
 	recvbuf[ret - 1] = '\0';
@@ -153,7 +149,7 @@ bool				SocketClientTCP::connectToServer()
 	}
 
 #elif __linux__
-	if (connect(_sock, (struct sockaddr *)&_server, sizeof(_server)) < 0)
+	if (connect(_sock, reinterpret_cast<struct sockaddr *>(&_server), sizeof(_server)) < 0)
 	{
 		std::cerr << "Unable to connect to server!" << std::endl;
 		return (false);

@@ -8,9 +8,11 @@
 #elif __linux__
 	# include <arpa/inet.h>
 	# include <sys/socket.h>
+	# include <unistd.h>
 #endif
 
-#include "ASocketClient.hh"
+# include <cstring>
+# include "ASocketClient.hh"
 
 class SocketClientUDP : public ASocketClient
 {
@@ -21,14 +23,11 @@ public:
 	virtual bool		init(const std::string &, int);
 	virtual bool		sendData(const char *);
 	virtual char		*receiveData();
-	virtual bool		close();
+	virtual bool		closure();
 	virtual bool		connectToServer();
 
 private:
-	int					_sock;
+	int			_sock;
 	struct sockaddr_in	_siOther;
-#ifdef __linux__
-	struct sockaddr_in	_siMe;
-#endif
 };
 

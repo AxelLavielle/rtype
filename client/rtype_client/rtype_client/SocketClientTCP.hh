@@ -16,6 +16,7 @@
 
 #include <string.h>
 #include "ASocketClient.hh"
+
 class					SocketClientTCP : public ASocketClient
 {
 public:

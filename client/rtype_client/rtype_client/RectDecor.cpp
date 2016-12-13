@@ -29,6 +29,9 @@ bool RectDecor::over()
 
 bool RectDecor::draw()
 {
-	_graph->drawRectangle(_backgroundSprite, _rect);
+	if (_transparantColor.getR() == -1)
+		_graph->drawRectangle(_backgroundSprite, _rect);
+	else
+		_graph->drawRectangle(_backgroundSprite, _rect, _transparantColor);
 	return (true);
 }

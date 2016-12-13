@@ -19,16 +19,19 @@ public:
 	sf::RenderWindow *getWindow(void) const;
 	virtual void close();
 	virtual bool drawText(const std::string & text, const int & posX, const int & posY, const int &size, const Color &color, const std::string & font = "../../res/font/Aerospace.ttf");
+	virtual bool drawRectangle(const std::string & spritePath, const Rect & rect, const Color & transparantColor);
 	virtual bool drawRectangle(const std::string & spritePath, const Rect & rect);
 	virtual bool drawRectangle(const Color & color, const Rect & rect);
 	virtual bool setBackground(const std::string &imagePath, const float scaleX, const float scaleY);
 private:
 	sf::RenderWindow											*_window;
 	std::vector<std::pair<sf::Texture*, std::string> >			_texture;
+	std::vector<std::pair<sf::Image*, std::string> >			_img;
 	std::vector<std::pair<sf::Font*, std::string> >				_fonts;
 	//std::vector<sf::Drawable*>			_elem;
 
-	sf::Texture *getTexture(const std::string & path) const;
+	sf::Texture * getTexture(const std::string & path) const;
+	sf::Image * getImage(const std::string & path) const;
 	sf::Font * getFont(const std::string &path) const;
 };
 

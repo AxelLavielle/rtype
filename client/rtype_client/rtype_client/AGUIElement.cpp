@@ -56,3 +56,8 @@ void AGUIElement::setBackgroundOverSprite(const std::string & path)
 {
 	_backgroundOverSprite = path;
 }
+
+void AGUIElement::setTransparentColor(const Color & color)
+{
+	_transparantColor = color;
+}

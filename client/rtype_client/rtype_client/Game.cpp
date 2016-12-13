@@ -13,7 +13,6 @@ Game::~Game()
 #include <iostream>
 int Game::launch()
 {
-	int ret;
 	std::chrono::high_resolution_clock::time_point        t1;
 	std::chrono::high_resolution_clock::time_point	     t2;
 	double												duration;

@@ -1,9 +1,9 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
 #include "AEventManager.hh"
 #include "SFML.hh"
-#include <iostream>
 
 class SFMLEvent :
 	public AEventManager

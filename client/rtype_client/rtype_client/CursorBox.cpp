@@ -12,6 +12,7 @@ CursorBox::CursorBox(IGraphManager * graph, IEventManager * event, const Rect & 
 	_rectLine.setHeight(rect.getHeight() - 20);
 	_rectBox.setY(rect.getY() - rect.getHeight() / 3);
 	_rectBox.setWidth(rect.getWidth() / 7);
+	_status = false;
 }
 
 CursorBox::CursorBox() : AGUIElement()
@@ -28,33 +29,33 @@ CursorBox::~CursorBox()
 
 bool CursorBox::draw()
 {
-	_graph->drawRectangle(_backgroundColor, _rectLine);
-	_graph->drawRectangle(_backgroundColor, _rectBox);
+	_graph->drawRectangle(_backgroundSprite, _rectLine);
+	_graph->drawRectangle(_backgroundOverSprite, _rectBox);
 	return (true);
 }
-
+#include <iostream>
 bool CursorBox::click()
 {
 	std::pair<int, int>		pos;
-	std::string				key;
+	bool					key;
 
 	pos = _event->getClickMousePos();
 	if (pos.first != -1 && pos.second != -1
-		&& pos.first > _rectLine.getX() && pos.first < _rectLine.getX() + _rectLine.getWidth()
-		&& pos.second > _rectLine.getY() && pos.second < _rectLine.getY() + _rectLine.getHeight())
+		&& pos.first > _rectBox.getX() && pos.first < _rectBox.getX() + _rectBox.getWidth()
+		&& pos.second > _rectBox.getY() && pos.second < _rectBox.getY() + _rectBox.getHeight())
 	{
-		_rectBox.setX(pos.first - _rectBox.getWidth() / 2);
+		_status = true;
+		//_rectBox.setX(pos.first - _rectBox.getWidth() / 2);
 		return (true);
 	}
-	//key = _event->getKeyStroke();
-	//while (key == "ML")
-	//{
-	//	key = _event->getKeyStroke();
-	//	pos = _event->getClickMousePos();
-	//	std::cout << "click2" << std::endl;
-	//	_rectBox.setX(pos.first - _rectBox.getWidth() / 2);
-	//	return (true);
-	//}
+	key = _event->isPressed("ML");
+	pos = _event->getMousePos();
+	if (key && _status && pos.first - _rectBox.getWidth() / 2 < _rect.getX() + _rect.getWidth() && pos.first - _rectBox.getWidth() / 2 > _rect.getX() - _rectBox.getWidth() / 2)
+	{
+		_rectBox.setX(pos.first - _rectBox.getWidth() / 2);
+	}
+	else
+		_status = false;
 	return (false);
 }
 

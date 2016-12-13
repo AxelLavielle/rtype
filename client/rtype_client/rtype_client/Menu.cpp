@@ -43,7 +43,6 @@ void	Menu::setButtonSprite()
 	{
 		it->setBackgroundSprite("../../res/img/button.png");
 		it->setBackgroundOverSprite("../../res/img/buttonOver.png");
-		std::cout << "COUCOU" << std::endl;
 		++it;
 	}
 }
@@ -154,6 +153,8 @@ void Menu::roomList()
 	ListBox						list(_graph, _event, Rect(100, 250, 300, 900));
 
 
+	list.setButtonSprite("../../res/img/buttonRoom.png");
+	list.setButtonOverSprite("../../res/img/buttonRoomOver.png");
 	elements.push_back("ELEMENT 1");
 	elements.push_back("ELEMENT NEXT");
 	elements.push_back("ELEMENT NEXT");
@@ -192,6 +193,8 @@ void Menu::createRoom()
 	clear();
 	input.setEvent(_event);
 	input.setGraph(_graph);
+	input.setBackgroundSprite("../../res/img/buttonRoom.png");
+	input.setTextColor(Color(255, 255, 255));
 	play.setTextPos(25, 10);
 	play.setTextSize(60);
 	quit.setTextPos(70, 10);
@@ -208,7 +211,7 @@ void Menu::settings()
 	Button		quit(_graph, _event, Rect(20, 600, 90, 310), "BACK");
 	CursorBox	music(_graph, _event, Rect(300, 300, 30, 500));
 	CursorBox	sound(_graph, _event, Rect(300, 500, 30, 500));
-	CheckBox	check(_graph, _event, Rect(300, 200, 20, 20));
+	CheckBox	check(_graph, _event, Rect(300, 200, 40, 40));
 
 	_pagenb = PAGE::SETTINGS;
 	clear();
@@ -216,6 +219,12 @@ void Menu::settings()
 	play.setTextSize(60);
 	quit.setTextPos(70, 10);
 	quit.setTextSize(60);
+	sound.setBackgroundSprite("../../res/img/scrollBar.png");
+	sound.setBackgroundOverSprite("../../res/img/scrollButton.png");
+	music.setBackgroundSprite("../../res/img/scrollBar.png");
+	music.setBackgroundOverSprite("../../res/img/scrollButton.png");
+	check.setBackgroundSprite("../../res/img/coche.png");
+	check.setCheckedSprite("../../res/img/cocheRempli.png");
 	_buttons.push_back(play);
 	_buttons.push_back(quit);
 	_cursorBox.push_back(music);

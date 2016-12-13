@@ -1,7 +1,6 @@
 #include "CheckBox.hh"
 
 
-
 CheckBox::CheckBox(IGraphManager * graph, IEventManager * event, const Rect & rect) : AGUIElement(graph, event, rect)
 {
 	_backgroundColor.setR(255);
@@ -22,9 +21,17 @@ CheckBox::~CheckBox()
 {
 }
 
+void	CheckBox::setCheckedSprite(const std::string & sprite)
+{
+	_checkedSprite = sprite;
+}
+
 bool CheckBox::draw()
 {
-	_graph->drawRectangle(_backgroundColor, _rect);
+	if (!_status)
+		_graph->drawRectangle(_backgroundSprite, _rect);
+	else
+		_graph->drawRectangle(_checkedSprite, _rect);
 	return (true);
 }
 

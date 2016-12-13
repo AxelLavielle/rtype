@@ -35,16 +35,21 @@ bool InputBox::getInput()
 			_key.pop_back();
 		key = "";
 	}
-	if (key == "")
+	if (key == "" || _key.size() >= 32)
 		return (false);
 	_key += key;
 	return (true);
 }
 
+void InputBox::setTextColor(const Color & color)
+{
+	_textColor = color;
+}
+
 bool InputBox::draw()
 {
-	_graph->drawRectangle(_backgroundColor, _rect);
-	_graph->drawText(_key, _rect.getX(), _rect.getY(), 20, Color(0, 0, 0), "../../res/fonts/OpenSans-Regular.ttf");
+	_graph->drawRectangle(_backgroundSprite, _rect);
+	_graph->drawText(_key, _rect.getX() + 10, _rect.getY(), 20, _textColor, "../../res/fonts/OpenSans-Regular.ttf");
 	return (true);
 }
 

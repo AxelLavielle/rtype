@@ -15,6 +15,7 @@ public:
 	virtual void setGraphManager(IGraphManager *graph);
 	virtual std::string getTextEntered();
 	virtual std::string getKeyStroke() const;
+	virtual bool isPressed(const std::string & key);
 	virtual bool getCloseEvent() const;
 	virtual std::pair<int, int> getMousePos() const;
 	virtual std::pair<int, int> getClickMousePos() const;

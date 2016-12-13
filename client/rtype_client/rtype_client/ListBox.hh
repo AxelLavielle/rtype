@@ -15,6 +15,8 @@ public:
 	void setElements(const std::vector<std::string> &elements);
 	virtual bool click();
 	int getSelectedID(void) const;
+	void setButtonSprite(const std::string & sprite);
+	void setButtonOverSprite(const std::string & sprite);
 
 private:
 	void drawButton();
@@ -26,5 +28,7 @@ private:
 	unsigned int				_height;
 	int							_currentPage;
 	int							_selectedID;
+	std::string					_buttonSprite;
+	std::string					_buttonOverSprite;
 };
 

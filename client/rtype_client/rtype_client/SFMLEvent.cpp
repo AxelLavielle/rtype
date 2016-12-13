@@ -55,6 +55,15 @@ std::string SFMLEvent::getKeyStroke() const
 	return ("");
 }
 
+bool SFMLEvent::isPressed(const std::string & key)
+{
+	if (key == "ML")
+	{
+		return (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left));
+	}
+	return (false);
+}
+
 bool SFMLEvent::getCloseEvent() const
 {
 	if (_event.type == sf::Event::Closed)

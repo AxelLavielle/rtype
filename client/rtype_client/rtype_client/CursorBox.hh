@@ -15,5 +15,6 @@ public:
 private:
 	Rect		_rectLine;
 	Rect		_rectBox;
+	bool		_status;
 };
 

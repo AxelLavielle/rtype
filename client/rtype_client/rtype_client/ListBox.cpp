@@ -7,10 +7,16 @@ ListBox::ListBox(IGraphManager *graph, IEventManager *event, const Rect &rect) :
 	_selectedID = -1;
 	_height = 30;
 	_currentPage = 0;
+	_buttonOverSprite = "";
+	_buttonSprite = "";
 	_nextButton.setGraph(graph);
 	_prevButton.setGraph(graph);
 	_nextButton.setEvent(event);
 	_prevButton.setEvent(event);
+	_nextButton.setBackgroundColor(Color(255, 255, 255, 0));
+	_prevButton.setBackgroundColor(Color(255, 255, 255, 0));
+	_prevButton.setBackgroundColorOver(Color(255, 255, 255, 0));
+	_nextButton.setBackgroundColorOver(Color(255, 255, 255, 0));
 	_nextButton.setPos(Rect(rect.getX() + rect.getWidth() - 70, rect.getY() + rect.getHeight() + 10, 20, 70));
 	_prevButton.setPos(Rect(rect.getX() + rect.getWidth() - 200, rect.getY() + rect.getHeight() + 10, 20, 70));
 	_nextButton.setText("Next");
@@ -83,6 +89,16 @@ int ListBox::getSelectedID(void) const
 	return (_selectedID);
 }
 
+void ListBox::setButtonSprite(const std::string & sprite)
+{
+	_buttonSprite = sprite;
+}
+
+void ListBox::setButtonOverSprite(const std::string & sprite)
+{
+	_buttonOverSprite = sprite;
+}
+
 bool ListBox::draw()
 {
 	std::stringstream ss;
@@ -91,7 +107,9 @@ bool ListBox::draw()
 	max = _elements.size() / (_rect.getHeight() / (_height + 10));
 	if (_elements.size() % (_rect.getHeight() / (_height + 10)))
 		max++;
-	_graph->drawRectangle("../../res/img/button.jpg", _rect);
+
+	//	_graph->drawRectangle("../../res/img/button.jpg", _rect);
+
 	drawButton();
 	_nextButton.draw();
 	_nextButton.over();
@@ -121,8 +139,8 @@ void ListBox::setElements(const std::vector<std::string>& elements)
 	{
 		Button tmp(_graph, _event, Rect(_rect.getX() + 10, _rect.getY() + 10 + (_height + 10) * (i % max), _height, _rect.getWidth() - 20), *it);
 
-		tmp.setBackgroundColor(Color(0, 0, 255));
-		tmp.setBackgroundColorOver(Color(0, 0, 200));
+		tmp.setBackgroundSprite(_buttonSprite);
+		tmp.setBackgroundOverSprite(_buttonOverSprite);
 		tmp.setTextPos(20, 0);
 		tmp.setTextSize(25);
 		_buttons.push_back(tmp);

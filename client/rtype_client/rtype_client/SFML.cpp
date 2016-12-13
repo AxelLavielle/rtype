@@ -132,7 +132,7 @@ bool SFML::drawRectangle(const Color & color, const Rect & rect)
 {
 	sf::RectangleShape	rec(sf::Vector2f(rect.getWidth(), rect.getHeight()));
 
-	rec.setFillColor(sf::Color(color.getR(), color.getG(), color.getB()));
+	rec.setFillColor(sf::Color(color.getR(), color.getG(), color.getB(), color.getA()));
 	rec.setPosition(rect.getX(), rect.getY());
 	_window->draw(rec);
 	return (true);

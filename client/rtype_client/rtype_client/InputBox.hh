@@ -10,6 +10,7 @@ public:
 	InputBox();
 	std::string getText() const;
 	bool getInput();
+	void setTextColor(const Color & color);
 	virtual bool draw();
 	virtual bool click();
 	virtual bool over();
@@ -18,5 +19,6 @@ public:
 
 private:
 	std::string		_key;
+	Color			_textColor;
 };
 

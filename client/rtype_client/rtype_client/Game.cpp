@@ -4,6 +4,9 @@
 
 Game::Game()
 {
+	_size.first = 0;
+	_size.second = 0;
+	_dificulty = 0;
 }
 
 
@@ -22,24 +25,28 @@ Game::~Game()
 
 void Game::createUI()
 {
-	std::pair<int, int>		size;
-	size = _graph->getScreenSize();
-	std::cout << "first = " << size.first << " second = " << size.second << std::endl;
-	RectDecor *topUI = new RectDecor(_graph, _event, Rect(0, 0, 100, size.first));
-	RectDecor	*bottomUI = new RectDecor(_graph, _event, Rect(0, size.second - 100, 100, size.first));
-	RectDecor	*lifeBar = new RectDecor(_graph, _event, Rect(50, size.second - 10, 50, 150));
-	RectDecor	*powerBar = new RectDecor(_graph, _event, Rect(50, size.second - 60, 50, 150));
+	RectDecor *topUI = new RectDecor(_graph, _event, Rect(0, 0, 100, _size.first));
+	RectDecor	*bottomUI = new RectDecor(_graph, _event, Rect(0, _size.second - 150, 150, _size.first));
+	RectDecor	*lifeBar = new RectDecor(_graph, _event, Rect(80, _size.second - 130, 50, 150));
+	RectDecor	*powerBar = new RectDecor(_graph, _event, Rect(80, _size.second - 75, 50, 150));
+	RectDecor	*lifeIcon = new RectDecor(_graph, _event, Rect(20, _size.second - 130, 50, 50));
+	RectDecor	*powerIcon = new RectDecor(_graph, _event, Rect(20, _size.second - 75, 50, 50));
+	RectDecor	*dificulty = new RectDecor(_graph, _event, Rect(_size.first - 250, _size.second - 130, 100, 200));
 
-
-	topUI->setBackgroundSprite("../../res/img/button.jpg");
-	bottomUI->setBackgroundSprite("../../res/img/button.jpg");
+	topUI->setBackgroundSprite("../../res/img/barreJeu.png");
+	bottomUI->setBackgroundSprite("../../res/img/barreJeu.png");
 	lifeBar->setBackgroundSprite("../../res/img/barreVie4.png");
 	powerBar->setBackgroundSprite("../../res/img/barreDefense4.png");
-	
+	powerIcon->setBackgroundSprite("../../res/img/iconeDefense.png");
+	lifeIcon->setBackgroundSprite("../../res/img/iconeVie.png");
+	dificulty->setBackgroundSprite("../../res/img/fondCadre.png");
 	_guiElement.push_back(topUI);
 	_guiElement.push_back(bottomUI);
 	_guiElement.push_back(lifeBar);
 	_guiElement.push_back(powerBar);
+	_guiElement.push_back(powerIcon);
+	_guiElement.push_back(lifeIcon);
+	_guiElement.push_back(dificulty);
 }
 
 #include <iostream>
@@ -54,6 +61,9 @@ void Game::drawUi()
 		(*it)->draw();
 		++it;
 	}
+	_graph->drawText("HEN TYPE", _size.first / 2 - 220, 0, 80, Color(135, 206, 250, 255), "../../res/fonts/Aerospace.ttf");
+	_graph->drawText("Nb joueur", _size.first - 190, _size.second - 110, 15, Color(135, 206, 250, 255), "../../res/fonts/Aerospace.ttf");
+	_graph->drawText("DIFFICULTE", _size.first - 190, _size.second - 70, 15, Color(135, 206, 250, 255), "../../res/fonts/Aerospace.ttf");
 }
 
 int Game::launch()
@@ -66,6 +76,7 @@ int Game::launch()
 
 	i = 100;
 	_graph->setFullScreen(true);
+	_size = _graph->getWindowSize();
 	t1 = std::chrono::high_resolution_clock::now();
 	createUI();
 	while (_graph->isWindowOpen())

@@ -26,6 +26,7 @@
     <ClCompile Include="SocketClientTCP.cpp" />
     <ClCompile Include="SocketClientUDP.cpp" />
     <ClCompile Include="SaveConfig.cpp" />
+    <ClCompile Include="Sound.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />
@@ -58,5 +59,6 @@
     <ClInclude Include="SocketClientTCP.hh" />
     <ClInclude Include="SocketClientUDP.hh" />
     <ClInclude Include="SaveConfig.hh" />
+    <ClInclude Include="Sound.hh" />
   </ItemGroup>
 </Project>

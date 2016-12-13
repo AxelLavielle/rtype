@@ -22,5 +22,6 @@ public:
 	virtual bool setFullScreen(const bool mode) = 0;
 	virtual bool drawRectangle(const std::string & spritePath, const Rect & rect, const Color & transparantColor) = 0;
 	virtual std::pair<int, int> getScreenSize() const = 0;
+	virtual std::pair<int, int> getWindowSize() const = 0;
 };
 

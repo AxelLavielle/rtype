@@ -38,6 +38,14 @@ std::pair<int, int>	SFML::getScreenSize() const
 	return (std::pair<int, int>(desktop.width, desktop.height));
 }
 
+std::pair<int, int> SFML::getWindowSize() const
+{
+	sf::Vector2u		vector;
+
+	vector = _window->getSize();
+	return (std::pair<int, int>(vector.x, vector.y));
+}
+
 bool SFML::init()
 {
 	_window = new sf::RenderWindow();

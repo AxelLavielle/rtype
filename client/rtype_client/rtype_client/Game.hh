@@ -22,6 +22,8 @@ private:
 	IEventManager				*_event;
 	CmdManager					_cmd;
 	std::vector<AGUIElement* >	_guiElement;
+	int							_dificulty;
+	std::pair<int, int>			_size;
 
 	void createUI();
 	void drawUi();

@@ -30,7 +30,7 @@ SRC	=	$(DIR)/AEventManager.cpp 	\
 
 OBJ	=	$(SRC:.cpp=.o)
 
-CPPFLAGS=	-W -Wall -Wextra -ansi -pedantic -g -I$(DIR) -std=c++11 -std=gnu++11
+CPPFLAGS=	-W -Wall -Wextra -ansi -pedantic -g -I$(DIR) -std=gnu++11
 
 LDFLAGS	=	-lsfml-graphics -lsfml-window -lsfml-system
 

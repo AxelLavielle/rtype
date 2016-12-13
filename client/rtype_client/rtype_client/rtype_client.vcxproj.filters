@@ -24,7 +24,11 @@
     <ClCompile Include="CheckBox.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="RectDecor.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="D:\RTYPE\saveConfig.cpp" />
+=======
+    <ClCompile Include="SocketClientUDP.cpp" />
+>>>>>>> 15058f54b9fd6571e10c9a919aeac56122cefbde
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />
@@ -55,6 +59,10 @@
     <ClInclude Include="CheckBox.hh" />
     <ClInclude Include="Game.hh" />
     <ClInclude Include="RectDecor.hh" />
+<<<<<<< HEAD
     <ClInclude Include="D:\RTYPE\saveConfig.hh" />
+=======
+    <ClInclude Include="SocketClientUDP.hh" />
+>>>>>>> 15058f54b9fd6571e10c9a919aeac56122cefbde
   </ItemGroup>
 </Project>

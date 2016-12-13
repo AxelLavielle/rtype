@@ -2,6 +2,7 @@
 
 PowerUp::PowerUp()
 {
+  this->setType(rtype::POWER_UP);
 }
 
 PowerUp::~PowerUp()

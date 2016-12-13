@@ -17,3 +17,8 @@ bool	UDlLoader::load(const std::string &path)
 {
   (void)path;
 }
+
+bool	UDlLoader::refresh()
+{
+
+}

@@ -23,7 +23,7 @@ private:
 	IGraphManager				*_graph;
 	IEventManager				*_event;
 	CmdManager					_cmd;
-	std::vector<AGUIElement* >	_guiElement;
+	std::vector<IGUIElement* >	_guiElement;
 	int							_dificulty;
 	std::pair<int, int>			_size;
 	SFMLSound					_soundManager;

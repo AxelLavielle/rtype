@@ -16,7 +16,7 @@ Game::Game()
 
 Game::~Game()
 {
-	std::vector<AGUIElement* >::iterator		it;
+	std::vector<IGUIElement* >::iterator		it;
 
 	it = _guiElement.begin();
 	while (it != _guiElement.end())
@@ -64,7 +64,7 @@ void Game::createUI()
 
 void Game::drawUi()
 {
-	std::vector<AGUIElement* >::iterator		it;
+	std::vector<IGUIElement* >::iterator		it;
 
 	it = _guiElement.begin();
 	while (it != _guiElement.end())

@@ -5,7 +5,7 @@
 // Login   <gloulo_e@epitech.net>
 //
 // Started on  Tue Dec 13 01:21:20 2016 elyess gloulou
-// Last update Tue Dec 13 03:59:52 2016 elyess gloulou
+// Last update Wed Dec 14 22:18:29 2016 elyess gloulou
 //
 
 #include "saveConfig.hh"
@@ -22,6 +22,7 @@ void			saveConfig::writeToFile(void)
 	{
 		fileStream << "<Menu Config>\n";
 
+		fileStream << "<Player>" << player << "</Player>\n";
 		fileStream << "<General>" << general << "</General>\n";
 		fileStream << "<Music>" << music << "</Music>\n";
 		fileStream << "<SFX>" << sfx << "</SFX>\n";
@@ -37,7 +38,16 @@ void			saveConfig::writeToFile(void)
 }
 
 void				saveConfig::needleInHaystack(std::string haystack)
-{
+{ // ifs to replace with a dual tab string tab and var adress tab on a single if
+	if (haystack.find("<Player>") != std::string::npos
+		&&  haystack.find("</Player>") != std::string::npos)
+	{
+		std::cout << "</Player>" << haystack.find("</Player>") << std::endl;
+		std::istringstream ss(haystack.substr(haystack.find("<Player>") + 8,
+			haystack.find("</Player>")));
+		ss >> player;
+		// std::cout << player << std::endl;
+	}
 	if (haystack.find("<General>") != std::string::npos
 		&&  haystack.find("</General>") != std::string::npos)
 	{
@@ -45,7 +55,7 @@ void				saveConfig::needleInHaystack(std::string haystack)
 		std::istringstream ss(haystack.substr(haystack.find("<General>") + 9,
 			haystack.find("</General>")));
 		ss >> general;
-		std::cout << general << std::endl;
+		// std::cout << general << std::endl;
 	}
 	if (haystack.find("<Music>") != std::string::npos
 		&&  haystack.find("</Music>") != std::string::npos)
@@ -54,7 +64,7 @@ void				saveConfig::needleInHaystack(std::string haystack)
 		std::istringstream ss(haystack.substr(haystack.find("<Music>") + 7,
 			haystack.find("</Music>")));
 		ss >> music;
-		std::cout << music << std::endl;
+		// std::cout << music << std::endl;
 	}
 	if (haystack.find("<SFX>") != std::string::npos
 		&&  haystack.find("</SFX>") != std::string::npos)
@@ -63,7 +73,7 @@ void				saveConfig::needleInHaystack(std::string haystack)
 		std::istringstream ss(haystack.substr(haystack.find("<SFX>") + 5,
 			haystack.find("</SFX>")));
 		ss >> sfx;
-		std::cout << sfx << std::endl;
+		// std::cout << sfx << std::endl;
 	}
 	if (haystack.find("<Level>") != std::string::npos
 		&&  haystack.find("</Level>") != std::string::npos)
@@ -72,7 +82,7 @@ void				saveConfig::needleInHaystack(std::string haystack)
 		std::istringstream ss(haystack.substr(haystack.find("<Level>") + 7,
 			haystack.find("</Level>")));
 		ss >> level;
-		std::cout << level << std::endl;
+		// std::cout << level << std::endl;
 	}
 	if (haystack.find("<Ship Model>") != std::string::npos
 		&&  haystack.find("</Ship Model>") != std::string::npos)
@@ -81,7 +91,7 @@ void				saveConfig::needleInHaystack(std::string haystack)
 		std::istringstream ss(haystack.substr(haystack.find("<Ship Model>") + 12,
 			haystack.find("</Ship Model>")));
 		ss >> shipModel;
-		std::cout << shipModel << std::endl;
+		// std::cout << shipModel << std::endl;
 	}
 }
 
@@ -105,14 +115,56 @@ void				saveConfig::readFromFile(void)
 		std::cerr << "Error: Menu File Failed to Open!1" << std::endl;
 }
 
-saveConfig::saveConfig(const int  general, const int  music,
-	const int  sfx, const int  level, const int  shipModel)
+std::string	saveConfig::getPlayer(void)
 {
-	this->general = general;
-	this->music = music;
-	this->sfx = sfx;
-	this->level = level;
-	this->shipModel = shipModel;
+  return player;
 }
 
-saveConfig::~saveConfig() {}
+int		saveConfig::getGeneral(void)
+{
+  return general;
+}
+
+int		saveConfig::getMusic(void)
+{
+  return music;
+}
+
+int		saveConfig::getSfx(void)
+{
+  return sfx;
+}
+
+int		saveConfig::getLevel(void)
+{
+  return level;
+}
+
+int		saveConfig::getShipModel(void)
+{
+  return shipModel;
+}
+
+saveConfig::saveConfig(void)
+{
+  this->player = "Player";
+  this->general = 250; // 50%
+  this->music = 250;
+  this->sfx = 250;
+  this->level = 1; // level 1
+  this->shipModel = 1; // ship 1
+}
+
+saveConfig::saveConfig(const int  general, const int  music,
+		       const int  sfx, const int  level,
+		       const int shipModel, const std::string player)
+{
+  this->player = player;
+  this->general = general;
+  this->music = music;
+  this->sfx = sfx;
+  this->level = level;
+  this->shipModel = shipModel;
+}
+
+saveConfig::~saveConfig(void) {}

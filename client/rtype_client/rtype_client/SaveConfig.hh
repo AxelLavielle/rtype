@@ -7,7 +7,7 @@
 // Login   <gloulo_e@epitech.net>
 //
 // Started on  Tue Dec 13 01:21:17 2016 elyess gloulou
-// Last update Tue Dec 13 03:54:33 2016 elyess gloulou
+// Last update Wed Dec 14 22:07:09 2016 elyess gloulou
 //
 
 #ifndef _SAVECONFIG_HH_
@@ -20,6 +20,7 @@
 
 class saveConfig
 {
+	std::string	player;
 	int	general;
 	int	music;
 	int	sfx;
@@ -31,8 +32,15 @@ public:
 	void	readFromFile(void);
 	void  needleInHaystack(std::string);
 
-	saveConfig(int, int, int, int, int);
-	~saveConfig();
+  //getters
+  std::string	getPlayer();
+  int		getGeneral();
+  int		getMusic();
+  int		getSfx();
+  int		getLevel();
+  int		getShipModel();
+  saveConfig(int, int, int, int, int);
+  ~saveConfig();
 
 };
 

@@ -23,7 +23,7 @@ bool Button::draw()
 			_graph->drawRectangle(_backgroundSprite, _rect);
 		else
 			_graph->drawRectangle(_backgroundColor, _rect);
-		_graph->drawText(_txt, _rect.getX() + _posXText, _rect.getY() + _posYText, _textSize, Color(135, 206, 250, 255), "../../res/fonts/Aerospace.ttf");
+		_graph->drawText(_txt, _rect.getX() + _posXText, _rect.getY() + _posYText, _textSize, Color(135, 206, 250), "../../res/fonts/Aerospace.ttf");
 	}
 	else
 	{
@@ -31,7 +31,7 @@ bool Button::draw()
 			_graph->drawRectangle(_backgroundOverSprite, _rect);
 		else
 			_graph->drawRectangle(_backgroundOverColor, _rect);
-		_graph->drawText(_txt, _rect.getX() + _posXText, _rect.getY() + _posYText, _textSize, Color(135, 206, 250, 255), "../../res/fonts/Aerospace.ttf");
+		_graph->drawText(_txt, _rect.getX() + _posXText, _rect.getY() + _posYText, _textSize, Color(135, 206, 250), "../../res/fonts/Aerospace.ttf");
 	}
 	return (true);
 }

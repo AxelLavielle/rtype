@@ -9,7 +9,6 @@
     <ClCompile Include="ASoundManager.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="CheckBox.cpp" />
-    <ClCompile Include="client.cpp" />
     <ClCompile Include="CmdManager.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -28,6 +27,7 @@
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="PathFileManager.cpp" />
     <ClCompile Include="SFMLSound.cpp" />
+    <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />
@@ -38,7 +38,6 @@
     <ClInclude Include="ASoundManager.hh" />
     <ClInclude Include="Button.hh" />
     <ClInclude Include="CheckBox.hh" />
-    <ClInclude Include="client.hh" />
     <ClInclude Include="CmdManager.hh" />
     <ClInclude Include="Color.hh" />
     <ClInclude Include="Game.hh" />
@@ -62,5 +61,6 @@
     <ClInclude Include="..\..\..\common\ISocket.hpp" />
     <ClInclude Include="PathFileManager.hh" />
     <ClInclude Include="SFMLSound.hh" />
+    <ClInclude Include="Client.hh" />
   </ItemGroup>
 </Project>

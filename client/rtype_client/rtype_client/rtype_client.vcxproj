@@ -137,7 +137,7 @@
     <ClInclude Include="ASoundManager.hh" />
     <ClInclude Include="Button.hh" />
     <ClInclude Include="CheckBox.hh" />
-    <ClInclude Include="client.hh" />
+    <ClInclude Include="Client.hh" />
     <ClInclude Include="CmdManager.hh" />
     <ClInclude Include="Color.hh" />
     <ClInclude Include="Game.hh" />
@@ -170,7 +170,7 @@
     <ClCompile Include="ASoundManager.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="CheckBox.cpp" />
-    <ClCompile Include="client.cpp" />
+    <ClCompile Include="Client.cpp" />
     <ClCompile Include="CmdManager.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Game.cpp" />

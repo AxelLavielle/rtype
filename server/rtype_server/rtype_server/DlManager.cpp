@@ -72,7 +72,8 @@ bool							DlManager::loadEntities(const std::vector<std::string> &files)
       std::cout << "adding " << *it << std::endl;
       _DlLoader->load(*it);
       tmp = _DlLoader->getInstance();
-      _dl.push_back(std::pair<IEntity*, std::string>(tmp, tmp->getName()));
+      if (tmp)
+	_dl.push_back(std::pair<IEntity*, std::string>(tmp, tmp->getName()));
     }
   this->getBrowser()->clear();
   return (true);

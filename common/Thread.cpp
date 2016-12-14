@@ -2,27 +2,21 @@
 
 
 
-Spider::Thread::Thread()
+Thread::Thread()
 {
 	_thread = NULL;
 }
 
-
-Spider::Thread::~Thread()
+Thread::~Thread()
 {
 }
 
-boost::thread * Spider::Thread::getThread()
+std::thread *Thread::getThread()
 {
 	return (_thread);
 }
 
-void Spider::Thread::join()
+void Thread::join()
 {
 	_thread->join();
-}
-
-void Spider::Thread::interrupt()
-{
-	_thread->interrupt();
 }

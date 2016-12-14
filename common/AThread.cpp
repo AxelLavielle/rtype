@@ -2,11 +2,11 @@
 
 
 
-Spider::AThread::AThread()
+AThread::AThread()
 {
 }
 
 
-Spider::AThread::~AThread()
+AThread::~AThread()
 {
 }

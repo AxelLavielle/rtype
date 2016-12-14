@@ -14,9 +14,12 @@ public:
 	std::string getFilePath() const;
 	void setMusic(const bool flag);
 	bool isMusic() const;
+	void setLoop(const bool flag);
+	bool isLoop() const;
 private:
 	std::string		_filePath;
 	int				_duration;
 	bool			_isMusic;
+	bool			_isLoop;
 };
 

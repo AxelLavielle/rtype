@@ -6,6 +6,7 @@ Sound::Sound()
 {
 	_duration = 0;
 	_filePath = "";
+	_isLoop = false;
 }
 
 Sound::Sound(const int duration, const std::string & path)
@@ -47,4 +48,14 @@ void Sound::setMusic(const bool flag)
 bool Sound::isMusic() const
 {
 	return (_isMusic);
+}
+
+void Sound::setLoop(const bool flag)
+{
+	_isLoop = flag;
+}
+
+bool Sound::isLoop() const
+{
+	return (_isLoop);
 }

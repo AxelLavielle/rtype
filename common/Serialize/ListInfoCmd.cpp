@@ -17,10 +17,10 @@ CmdName			ListInfoCmd::getCommandName() const
 
 const std::string	ListInfoCmd::getCommandArg() const
 {
-  
+	return (_arg);
 }
 
-void			ListInfoCmd::setCommandArg(const std::string &)
+void			ListInfoCmd::setCommandArg(const std::string &arg)
 {
-  
+	_arg = arg;
 }

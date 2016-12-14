@@ -13,5 +13,5 @@ public:
   virtual void			setCommandArg(const std::string &);
 
 protected:
-  std::string	arg;
+  std::string	_arg;
 };

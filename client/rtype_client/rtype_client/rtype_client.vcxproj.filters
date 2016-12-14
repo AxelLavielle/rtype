@@ -37,6 +37,13 @@
     <ClCompile Include="..\..\..\common\Mutex.cpp" />
     <ClCompile Include="..\..\..\common\Thread.cpp" />
     <ClCompile Include="..\..\..\common\ThreadPool.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\ACommand.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\ChatInfoCmd.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\EntityCmd.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\InputCmd.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\ListInfoCmd.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\RoomInfoCmd.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\Serialize.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />
@@ -86,5 +93,14 @@
     <ClInclude Include="..\..\..\common\Mutex.hh" />
     <ClInclude Include="..\..\..\common\Thread.hh" />
     <ClInclude Include="..\..\..\common\ThreadPool.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\ACommand.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\ChatInfoCmd.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\CmdEnum.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\EntityCmd.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\ICommand.hpp" />
+    <ClInclude Include="..\..\..\common\Serialize\InputCmd.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\ListInfoCmd.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\RoomInfoCmd.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\Serialize.hh" />
   </ItemGroup>
 </Project>

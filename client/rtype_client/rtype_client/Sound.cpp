@@ -7,6 +7,7 @@ Sound::Sound()
 	_duration = 0;
 	_filePath = "";
 	_isLoop = false;
+	_isMusic = false;
 }
 
 Sound::Sound(const int duration, const std::string & path)

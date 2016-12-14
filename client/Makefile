@@ -16,7 +16,7 @@ SRC	=	$(COM)/ACommand.cpp	 	\
 		$(DIR)/Button.cpp 		\
 		$(DIR)/CheckBox.cpp 		\
 		$(COM)/ChatInfoCmd.cpp 		\
-		$(DIR)/client.cpp 		\
+		$(DIR)/Client.cpp 		\
 		$(DIR)/CmdManager.cpp 		\
 		$(DIR)/Color.cpp 		\
 		$(DIR)/CursorBox.cpp 		\

@@ -1,5 +1,7 @@
-#pragame once
+#pragma once
 
+#include	"IEntity.hpp"
+#include	"ICommand.hpp"
 #include	"CmdEnum.hh"
 
 class		Serialize
@@ -8,19 +10,21 @@ public:
   Serialize();
   char		*serialize(IEntity *);
   char		*serialize(ICommand *);
-  IEntity	unserializeEntity(char *);
-  ICommand	unserializeCommand(char *);
+  IEntity	*unserializeEntity(char *);
+  ICommand	*unserializeCommand(char *);
   ~Serialize();
 
 private:
-  char		*serializeChatInfo(ICommand*);
-  char		*serializeRoomInfo(ICommand*);
-  char		*serializeRoomList(ICommand*);
-  char		*serializeEntity(ICommand*);
-  char		*serializeInput(ICommand*);
-  ICommand	*unserializeChatInfo(char*);
-  ICommand	*unserializeRoomInfo(char*);
-  ICommand	*unserializeRoomList(char*);
-  ICommand	*unserializeEntity(char*);
-  ICommand	*unserializeInput(char*);
+  ICommand	*unserializeChatInfoCmd(char*);
+  ICommand	*unserializeRoomInfoCmd(char*);
+  ICommand	*unserializeRoomListCmd(char*);
+  ICommand	*unserializeEntityCmd(char*);
+  ICommand	*unserializeInputCmd(char*);
+
+  struct	packet
+  {
+    short	dataType;
+    short	dataLength;
+    char	data[65467];
+  };
 };

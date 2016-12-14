@@ -12,94 +12,70 @@ Serialize::~Serialize()
 
 char		*Serialize::serialize(IEntity *entity)
 {
+  (void)entity;
   return (NULL);
 }
 
-char		*Serialize::serializeChatInfo(ICommand *cmd)
+ICommand	*Serialize::unserializeChatInfoCmd(char *cmd)
 {
+  (void)cmd;
   return (NULL);
 }
 
-char		*Serialize::serializeRoomInfo(ICommand *cmd)
+ICommand	*Serialize::unserializeRoomInfoCmd(char *cmd)
 {
+  (void)cmd;
   return (NULL);
 }
 
-char		*Serialize::serializeRoomList(ICommand *cmd)
+ICommand	*Serialize::unserializeRoomListCmd(char *cmd)
 {
+  (void)cmd;
   return (NULL);
 }
 
-char		*Serialize::serializeEntity(ICommand *cmd)
+ICommand	*Serialize::unserializeEntityCmd(char *cmd)
 {
+  (void)cmd;
   return (NULL);
 }
 
-char		*Serialize::serializeInput(ICommand *cmd)
+ICommand	*Serialize::unserializeInputCmd(char *cmd)
 {
-  return (NULL);
-}
-
-ICommand	*Serialize::unserializeChatInfo(ICommand *cmd)
-{
-  return (NULL);
-}
-
-ICommand	*Serialize::unserializeRoomInfo(ICommand *cmd)
-{
-  return (NULL);
-}
-
-ICommand	*Serialize::unserializeRoomList(ICommand *cmd)
-{
-  return (NULL);x
-}
-
-ICommand	*Serialize::unserializeEntity(ICommand *cmd)
-{
-  return (NULL);
-}
-
-ICommand	*Serialize::unserializeInput(ICommand *cmd)
-{
+  (void)cmd;
   return (NULL);
 }
 
 char		*Serialize::serialize(ICommand *cmd)
 {
-  CmdName	cmdName;
+  packet	*p;
+  std::string	tmp;
+  int		i;
+  char		*ret;
 
-  cmdName = cmd->getCommandType();
-  switch (cmdName)
-    {
-    case CHATINFO:
-      newCmd = serializeChatInfo(cmd);
-      break;
-    case ROOMINFO:
-      newCmd = serializeRoomInfo(cmd);
-      break;
-    case ROOMLIST:
-      newCmd = serializeRoomList(cmd);
-      break;
-    case ENTITY:
-      newCmd = serializeEntity(cmd);
-      break;
-    case INPUT:
-      newCmd = serializeInput(cmd);
-      break;
-    case default:
-      newCmd = NULL;
-      break;
-    }
-  return (newCmd);
+  ret = new char[65471];
+  p = new packet[1];
+  p->dataType = cmd->getCommandName();
+  tmp = cmd->getCommandArg();
+  i = -1;
+  while (tmp[++i] != 0)
+    p->data[i] = tmp[i];
+  p->data[i] = 0;
+  p->dataLength = tmp.size() + 4;
+  i = -1;
+  while (++i != p->dataLength)
+    ret[i] = reinterpret_cast<char *>(p)[i];
+  ret[i] = 0;
+  delete(p);
+  return (ret);
 }
 
-IEntity		Serialise::unserializeEntity(char *data)
+IEntity		*Serialize::unserializeEntity(char *data)
 {
-
+  return (NULL);
 }
 
-ICommand	Serialise::unserializeCommand(char *data)
+ICommand	*Serialize::unserializeCommand(char *data)
 {
-
+  return (NULL);
 }

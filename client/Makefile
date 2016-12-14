@@ -29,6 +29,7 @@ SRC	=	$(DIR)/ACommand.cpp	 	\
 		$(DIR)/Rect.cpp 		\
 		$(DIR)/RectDecor.cpp 		\
 		$(DIR)/RoomInfoCmd.cpp 		\
+		$(DIR)/Serialize.cpp		\
 		$(DIR)/SFML.cpp 		\
 		$(DIR)/SFMLEvent.cpp 		\
 		$(DIR)/SFMLSound.cpp 		\
@@ -37,7 +38,7 @@ SRC	=	$(DIR)/ACommand.cpp	 	\
 
 OBJ	=	$(SRC:.cpp=.o)
 
-CPPFLAGS=	-W -Wall -Wextra -ansi -pedantic -g -I$(DIR) -std=c++11 -std=gnu++11
+CPPFLAGS=	-W -Wall -Wextra -ansi -pedantic -g -I$(DIR) -I../common/ -std=c++11 -std=gnu++11
 
 LDFLAGS	=	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 

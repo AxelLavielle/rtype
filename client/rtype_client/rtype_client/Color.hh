@@ -3,7 +3,7 @@
 class Color
 {
 public:
-	Color(const int &r, const int &g, const int &b, const int &a = 255);
+	Color(const int r, const int g, const int b, const int a = 255);
 	Color();
 	int getR() const;
 	int getG() const;

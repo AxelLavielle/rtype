@@ -47,7 +47,7 @@ private:
 	double						_animDuration;
 	std::chrono::high_resolution_clock::time_point        t1;
 	Sound						_music;
-	//SFMLSound					_soundManager;
+	SFMLSound					_soundManager;
 
 	void initButton();
 	void firstAnim(const int i, std::vector<Button>::iterator it);

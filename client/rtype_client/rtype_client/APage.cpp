@@ -33,7 +33,7 @@ APage::~APage()
 
 void		APage::initButton(const int textPosX, const int textPosY, const int textSize,
 								const Rect &pos, const std::string &name, const std::string &sprite,
-								const std::string &spriteHover, const std::string &fontPath)
+								const std::string &spriteHover, const std::string &fontPath, IPage::PAGE page)
 {
   Button	*button = new Button(_graph, _event, pos, name);
 
@@ -42,7 +42,7 @@ void		APage::initButton(const int textPosX, const int textPosY, const int textSi
   button->setBackgroundSprite(_fileManager.getRoot() + sprite);
   button->setBackgroundOverSprite(_fileManager.getRoot() + spriteHover);
   button->setFontPath(_fileManager.getRoot() + fontPath);
-  _buttons.push_back(button);
+  _buttons.insert(std::pair<IPage::PAGE, AGUIElement *>(page, button));
 }
 
 void		APage::initInputBox(Rect pos, std::string sprite, Color rgb)
@@ -136,4 +136,55 @@ void APage::hoverEvent(std::vector<AGUIElement*> guiElements)
 		(*it)->over();
 		++it;
 	}
+}
+
+void APage::drawGUIElement(std::map<IPage::PAGE, AGUIElement* > guiElements)
+{
+	std::map<IPage::PAGE, AGUIElement* >::iterator			it;
+
+	it = _buttons.begin();;
+	while (it != _buttons.end())
+	{
+		it->second->draw();
+		++it;
+	}
+}
+
+void APage::clearGUIElement(std::map<IPage::PAGE, AGUIElement*> guiElements)
+{
+	std::map<IPage::PAGE, AGUIElement* >::iterator			it;
+
+	it = _buttons.begin();;
+	while (it != _buttons.end())
+	{
+		delete (it->second);
+		++it;
+	}
+	_buttons.clear();
+}
+
+void APage::hoverEvent(std::map<IPage::PAGE, AGUIElement*> guiElements)
+{
+	std::map<IPage::PAGE, AGUIElement* >::iterator			it;
+
+	it = _buttons.begin();;
+	while (it != _buttons.end())
+	{
+		it->second->over();
+		++it;
+	}
+}
+
+IPage::PAGE APage::clickEvent(std::map<IPage::PAGE, AGUIElement*> guiElements)
+{
+	std::map<IPage::PAGE, AGUIElement* >::iterator			it;
+
+	it = _buttons.begin();;
+	while (it != _buttons.end())
+	{
+		if (it->second->click())
+			return (it->first);
+		++it;
+	}
+	return (IPage::NONE);
 }

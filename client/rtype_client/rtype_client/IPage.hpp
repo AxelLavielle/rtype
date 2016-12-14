@@ -22,6 +22,7 @@ public:
 		ROOMLIST,
 		ROOMCREATE,
 		SETTINGS,
+		QUIT,
 		NONE
 	};
 

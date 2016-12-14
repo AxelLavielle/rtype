@@ -15,12 +15,13 @@ public:
 	virtual void			clear();
 	virtual bool			launch();
 	virtual void			draw();
-	virtual IPage			*event();
+	virtual IPage::PAGE		event();
 
 private:
 	int							_animInc;
 	std::chrono::high_resolution_clock::time_point        t1;
 	double						_animDuration;
+	Sound						_clickSound;
 
 	void firstAnim();
 

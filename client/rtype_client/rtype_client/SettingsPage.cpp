@@ -29,7 +29,7 @@ void SettingsPage::draw()
 {
 }
 
-IPage * SettingsPage::event()
+IPage::PAGE SettingsPage::event()
 {
-	return (NULL);
+	return (IPage::NONE);
 }

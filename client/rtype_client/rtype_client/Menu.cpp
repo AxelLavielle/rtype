@@ -405,8 +405,10 @@ bool Menu::launch()
 	{
 		while (_event->refresh())
 		{
-			if (homePage.event())
-				std::cout << "COUCOU" << std::endl;
+			if (homePage.event() == IPage::PLAY)
+			{
+				std::cout << "PLAY" << std::endl;
+			}
 			if (_event->getKeyStroke() == "ECHAP")
 				_graph->close();
 		}

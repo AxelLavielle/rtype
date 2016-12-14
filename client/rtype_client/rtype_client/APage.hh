@@ -1,6 +1,7 @@
 #pragma once
 
 #include	"IPage.hpp"
+#include	"Sound.hh"
 
 class		APage
 {
@@ -15,7 +16,7 @@ public:
   virtual IPage::PAGE	event() = 0;
 
 protected:
-  std::vector<AGUIElement* >		_buttons;
+  std::map<IPage::PAGE, AGUIElement* >		_buttons;
   std::vector<AGUIElement* >		_listBox;
   std::vector<AGUIElement* >		_input;
   std::vector<AGUIElement* >		_cursorBox;
@@ -27,7 +28,7 @@ protected:
   ISoundManager						*_soundManager;
   std::string						_backgroundSprite;
 
-  void			initButton(const int textPosX, const int textPosY, const int textSize, const Rect & pos, const std::string & name, const std::string & sprite, const std::string & spriteHover, const std::string & fontPath);
+  void			initButton(const int textPosX, const int textPosY, const int textSize, const Rect & pos, const std::string & name, const std::string & sprite, const std::string & spriteHover, const std::string & fontPath, IPage::PAGE page);
   void			initListBox(Rect, std::string, std::string, std::string);
   void			initInputBox(Rect, std::string, Color);
   void			initCursorBox(Rect, std::string, std::string);
@@ -37,4 +38,8 @@ protected:
   void			drawGUIElement(std::vector<AGUIElement *> guiElements);
   void			clearGUIElement(std::vector<AGUIElement *> guiElements);
   void			hoverEvent(std::vector<AGUIElement *> guiElements);
+  void			drawGUIElement(std::map<IPage::PAGE, AGUIElement *> guiElements);
+  void			clearGUIElement(std::map<IPage::PAGE, AGUIElement *> guiElements);
+  void			hoverEvent(std::map<IPage::PAGE, AGUIElement *> guiElements);
+  IPage::PAGE	clickEvent(std::map<IPage::PAGE, AGUIElement *> guiElements);
 };

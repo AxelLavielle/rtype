@@ -128,7 +128,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\common\AEntity.hh" />
+    <ClInclude Include="..\..\..\common\AMutex.hh" />
+    <ClInclude Include="..\..\..\common\AThread.hh" />
+    <ClInclude Include="..\..\..\common\AThreadPool.hh" />
+    <ClInclude Include="..\..\..\common\EntityType.hh" />
+    <ClInclude Include="..\..\..\common\IEntity.hpp" />
+    <ClInclude Include="..\..\..\common\IMutex.hpp" />
     <ClInclude Include="..\..\..\common\ISocket.hpp" />
+    <ClInclude Include="..\..\..\common\IThread.hpp" />
+    <ClInclude Include="..\..\..\common\IThreadPool.hpp" />
+    <ClInclude Include="..\..\..\common\MemTools.hh" />
+    <ClInclude Include="..\..\..\common\Mutex.hh" />
+    <ClInclude Include="..\..\..\common\Thread.hh" />
+    <ClInclude Include="..\..\..\common\ThreadPool.hh" />
     <ClInclude Include="AEventManager.hh" />
     <ClInclude Include="AGraphManager.hh" />
     <ClInclude Include="AGUIElement.hh" />
@@ -164,6 +177,14 @@
     <ClInclude Include="Sound.hh" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\common\AEntity.cpp" />
+    <ClCompile Include="..\..\..\common\AMutex.cpp" />
+    <ClCompile Include="..\..\..\common\AThread.cpp" />
+    <ClCompile Include="..\..\..\common\AThreadPool.cpp" />
+    <ClCompile Include="..\..\..\common\MemTools.cpp" />
+    <ClCompile Include="..\..\..\common\Mutex.cpp" />
+    <ClCompile Include="..\..\..\common\Thread.cpp" />
+    <ClCompile Include="..\..\..\common\ThreadPool.cpp" />
     <ClCompile Include="AEventManager.cpp" />
     <ClCompile Include="AGraphManager.cpp" />
     <ClCompile Include="AGUIElement.cpp" />

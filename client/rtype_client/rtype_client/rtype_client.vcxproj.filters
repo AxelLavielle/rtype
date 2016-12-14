@@ -28,6 +28,7 @@
     <ClCompile Include="PathFileManager.cpp" />
     <ClCompile Include="SFMLSound.cpp" />
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="APage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />
@@ -62,5 +63,7 @@
     <ClInclude Include="PathFileManager.hh" />
     <ClInclude Include="SFMLSound.hh" />
     <ClInclude Include="Client.hh" />
+    <ClInclude Include="APage.hh" />
+    <ClInclude Include="IPage.hpp" />
   </ItemGroup>
 </Project>

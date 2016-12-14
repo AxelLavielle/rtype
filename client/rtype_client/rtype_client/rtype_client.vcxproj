@@ -133,6 +133,7 @@
     <ClInclude Include="AGraphManager.hh" />
     <ClInclude Include="AGUIElement.hh" />
     <ClInclude Include="AMenu.hh" />
+    <ClInclude Include="APage.hh" />
     <ClInclude Include="ASocketClient.hh" />
     <ClInclude Include="ASoundManager.hh" />
     <ClInclude Include="Button.hh" />
@@ -146,6 +147,7 @@
     <ClInclude Include="IGUIElement.hpp" />
     <ClInclude Include="IMenu.hpp" />
     <ClInclude Include="InputBox.hh" />
+    <ClInclude Include="IPage.hpp" />
     <ClInclude Include="ISoundManager.hpp" />
     <ClInclude Include="ListBox.hh" />
     <ClInclude Include="Menu.hh" />
@@ -166,6 +168,7 @@
     <ClCompile Include="AGraphManager.cpp" />
     <ClCompile Include="AGUIElement.cpp" />
     <ClCompile Include="AMenu.cpp" />
+    <ClCompile Include="APage.cpp" />
     <ClCompile Include="ASocketClient.cpp" />
     <ClCompile Include="ASoundManager.cpp" />
     <ClCompile Include="Button.cpp" />

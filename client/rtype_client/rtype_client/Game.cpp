@@ -85,6 +85,7 @@ int Game::launch()
 	double												duration;
 	int													i;
 	bool												first = true;
+	ICommand											*input = new InputCmd();
 
 	i = 100;
 	_graph->setMouseCursorVisible(false);
@@ -103,6 +104,10 @@ int Game::launch()
 			//	return (false);
 			if (_event->getCloseEvent() || _event->getKeyStroke() == "ECHAP")
 				return (1);
+			if (_event->getKeyStroke() == "UP")
+			{
+
+			}
 		}
 		_graph->clearWindow();
 		t2 = std::chrono::high_resolution_clock::now();

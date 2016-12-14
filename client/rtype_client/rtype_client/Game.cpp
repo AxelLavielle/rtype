@@ -11,6 +11,10 @@ Game::Game()
 	_musicStage1.setLoop(true);
 	_musicStage1.setMusic(true);
 	_musicStage1.setFilePath("../../res/sounds/stage1.wav");
+	_input = new InputCmd();
+	_sock = new SocketClientUDP();
+	_sock->init("127.0.0.1", 4242);
+	_sock->connectToServer();
 }
 
 
@@ -85,7 +89,6 @@ int Game::launch()
 	double												duration;
 	int													i;
 	bool												first = true;
-	ICommand											*input = new InputCmd();
 
 	i = 100;
 	_graph->setFullScreen(true);
@@ -105,9 +108,14 @@ int Game::launch()
 			if (_event->getCloseEvent() || _event->getKeyStroke() == "ECHAP")
 				return (1);
 			if (_event->getKeyStroke() == "UP")
-			{
-
-			}
+				_input->setCommandArg("UP");
+			else if (_event->getKeyStroke() == "LEFT")
+				_input->setCommandArg("LEFT");
+			else if (_event->getKeyStroke() == "DOWN")
+				_input->setCommandArg("DOWN");
+			else if (_event->getKeyStroke() == "RIGHT")
+				_input->setCommandArg("RIGHT");
+			_sock->sendData(_serialize.serialize(_input));
 		}
 		_graph->clearWindow();
 		t2 = std::chrono::high_resolution_clock::now();

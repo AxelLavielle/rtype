@@ -11,6 +11,8 @@
 #include "Sound.hh"
 #include "SFMLSound.hh"
 #include "InputCmd.hh"
+#include "Serialize.hh"
+#include "SocketClientUDP.hh"
 
 class Game
 {
@@ -29,6 +31,9 @@ private:
 	std::pair<int, int>			_size;
 	SFMLSound					_soundManager;
 	Sound						_musicStage1;
+	ICommand					*_input;
+	Serialize					_serialize;
+	ASocketClient				*_sock;
 
 	void createUI();
 	void drawUi();

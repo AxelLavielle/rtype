@@ -1,9 +1,12 @@
 #include "DlManager.hh"
-#include "UDlLoader.hh"
-#include "UDirectoryBrowser.hh"
+#include "UWDlLoader.hh"
+#include "UWDirectoryBrowser.hh"
+#include <iostream>
 
-DlManager::DlManager() : _DlLoader(new UDlLoader), _browser(new UDirectoryBrowser)
+DlManager::DlManager()
 {
+  _DlLoader = new UWDlLoader();
+  _browser = new UWDirectoryBrowser();
 }
 
 DlManager::~DlManager()
@@ -18,6 +21,7 @@ std::string						DlManager::getFolderPath() const
 void							DlManager::setFolderPath(const std::string &path)
 {
   this->getBrowser()->setPath(path);
+  this->refresh();
 }
 
 IEntity							*DlManager::getdl(const std::string &dlname) const
@@ -38,7 +42,9 @@ std::vector<std::pair<IEntity*, std::string> > 		DlManager::getAlldl() const
 bool							DlManager::refresh()
 {
   this->clearEntities();
-
+  this->getBrowser()->refresh();
+  this->loadEntities(this->getBrowser()->getFiles());
+  return (true);
 }
 
 void							DlManager::clearEntities()
@@ -54,4 +60,20 @@ IDirectoryBrowser					*DlManager::getBrowser()
 void							DlManager::setBrowser(IDirectoryBrowser *DB)
 {
   _browser = DB;
+}
+
+bool							DlManager::loadEntities(const std::vector<std::string> &files)
+{
+  if (files.size() == 0)
+    return (false);
+  for (std::vector<std::string>::const_iterator it = files.begin(); it != files.end(); it++)
+    {
+      IEntity		*tmp;
+      std::cout << "adding " << *it << std::endl;
+      _DlLoader->load(*it);
+      tmp = _DlLoader->getInstance();
+      _dl.push_back(std::pair<IEntity*, std::string>(tmp, tmp->getName()));
+    }
+  this->getBrowser()->clear();
+  return (true);
 }

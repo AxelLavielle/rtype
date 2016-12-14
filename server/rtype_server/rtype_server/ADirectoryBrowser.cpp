@@ -12,7 +12,7 @@ ADirectoryBrowser::~ADirectoryBrowser()
 bool	ADirectoryBrowser::setPath(const std::string &path)
 {
   _path = path;
-  return (this->refresh());
+  return (true);
 }
 
 void	ADirectoryBrowser::clear()
@@ -22,7 +22,7 @@ void	ADirectoryBrowser::clear()
 
 bool	ADirectoryBrowser::refresh()
 {
-  return (false);
+   return (false);
 }
 
 bool	ADirectoryBrowser::extIsValid(const std::string &ext, const std::string &toCheck)
@@ -37,4 +37,9 @@ void	ADirectoryBrowser::dump()
     {
       std::cout << *it << std::endl;
     }
+}
+
+const std::vector<std::string>	&ADirectoryBrowser::getFiles() const
+{
+  return (_files);
 }

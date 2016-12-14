@@ -16,6 +16,7 @@ public:
   void		clear();
   bool		extIsValid(const std::string &, const std::string &);
   void		dump();
+  const std::vector<std::string>	&getFiles() const;
 protected:
   std::vector<std::string>	_files;
   std::string			_path;

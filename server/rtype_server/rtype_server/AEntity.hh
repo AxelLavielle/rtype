@@ -16,10 +16,13 @@ public:
 	virtual		void			setPosY(const double);
 	virtual		rtype::EntityType	getType(void) const;
 	virtual		void			setType(const rtype::EntityType &);
-	virtual		IEntity			*entityCreator();
+	virtual		IEntity			*createEntity();
+	virtual		void			setName(const std::string &);
+	virtual		std::string		getName() const;
 protected:
   double					_posX;
   double					_posY;
   std::string					_spritePath;
   rtype::EntityType		       		_type;
+  std::string					_name;
 };

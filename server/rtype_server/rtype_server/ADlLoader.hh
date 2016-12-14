@@ -10,7 +10,7 @@ public:
 	virtual			~ADlLoader();
 	virtual void		*getHandle();
 	virtual bool		closeHandle();
-private:
+protected:
 	std::string		_dlPath;
 	void		       	*_dlHandle;
 };

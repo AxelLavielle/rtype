@@ -42,7 +42,17 @@ rtype::EntityType	AEntity::getType(void) const
   return (_type);
 }
 
-IEntity			*AEntity::entityCreator()
+std::string		AEntity::getName() const
+{
+  return (_name);
+}
+
+void			AEntity::setName(const std::string &name)
+{
+  _name = name;
+}
+
+IEntity			*AEntity::createEntity()
 {
   return (NULL);
 }

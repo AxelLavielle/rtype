@@ -19,9 +19,11 @@ public:
 	bool	       					refresh();
 	void						setBrowser(IDirectoryBrowser *);
 	IDirectoryBrowser				*getBrowser();
+	bool						loadEntities(const std::vector<std::string>&);
+  bool						loadEntity(const std::string &path);
 private:
 	std::string					_folderPath;
 	IDlLoader      					*_DlLoader;
 	std::vector<std::pair<IEntity*, std::string> >	_dl;
-  IDirectoryBrowser				*_browser;
+	IDirectoryBrowser				*_browser;
 };

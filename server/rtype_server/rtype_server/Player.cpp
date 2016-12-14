@@ -4,6 +4,7 @@
 Player::Player()
 {
   this->setType(rtype::PLAYER);
+  this->setName("Player1");
 }
 
 Player::~Player()
@@ -18,16 +19,6 @@ int		Player::getId(void) const
 void		Player::setId(const int id)
 {
   _id = id;
-}
-
-std::string	Player::getName(void) const
-{
-  return (_name);
-}
-
-void		Player::setName(const std::string &name)
-{
-  _name = name;
 }
 
 void		Player::update(void)

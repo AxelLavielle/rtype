@@ -14,6 +14,6 @@ enum		CmdName
     ROOMINFO,
     ROOMLIST,
     ENTITY,
-    INPUT,
+    INPUTCMD,
     EMPTYNAME
   };

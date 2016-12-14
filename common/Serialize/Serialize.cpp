@@ -91,7 +91,7 @@ ICommand	*Serialize::unserializeCommand(char *data)
       break;
     case ENTITY:
       break;
-    case INPUT:
+    case INPUTCMD:
       break;
     }
   return (NULL);

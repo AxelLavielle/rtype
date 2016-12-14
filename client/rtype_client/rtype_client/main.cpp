@@ -1,11 +1,26 @@
 #include "client.hh"
 #include "SocketClientTCP.hh"
 #include "SocketClientUDP.hh"
+#include "ChatInfoCmd.hh"
+#include "Serialize.hh"
 #include <stdio.h>
 
 int main()
 {
-	 //SocketClientTCP *sock = new SocketClientTCP();
+	//ICommand *bite = new ChatInfoCmd();
+
+	//Serialize s;
+	//char		*data;
+
+	//bite->setCommandArg("bitas");
+	//std::cout << "bite = " << bite->getCommandArg() << " " << bite->getCommandName() << std::endl << " = bite" << std::endl;
+	//data = s.serialize(bite);
+	//std::cout << "data = " << data << std::endl << " = data" << std::endl;
+	//bite = s.unserializeCommand(data);
+	//if (bite != NULL)
+	//	std::cout << "bite = " << bite->getCommandArg() << " " << bite->getCommandName() << std::endl << std::endl;
+	//while (1);
+	//SocketClientTCP *sock = new SocketClientTCP();
 	 //char	*rec = NULL;
 	 //std::string msg;
 

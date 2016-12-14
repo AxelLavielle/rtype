@@ -2,16 +2,16 @@
 
 #include	"ACommand.hh"
 
-class		InputCmd : public ACommand
+class		ChatInfoCmd : public ACommand
 {
 public:
-  InputCmd();
-  virtual	~InputCmd();
+  ChatInfoCmd();
+  virtual	~ChatInfoCmd();
 
   virtual CmdName		getCommandName() const;
   virtual const std::string	getCommandArg() const;
   virtual void			setCommandArg(const std::string &);
 
 protected:
-  std::string	arg;
+  std::string	_arg;
 };

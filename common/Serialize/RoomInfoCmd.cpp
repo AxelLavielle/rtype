@@ -17,10 +17,10 @@ CmdName			RoomInfoCmd::getCommandName() const
 
 const std::string	RoomInfoCmd::getCommandArg() const
 {
-
+	return (_arg);
 }
 
-void			RoomInfoCmd::setCommandArg(const std::string &)
+void			RoomInfoCmd::setCommandArg(const std::string &arg)
 {
-
+	_arg = arg;
 }

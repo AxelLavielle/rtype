@@ -2,16 +2,16 @@
 
 #include	"ACommand.hh"
 
-class		EntityCmd : public ACommand
+class		RoomInfoCmd : public ACommand
 {
 public:
-  EntityCmd();
-  virtual	~EntityCmd();
+  RoomInfoCmd();
+  virtual	~RoomInfoCmd();
 
   virtual CmdName		getCommandName() const;
   virtual const std::string	getCommandArg() const;
   virtual void			setCommandArg(const std::string &);
 
 protected:
-  std::string	arg;
+  std::string	_arg;
 };

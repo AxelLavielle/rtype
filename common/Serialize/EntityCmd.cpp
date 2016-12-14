@@ -17,10 +17,10 @@ CmdName			EntityCmd::getCommandName() const
 
 const std::string	EntityCmd::getCommandArg() const
 {
-
+	return (_arg);
 }
 
-void			EntityCmd::setCommandArg(const std::string &)
+void			EntityCmd::setCommandArg(const std::string &arg)
 {
-
+	_arg = arg;
 }

@@ -27,6 +27,9 @@
     <ClCompile Include="SocketClientUDP.cpp" />
     <ClCompile Include="SaveConfig.cpp" />
     <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\ACommand.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\ChatInfoCmd.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\Serialize.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />

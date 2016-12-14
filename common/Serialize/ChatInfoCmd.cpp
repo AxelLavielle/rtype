@@ -17,10 +17,10 @@ CmdName			ChatInfoCmd::getCommandName() const
 
 const std::string	ChatInfoCmd::getCommandArg() const
 {
-
+	return (_arg);
 }
 
-void			ChatInfoCmd::setCommandArg(const std::string &)
+void			ChatInfoCmd::setCommandArg(const std::string &arg)
 {
-
+	_arg = arg;
 }

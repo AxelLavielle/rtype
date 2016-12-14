@@ -8,7 +8,7 @@ class Button : public AGUIElement
 public:
 	Button(IGraphManager *graph, IEventManager *event, const Rect &rect, const std::string &txt);
 	Button();
-	~Button();
+	virtual ~Button();
 	virtual bool draw();
 	virtual bool over();
 	virtual bool click();

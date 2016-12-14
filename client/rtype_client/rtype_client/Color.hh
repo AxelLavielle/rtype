@@ -5,6 +5,7 @@ class Color
 public:
 	Color(const int r, const int g, const int b, const int a = 255);
 	Color();
+	~Color();
 	int getR() const;
 	int getG() const;
 	int getB() const;

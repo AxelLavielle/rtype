@@ -16,6 +16,10 @@ Color::Color()
 	_a = 255;
 }
 
+Color::~Color()
+{
+}
+
 int Color::getR() const
 {
 	return (_r);

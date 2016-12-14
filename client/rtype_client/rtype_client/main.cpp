@@ -1,8 +1,8 @@
 #include "client.hh"
 #include "SocketClientTCP.hh"
 #include "SocketClientUDP.hh"
-#include "ChatInfoCmd.hh"
-#include "Serialize.hh"
+//#include "ChatInfoCmd.hh"
+//#include "Serialize.hh"
 #include <stdio.h>
 
 int main()

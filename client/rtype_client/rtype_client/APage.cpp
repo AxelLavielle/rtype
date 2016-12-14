@@ -95,12 +95,12 @@ void		APage::InitListBox(Rect pos, std::string font, std::string button, std::st
   _listBox.push_back(list);
 }
 
-void		APage::drawGUIElement()
+void		APage::drawGUIElement(std::vector<AGUIElement *> guiElements)
 {
   std::vector<AGUIElement*>::iterator		it;
 
-  it = _guiElement.begin();
-  while (it != _guiElement.end())
+  it = guiElements.begin();
+  while (it != guiElements.end())
     {
       (*it)->draw();
       ++it;

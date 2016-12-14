@@ -31,7 +31,7 @@ SFML::~SFML()
 	}
 	delete _window;
 }
-
+#include <iostream>
 void SFML::setMouseCursorVisible(const bool flag)
 {
 	_window->setMouseCursorVisible(flag);

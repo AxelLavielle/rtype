@@ -11,14 +11,7 @@ public:
   virtual bool			init() = 0;
   virtual void			clear() = 0;
   virtual bool			launch() = 0;
-  virtual void			InitButton(int, int, int, Rect, std::string);
-  virtual void			InitListBox(Rect, std::string, std::string, std::string);
-  virtual void			InitInputBox(Rect, std::string, Color);
-  virtual void			initCursorBox(Rect, std::string, std::string);
-  virtual void			InitCheckBox(Rect, std::string, std::string);
-  virtual void			initDecor(Rect, std::string);
-  virtual void			initDecor(Rect, std::string, Color);
-  virtual void			drawGUIElement();
+  virtual void			draw() = 0;
 
 private:
   std::vector<Button>		_buttons;
@@ -31,4 +24,13 @@ private:
   IEventManager			*_event;
   PathFileManager		_fileManager;
   ISoundManager			*_soundManager;
+
+  void			InitButton(int, int, int, Rect, std::string);
+  void			InitListBox(Rect, std::string, std::string, std::string);
+  void			InitInputBox(Rect, std::string, Color);
+  void			initCursorBox(Rect, std::string, std::string);
+  void			InitCheckBox(Rect, std::string, std::string);
+  void			initDecor(Rect, std::string);
+  void			initDecor(Rect, std::string, Color);
+  void			drawGUIElement(std::vector<AGUIElement *> guiElements);
 };

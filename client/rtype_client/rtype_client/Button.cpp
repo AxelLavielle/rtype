@@ -64,13 +64,13 @@ bool Button::click()
 	return (false);
 }
 
-void Button::setTextPos(const int & x, const int & y)
+void Button::setTextPos(const int x, const int y)
 {
 	_posXText = x;
 	_posYText = y;
 }
 
-void Button::setTextSize(const int & size)
+void Button::setTextSize(const int size)
 {
 	_textSize = size;
 }

@@ -12,8 +12,8 @@ public:
 	virtual bool draw();
 	virtual bool over();
 	virtual bool click();
-	void setTextPos(const int &x, const int &y);
-	void setTextSize(const int &size);
+	void setTextPos(const int x, const int y);
+	void setTextSize(const int size);
 	void setText(const std::string &txt);
 private:
 	std::string			_txt;

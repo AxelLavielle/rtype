@@ -1,61 +1,16 @@
-CC	=	g++
+all:		cli ser
 
-DIR	=	rtype_client/rtype_client
+cli:
+		make -C client
 
-NAME	=	client
+ser:
+		make -C server
 
-SRC	=	$(DIR)/ACommand.cpp	 	\
-		$(DIR)/AEventManager.cpp 	\
-		$(DIR)/AGraphManager.cpp 	\
-		$(DIR)/AGUIElement.cpp		\
-		$(DIR)/AMenu.cpp 		\
-		$(DIR)/ASocketClient.cpp 	\
-		$(DIR)/ASoundManager.cpp 	\
-		$(DIR)/Button.cpp 		\
-		$(DIR)/CheckBox.cpp 		\
-		$(DIR)/ChatInfoCmd.cpp 		\
-		$(DIR)/client.cpp 		\
-		$(DIR)/CmdManager.cpp 		\
-		$(DIR)/Color.cpp 		\
-		$(DIR)/CursorBox.cpp 		\
-		$(DIR)/EntityCmd.cpp 		\
-		$(DIR)/Game.cpp 		\
-		$(DIR)/InputBox.cpp 		\
-		$(DIR)/InputCmd.cpp 		\
-		$(DIR)/ListInfoCmd.cpp 		\
-		$(DIR)/ListBox.cpp 		\
-		$(DIR)/main.cpp 		\
-		$(DIR)/Menu.cpp 		\
-		$(DIR)/Rect.cpp 		\
-		$(DIR)/RectDecor.cpp 		\
-		$(DIR)/RoomInfoCmd.cpp 		\
-		$(DIR)/Serialize.cpp		\
-		$(DIR)/SFML.cpp 		\
-		$(DIR)/SFMLEvent.cpp 		\
-		$(DIR)/SFMLSound.cpp 		\
-		$(DIR)/SocketClientTCP.cpp	\
-		$(DIR)/Sound.cpp
+clean:		
+		make clean -C client; make clean -C server
 
-OBJ	=	$(SRC:.cpp=.o)
-
-<<<<<<< HEAD
-CPPFLAGS=	-W -Wall -Wextra -ansi -pedantic -g -I$(DIR) -I../common/ -std=c++11 -std=gnu++11
-=======
-CPPFLAGS=	-W -Wall -Wextra -ansi -pedantic -g -I$(DIR) -std=c++11 -std=gnu++11 -I../common
->>>>>>> 49eee0811e1f1e579337d0fed8727b40d949f5b5
-
-LDFLAGS	=	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
-
-all:		$(NAME)
-
-$(NAME):	$(OBJ)
-		$(CC) $(OBJ) -o $(NAME) $(LDFLAGS)
-
-clean:
-		rm -rf $(DIR)/$(OBJ)
-
-fclean:		clean
-		rm -rf $(NAME)
+fclean:
+		make fclean -C client; make fclean -C server
 
 re:		fclean all
 

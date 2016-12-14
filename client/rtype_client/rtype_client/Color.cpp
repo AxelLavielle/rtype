@@ -1,6 +1,6 @@
 #include "Color.hh"
 
-Color::Color(const int & r, const int & g, const int & b, const int & a)
+Color::Color(const int r, const int g, const int b, const int a)
 {
 	_r = r;
 	_g = g;

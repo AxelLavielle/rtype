@@ -9,8 +9,12 @@ ASocketServer::~ASocketServer()
 {
 }
 
-bool ASocketServer::close()
+bool ASocketServer::closure()
 {
-	closesocket(_socketServerID);
+	#ifdef _WIN32
+		closesocket(_socketServerID);
+	#elif __linux__
+		close(_socketServerID);
+	#endif
 	return (true);
 }

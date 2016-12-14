@@ -81,6 +81,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\Users\49312\Desktop\RENDUS\RTYPE\rtype\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -110,13 +111,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\common\ISocket.hpp" />
     <ClInclude Include="ASocketServer.hh" />
+    <ClInclude Include="ClientManager.hh" />
     <ClInclude Include="server.hh" />
+    <ClInclude Include="ServerClient.hh" />
     <ClInclude Include="SocketServerTCP.hh" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\common\MemTools.cpp" />
     <ClCompile Include="ASocketServer.cpp" />
+    <ClCompile Include="ClientManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Server.cpp" />
+    <ClCompile Include="ServerClient.cpp" />
     <ClCompile Include="SocketServerTCP.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

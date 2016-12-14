@@ -1,29 +1,39 @@
 #include "SocketServerTCP.hh"
 
-
-
-SocketServerTCP::SocketServerTCP()
+SocketServerTCP::SocketServerTCP() : ASocketServer()
 {
+	_fdMax = 0;
 	_socketServerID = INVALID_SOCKET;
 }
-
 
 SocketServerTCP::~SocketServerTCP()
 {
 }
 
+void	SocketServerTCP::displayError(const std::string &msg)
+{
+	#ifdef __linux__
+		perror(msg.c_str());
+	#elif _WIN32
+		std::cerr << msg << WSAGetLastError() << std::endl;
+	#endif
+}
+
 bool SocketServerTCP::init(const std::string &addr, int port)
 {
-	WSADATA			wsaData;
-	struct addrinfo hints;
+	//struct addrinfo hints;
 	
-	if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) 
-	{
-		OutputDebugString("WSAStartup failed\n");
-		return (false);
-	}
+	#ifdef _WIN32
+		WSADATA			wsaData;
 
-	memset(&hints, 0, sizeof(hints));
+		if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) 
+		{
+			std::cerr << "WSAStartup failed" << std::endl;
+			return (false);
+		}
+	#endif
+
+	/*MemTools::set(&hints, 0, sizeof(hints));
 	hints.ai_family = AF_INET;
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_protocol = IPPROTO_TCP;
@@ -31,39 +41,58 @@ bool SocketServerTCP::init(const std::string &addr, int port)
 	
 	if (getaddrinfo(NULL, std::to_string(port).c_str(), &hints, &_addrSocket) != 0)
 	{
-		OutputDebugString("Getaddrinfo failed\n");
-		WSACleanup();
+		displayError("Getadddrinfo failed: ");
+		#ifdef _WIN32
+			WSACleanup();
+		#endif
 		return (false);
 	}
+*/
+		_addrSocket.sin_addr.s_addr = htonl(INADDR_ANY);
 
-	if ((_socketServerID = socket(_addrSocket->ai_family, _addrSocket->ai_socktype, _addrSocket->ai_protocol)) == INVALID_SOCKET)
+		_addrSocket.sin_family = AF_INET;
+
+		_addrSocket.sin_port = htons(port);
+
+	if ((_socketServerID = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET)
 	{
-		OutputDebugString("Socket creation : ");
-		OutputDebugString(std::to_string(WSAGetLastError()).c_str());
-		freeaddrinfo(_addrSocket);
-		WSACleanup();
+		displayError("Socket creation failed: ");
+		#ifdef _WIN32
+			WSACleanup();
+		#endif
+		//freeaddrinfo(_addrSocket);
 		return (false);
 	}
+	_fdMax = _socketServerID;
+	(void)addr;
 	return (true);
 }
 
 bool SocketServerTCP::launch()
 {
-	if (bind(_socketServerID, _addrSocket->ai_addr, _addrSocket->ai_addrlen) == SOCKET_ERROR)
+	if (bind(_socketServerID, reinterpret_cast<struct sockaddr *>(&_addrSocket), sizeof(_addrSocket)) == SOCKET_ERROR)
 	{
-		OutputDebugString("Bind failed\n");
-		freeaddrinfo(_addrSocket);
-		closesocket(_socketServerID);
-		WSACleanup();
+		displayError("Bind failed: ");
+		#ifdef _WIN32
+			WSACleanup();
+			closesocket(_socketServerID);
+		#elif __linux__
+			close(_socketServerID);
+		#endif
+		//freeaddrinfo(_addrSocket);
 		return (false);
 	}
-	freeaddrinfo(_addrSocket);
+	//freeaddrinfo(_addrSocket);
 
 	if (listen(_socketServerID, SOMAXCONN) == INVALID_SOCKET)
 	{
-		OutputDebugString("Listen failed\n");
-		closesocket(_socketServerID);
-		WSACleanup();
+		displayError("Listen failed: ");
+		#ifdef _WIN32
+			WSACleanup();
+			closesocket(_socketServerID);
+		#elif __linux__
+			close(_socketServerID);
+		#endif
 		return (false);
 	}
 	return (true);
@@ -73,28 +102,117 @@ int SocketServerTCP::acceptNewClient()
 {
 	int newClientSocketID;
 
+	if (!FD_ISSET(_socketServerID, &_readfds))
+		return (-1);
+
 	if ((newClientSocketID = accept(_socketServerID, NULL, NULL)) == INVALID_SOCKET)
 	{
-		OutputDebugString("Accept failed\n");
-		closesocket(_socketServerID);
-		WSACleanup();
+		displayError("Accept failed: ");
+		#ifdef _WIN32
+			WSACleanup();
+			closesocket(_socketServerID);
+		#elif __linux__
+			close(_socketServerID);
+		#endif
 		return (-1);
 	}
 
-	OutputDebugString("NEW CLIENT ------->");
-	OutputDebugString(std::to_string(newClientSocketID).c_str());
-	OutputDebugString("\n");
-
+	if (DEBUG_MSG)
+		std::cout << "NEW CLIENT ------->" << newClientSocketID << std::endl;
+	
 	return (newClientSocketID);
 }
 
-bool SocketServerTCP::sendData(const char * data)
+bool										SocketServerTCP::sendAllData(std::vector<ServerClient *> &clientList)
 {
-	return false;
+	std::vector<ServerClient *>::iterator	it;
+
+	it = clientList.begin();
+	while (it != clientList.end())
+	{
+		if ((*it)->getDataLen() > 0)
+		{
+			if (DEBUG_MSG)
+				std::cout << "Sending to Client " << (*it)->getTCPSocket()
+					<< " : " << (*it)->getSendData() << std::endl;
+			if (send((*it)->getTCPSocket(), (*it)->getSendData(), (*it)->getDataLen(), 0) == SOCKET_ERROR)
+			{
+				displayError("Send error");
+			}
+			(*it)->resetData();
+		}
+		it++;
+	}
+	return (true);
 }
 
-char *SocketServerTCP::receiveData()
+std::string	serialize(const char *str, int len)
 {
-	return (NULL);
+	(void)len;
+	return (std::string(str));
 }
 
+std::vector<ClientMsg>		SocketServerTCP::receiveData(std::vector<ServerClient *> &socketsClients)
+{
+	std::vector<ServerClient *>::iterator	it;
+	char									buf[TCP_PACKET_SIZE];
+	std::vector<ClientMsg>					vectMsg;
+	int										len;
+
+	it = socketsClients.begin();
+	while (it != socketsClients.end())
+	{
+		if (FD_ISSET((*it)->getTCPSocket(), &_readfds))
+		{
+			MemTools::set(buf, 0, TCP_PACKET_SIZE);
+			if ((len = recv((*it)->getTCPSocket(), buf, TCP_PACKET_SIZE, 0)) == -1 || len == 0)
+			{
+				if (len == -1)
+				{
+					displayError("Recv error: ");
+				}
+				#ifdef _WIN32
+					closesocket((*it)->getTCPSocket());
+				#elif	__linux__
+					close((*it)->getTCPSocket());
+				#endif
+				(*it)->setDisconnected(true);
+			}
+			else
+			{
+				if (DEBUG_MSG)
+					std::cout << "Received Msg [" << buf << "]" << std::endl;
+				vectMsg.push_back(std::make_pair((*it), serialize(buf, len)));
+			}
+		}
+		it++;
+	}
+	return (vectMsg);
+}
+
+int										SocketServerTCP::selectFds(const std::vector<int> &socketsClients)
+{
+	std::vector<int>::const_iterator	it;
+	
+	FD_ZERO(&_readfds);
+	FD_ZERO(&_writefds);
+	FD_SET(_socketServerID, &_readfds);
+	_fdMax = _socketServerID;
+	
+	it = socketsClients.begin();
+	while (it != socketsClients.end())
+	{
+		FD_SET(*it, &_readfds);
+		FD_SET(*it, &_writefds);
+		if ((*it) > _fdMax)
+			_fdMax = (*it);
+		it++;
+	}
+	
+	if (select(_fdMax, &_readfds, &_writefds, NULL, NULL) < 0)
+	{
+		displayError("Select error: ");
+	}
+
+	return (0);
+}

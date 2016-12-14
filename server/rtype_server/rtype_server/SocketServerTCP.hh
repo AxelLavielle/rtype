@@ -1,23 +1,37 @@
 #ifndef SOCKET_SERVER_TCP_HH_
 # define SOCKET_SERVER_TCP_HH_
 
+#ifdef __linux__
+# define INVALID_SOCKET (-1)
+# define SOCKET_ERROR	(-1)
+#endif
+
+#include <vector>
 #include "ASocketServer.hh"
+#include "ServerClient.hh"
 
 class SocketServerTCP : public ASocketServer
 {
 private:
-	struct addrinfo *_addrSocket;
+	//struct addrinfo *_addrSocket;
+	struct sockaddr_in _addrSocket;
+	int				_fdMax;
+	fd_set			_readfds;
+	fd_set			_writefds;
+	void			displayError(const std::string &);
 
 public:
 	SocketServerTCP();
-	~SocketServerTCP();
+	virtual ~SocketServerTCP();
 
-	bool			init(const std::string &, int);
-	bool			launch();
-	int				acceptNewClient();
-	virtual bool	sendData(const char *data);
-	virtual char	*receiveData();
+	bool								init(const std::string &, int);
+	bool								launch();
+	virtual int							acceptNewClient();
+	virtual bool						sendAllData(std::vector<ServerClient *> &);
+	virtual std::vector<ClientMsg>		receiveData(std::vector<ServerClient *> &);
+	int									selectFds(const std::vector<int> &);
+
+
 };
-
 
 #endif /* SOCKET_SERVER_TCP_HH_ */

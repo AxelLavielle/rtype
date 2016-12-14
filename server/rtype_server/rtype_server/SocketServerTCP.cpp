@@ -21,38 +21,20 @@ void	SocketServerTCP::displayError(const std::string &msg)
 
 bool SocketServerTCP::init(const std::string &addr, int port)
 {
-	//struct addrinfo hints;
-	
 	#ifdef _WIN32
 		WSADATA			wsaData;
 
-		if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) 
+		if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
 		{
 			std::cerr << "WSAStartup failed" << std::endl;
 			return (false);
 		}
 	#endif
 
-	/*MemTools::set(&hints, 0, sizeof(hints));
-	hints.ai_family = AF_INET;
-	hints.ai_socktype = SOCK_STREAM;
-	hints.ai_protocol = IPPROTO_TCP;
-	hints.ai_flags = AI_PASSIVE;
-	
-	if (getaddrinfo(NULL, std::to_string(port).c_str(), &hints, &_addrSocket) != 0)
-	{
-		displayError("Getadddrinfo failed: ");
-		#ifdef _WIN32
-			WSACleanup();
-		#endif
-		return (false);
-	}
-*/
-		_addrSocket.sin_addr.s_addr = htonl(INADDR_ANY);
-
-		_addrSocket.sin_family = AF_INET;
-
-		_addrSocket.sin_port = htons(port);
+	MemTools::set(&_addrSocket, 0, sizeof(struct sockaddr_in));
+	_addrSocket.sin_addr.s_addr = htonl(INADDR_ANY);
+	_addrSocket.sin_family = AF_INET;
+	_addrSocket.sin_port = htons(port);
 
 	if ((_socketServerID = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET)
 	{
@@ -60,7 +42,6 @@ bool SocketServerTCP::init(const std::string &addr, int port)
 		#ifdef _WIN32
 			WSACleanup();
 		#endif
-		//freeaddrinfo(_addrSocket);
 		return (false);
 	}
 	_fdMax = _socketServerID;
@@ -70,7 +51,7 @@ bool SocketServerTCP::init(const std::string &addr, int port)
 
 bool SocketServerTCP::launch()
 {
-	if (bind(_socketServerID, reinterpret_cast<struct sockaddr *>(&_addrSocket), sizeof(_addrSocket)) == SOCKET_ERROR)
+	if (bind(_socketServerID, reinterpret_cast<struct sockaddr *>(&_addrSocket), sizeof(struct sockaddr_in)) == SOCKET_ERROR)
 	{
 		displayError("Bind failed: ");
 		#ifdef _WIN32
@@ -79,10 +60,8 @@ bool SocketServerTCP::launch()
 		#elif __linux__
 			close(_socketServerID);
 		#endif
-		//freeaddrinfo(_addrSocket);
 		return (false);
 	}
-	//freeaddrinfo(_addrSocket);
 
 	if (listen(_socketServerID, SOMAXCONN) == INVALID_SOCKET)
 	{
@@ -119,7 +98,7 @@ int SocketServerTCP::acceptNewClient()
 
 	if (DEBUG_MSG)
 		std::cout << "NEW CLIENT ------->" << newClientSocketID << std::endl;
-	
+
 	return (newClientSocketID);
 }
 
@@ -193,12 +172,12 @@ std::vector<ClientMsg>		SocketServerTCP::receiveData(std::vector<ServerClient *>
 int										SocketServerTCP::selectFds(const std::vector<int> &socketsClients)
 {
 	std::vector<int>::const_iterator	it;
-	
+
 	FD_ZERO(&_readfds);
 	FD_ZERO(&_writefds);
 	FD_SET(_socketServerID, &_readfds);
 	_fdMax = _socketServerID;
-	
+
 	it = socketsClients.begin();
 	while (it != socketsClients.end())
 	{
@@ -208,8 +187,8 @@ int										SocketServerTCP::selectFds(const std::vector<int> &socketsClients)
 			_fdMax = (*it);
 		it++;
 	}
-	
-	if (select(_fdMax, &_readfds, &_writefds, NULL, NULL) < 0)
+
+	if (select(_fdMax + 1, &_readfds, &_writefds, NULL, NULL) < 0)
 	{
 		displayError("Select error: ");
 	}

@@ -40,10 +40,9 @@ bool	Server::launch()
 	std::vector<int>			socketsClients;
 	int							clientSocketID = INVALID_SOCKET;
 	std::vector<ClientMsg>		vectMsg;
-	
+
 	while (42)
 	{
-		std::cout << "Bla bla" << std::endl;
 		_socketServer->selectFds(_clientManager.getClientsTCPSockets());
 
 		if ((clientSocketID = _socketServer->acceptNewClient()) != -1)
@@ -51,11 +50,11 @@ bool	Server::launch()
 			_clientManager.addClient(clientSocketID);
 			_clientManager.addDataToSend(clientSocketID, "Hello\n", 6);
 		}
-		
+
 		vectMsg = _socketServer->receiveData(_clientManager.getClients());
 		processMsg(vectMsg);
 		_clientManager.checkDisconnectedClients();
-		
+
 		_socketServer->sendAllData(_clientManager.getClients());
 		_clientManager.checkDisconnectedClients();
 	}

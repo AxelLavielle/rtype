@@ -2,24 +2,22 @@ CC	=	g++
 
 DIR	=	rtype_server/rtype_server
 
+COMMON	=	../common/
+
 NAME	=	server
 
-SRC	=	$(DIR)/ADlLoader.cpp		\
-		$(DIR)/AEntity.cpp		\
-		$(DIR)/ASocketServer.cpp	\
-		$(DIR)/Barrier.cpp		\
-		$(DIR)/DlManager.cpp		\
+SRC	=	$(DIR)/ASocketServer.cpp	\
 		$(DIR)/main.cpp			\
-		$(DIR)/Monster.cpp		\
-		$(DIR)/Player.cpp		\
-		$(DIR)/PowerUp.cpp		\
 		$(DIR)/SocketServerTCP.cpp	\
-		$(DIR)/UDlLoader.cpp		\
-		$(DIR)/WDlLoader.cpp		\
+		$(DIR)/ClientManager.cpp	\
+		$(DIR)/ServerClient.cpp		\
+		$(DIR)/Server.cpp		\
+		$(COMMON)/MemTools.cpp		\
 
 OBJ	=	$(SRC:.cpp=.o)
 
-CPPFLAGS=	-W -Wall -Wextra -ansi -pedantic -g -I$(DIR)
+CPPFLAGS=	-W -Wall -Wextra -ansi -pedantic -g -std=c++11 -I$(DIR) -I$(COMMON)
+
 
 all:		$(NAME)
 

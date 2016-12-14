@@ -1,12 +1,32 @@
 #pragma once
 
-#include <string>
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#include <windows.h>
-#pragma comment(lib, "Ws2_32.lib")
+#ifdef _WIN32
 
-class ASocketServer
+# include <winsock2.h>
+# include <ws2tcpip.h>
+# include <windows.h>
+# pragma comment(lib, "Ws2_32.lib")
+
+#elif __linux__
+
+# include <sys/select.h>
+# include <sys/types.h>
+# include <sys/socket.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <netdb.h>
+
+#endif 
+
+#include <string>
+#include <vector>
+#include "ISocket.hpp"
+#include "ServerClient.hh"
+#include "MemTools.hh"
+
+typedef std::pair<ServerClient *, std::string> ClientMsg;
+
+class ASocketServer : public ISocket
 {
 protected:
 	int				_socketServerID;
@@ -15,10 +35,12 @@ public:
 	ASocketServer();
 	virtual ~ASocketServer();
 
-	virtual bool	init(const std::string &, int) = 0;
-	virtual bool	sendData(const char *data) = 0;
-	virtual char	*receiveData() = 0;
-	virtual bool	close();
-	virtual bool	launch() = 0;
+	virtual bool						init(const std::string &, int) = 0;
+	virtual bool						sendAllData(std::vector<ServerClient *> &) = 0;
+	virtual std::vector<ClientMsg>		receiveData(std::vector<ServerClient *> &) = 0;
+	virtual bool						launch() = 0;
+	virtual int							acceptNewClient() = 0;
+	virtual bool						closure();
+	virtual int							selectFds(const std::vector<int> &) = 0;
 };
 

@@ -60,5 +60,6 @@
     <ClInclude Include="SocketClientUDP.hh" />
     <ClInclude Include="SaveConfig.hh" />
     <ClInclude Include="Sound.hh" />
+    <ClInclude Include="..\..\..\common\ISocket.hpp" />
   </ItemGroup>
 </Project>

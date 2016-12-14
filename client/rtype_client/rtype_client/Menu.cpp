@@ -9,6 +9,7 @@ Menu::Menu()
 	_music.setDuration(-1);
 	_music.setMusic(true);
 	_music.setFilePath("../../res/sounds/opening.wav");
+	_music.setLoop(true);
 	_soundManager.play(_music);
 }
 

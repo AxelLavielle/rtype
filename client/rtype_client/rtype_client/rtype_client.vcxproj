@@ -86,7 +86,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\SFML\SFML-2.4.1\include;C:\Users\Mohamad\Desktop\sfml\SFML-2.4.1-windows-vc14-64-bit\SFML-2.4.1\include;..\..\..\common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\SFML\SFML-2.4.1\include;C:\Users\Mohamad\Desktop\sfml\SFML-2.4.1-windows-vc14-64-bit\SFML-2.4.1\include;..\..\..\common;C:\Users\Mohamad\Desktop\rtype\common\Serialize</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>

@@ -10,6 +10,7 @@
 #include "RectDecor.hh"
 #include "Sound.hh"
 #include "SFMLSound.hh"
+#include "InputCmd.hh"
 
 class Game
 {

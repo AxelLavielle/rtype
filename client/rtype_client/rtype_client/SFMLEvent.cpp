@@ -40,6 +40,14 @@ std::string SFMLEvent::getKeyStroke() const
 		{
 		case sf::Keyboard::Escape:
 			return ("ECHAP");
+		case sf::Keyboard::Up:
+			return ("UP");
+		case sf::Keyboard::Left:
+			return ("LEFT");
+		case sf::Keyboard::Down:
+			return ("DOWN");
+		case sf::Keyboard::Right:
+			return ("RIGHT");
 		default:
 		  break;
 		}

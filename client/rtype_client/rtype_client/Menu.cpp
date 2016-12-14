@@ -409,7 +409,7 @@ bool Menu::launch()
 			{
 				std::cout << "PLAY" << std::endl;
 			}
-			if (_event->getKeyStroke() == "ECHAP")
+			if (_event->getKeyStroke() == "ECHAP" || _event->getCloseEvent())
 				_graph->close();
 		}
 		_graph->clearWindow();

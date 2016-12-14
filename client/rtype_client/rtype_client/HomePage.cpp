@@ -24,6 +24,7 @@ bool HomePage::init()
 	initDecor(Rect(290, 150, 50, 500), "/res/img/bordureHaut.png");
 	initDecor(Rect(290, 650, 50, 500), "/res/img/bordureBas.png");
 	//initDecor(Rect(290, 650, 50, 500), _fileManager.getRoot() + "/res/img/bordureBas.png");
+	t1 = std::chrono::high_resolution_clock::now();
 	return (true);
 }
 
@@ -41,25 +42,35 @@ bool HomePage::launch()
 
 void HomePage::firstAnim()
 {
-	//Rect								tmp;
-	//std::chrono::high_resolution_clock::time_point        t2;
+	int									i;
+	Rect								tmp;
+	std::chrono::high_resolution_clock::time_point        t2;
+	std::map<IPage::PAGE, AGUIElement* >::iterator			it;
 
-	//if (_animInc < 190 * i && _first)
-	//{
-	//	t2 = std::chrono::high_resolution_clock::now();
-	//	_animDuration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
-	//	if (_animDuration > ANIMDURATION)
-	//	{
-	//		t1 = std::chrono::high_resolution_clock::now();
-	//		_animInc++;
-	//	}
-	//	tmp = it->getPos();
-	//	it->setPos(Rect(tmp.getX(), _animInc, tmp.getHeight(), tmp.getWidth()));
-	//}
+	i = 1;
+	it = _buttons.begin();
+	while (it != _buttons.end())
+	{
+		if (_animInc < 190 * i && i <= 3)
+		{
+			t2 = std::chrono::high_resolution_clock::now();
+			_animDuration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+			if (_animDuration > ANIMDURATION)
+			{
+				t1 = std::chrono::high_resolution_clock::now();
+				_animInc++;
+			}
+			tmp = it->second->getPos();
+			it->second->setPos(Rect(tmp.getX(), _animInc, tmp.getHeight(), tmp.getWidth()));
+		}
+		++it;
+		i++;
+	}
 }
 
 void HomePage::draw()
 {
+	firstAnim();
 	_graph->setBackground(_backgroundSprite, 0.6f, 0.7f);
 	_graph->drawText("Hen Type", 300, 0, 90, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
 	drawGUIElement(_buttons);

@@ -11,7 +11,7 @@ PathFileManager::PathFileManager()
 PathFileManager::~PathFileManager()
 {
 }
-#include <iostream>
+
 bool PathFileManager::init()
 {
 	char	*buff;
@@ -19,6 +19,7 @@ bool PathFileManager::init()
 #ifndef __linux__
 	
 	size_t	size;
+	std::string::iterator	it;
 
 	buff = NULL;
 	size = 0;
@@ -26,15 +27,21 @@ bool PathFileManager::init()
 	if (!buff)
 		return (false);
 	_root = buff;
-	_root += "\\";
-
+	_root += "/henType/";
+	it = _root.begin();
+	while (it != _root.end())
+	{
+		if (*it == '\\')
+			*it = '/';
+		++it;
+	}
 #else
 
 	buff = getenv("HOME");
 	if (!buff)
 		return (false);
 	_root = buff;
-	_root += "/";
+	_root += "/.henType/";
 
 #endif // __linux__
 

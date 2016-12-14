@@ -32,6 +32,13 @@ ListBox::~ListBox()
 {
 }
 
+void ListBox::setFontPath(const std::string & path)
+{
+	_fontPath = path;
+	_nextButton.setFontPath(_fontPath);
+	_prevButton.setFontPath(_fontPath);
+}
+
 void	ListBox::drawButton()
 {
 	std::vector<Button>::iterator	it;
@@ -116,7 +123,7 @@ bool ListBox::draw()
 	_prevButton.draw();
 	_prevButton.over();
 	ss << _currentPage + 1 << " / " << max;
-	_graph->drawText(ss.str(), _rect.getX() + _rect.getWidth() - 120, _rect.getY() + _rect.getHeight() + 10, 20, Color(255, 255, 255), "../../res/fonts/OpenSans-Regular.ttf");
+	_graph->drawText(ss.str(), _rect.getX() + _rect.getWidth() - 120, _rect.getY() + _rect.getHeight() + 10, 20, Color(255, 255, 255), _fontPath);
 	return (true);
 }
 
@@ -143,6 +150,7 @@ void ListBox::setElements(const std::vector<std::string>& elements)
 		tmp.setBackgroundOverSprite(_buttonOverSprite);
 		tmp.setTextPos(20, 0);
 		tmp.setTextSize(25);
+		tmp.setFontPath(_fontPath);
 		_buttons.push_back(tmp);
 		++it;
 		i++;

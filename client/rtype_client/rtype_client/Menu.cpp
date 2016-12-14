@@ -6,20 +6,11 @@ Menu::Menu()
 	_pagenb = PAGE::ACCEUIL;
 	_animInc = 0;
 	_first = true;
-	_music.setDuration(-1);
-	_music.setMusic(true);
-	_music.setFilePath("../../res/sounds/opening.wav");
-	_music.setLoop(true);
-	_clickSound.setDuration(-1);
-	_clickSound.setFilePath("../../res/sounds/buttonClick.wav");
-	_soundManager.play(_music);	
-	_fileManager.init();
 	_funcPtr.insert(std::pair<PAGE, funcPtr>(PAGE::PLAY, &Menu::initButton));
 	_funcPtr.insert(std::pair<PAGE, funcPtr>(PAGE::ROOMLIST, &Menu::roomButton));
 	_funcPtr.insert(std::pair<PAGE, funcPtr>(PAGE::ROOMCREATE, &Menu::roomButton));
 	_funcPtr.insert(std::pair<PAGE, funcPtr>(PAGE::SETTINGS, &Menu::initButton));
 	_funcPtr.insert(std::pair<PAGE, funcPtr>(PAGE::ACCEUIL, &Menu::settings));
-	std::cout << "HOME = " << _fileManager.getRoot() << std::endl;
 }
 
 
@@ -29,6 +20,15 @@ Menu::~Menu()
 
 bool Menu::init()
 {
+	_music.setDuration(-1);
+	_music.setMusic(true);
+	if (!_fileManager.init())
+		return (false);
+	_music.setFilePath(_fileManager.getRoot() + "/res/sounds/opening.wav");
+	_music.setLoop(true);
+	_clickSound.setDuration(-1);
+	_clickSound.setFilePath(_fileManager.getRoot() + "/res/sounds/buttonClick.wav");
+	_soundManager.play(_music);
 	return (true);
 }
 
@@ -58,8 +58,9 @@ void	Menu::setButtonSprite()
 	it = _buttons.begin();
 	while (it != _buttons.end())
 	{
-		it->setBackgroundSprite("../../res/img/button.png");
-		it->setBackgroundOverSprite("../../res/img/buttonOver.png");
+		it->setBackgroundSprite(_fileManager.getRoot() + "/res/img/button.png");
+		it->setBackgroundOverSprite(_fileManager.getRoot() + "/res/img/buttonOver.png");
+		it->setFontPath(_fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
 		++it;
 	}
 }
@@ -76,10 +77,10 @@ void Menu::initButton()
 	_pagenb = PAGE::ACCEUIL;
 	t1 = std::chrono::high_resolution_clock::now();
 	clear();
-	bottomDecor->setBackgroundSprite("../../res/img/bordureHaut.png");
-	topDecor->setBackgroundSprite("../../res/img/bordureBas.png");
+	bottomDecor->setBackgroundSprite(_fileManager.getRoot() + "/res/img/bordureHaut.png");
+	topDecor->setBackgroundSprite(_fileManager.getRoot() + "/res/img/bordureBas.png");
 	vaisseau->setTransparentColor(Color(0, 0, 0));
-	vaisseau->setBackgroundSprite("../../res/img/vaisseau1.png");
+	vaisseau->setBackgroundSprite(_fileManager.getRoot() + "/res/img/vaisseau1.png");
 	play.setTextPos(70, 10);
 	play.setTextSize(60);
 	quit.setTextPos(70, 10);
@@ -198,8 +199,9 @@ void Menu::roomList()
 	ListBox						list(_graph, _event, Rect(100, 250, 300, 900));
 
 
-	list.setButtonSprite("../../res/img/buttonRoom.png");
-	list.setButtonOverSprite("../../res/img/buttonRoomOver.png");
+	list.setFontPath(_fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+	list.setButtonSprite(_fileManager.getRoot() + "/res/img/buttonRoom.png");
+	list.setButtonOverSprite(_fileManager.getRoot() + "/res/img/buttonRoomOver.png");
 	elements.push_back("ELEMENT 1");
 	elements.push_back("ELEMENT NEXT");
 	elements.push_back("ELEMENT NEXT");
@@ -238,7 +240,7 @@ void Menu::createRoom()
 	clear();
 	input.setEvent(_event);
 	input.setGraph(_graph);
-	input.setBackgroundSprite("../../res/img/buttonRoom.png");
+	input.setBackgroundSprite(_fileManager.getRoot() + "/res/img/buttonRoom.png");
 	input.setTextColor(Color(255, 255, 255));
 	play.setTextPos(25, 10);
 	play.setTextSize(60);
@@ -265,12 +267,12 @@ void Menu::settings()
 	play.setTextSize(60);
 	quit.setTextPos(70, 10);
 	quit.setTextSize(60);
-	sound.setBackgroundSprite("../../res/img/scrollBar.png");
-	sound.setBackgroundOverSprite("../../res/img/scrollButton.png");
-	music.setBackgroundSprite("../../res/img/scrollBar.png");
-	music.setBackgroundOverSprite("../../res/img/scrollButton.png");
-	check.setBackgroundSprite("../../res/img/coche.png");
-	check.setCheckedSprite("../../res/img/cocheRempli.png");
+	sound.setBackgroundSprite(_fileManager.getRoot() + "/res/img/scrollBar.png");
+	sound.setBackgroundOverSprite(_fileManager.getRoot() + "/res/img/scrollButton.png");
+	music.setBackgroundSprite(_fileManager.getRoot() + "/res/img/scrollBar.png");
+	music.setBackgroundOverSprite(_fileManager.getRoot() + "/res/img/scrollButton.png");
+	check.setBackgroundSprite(_fileManager.getRoot() + "/res/img/coche.png");
+	check.setCheckedSprite(_fileManager.getRoot() + "/res/img/cocheRempli.png");
 	_buttons.push_back(play);
 	_buttons.push_back(quit);
 	_cursorBox.push_back(music);
@@ -409,16 +411,16 @@ bool Menu::launch()
 				return (false);
 		}
 		_graph->clearWindow();
-		_graph->setBackground("../../res/img/background_menu3.jpg", 0.6f, 0.7f);
+		_graph->setBackground(_fileManager.getRoot() + "/res/img/background_menu3.jpg", 0.6f, 0.7f);
 		drawButton();
 		drawListBox();
 		drawInput();
 		drawCursorBox();
 		drawCheckBox();
 		drawGUIElement();
-		_graph->drawText("Hen Type", 300, 0, 90, Color(135, 206, 250, 255), "../../res/fonts/Aerospace.ttf");
+		_graph->drawText("Hen Type", 300, 0, 90, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
 		if (_pagenb == PAGE::ROOMLIST)
-			_graph->drawText("Choice a room", 350, 150, 40, Color(224, 224, 224, 255), "../../res/fonts/Aerospace.ttf");
+			_graph->drawText("Choice a room", 350, 150, 40, Color(224, 224, 224, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
 		_graph->refresh();
 	}
 	return (false);

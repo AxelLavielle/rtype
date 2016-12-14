@@ -21,6 +21,7 @@ public:
 	virtual void setBackgroundSprite(const std::string & path);
 	virtual void setBackgroundOverSprite(const std::string & path);
 	virtual void setTransparentColor(const Color & color);
+	virtual void setFontPath(const std::string & path);
 protected:
 	IGraphManager	*_graph;
 	IEventManager	*_event;
@@ -30,5 +31,6 @@ protected:
 	std::string		_backgroundSprite;
 	std::string		_backgroundOverSprite;
 	Color			_transparentColor;
+	std::string		_fontPath;
 };
 

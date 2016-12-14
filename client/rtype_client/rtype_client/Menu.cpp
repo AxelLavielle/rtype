@@ -13,7 +13,6 @@ Menu::Menu()
 	_funcPtr.insert(std::pair<PAGE, funcPtr>(PAGE::ACCEUIL, &Menu::settings));
 }
 
-
 Menu::~Menu()
 {
 }
@@ -170,7 +169,6 @@ void Menu::drawCursorBox()
 void Menu::drawCheckBox()
 {
 	std::vector<CheckBox>::iterator		itCheck;
-
 	itCheck = _checkBox.begin();
 	while (itCheck != _checkBox.end())
 	{

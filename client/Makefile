@@ -28,6 +28,7 @@ SRC	=	$(COM)/ACommand.cpp	 	\
 		$(DIR)/ListBox.cpp 		\
 		$(DIR)/main.cpp 		\
 		$(DIR)/Menu.cpp 		\
+		$(DIR)/APage.cpp 		\
 		$(DIR)/Rect.cpp 		\
 		$(DIR)/RectDecor.cpp 		\
 		$(COM)/RoomInfoCmd.cpp 		\

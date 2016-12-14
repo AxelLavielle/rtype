@@ -6,9 +6,9 @@ SFMLSound::SFMLSound()
 
 SFMLSound::~SFMLSound()
 {
-	std::map<sf::Music*, std::string>::const_iterator	it;
-	std::map<sf::Sound*, std::string>::const_iterator	it2;
-	std::vector<sf::SoundBuffer* >::const_iterator		it3;
+	std::map<sf::Music*, std::string>::iterator	it;
+	std::map<sf::Sound*, std::string>::iterator	it2;
+	std::vector<sf::SoundBuffer* >::iterator		it3;
 
 	it = _music.begin();
 	while (it != _music.end())
@@ -139,16 +139,16 @@ bool SFMLSound::pause(const Sound & sound)
 	return (true);
 }
 
-bool SFMLSound::setVolume(const int volume) const
+bool SFMLSound::setVolume(const int volume)
 {
 	setMusicVolume(volume);
 	setSoundVolume(volume);
 	return (true);;
 }
 
-bool SFMLSound::setMusicVolume(const int volume) const
+bool SFMLSound::setMusicVolume(const int volume)
 {
-	std::map<sf::Music*, std::string>::const_iterator	it;
+	std::map<sf::Music*, std::string>::iterator	it;
 
 	it = _music.begin();
 	while (it != _music.end())
@@ -159,9 +159,9 @@ bool SFMLSound::setMusicVolume(const int volume) const
 	return (true);
 }
 
-bool SFMLSound::setSoundVolume(const int volume) const
+bool SFMLSound::setSoundVolume(const int volume)
 {
-	std::map<sf::Sound*, std::string>::const_iterator	it;
+	std::map<sf::Sound*, std::string>::iterator	it;
 
 	it = _sound.begin();
 	while (it != _sound.end())
@@ -172,10 +172,10 @@ bool SFMLSound::setSoundVolume(const int volume) const
 	return (true);
 }
 
-void SFMLSound::stopAll() const
+void SFMLSound::stopAll()
 {
-	std::map<sf::Music*, std::string>::const_iterator	it;
-	std::map<sf::Sound*, std::string>::const_iterator	it2;
+	std::map<sf::Music*, std::string>::iterator	it;
+	std::map<sf::Sound*, std::string>::iterator	it2;
 
 	it = _music.begin();
 	while (it != _music.end())

@@ -23,6 +23,7 @@ APage::APage(IGraphManager *graph, IEventManager *event, const PathFileManager &
   _event = event;
   _fileManager = fileManager;
   _soundManager = soundManager;
+  _backgroundSprite = "";
 }
 
 APage::~APage()
@@ -30,23 +31,28 @@ APage::~APage()
 
 }
 
-void		APage::InitButton(int textPosX, int textPosY, int textSize, Rect pos, std::string name)
+void		APage::initButton(const int textPosX, const int textPosY, const int textSize,
+								const Rect &pos, const std::string &name, const std::string &sprite,
+								const std::string &spriteHover, const std::string &fontPath)
 {
-  Button	button(_graph, _event, pos, name);
+  Button	*button = new Button(_graph, _event, pos, name);
 
-  button.setTextPos(textPosX, textPosY);
-  button.setTextSize(textSize);
+  button->setTextPos(textPosX, textPosY);
+  button->setTextSize(textSize);
+  button->setBackgroundSprite(_fileManager.getRoot() + sprite);
+  button->setBackgroundOverSprite(_fileManager.getRoot() + spriteHover);
+  button->setFontPath(_fileManager.getRoot() + fontPath);
   _buttons.push_back(button);
 }
 
-void		APage::InitInputBox(Rect pos, std::string sprite, Color rgb)
+void		APage::initInputBox(Rect pos, std::string sprite, Color rgb)
 {
-  InputBox	input(_graph, _event, pos);
+  InputBox	*input = new InputBox(_graph, _event, pos);
 
-  input.setEvent(_event);
-  input.setGraph(_graph);
-  input.setBackgroundSprite(_fileManager.getRoot() + sprite);
-  input.setTextColor(rgb);
+  input->setEvent(_event);
+  input->setGraph(_graph);
+  input->setBackgroundSprite(_fileManager.getRoot() + sprite);
+  input->setTextColor(rgb);
   _input.push_back(input);
 }
 
@@ -69,29 +75,29 @@ void		APage::initDecor(Rect pos, std::string sprite, Color rgb)
 
 void		APage::initCursorBox(Rect pos, std::string spriteBar, std::string spriteButton)
 {
-  CursorBox	cursor(_graph, _event, pos);
+  CursorBox	*cursor = new CursorBox(_graph, _event, pos);
 
-  cursor.setBackgroundSprite(_fileManager.getRoot() + spriteBar);
-  cursor.setBackgroundOverSprite(_fileManager.getRoot() + spriteButton);
+  cursor->setBackgroundSprite(_fileManager.getRoot() + spriteBar);
+  cursor->setBackgroundOverSprite(_fileManager.getRoot() + spriteButton);
   _cursorBox.push_back(cursor);
 }
 
-void		APage::InitCheckBox(Rect pos, std::string spriteEmpty, std::string spriteFill)
+void		APage::initCheckBox(Rect pos, std::string spriteEmpty, std::string spriteFill)
 {
-  CheckBox	check(_graph, _event, pos);
+  CheckBox	*check = new CheckBox(_graph, _event, pos);
 
-  check.setBackgroundSprite(_fileManager.getRoot() + spriteEmpty);
-  check.setCheckedSprite(_fileManager.getRoot() + spriteFill);
+  check->setBackgroundSprite(_fileManager.getRoot() + spriteEmpty);
+  check->setCheckedSprite(_fileManager.getRoot() + spriteFill);
   _checkBox.push_back(check);
 }
 
-void		APage::InitListBox(Rect pos, std::string font, std::string button, std::string hover)
+void		APage::initListBox(Rect pos, std::string font, std::string button, std::string hover)
 {
-  ListBox	list(_graph, _event, pos);
+  ListBox	*list = new ListBox(_graph, _event, pos);
 
-  list.setFontPath(_fileManager.getRoot() + font);
-  list.setButtonSprite(_fileManager.getRoot() + button);
-  list.setButtonOverSprite(_fileManager.getRoot() + hover);
+  list->setFontPath(_fileManager.getRoot() + font);
+  list->setButtonSprite(_fileManager.getRoot() + button);
+  list->setButtonOverSprite(_fileManager.getRoot() + hover);
   _listBox.push_back(list);
 }
 
@@ -105,4 +111,29 @@ void		APage::drawGUIElement(std::vector<AGUIElement *> guiElements)
       (*it)->draw();
       ++it;
     }
+}
+
+void APage::clearGUIElement(std::vector<AGUIElement*> guiElements)
+{
+	std::vector<AGUIElement * >::iterator			it;
+
+	it = guiElements.begin();
+	while (it != guiElements.end())
+	{
+		delete (*it);
+		++it;
+	}
+	guiElements.clear();
+}
+
+void APage::hoverEvent(std::vector<AGUIElement*> guiElements)
+{
+	std::vector<AGUIElement * >::iterator			it;
+
+	it = guiElements.begin();
+	while (it != guiElements.end())
+	{
+		(*it)->over();
+		++it;
+	}
 }

@@ -399,6 +399,9 @@ bool Menu::launch()
 	char ret;
 	initButton();
 	//_graph->setFullScreen(true);
+	HomePage homePage(_graph, _event, _fileManager, &_soundManager);
+
+	homePage.init();
 	while (_graph->isWindowOpen())
 	{
 		while (_event->refresh())
@@ -409,16 +412,19 @@ bool Menu::launch()
 				return (false);
 		}
 		_graph->clearWindow();
-		_graph->setBackground(_fileManager.getRoot() + "/res/img/background_menu3.jpg", 0.6f, 0.7f);
-		drawButton();
-		drawListBox();
-		drawInput();
-		drawCursorBox();
-		drawCheckBox();
-		drawGUIElement();
-		_graph->drawText("Hen Type", 300, 0, 90, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
-		if (_pagenb == PAGE::ROOMLIST)
-			_graph->drawText("Choice a room", 350, 150, 40, Color(224, 224, 224, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+
+		homePage.draw();
+		
+		//_graph->setBackground(_fileManager.getRoot() + "/res/img/background_menu3.jpg", 0.6f, 0.7f);
+		//drawButton();
+		//drawListBox();
+		//drawInput();
+		//drawCursorBox();
+		//drawCheckBox();
+		//drawGUIElement();
+		//_graph->drawText("Hen Type", 300, 0, 90, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+		//if (_pagenb == PAGE::ROOMLIST)
+		//	_graph->drawText("Choice a room", 350, 150, 40, Color(224, 224, 224, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
 		_graph->refresh();
 	}
 	return (false);

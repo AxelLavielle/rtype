@@ -15,6 +15,7 @@
 #include "Sound.hh"
 #include "SFMLSound.hh"
 #include "PathFileManager.hh"
+#include "HomePage.hh"
 
 #define ANIMDURATION 1000
 

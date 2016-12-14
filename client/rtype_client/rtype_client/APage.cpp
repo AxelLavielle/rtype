@@ -12,14 +12,17 @@
 
 APage::APage()
 {
-
+	_graph = NULL;
+	_event = NULL;
+	_soundManager = NULL;
 }
 
-APage::APage(IGraphManager *graph, IEventManager *event, const PathFileManager &fileManager)
+APage::APage(IGraphManager *graph, IEventManager *event, const PathFileManager &fileManager, ISoundManager *soundManager)
 {
   _graph = graph;
   _event = event;
   _fileManager = fileManager;
+  _soundManager = soundManager;
 }
 
 APage::~APage()

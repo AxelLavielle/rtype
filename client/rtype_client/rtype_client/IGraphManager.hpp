@@ -23,5 +23,6 @@ public:
 	virtual bool drawRectangle(const std::string & spritePath, const Rect & rect, const Color & transparentColor) = 0;
 	virtual std::pair<int, int> getScreenSize() const = 0;
 	virtual std::pair<int, int> getWindowSize() const = 0;
+	virtual void setMouseCursorVisible(const bool flag) = 0;
 };
 

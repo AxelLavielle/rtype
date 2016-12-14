@@ -6,7 +6,7 @@ class		APage
 {
 public:
   APage();
-  APage(IGraphManager*, IEventManager*, const PathFileManager &);
+  APage(IGraphManager*, IEventManager*, const PathFileManager &, ISoundManager *soundManager);
   virtual			~APage();
   virtual bool			init() = 0;
   virtual void			clear() = 0;
@@ -30,4 +30,5 @@ private:
   IGraphManager			*_graph;
   IEventManager			*_event;
   PathFileManager		_fileManager;
+  ISoundManager			*_soundManager;
 };

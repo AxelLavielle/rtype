@@ -11,6 +11,7 @@ class SFML :
 public:
 	SFML();
 	virtual ~SFML();
+	virtual void setMouseCursorVisible(const bool flag);
 	virtual std::pair<int, int> getScreenSize() const;
 	virtual std::pair<int, int> getWindowSize() const;
 	virtual bool init();

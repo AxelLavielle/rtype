@@ -32,6 +32,11 @@ SFML::~SFML()
 	delete _window;
 }
 
+void SFML::setMouseCursorVisible(const bool flag)
+{
+	_window->setMouseCursorVisible(flag);
+}
+
 std::pair<int, int>	SFML::getScreenSize() const
 {
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();

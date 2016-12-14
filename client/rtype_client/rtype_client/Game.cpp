@@ -87,6 +87,7 @@ int Game::launch()
 	bool												first = true;
 
 	i = 100;
+	_graph->setMouseCursorVisible(false);
 	_graph->setFullScreen(true);
 	_size = _graph->getWindowSize();
 	t1 = std::chrono::high_resolution_clock::now();

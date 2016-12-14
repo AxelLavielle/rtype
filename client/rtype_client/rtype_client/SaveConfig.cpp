@@ -147,24 +147,24 @@ int		saveConfig::getShipModel(void)
 
 saveConfig::saveConfig(void)
 {
-  this->player = "Player";
-  this->general = 250; // 50%
-  this->music = 250;
-  this->sfx = 250;
-  this->level = 1; // level 1
-  this->shipModel = 1; // ship 1
+  player = "Player";
+  general = 250; // 50%
+  music = 250;
+  sfx = 250;
+  level = 1; // level 1
+  shipModel = 1; // ship 1
 }
 
 saveConfig::saveConfig(const int  general, const int  music,
 		       const int  sfx, const int  level,
 		       const int shipModel, const std::string player)
 {
-  this->player = player;
-  this->general = general;
-  this->music = music;
-  this->sfx = sfx;
-  this->level = level;
-  this->shipModel = shipModel;
+  /*player = player;
+  general = general;
+  music = music;
+  sfx = sfx;
+  level = level;
+  shipModel = shipModel;*/
 }
 
 saveConfig::~saveConfig(void) {}

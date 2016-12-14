@@ -9,15 +9,15 @@ class ListBox : public AGUIElement
 {
 public:
 	ListBox(IGraphManager *graph, IEventManager *event, const Rect &rect);
-	~ListBox();
+	virtual ~ListBox();
 	virtual void setFontPath(const std::string & path);
 	virtual bool draw();
 	virtual bool over();
-	void setElements(const std::vector<std::string> &elements);
 	virtual bool click();
-	int getSelectedID(void) const;
+	void setElements(const std::vector<std::string> &elements);
 	void setButtonSprite(const std::string & sprite);
 	void setButtonOverSprite(const std::string & sprite);
+	int getSelectedID(void) const;
 
 private:
 	void drawButton();

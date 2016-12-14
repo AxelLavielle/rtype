@@ -13,7 +13,6 @@
 class SocketServerTCP : public ASocketServer
 {
 private:
-	//struct addrinfo *_addrSocket;
 	struct sockaddr_in _addrSocket;
 	int				_fdMax;
 	fd_set			_readfds;

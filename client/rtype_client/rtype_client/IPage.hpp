@@ -14,10 +14,21 @@
 
 class				IPage
 {
-	virtual			~IPage() {}
+public:
+	enum PAGE
+	{
+		ACCEUIL,
+		PLAY,
+		ROOMLIST,
+		ROOMCREATE,
+		SETTINGS,
+		NONE
+	};
+
+	virtual				~IPage() {}
   virtual bool			init() = 0;
   virtual void			clear() = 0;
   virtual bool			launch() = 0;
   virtual void			draw() = 0;
-
+  virtual IPage::PAGE	event() = 0;
 };

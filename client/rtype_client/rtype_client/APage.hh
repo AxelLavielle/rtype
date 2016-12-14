@@ -12,6 +12,7 @@ public:
   virtual void			clear() = 0;
   virtual bool			launch() = 0;
   virtual void			draw() = 0;
+  virtual IPage::PAGE	event() = 0;
 
 protected:
   std::vector<AGUIElement* >		_buttons;

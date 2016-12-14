@@ -63,3 +63,9 @@ void HomePage::draw()
 	drawGUIElement(_buttons);
 	drawGUIElement(_guiElement);
 }
+
+IPage::PAGE HomePage::event()
+{
+	hoverEvent(_buttons);
+	return (IPage::NONE);
+}

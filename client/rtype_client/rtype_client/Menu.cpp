@@ -397,7 +397,6 @@ void Menu::roomButton()
 bool Menu::launch()
 {
 	char ret;
-	initButton();
 	//_graph->setFullScreen(true);
 	HomePage homePage(_graph, _event, _fileManager, &_soundManager);
 
@@ -406,10 +405,10 @@ bool Menu::launch()
 	{
 		while (_event->refresh())
 		{
-			if ((ret = buttonEvent()) == 1)
-				return (true);
-			else if (ret == 2)
-				return (false);
+			if (homePage.event())
+				std::cout << "COUCOU" << std::endl;
+			if (_event->getKeyStroke() == "ECHAP")
+				_graph->close();
 		}
 		_graph->clearWindow();
 

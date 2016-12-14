@@ -23,7 +23,6 @@
     <ClCompile Include="SFMLEvent.cpp" />
     <ClCompile Include="SocketClientTCP.cpp" />
     <ClCompile Include="SocketClientUDP.cpp" />
-    <ClCompile Include="SaveConfig.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="PathFileManager.cpp" />
     <ClCompile Include="SFMLSound.cpp" />
@@ -44,6 +43,8 @@
     <ClCompile Include="..\..\..\common\Serialize\ListInfoCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\RoomInfoCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\Serialize.cpp" />
+    <ClCompile Include="HomePage.cpp" />
+    <ClCompile Include="SettingsPage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />
@@ -72,7 +73,6 @@
     <ClInclude Include="SFMLEvent.hh" />
     <ClInclude Include="SocketClientTCP.hh" />
     <ClInclude Include="SocketClientUDP.hh" />
-    <ClInclude Include="SaveConfig.hh" />
     <ClInclude Include="Sound.hh" />
     <ClInclude Include="..\..\..\common\ISocket.hpp" />
     <ClInclude Include="PathFileManager.hh" />
@@ -102,5 +102,7 @@
     <ClInclude Include="..\..\..\common\Serialize\ListInfoCmd.hh" />
     <ClInclude Include="..\..\..\common\Serialize\RoomInfoCmd.hh" />
     <ClInclude Include="..\..\..\common\Serialize\Serialize.hh" />
+    <ClInclude Include="HomePage.hh" />
+    <ClInclude Include="SettingsPage.hh" />
   </ItemGroup>
 </Project>

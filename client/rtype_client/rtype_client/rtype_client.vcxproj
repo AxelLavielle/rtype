@@ -86,7 +86,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\SFML\SFML-2.4.1\include;C:\Users\Mohamad\Desktop\sfml\SFML-2.4.1-windows-vc14-64-bit\SFML-2.4.1\include;..\..\..\common;C:\Users\Mohamad\Desktop\rtype\common\Serialize</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\SFML\SFML-2.4.1\include;C:\Users\Mohamad\Desktop\sfml\SFML-2.4.1-windows-vc14-64-bit\SFML-2.4.1\include;..\..\..\common\serialize;..\..\..\common;C:\Users\Mohamad\Desktop\rtype\common\Serialize</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -117,7 +117,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\SFML\SFML-2.4.1\include;C:\Users\Mohamad\Desktop\sfml\SFML-2.4.1-windows-vc14-64-bit\SFML-2.4.1\include;..\..\..\common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\SFML\SFML-2.4.1\include;C:\Users\Mohamad\Desktop\sfml\SFML-2.4.1-windows-vc14-64-bit\SFML-2.4.1\include;..\..\..\common\serialize;..\..\..\common;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -164,6 +164,7 @@
     <ClInclude Include="CmdManager.hh" />
     <ClInclude Include="Color.hh" />
     <ClInclude Include="Game.hh" />
+    <ClInclude Include="HomePage.hh" />
     <ClInclude Include="IEventManager.hpp" />
     <ClInclude Include="IGraphManager.hpp" />
     <ClInclude Include="IGUIElement.hpp" />
@@ -177,7 +178,7 @@
     <ClInclude Include="Rect.hh" />
     <ClInclude Include="CursorBox.hh" />
     <ClInclude Include="RectDecor.hh" />
-    <ClInclude Include="SaveConfig.hh" />
+    <ClInclude Include="SettingsPage.hh" />
     <ClInclude Include="SFML.hh" />
     <ClInclude Include="SFMLEvent.hh" />
     <ClInclude Include="SFMLSound.hh" />
@@ -214,6 +215,7 @@
     <ClCompile Include="CmdManager.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="HomePage.cpp" />
     <ClCompile Include="InputBox.cpp" />
     <ClCompile Include="ListBox.cpp" />
     <ClCompile Include="main.cpp" />
@@ -222,7 +224,7 @@
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="CursorBox.cpp" />
     <ClCompile Include="RectDecor.cpp" />
-    <ClCompile Include="SaveConfig.cpp" />
+    <ClCompile Include="SettingsPage.cpp" />
     <ClCompile Include="SFML.cpp" />
     <ClCompile Include="SFMLEvent.cpp" />
     <ClCompile Include="SFMLSound.cpp" />

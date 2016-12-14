@@ -15,6 +15,7 @@ public:
 	virtual void			clear();
 	virtual bool			launch();
 	virtual void			draw();
+	virtual IPage			*event();
 
 private:
 	int							_animInc;

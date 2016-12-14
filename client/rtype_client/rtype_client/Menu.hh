@@ -11,6 +11,8 @@
 #include "CheckBox.hh"
 #include "Game.hh"
 #include "RectDecor.hh"
+#include "Sound.hh"
+#include "SFMLSound.hh"
 
 #define ANIMDURATION 1000
 
@@ -44,6 +46,8 @@ private:
 	bool						_first;
 	double						_animDuration;
 	std::chrono::high_resolution_clock::time_point        t1;
+	Sound						_music;
+	//SFMLSound					_soundManager;
 
 	void initButton();
 	void firstAnim(const int i, std::vector<Button>::iterator it);

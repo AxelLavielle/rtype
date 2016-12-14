@@ -6,6 +6,9 @@ Menu::Menu()
 	_pagenb = PAGE::ACCEUIL;
 	_animInc = 0;
 	_first = true;
+	_music.setDuration(-1);
+	_music.setMusic(true);
+	_music.setFilePath("../../res/sounds/opening.wav");
 }
 
 

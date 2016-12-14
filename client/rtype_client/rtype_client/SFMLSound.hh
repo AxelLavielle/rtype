@@ -17,9 +17,11 @@ public:
 	virtual bool setVolume(const int) const;
 	virtual bool setMusicVolume(const int) const;
 	virtual bool setSoundVolume(const int) const;
+	virtual void stopAll() const;
 private:
 	std::map<sf::Sound*, std::string >		_sound;
 	std::map<sf::Music*, std::string >		_music;
+	std::vector<sf::SoundBuffer*>			_buffer;
 
 	sf::Sound *getSound(const std::string & path) const;
 	sf::Music *getMusic(const std::string & path) const;

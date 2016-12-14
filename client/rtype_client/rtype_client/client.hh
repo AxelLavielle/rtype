@@ -15,5 +15,6 @@ private:
 	IGraphManager		*_graph;
 	IEventManager		*_event;
 	IMenu				*_menu;
+	SocketClientTCP		_socket;
 };
 

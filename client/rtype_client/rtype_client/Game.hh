@@ -8,6 +8,8 @@
 #include "CmdManager.hh"
 #include "AGUIElement.hh"
 #include "RectDecor.hh"
+#include "Sound.hh"
+#include "SFMLSound.hh"
 
 class Game
 {
@@ -24,6 +26,8 @@ private:
 	std::vector<AGUIElement* >	_guiElement;
 	int							_dificulty;
 	std::pair<int, int>			_size;
+	SFMLSound					_soundManager;
+	Sound						_musicStage1;
 
 	void createUI();
 	void drawUi();

@@ -4,11 +4,14 @@
 
 Client::Client()
 {
+	_socket.init("127.0.0.1", 4242);
+	_socket.connectToServer();
 }
 
 
 Client::~Client()
 {
+	_socket.closure();
 	delete _graph;
 	delete _event;
 	delete _menu;
@@ -27,15 +30,5 @@ bool Client::launch()
 	_menu->setGraphManager(_graph);
 	if (!_menu->launch())
 		return (false);
-	while (_graph->isWindowOpen())
-	{
-		while (_event->refresh())
-		{
-			if (_event->getCloseEvent() || _event->getKeyStroke() == "ECHAP")
-				_graph->close();
-		}
-		_graph->clearWindow();
-		_graph->refresh();
-	}
 	return (true);
 }

@@ -1,16 +1,14 @@
 #include "SFMLSound.hh"
 
-
-
 SFMLSound::SFMLSound()
 {
 }
-
 
 SFMLSound::~SFMLSound()
 {
 	std::map<sf::Music*, std::string>::const_iterator	it;
 	std::map<sf::Sound*, std::string>::const_iterator	it2;
+	std::vector<sf::SoundBuffer* >::const_iterator		it3;
 
 	it = _music.begin();
 	while (it != _music.end())
@@ -26,6 +24,13 @@ SFMLSound::~SFMLSound()
 		++it2;
 	}
 	_sound.clear();
+	it3 = _buffer.begin();
+	while (it3 != _buffer.end())
+	{
+		delete (*it3);
+		++it3;
+	}
+	_buffer.clear();
 }
 
 bool SFMLSound::init()
@@ -47,7 +52,6 @@ sf::Music	*SFMLSound::getMusic(const std::string & path) const
 	return (NULL);
 }
 
-
 sf::Sound	*SFMLSound::getSound(const std::string & path) const
 {
 	std::map<sf::Sound*, std::string>::const_iterator	it;
@@ -67,16 +71,18 @@ bool SFMLSound::play(const Sound & sound)
 	if (!sound.isMusic())
 	{
 		sf::Sound *sd;
-		sf::SoundBuffer		buffer;
+		sf::SoundBuffer		*buffer;
 		if (!(sd = getSound(sound.getFilePath())))
 		{
-			if (!buffer.loadFromFile(sound.getFilePath()))
+			buffer = new sf::SoundBuffer();
+			if (!buffer->loadFromFile(sound.getFilePath()))
 				return (false);
 			sd = new sf::Sound();
-			sd->setBuffer(buffer);
+			sd->setBuffer(*buffer);
 			sd->setLoop(sound.isLoop());
 			sd->play();
 			_sound.insert(std::pair<sf::Sound*, std::string>(sd, sound.getFilePath()));
+			_buffer.push_back(buffer);
 		}
 		else
 			sd->play();
@@ -101,13 +107,35 @@ bool SFMLSound::play(const Sound & sound)
 
 bool SFMLSound::stop(const Sound & sound)
 {
-	//Not implemented
+	if (sound.isMusic())
+	{
+		sf::Music	*music;
+		if ((music = getMusic(sound.getFilePath())))
+			music->stop();
+	}
+	else
+	{
+		sf::Sound	*sd;
+		if ((sd = getSound(sound.getFilePath())))
+			sd->stop();
+	}
 	return (true);
 }
 
 bool SFMLSound::pause(const Sound & sound)
 {
-	//Not implemented
+	if (sound.isMusic())
+	{
+		sf::Music	*music;
+		if ((music = getMusic(sound.getFilePath())))
+			music->pause();
+	}
+	else
+	{
+		sf::Sound	*sd;
+		if ((sd = getSound(sound.getFilePath())))
+			sd->pause();
+	}
 	return (true);
 }
 
@@ -142,4 +170,23 @@ bool SFMLSound::setSoundVolume(const int volume) const
 		++it;
 	}
 	return (true);
+}
+
+void SFMLSound::stopAll() const
+{
+	std::map<sf::Music*, std::string>::const_iterator	it;
+	std::map<sf::Sound*, std::string>::const_iterator	it2;
+
+	it = _music.begin();
+	while (it != _music.end())
+	{
+		it->first->stop();
+		++it;
+	}
+	it2 = _sound.begin();
+	while (it2 != _sound.end())
+	{
+		it2->first->stop();
+		++it2;
+	}
 }

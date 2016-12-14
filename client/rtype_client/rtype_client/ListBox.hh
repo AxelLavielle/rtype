@@ -10,6 +10,7 @@ class ListBox : public AGUIElement
 public:
 	ListBox(IGraphManager *graph, IEventManager *event, const Rect &rect);
 	~ListBox();
+	virtual void setFontPath(const std::string & path);
 	virtual bool draw();
 	virtual bool over();
 	void setElements(const std::vector<std::string> &elements);

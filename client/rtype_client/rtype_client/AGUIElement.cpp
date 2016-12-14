@@ -61,3 +61,8 @@ void AGUIElement::setTransparentColor(const Color & color)
 {
 	_transparentColor = color;
 }
+
+void AGUIElement::setFontPath(const std::string & path)
+{
+	_fontPath = path;
+}

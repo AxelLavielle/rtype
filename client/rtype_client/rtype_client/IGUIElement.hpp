@@ -19,4 +19,5 @@ public:
 	virtual void setBackgroundOverSprite(const std::string & path) = 0;
 	virtual void setTransparentColor(const Color & color) = 0;
 	virtual Rect getPos() const = 0;
+	virtual void setFontPath(const std::string & path) = 0;
 };

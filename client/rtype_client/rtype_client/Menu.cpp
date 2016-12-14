@@ -10,7 +10,16 @@ Menu::Menu()
 	_music.setMusic(true);
 	_music.setFilePath("../../res/sounds/opening.wav");
 	_music.setLoop(true);
-	_soundManager.play(_music);
+	_clickSound.setDuration(-1);
+	_clickSound.setFilePath("../../res/sounds/buttonClick.wav");
+	_soundManager.play(_music);	
+	_fileManager.init();
+	_funcPtr.insert(std::pair<PAGE, funcPtr>(PAGE::PLAY, &Menu::initButton));
+	_funcPtr.insert(std::pair<PAGE, funcPtr>(PAGE::ROOMLIST, &Menu::roomButton));
+	_funcPtr.insert(std::pair<PAGE, funcPtr>(PAGE::ROOMCREATE, &Menu::roomButton));
+	_funcPtr.insert(std::pair<PAGE, funcPtr>(PAGE::SETTINGS, &Menu::initButton));
+	_funcPtr.insert(std::pair<PAGE, funcPtr>(PAGE::ACCEUIL, &Menu::settings));
+	std::cout << "HOME = " << _fileManager.getRoot() << std::endl;
 }
 
 
@@ -270,6 +279,23 @@ void Menu::settings()
 	setButtonSprite();
 }
 
+void Menu::clickEvent()
+{
+	std::map<PAGE, funcPtr>::iterator			it;
+
+	it = _funcPtr.begin();
+	while (it != _funcPtr.end())
+	{
+		if (it->first == _pagenb)
+		{
+			_soundManager.play(_clickSound);
+			((*this).*it->second)();
+			return;
+		}
+		++it;
+	}
+}
+
 char Menu::buttonEvent() //A CORRIGER
 {
 	std::vector<Button>::iterator		it;
@@ -311,10 +337,12 @@ char Menu::buttonEvent() //A CORRIGER
 	}
 	if (_buttons[0].click())
 	{
+		_soundManager.play(_clickSound);
 		if (_pagenb == PAGE::ACCEUIL)
 			roomButton();
 		else if (_pagenb == PAGE::PLAY)
 		{
+			_soundManager.stopAll();
 			_game.setGraph(_graph);
 			_game.setEvent(_event);
 			_game.launch();
@@ -322,24 +350,22 @@ char Menu::buttonEvent() //A CORRIGER
 		}
 	}
 	else if (_buttons[1].click())
-	{
-		if (_pagenb == PAGE::PLAY)
-			initButton();
-		else if (_pagenb == PAGE::ROOMLIST)
-			roomButton();
-		else if (_pagenb == PAGE::ROOMCREATE)
-			roomButton();
-		else if (_pagenb == PAGE::SETTINGS)
-			initButton();
-		else if (_pagenb == PAGE::ACCEUIL)
-			settings();
-	}
+		clickEvent();
 	else if (_pagenb == PAGE::PLAY && _buttons[3].click())
+	{
+		_soundManager.play(_clickSound);
 		createRoom();
+	}
 	else if (_pagenb == PAGE::PLAY && _buttons[2].click())
+	{
+		_soundManager.play(_clickSound);
 		roomList();
+	}
 	else if ((_pagenb == PAGE::ACCEUIL && _buttons[2].click()) || _event->getCloseEvent() || _event->getKeyStroke() == "ECHAP")
+	{
+		_soundManager.play(_clickSound);
 		_graph->close();
+	}
 	return (0);
 }
 

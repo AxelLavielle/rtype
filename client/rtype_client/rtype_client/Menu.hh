@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <map>
 #include <chrono>
 #include <ctime>
 #include "AMenu.hh"
@@ -13,6 +14,7 @@
 #include "RectDecor.hh"
 #include "Sound.hh"
 #include "SFMLSound.hh"
+#include "PathFileManager.hh"
 
 #define ANIMDURATION 1000
 
@@ -25,6 +27,7 @@ public:
 	virtual bool init();
 	virtual bool launch();
 private:
+	typedef void (Menu:: *funcPtr)(void);
 	enum PAGE
 	{
 		ACCEUIL,
@@ -47,7 +50,10 @@ private:
 	double						_animDuration;
 	std::chrono::high_resolution_clock::time_point        t1;
 	Sound						_music;
+	Sound						_clickSound;
 	SFMLSound					_soundManager;
+	std::map<PAGE, funcPtr>		_funcPtr;
+	PathFileManager				_fileManager;
 
 	void initButton();
 	void firstAnim(const int i, std::vector<Button>::iterator it);
@@ -60,6 +66,7 @@ private:
 	void roomList();
 	void createRoom();
 	void settings();
+	void clickEvent();
 	char buttonEvent();
 	void roomButton();
 	void clear();

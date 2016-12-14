@@ -27,6 +27,7 @@
     <ClCompile Include="SocketClientUDP.cpp" />
     <ClCompile Include="SaveConfig.cpp" />
     <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="PathFileManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />
@@ -61,5 +62,6 @@
     <ClInclude Include="SaveConfig.hh" />
     <ClInclude Include="Sound.hh" />
     <ClInclude Include="..\..\..\common\ISocket.hpp" />
+    <ClInclude Include="PathFileManager.hh" />
   </ItemGroup>
 </Project>

@@ -15,5 +15,6 @@ public:
 	virtual bool setVolume(const int) const = 0;
 	virtual bool setMusicVolume(const int) const = 0;
 	virtual bool setSoundVolume(const int) const = 0;
+	virtual void stopAll() const = 0;
 };
 

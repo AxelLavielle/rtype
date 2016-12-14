@@ -34,7 +34,8 @@ SRC	=	$(DIR)/ACommand.cpp	 	\
 		$(DIR)/SFMLEvent.cpp 		\
 		$(DIR)/SFMLSound.cpp 		\
 		$(DIR)/SocketClientTCP.cpp	\
-		$(DIR)/Sound.cpp
+		$(DIR)/Sound.cpp		\
+		$(DIR)/PathFileManager.cpp
 
 OBJ	=	$(SRC:.cpp=.o)
 

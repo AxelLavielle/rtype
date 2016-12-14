@@ -117,7 +117,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\SFML\SFML-2.4.1\include;C:\Users\Mohamad\Desktop\sfml\SFML-2.4.1-windows-vc14-64-bit\SFML-2.4.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\SFML\SFML-2.4.1\include;C:\Users\Mohamad\Desktop\sfml\SFML-2.4.1-windows-vc14-64-bit\SFML-2.4.1\include;..\..\..\common</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -150,6 +150,7 @@
     <ClInclude Include="ISoundManager.hpp" />
     <ClInclude Include="ListBox.hh" />
     <ClInclude Include="Menu.hh" />
+    <ClInclude Include="PathFileManager.hh" />
     <ClInclude Include="Rect.hh" />
     <ClInclude Include="CursorBox.hh" />
     <ClInclude Include="RectDecor.hh" />
@@ -178,6 +179,7 @@
     <ClCompile Include="ListBox.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="PathFileManager.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="CursorBox.cpp" />
     <ClCompile Include="RectDecor.cpp" />

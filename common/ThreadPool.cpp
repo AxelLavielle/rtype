@@ -6,7 +6,6 @@ Spider::ThreadPool::ThreadPool()
 {
 }
 
-
 Spider::ThreadPool::~ThreadPool()
 {
 }

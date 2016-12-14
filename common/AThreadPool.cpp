@@ -1,16 +1,15 @@
 #include "AThreadPool.hh"
 
-Spider::AThreadPool::AThreadPool()
+AThreadPool::AThreadPool()
 {
 	_size = 0;
 }
 
-
-Spider::AThreadPool::~AThreadPool()
+AThreadPool::~AThreadPool()
 {
 }
 
-int Spider::AThreadPool::getSize()
+int AThreadPool::getSize()
 {
 	return (_size);
 }

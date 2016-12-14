@@ -28,6 +28,14 @@
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="PathFileManager.cpp" />
     <ClCompile Include="SFMLSound.cpp" />
+    <ClCompile Include="..\..\..\common\AEntity.cpp" />
+    <ClCompile Include="..\..\..\common\AMutex.cpp" />
+    <ClCompile Include="..\..\..\common\AThread.cpp" />
+    <ClCompile Include="..\..\..\common\AThreadPool.cpp" />
+    <ClCompile Include="..\..\..\common\MemTools.cpp" />
+    <ClCompile Include="..\..\..\common\Mutex.cpp" />
+    <ClCompile Include="..\..\..\common\Thread.cpp" />
+    <ClCompile Include="..\..\..\common\ThreadPool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />
@@ -62,5 +70,18 @@
     <ClInclude Include="..\..\..\common\ISocket.hpp" />
     <ClInclude Include="PathFileManager.hh" />
     <ClInclude Include="SFMLSound.hh" />
+    <ClInclude Include="..\..\..\common\AEntity.hh" />
+    <ClInclude Include="..\..\..\common\AMutex.hh" />
+    <ClInclude Include="..\..\..\common\AThread.hh" />
+    <ClInclude Include="..\..\..\common\AThreadPool.hh" />
+    <ClInclude Include="..\..\..\common\EntityType.hh" />
+    <ClInclude Include="..\..\..\common\IEntity.hpp" />
+    <ClInclude Include="..\..\..\common\IMutex.hpp" />
+    <ClInclude Include="..\..\..\common\IThread.hpp" />
+    <ClInclude Include="..\..\..\common\IThreadPool.hpp" />
+    <ClInclude Include="..\..\..\common\MemTools.hh" />
+    <ClInclude Include="..\..\..\common\Mutex.hh" />
+    <ClInclude Include="..\..\..\common\Thread.hh" />
+    <ClInclude Include="..\..\..\common\ThreadPool.hh" />
   </ItemGroup>
 </Project>

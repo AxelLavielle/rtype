@@ -1,46 +1,62 @@
 #include "ThreadPool.hh"
 
-
-
-Spider::ThreadPool::ThreadPool()
+ThreadPool::ThreadPool()
 {
 }
 
-Spider::ThreadPool::~ThreadPool()
+ThreadPool::~ThreadPool()
 {
 }
 
-bool Spider::ThreadPool::addThread(IThread * thread)
+bool ThreadPool::addThread(IThread * thread)
 {
-	_threadGroup.add_thread((static_cast<Thread*>(thread))->getThread());
+	_threadGroup.push_back(thread);
 	_size = _threadGroup.size();
 	return (true);
 }
 
-bool Spider::ThreadPool::removeThread(IThread * thread)
+bool ThreadPool::removeThread(IThread * thread)
 {
-	_threadGroup.remove_thread((static_cast<Thread*>(thread))->getThread());
+	unsigned int	i = 0;
+	int				a = 0;
+
+	while (i != _threadGroup.size())
+	{
+		if (_threadGroup[i] == thread)
+		{
+			_threadGroup.erase(_threadGroup.begin() + i);
+			a++;
+			break;
+		}
+		i++;
+	}
+	if (a == 0)
+		return (false);
 	_size = _threadGroup.size();
 	return (true);
 }
 
-void Spider::ThreadPool::joinAll()
+void ThreadPool::joinAll()
 {
-	_threadGroup.join_all();
+	unsigned int	i = 0;
+
+	while (i != _threadGroup.size())
+	{
+		_threadGroup[i]->join();
+		i++;
+	}
 }
 
-void Spider::ThreadPool::interruptAll()
+bool ThreadPool::is_thread_in(IThread *thread)
 {
-	_threadGroup.interrupt_all();
-}
+	unsigned int	i = 0;
 
-bool Spider::ThreadPool::is_this_thread_in()
-{
-	return (_threadGroup.is_this_thread_in());
-}
-
-bool Spider::ThreadPool::is_thread_in(IThread * thread)
-{
-	return (_threadGroup.is_thread_in((static_cast<Thread*>(thread))->getThread()));
+	while (i != _threadGroup.size())
+	{
+		if (_threadGroup[i] == thread)
+			return (true);
+		i++;
+	}
+	return (false);
 }
 	

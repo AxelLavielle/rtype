@@ -1,16 +1,32 @@
-//
-// saveConfig.cpp for  in /home/gloulo_e/RTYPE
-//
-// Made by elyess gloulou
-// Login   <gloulo_e@epitech.net>
-//
-// Started on  Tue Dec 13 01:21:20 2016 elyess gloulou
-// Last update Thu Dec 15 18:43:36 2016 elyess gloulou
-//
+#include "SaveConfig.hh"
 
-#include "saveConfig.hh"
+SaveConfig::SaveConfig()
+{
+  _player = "Player";
+  _general = 250; // 50%
+  _music = 250;
+  _sfx = 250;
+  _level = 1; // level 1
+  _shipModel = 1; // ship 1
+}
 
-void			saveConfig::writeToFile()
+SaveConfig::SaveConfig(const int general, const int music,
+		       const int sfx, const int level,
+		       const int shipModel, const std::string &player)
+{
+  _player = player;
+  _general = general;
+  _music = music;
+  _sfx = sfx;
+  _level = level;
+  _shipModel = shipModel;
+}
+
+SaveConfig::~SaveConfig()
+{
+}
+
+void			SaveConfig::writeToFile()
 {
 	std::fstream		fileStream;
 
@@ -37,8 +53,9 @@ void			saveConfig::writeToFile()
 	fileStream.close();
 }
 
-void				saveConfig::needleInHaystack(std::string haystack)
-{ // ifs to replace with a dual tab string tab and var adress tab on a single if
+void				SaveConfig::needleInHaystack(const std::string &haystack)
+{
+	// ifs to replace with a dual tab string tab and var adress tab on a single if
 	if (haystack.find("<Player>") != std::string::npos
 		&&  haystack.find("</Player>") != std::string::npos)
 	{
@@ -95,7 +112,7 @@ void				saveConfig::needleInHaystack(std::string haystack)
 	}
 }
 
-void				saveConfig::readFromFile()
+void				SaveConfig::readFromFile()
 {
 	std::fstream			fileStream;
 
@@ -115,56 +132,62 @@ void				saveConfig::readFromFile()
 		std::cerr << "Error: Menu File Failed to Open!1" << std::endl;
 }
 
-std::string	saveConfig::getPlayer()
+std::string	SaveConfig::getPlayer() const
 {
-  return _player;
+  return (_player);
 }
 
-int		saveConfig::getGeneral()
-{
-  return _general;
-}
-
-int		saveConfig::getMusic()
-{
-  return _music;
-}
-
-int		saveConfig::getSfx()
-{
-  return _sfx;
-}
-
-int		saveConfig::getLevel()
-{
-  return _level;
-}
-
-int		saveConfig::getShipModel()
-{
-  return _shipModel;
-}
-
-saveConfig::saveConfig()
-{
-  _player = "Player";
-  _general = 250; // 50%
-  _music = 250;
-  _sfx = 250;
-  _level = 1; // level 1
-  _shipModel = 1; // ship 1
-}
-
-saveConfig::saveConfig(const int  general, const int  music,
-		       const int  sfx, const int  level,
-		       const int shipModel, const std::string player)
+void		SaveConfig::setPlayer(const std::string &player)
 {
   _player = player;
-  _general = general;
-  _music = music;
-  _sfx = sfx;
-  _level = level;
-  _shipModel = shipModel;
 }
 
-saveConfig::~saveConfig() {}
+int		SaveConfig::getGeneral() const
+{
+  return (_general);
+}
+
+void		SaveConfig::setGeneral(const int general)
+{
+  _general = general;
+}
+
+int		SaveConfig::getMusic() const
+{
+  return (_music);
+}
+
+void		SaveConfig::setMusic(const int music)
+{
+  _music = music;
+}
+
+int		SaveConfig::getSfx() const
+{
+  return (_sfx);
+}
+
+void		SaveConfig::setSfx(const int sfx)
+{
+  _sfx = sfx;
+}
+
+int		SaveConfig::getLevel() const
+{
+  return (_level);
+}
+
+void		SaveConfig::setLevel(const int level)
+{
+  _level = level;
+}
+
+int		SaveConfig::getShipModel() const
+{
+  return (_shipModel);
+}
+
+void		SaveConfig::setShipModel(const int shipModel)
+{
+  _shipModel = shipModel;
+}

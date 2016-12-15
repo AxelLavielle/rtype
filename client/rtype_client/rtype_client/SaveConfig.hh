@@ -1,40 +1,12 @@
 #pragma once
 
-//
-// saveConfig.hh for  in /home/gloulo_e/RTYPE
-//
-// Made by elyess gloulou
-// Login   <gloulo_e@epitech.net>
-//
-// Started on  Tue Dec 13 01:21:17 2016 elyess gloulou
-// Last update Thu Dec 15 18:48:03 2016 elyess gloulou
-//
-
-// #ifndef _SAVECONFIG_HH_
-// # define _SAVECONFIG_HH_
-
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <sstream>
 
-class saveConfig
+class SaveConfig
 {
-public:
-	void	writeToFile(void);
-	void	readFromFile(void);
-	void  needleInHaystack(std::string);
-
-  //getters
-  std::string	getPlayer();
-  int		getGeneral();
-  int		getMusic();
-  int		getSfx();
-  int		getLevel();
-  int		getShipModel();
-  saveConfig(int, int, int, int, int);
-  ~saveConfig();
-
 private:
 	std::string	_player;
 	int	_general;
@@ -42,6 +14,24 @@ private:
 	int	_sfx;
 	int	_level;
 	int	_shipModel;
-};
+public:
+	SaveConfig();
+	SaveConfig(const int, const int, const int, const int, const int, const std::string &);
+	~SaveConfig();
+	void	writeToFile();
+	void	readFromFile();
+	void  needleInHaystack(const std::string &);
 
-// #endif	/*_SAVECONFIG_HH_*/
+	std::string	getPlayer() const;
+	void		setPlayer(const std::string &);
+	int		getGeneral() const;
+        void		setGeneral(const int);
+	int		getMusic() const;
+	void		setMusic(const int);
+	int		getSfx() const;
+	void		setSfx(const int);
+	int		getLevel() const;
+	void		setLevel(const int);
+	int		getShipModel() const;
+	void		setShipModel(const int);
+};

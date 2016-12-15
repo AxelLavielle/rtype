@@ -15,18 +15,18 @@
 class				IPage
 {
 public:
-	enum PAGE
-	{
-		ACCEUIL,
-		PLAY,
-		ROOMLIST,
-		ROOMCREATE,
-		SETTINGS,
-		QUIT,
-		NONE
-	};
+  enum PAGE
+    {
+      HOME,
+      PLAY,
+      ROOMLIST,
+      INSIDEROOM,
+      SETTINGS,
+      QUIT,
+      NONE
+    };
 
-	virtual				~IPage() {}
+  virtual			~IPage() {}
   virtual bool			init() = 0;
   virtual void			clear() = 0;
   virtual bool			launch() = 0;

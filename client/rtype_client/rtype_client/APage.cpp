@@ -5,7 +5,7 @@
 // Login   <laviel_a@epitech.net>
 // 
 // Started on  Wed Dec 14 15:41:00 2016 Axel Lavielle
-// Last update Wed Dec 14 18:06:42 2016 Axel Lavielle
+// Last update Thu Dec 15 18:13:28 2016 Axel Lavielle
 //
 
 #include	"APage.hh"
@@ -142,8 +142,8 @@ void APage::drawGUIElement(std::map<IPage::PAGE, AGUIElement* > guiElements)
 {
 	std::map<IPage::PAGE, AGUIElement* >::iterator			it;
 
-	it = _buttons.begin();;
-	while (it != _buttons.end())
+	it = guiElements.begin();;
+	while (it != guiElements.end())
 	{
 		it->second->draw();
 		++it;
@@ -154,21 +154,21 @@ void APage::clearGUIElement(std::map<IPage::PAGE, AGUIElement*> guiElements)
 {
 	std::map<IPage::PAGE, AGUIElement* >::iterator			it;
 
-	it = _buttons.begin();;
-	while (it != _buttons.end())
+	it = guiElements.begin();;
+	while (it != guiElements.end())
 	{
 		delete (it->second);
 		++it;
 	}
-	_buttons.clear();
+	guiElements.clear();
 }
 
 void APage::hoverEvent(std::map<IPage::PAGE, AGUIElement*> guiElements)
 {
 	std::map<IPage::PAGE, AGUIElement* >::iterator			it;
 
-	it = _buttons.begin();;
-	while (it != _buttons.end())
+	it = guiElements.begin();;
+	while (it != guiElements.end())
 	{
 		it->second->over();
 		++it;
@@ -179,8 +179,8 @@ IPage::PAGE APage::clickEvent(std::map<IPage::PAGE, AGUIElement*> guiElements)
 {
 	std::map<IPage::PAGE, AGUIElement* >::iterator			it;
 
-	it = _buttons.begin();;
-	while (it != _buttons.end())
+	it = guiElements.begin();;
+	while (it != guiElements.end())
 	{
 		if (it->second->click())
 			return (it->first);

@@ -23,7 +23,6 @@ bool HomePage::init()
 	initButton(70, 10, 60, Rect(380, 550, 90, 310), "QUIT", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::QUIT);
 	initDecor(Rect(290, 150, 50, 500), "/res/img/bordureHaut.png");
 	initDecor(Rect(290, 650, 50, 500), "/res/img/bordureBas.png");
-	//initDecor(Rect(290, 650, 50, 500), _fileManager.getRoot() + "/res/img/bordureBas.png");
 	t1 = std::chrono::high_resolution_clock::now();
 	return (true);
 }

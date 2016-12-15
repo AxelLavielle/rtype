@@ -22,21 +22,26 @@ SRC	=	$(COM)/ACommand.cpp	 	\
 		$(DIR)/CursorBox.cpp 		\
 		$(COM)/EntityCmd.cpp 		\
 		$(DIR)/Game.cpp 		\
+		$(DIR)/HomePage.cpp 		\
 		$(DIR)/InputBox.cpp 		\
 		$(COM)/InputCmd.cpp 		\
+		$(DIR)/InsideRoomPage.cpp	\
 		$(COM)/ListInfoCmd.cpp 		\
 		$(DIR)/ListBox.cpp 		\
+		$(DIR)/LobbyPage.cpp 		\
 		$(DIR)/main.cpp 		\
 		$(DIR)/Menu.cpp 		\
 		$(DIR)/APage.cpp 		\
 		$(DIR)/Rect.cpp 		\
 		$(DIR)/RectDecor.cpp 		\
 		$(COM)/RoomInfoCmd.cpp 		\
+		$(DIR)/RoomListPage.cpp		\
 		$(COM)/Serialize.cpp		\
 		$(DIR)/SFML.cpp 		\
 		$(DIR)/SFMLEvent.cpp 		\
 		$(DIR)/SFMLSound.cpp 		\
 		$(DIR)/SocketClientTCP.cpp	\
+		$(DIR)/SocketClientUDP.cpp	\
 		$(DIR)/Sound.cpp		\
 		$(DIR)/PathFileManager.cpp
 

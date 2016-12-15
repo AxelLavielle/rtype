@@ -16,6 +16,9 @@
 #include "SFMLSound.hh"
 #include "PathFileManager.hh"
 #include "HomePage.hh"
+#include "LobbyPage.hh"
+#include "RoomListPage.hh"
+#include "InsideRoomPage.hh"
 
 #define ANIMDURATION 1000
 
@@ -53,7 +56,6 @@ private:
 	Sound						_music;
 	Sound						_clickSound;
 	SFMLSound					_soundManager;
-	std::map<PAGE, funcPtr>		_funcPtr;
 	PathFileManager				_fileManager;
 
 	void initButton();

@@ -7,11 +7,11 @@
 // Login   <gloulo_e@epitech.net>
 //
 // Started on  Tue Dec 13 01:21:17 2016 elyess gloulou
-// Last update Wed Dec 14 22:07:09 2016 elyess gloulou
+// Last update Thu Dec 15 18:48:03 2016 elyess gloulou
 //
 
-#ifndef _SAVECONFIG_HH_
-# define _SAVECONFIG_HH_
+// #ifndef _SAVECONFIG_HH_
+// # define _SAVECONFIG_HH_
 
 #include <fstream>
 #include <iostream>
@@ -20,13 +20,6 @@
 
 class saveConfig
 {
-	std::string	player;
-	int	general;
-	int	music;
-	int	sfx;
-	int	level;
-	int	shipModel;
-
 public:
 	void	writeToFile(void);
 	void	readFromFile(void);
@@ -42,6 +35,13 @@ public:
   saveConfig(int, int, int, int, int);
   ~saveConfig();
 
+private:
+	std::string	_player;
+	int	_general;
+	int	_music;
+	int	_sfx;
+	int	_level;
+	int	_shipModel;
 };
 
-#endif	/*_SAVECONFIG_HH_*/
+// #endif	/*_SAVECONFIG_HH_*/

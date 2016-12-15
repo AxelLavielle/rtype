@@ -5,13 +5,14 @@
 class Player :
 	public AEntity
 {
+protected:
+  int			_id;
 public:
   Player();
   virtual ~Player();
-  virtual int		getId() const;
-  virtual void		setId(const int);
-  virtual void		update(void);
+
+  virtual void		update();
   IEntity	*entityCreator();
-protected:
-  int			_id;
+  int			getId() const;
+  void			setId(const int);
 };

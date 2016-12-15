@@ -11,6 +11,7 @@ class DlManager
 public:
 	DlManager();
 	~DlManager();
+  bool							init();
 	std::string					getFolderPath(void) const;
 	void						setFolderPath(const std::string &);
 	IEntity						*getdl(const std::string &) const;
@@ -20,7 +21,7 @@ public:
 	void						setBrowser(IDirectoryBrowser *);
 	IDirectoryBrowser				*getBrowser();
 	bool						loadEntities(const std::vector<std::string>&);
-  bool						loadEntity(const std::string &path);
+	bool						loadEntity(const std::string &path);
 private:
 	std::string					_folderPath;
 	IDlLoader      					*_DlLoader;

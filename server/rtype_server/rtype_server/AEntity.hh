@@ -14,7 +14,7 @@ public:
 	virtual		void			setPosX(const double);
 	virtual		double			getPosY() const;
 	virtual		void			setPosY(const double);
-	virtual		rtype::EntityType	getType(void) const;
+	virtual		rtype::EntityType	getType() const;
 	virtual		void			setType(const rtype::EntityType &);
 	virtual		IEntity			*createEntity();
 	virtual		void			setName(const std::string &);

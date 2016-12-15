@@ -5,12 +5,13 @@
 class PowerUp :
   public AEntity
 {
+protected:
+  int		_power;
 public:
   PowerUp();
   virtual	~PowerUp();
-  virtual void	setPower(const int);
-  virtual int	getPower(void) const;
-  virtual void	update(void);
-protected:
-  int		_power;
+
+  virtual void	update();
+  void	setPower(const int);
+  int	getPower(void) const;
 };

@@ -8,5 +8,6 @@ class Barrier :
 public:
   Barrier();
   virtual		~Barrier();
-  virtual void		update(void);
+
+  virtual void		update();
 };

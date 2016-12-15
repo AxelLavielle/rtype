@@ -1,17 +1,17 @@
-#include "UDlLoader.hh"
+#include "UWDlLoader.hh"
 #include <iostream>
 
-UDlLoader::UDlLoader()
+UWDlLoader::UWDlLoader()
 {
 }
 
-UDlLoader::~UDlLoader()
+UWDlLoader::~UWDlLoader()
 {
   dlclose(_dlHandle);
   _dlHandle = NULL;
 }
 
-IEntity	*UDlLoader::getInstance(void)
+IEntity	*UWDlLoader::getInstance(void)
 {
   IEntity		*(*Entity)();
 
@@ -23,7 +23,7 @@ IEntity	*UDlLoader::getInstance(void)
   return (rtn);
 }
 
-bool	UDlLoader::load(const std::string &path)
+bool	UWDlLoader::load(const std::string &path)
 {
   _dlHandle = dlopen(path.c_str(), RTLD_LAZY | RTLD_NOW);
   if (_dlHandle == NULL)
@@ -31,7 +31,7 @@ bool	UDlLoader::load(const std::string &path)
   return (_dlHandle != NULL);
 }
 
-bool	UDlLoader::refresh()
+bool	UWDlLoader::refresh()
 {
   return (true);
 }

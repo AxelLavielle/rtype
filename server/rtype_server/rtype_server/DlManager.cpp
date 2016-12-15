@@ -1,16 +1,33 @@
 #include "DlManager.hh"
-#include "UWDlLoader.hh"
-#include "UWDirectoryBrowser.hh"
+#include "UDlLoader.hh"
+#include "UDirectoryBrowser.hh"
+#include "WDlLoader.hh"
+#include "WDirectoryBrowser.hh"
 #include <iostream>
 
 DlManager::DlManager()
 {
-  _DlLoader = new UWDlLoader();
-  _browser = new UWDirectoryBrowser();
+  this->init();
 }
 
 DlManager::~DlManager()
 {
+}
+
+bool		DlManager::init()
+{
+#ifdef __linux__
+  _DlLoader = new UDlLoader;
+  _browser = new UDirectoryBrowser;
+  return (true);
+#elif __WIN32
+  _DlLoader = new WDlLoader;
+  _browser = new WDirectoryBrowser;
+  return (true);
+#else
+  return (false);
+#endif
+  return (false);
 }
 
 std::string						DlManager::getFolderPath() const

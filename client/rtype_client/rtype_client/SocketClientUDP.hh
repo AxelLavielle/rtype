@@ -9,6 +9,10 @@
 	# include <arpa/inet.h>
 	# include <sys/socket.h>
 	# include <unistd.h>
+#elif __APPLE__
+	# include <arpa/inet.h>
+	# include <sys/socket.h>
+	# include <unistd.h>
 #endif
 
 # include <cstring>
@@ -30,4 +34,3 @@ private:
 	int			_sock;
 	struct sockaddr_in	_siOther;
 };
-

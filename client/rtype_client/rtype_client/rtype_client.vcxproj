@@ -217,13 +217,16 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HomePage.cpp" />
     <ClCompile Include="InputBox.cpp" />
+    <ClCompile Include="InsideRoomPage.cpp" />
     <ClCompile Include="ListBox.cpp" />
+    <ClCompile Include="LobbyPage.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="PathFileManager.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="CursorBox.cpp" />
     <ClCompile Include="RectDecor.cpp" />
+    <ClCompile Include="RoomListPage.cpp" />
     <ClCompile Include="SettingsPage.cpp" />
     <ClCompile Include="SFML.cpp" />
     <ClCompile Include="SFMLEvent.cpp" />

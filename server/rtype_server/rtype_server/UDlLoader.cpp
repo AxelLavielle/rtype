@@ -7,13 +7,13 @@ UDlLoader::UDlLoader()
 
 UDlLoader::~UDlLoader()
 {
-  dlclose(_dlHandle);
-  _dlHandle = NULL;
+  if (_dlHandle)
+    dlclose(_dlHandle);
 }
 
-IEntity	*UDlLoader::getInstance(void)
+IEntity		*UDlLoader::getInstance()
 {
-  IEntity		*(*Entity)();
+  IEntity	*(*Entity)();
 
   Entity = reinterpret_cast<IEntity*(*)()>(dlsym(_dlHandle, "createEntity"));
   if (Entity == NULL)
@@ -23,7 +23,7 @@ IEntity	*UDlLoader::getInstance(void)
   return (rtn);
 }
 
-bool	UDlLoader::load(const std::string &path)
+bool		UDlLoader::load(const std::string &path)
 {
   _dlHandle = dlopen(path.c_str(), RTLD_LAZY | RTLD_NOW);
   if (_dlHandle == NULL)
@@ -31,7 +31,7 @@ bool	UDlLoader::load(const std::string &path)
   return (_dlHandle != NULL);
 }
 
-bool	UDlLoader::refresh()
+bool		UDlLoader::refresh()
 {
   return (true);
 }

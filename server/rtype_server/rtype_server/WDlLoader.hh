@@ -8,6 +8,7 @@ public:
   WDlLoader();
   virtual ~WDlLoader();
 
-  virtual IEntity	*getInstance(void);
+  virtual IEntity	*getInstance();
   virtual bool		load(const std::string &);
+  virtual bool		refresh();
 };

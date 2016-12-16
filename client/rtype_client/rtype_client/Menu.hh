@@ -32,20 +32,8 @@ public:
 	virtual bool init();
 	virtual bool launch();
 private:
-	typedef void (Menu:: *funcPtr)(void);
-
-	std::vector<Button>			_buttons;
-	PAGE						_pagenb;
-	std::vector<ListBox>		_listBox;
-	std::vector<InputBox>		_input;
-	std::vector<CursorBox>		_cursorBox;
-	std::vector<CheckBox>		_checkBox;
 	std::vector<AGUIElement* >	_guiElement;
 	Game						_game;
-	int							_animInc;
-	bool						_first;
-	double						_animDuration;
-	std::chrono::high_resolution_clock::time_point        t1;
 	Sound						_music;
 	Sound						_clickSound;
 	SFMLSound					_soundManager;

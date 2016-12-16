@@ -3,9 +3,6 @@
 
 Menu::Menu()
 {
-	_pagenb = PAGE::ACCEUIL;
-	_animInc = 0;
-	_first = true;
 }
 
 Menu::~Menu()

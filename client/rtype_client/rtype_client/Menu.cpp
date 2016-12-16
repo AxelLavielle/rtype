@@ -30,7 +30,9 @@ bool Menu::launch()
 {
   IPage::PAGE	curr_event;
   APage	*pages = new HomePage(_graph, _event, _fileManager, &_soundManager);
+  bool		newEvent;
 
+  newEvent = false;
   pages->init();
   while (_graph->isWindowOpen())
     {
@@ -40,22 +42,34 @@ bool Menu::launch()
 	  switch (curr_event)
 	    {
 	    case IPage::HOME:
-	      pages = new HomePage(_graph, _event, _fileManager, &_soundManager);
 	      delete (pages);
+	      newEvent = true;
+	      pages = new HomePage(_graph, _event, _fileManager, &_soundManager);
+	      std::cout << "Home" << std::endl;
 	      break;
 	    case IPage::PLAY:
 	      delete (pages);
+	      newEvent = true;
 	      pages = new LobbyPage(_graph, _event, _fileManager, &_soundManager);
+	      std::cout << "Lobby" << std::endl;
 	      break;
 	    case IPage::ROOMLIST:
 	      delete (pages);
+	      newEvent = true;
 	      pages = new RoomListPage(_graph, _event, _fileManager, &_soundManager);
+	      std::cout << "RoomList" << std::endl;
 	      break;
 	    case IPage::INSIDEROOM:
 	      delete (pages);
+	      newEvent = true;
 	      pages = new InsideRoomPage(_graph, _event, _fileManager, &_soundManager);
+	      std::cout << "InsideRoom" << std::endl;
 	      break;
 	    case IPage::SETTINGS:
+	      delete (pages);
+	      newEvent = true;
+	      pages = new SettingsPage(_graph, _event, _fileManager, &_soundManager);
+	      std::cout << "Settings" << std::endl;
 	      break;
 	    case IPage::QUIT:
 	      _graph->close();
@@ -65,6 +79,14 @@ bool Menu::launch()
 	    }
 	  if (_event->getKeyStroke() == "ECHAP" || _event->getCloseEvent())
 	    _graph->close();
+	  if (newEvent)
+	    {
+	      pages->init();
+	      _graph->clearWindow();
+	      pages->draw();
+	      _graph->refresh();
+	      newEvent = false;
+	    }
 	}
       _graph->clearWindow();
       pages->draw();

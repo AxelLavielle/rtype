@@ -41,5 +41,6 @@ protected:
   void			drawGUIElement(std::map<IPage::PAGE, AGUIElement *> guiElements);
   void			clearGUIElement(std::map<IPage::PAGE, AGUIElement *> guiElements);
   void			hoverEvent(std::map<IPage::PAGE, AGUIElement *> guiElements);
-  IPage::PAGE	clickEvent(std::map<IPage::PAGE, AGUIElement *> guiElements);
+  void			clickEvent(std::vector<AGUIElement*> guiElements);
+  IPage::PAGE		clickEvent(std::map<IPage::PAGE, AGUIElement *> guiElements);
 };

@@ -15,12 +15,10 @@ LobbyPage::~LobbyPage()
 
 bool LobbyPage::init()
 {
-	// initButton(70, 10, 60, Rect(380, 200, 90, 310), "PLAY", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::PLAY);
-	// initButton(20, 10, 60, Rect(380, 380, 90, 310), "OPTION", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::SETTINGS);
-	// initButton(70, 10, 60, Rect(380, 550, 90, 310), "QUIT", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::QUIT);
-	initDecor(Rect(290, 150, 50, 500), "/res/img/bordureHaut.png");
-	initDecor(Rect(290, 650, 50, 500), "/res/img/bordureBas.png");
-	t1 = std::chrono::high_resolution_clock::now();
+	initButton(70, 10, 60, Rect(750, 600, 90, 310), "PLAY", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::PLAY);
+	initButton(70, 10, 60, Rect(20, 600, 90, 310), "BACK", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::HOME);
+	initButton(50, 10, 60, Rect(300, 380, 90, 500), "JOIN ROOM", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::ROOMLIST);
+	initButton(20, 10, 60, Rect(300, 150, 90, 500), "CREATE ROOM", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::INSIDEROOM);
 	return (true);
 }
 

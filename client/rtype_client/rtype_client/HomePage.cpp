@@ -35,7 +35,6 @@ void HomePage::clear()
 
 bool HomePage::launch()
 {
-	//Not implemented
 	return (true);
 }
 

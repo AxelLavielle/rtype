@@ -5,7 +5,7 @@
 // Login   <laviel_a@epitech.net>
 // 
 // Started on  Wed Dec 14 15:41:00 2016 Axel Lavielle
-// Last update Thu Dec 15 18:13:28 2016 Axel Lavielle
+// Last update Fri Dec 16 11:42:19 2016 Axel Lavielle
 //
 
 #include	"APage.hh"
@@ -53,7 +53,7 @@ void		APage::initInputBox(Rect pos, std::string sprite, Color rgb)
   input->setGraph(_graph);
   input->setBackgroundSprite(_fileManager.getRoot() + sprite);
   input->setTextColor(rgb);
-  _input.push_back(input);
+  _guiElement.push_back(input);
 }
 
 void		APage::initDecor(Rect pos, std::string sprite)
@@ -79,7 +79,7 @@ void		APage::initCursorBox(Rect pos, std::string spriteBar, std::string spriteBu
 
   cursor->setBackgroundSprite(_fileManager.getRoot() + spriteBar);
   cursor->setBackgroundOverSprite(_fileManager.getRoot() + spriteButton);
-  _cursorBox.push_back(cursor);
+  _guiElement.push_back(cursor);
 }
 
 void		APage::initCheckBox(Rect pos, std::string spriteEmpty, std::string spriteFill)
@@ -88,7 +88,7 @@ void		APage::initCheckBox(Rect pos, std::string spriteEmpty, std::string spriteF
 
   check->setBackgroundSprite(_fileManager.getRoot() + spriteEmpty);
   check->setCheckedSprite(_fileManager.getRoot() + spriteFill);
-  _checkBox.push_back(check);
+  _guiElement.push_back(check);
 }
 
 void		APage::initListBox(Rect pos, std::string font, std::string button, std::string hover)
@@ -98,7 +98,7 @@ void		APage::initListBox(Rect pos, std::string font, std::string button, std::st
   list->setFontPath(_fileManager.getRoot() + font);
   list->setButtonSprite(_fileManager.getRoot() + button);
   list->setButtonOverSprite(_fileManager.getRoot() + hover);
-  _listBox.push_back(list);
+  _guiElement.push_back(list);
 }
 
 void		APage::drawGUIElement(std::vector<AGUIElement *> guiElements)
@@ -179,12 +179,29 @@ IPage::PAGE APage::clickEvent(std::map<IPage::PAGE, AGUIElement*> guiElements)
 {
 	std::map<IPage::PAGE, AGUIElement* >::iterator			it;
 
-	it = guiElements.begin();;
+	it = guiElements.begin();
 	while (it != guiElements.end())
 	{
 		if (it->second->click())
-			return (it->first);
+		  {
+		    return (it->first);
+		  }
 		++it;
 	}
 	return (IPage::NONE);
+}
+
+void APage::clickEvent(std::vector<AGUIElement*> guiElements)
+{
+  unsigned int		i;
+
+  i = 0;
+  while (i != guiElements.size())
+    {
+      if (guiElements[i]->click())
+	{
+	  return;
+	}
+      i++;
+    }
 }

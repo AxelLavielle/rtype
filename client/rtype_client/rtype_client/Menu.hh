@@ -16,6 +16,7 @@
 #include "SFMLSound.hh"
 #include "PathFileManager.hh"
 #include "HomePage.hh"
+#include "SettingsPage.hh"
 #include "LobbyPage.hh"
 #include "RoomListPage.hh"
 #include "InsideRoomPage.hh"
@@ -32,14 +33,6 @@ public:
 	virtual bool launch();
 private:
 	typedef void (Menu:: *funcPtr)(void);
-	enum PAGE
-	{
-		ACCEUIL,
-		PLAY,
-		ROOMLIST,
-		ROOMCREATE,
-		SETTINGS
-	};
 
 	std::vector<Button>			_buttons;
 	PAGE						_pagenb;

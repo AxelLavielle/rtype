@@ -48,9 +48,9 @@ SRC	=	$(COM)/ACommand.cpp	 	\
 
 OBJ	=	$(SRC:.cpp=.o)
 
-CPPFLAGS=	-W -Wall -Wextra -ansi -pedantic -g -I$(DIR) -I../common/ -I../common/Serialize -std=c++11 -std=gnu++11
+CPPFLAGS=	-W -Wall -Wextra -ansi -pedantic -g -I$(DIR) -I../common/ -I../common/Serialize -std=c++11 -std=gnu++11 -I/usr/local/include
 
-LDFLAGS	=	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+LDFLAGS	=	-L/usr/local/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 all:		$(NAME)
 

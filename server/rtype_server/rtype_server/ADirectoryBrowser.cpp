@@ -20,11 +20,6 @@ void	ADirectoryBrowser::clear()
   _files.clear();
 }
 
-bool	ADirectoryBrowser::refresh()
-{
-   return (false);
-}
-
 bool	ADirectoryBrowser::extIsValid(const std::string &ext, const std::string &toCheck)
 {
   std::size_t found = toCheck.find(ext);
@@ -39,7 +34,7 @@ void	ADirectoryBrowser::dump()
     }
 }
 
-const std::vector<std::string>	&ADirectoryBrowser::getFiles() const
+std::vector<std::string>	ADirectoryBrowser::getFiles() const
 {
   return (_files);
 }

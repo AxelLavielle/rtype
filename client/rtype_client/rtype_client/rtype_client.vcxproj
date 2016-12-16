@@ -163,6 +163,7 @@
     <ClInclude Include="Client.hh" />
     <ClInclude Include="CmdManager.hh" />
     <ClInclude Include="Color.hh" />
+    <ClInclude Include="EndPage.hh" />
     <ClInclude Include="Game.hh" />
     <ClInclude Include="HomePage.hh" />
     <ClInclude Include="IEventManager.hpp" />
@@ -214,6 +215,7 @@
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="CmdManager.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="EndPage.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HomePage.cpp" />
     <ClCompile Include="InputBox.cpp" />

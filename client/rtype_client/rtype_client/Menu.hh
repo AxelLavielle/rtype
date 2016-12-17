@@ -18,7 +18,6 @@
 #include "HomePage.hh"
 #include "SettingsPage.hh"
 #include "LobbyPage.hh"
-#include "RoomListPage.hh"
 #include "InsideRoomPage.hh"
 #include "EndPage.hh"
 #include "CreateRoomPage.hh"

@@ -37,7 +37,6 @@ SRC	=	$(COM)/ACommand.cpp	 	\
 		$(DIR)/Rect.cpp 		\
 		$(DIR)/RectDecor.cpp 		\
 		$(COM)/RoomInfoCmd.cpp 		\
-		$(DIR)/RoomListPage.cpp		\
 		$(COM)/Serialize.cpp		\
 		$(DIR)/SettingsPage.cpp		\
 		$(DIR)/SFML.cpp 		\

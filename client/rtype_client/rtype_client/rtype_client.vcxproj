@@ -233,7 +233,6 @@
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="CursorBox.cpp" />
     <ClCompile Include="RectDecor.cpp" />
-    <ClCompile Include="RoomListPage.cpp" />
     <ClCompile Include="SettingsPage.cpp" />
     <ClCompile Include="SFML.cpp" />
     <ClCompile Include="SFMLEvent.cpp" />

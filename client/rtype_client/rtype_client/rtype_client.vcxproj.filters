@@ -47,7 +47,6 @@
     <ClCompile Include="SettingsPage.cpp" />
     <ClCompile Include="InsideRoomPage.cpp" />
     <ClCompile Include="LobbyPage.cpp" />
-    <ClCompile Include="RoomListPage.cpp" />
     <ClCompile Include="EndPage.cpp" />
     <ClCompile Include="GUIPage.cpp" />
     <ClCompile Include="CreateRoomPage.cpp" />

@@ -1,0 +1,247 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D2950D2B-8B09-4EC9-82D8-AD5F6CBC1A2C}</ProjectGuid>
+    <RootNamespace>rtype_client</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\SFML\SFML-2.4.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>C:\SFML\SFML-2.4.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\SFML\SFML-2.4.1\include;C:\Users\Mohamad\Desktop\sfml\SFML-2.4.1-windows-vc14-64-bit\SFML-2.4.1\include;..\..\..\common\serialize;..\..\..\common;C:\Users\Mohamad\Desktop\rtype\common\Serialize</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>C:\SFML\SFML-2.4.1\lib;C:\Users\Mohamad\Desktop\sfml\SFML-2.4.1-windows-vc14-64-bit\SFML-2.4.1\lib;C:\SFML\SFML-2.4.1\bin</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;sfml-audio-s-d.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\SFML\SFML-2.4.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>C:\SFML\SFML-2.4.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\SFML\SFML-2.4.1\include;C:\Users\Mohamad\Desktop\sfml\SFML-2.4.1-windows-vc14-64-bit\SFML-2.4.1\include;..\..\..\common\serialize;..\..\..\common;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>C:\SFML\SFML-2.4.1\lib;C:\Users\Mohamad\Desktop\sfml\SFML-2.4.1-windows-vc14-64-bit\SFML-2.4.1\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;sfml-audio-s.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\common\AEntity.hh" />
+    <ClInclude Include="..\..\..\common\AMutex.hh" />
+    <ClInclude Include="..\..\..\common\AThread.hh" />
+    <ClInclude Include="..\..\..\common\AThreadPool.hh" />
+    <ClInclude Include="..\..\..\common\EntityType.hh" />
+    <ClInclude Include="..\..\..\common\IEntity.hpp" />
+    <ClInclude Include="..\..\..\common\IMutex.hpp" />
+    <ClInclude Include="..\..\..\common\ISocket.hpp" />
+    <ClInclude Include="..\..\..\common\IThread.hpp" />
+    <ClInclude Include="..\..\..\common\IThreadPool.hpp" />
+    <ClInclude Include="..\..\..\common\MemTools.hh" />
+    <ClInclude Include="..\..\..\common\Mutex.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\ACommand.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\ChatInfoCmd.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\CmdEnum.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\EntityCmd.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\ICommand.hpp" />
+    <ClInclude Include="..\..\..\common\Serialize\InputCmd.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\ListInfoCmd.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\RoomInfoCmd.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\Serialize.hh" />
+    <ClInclude Include="..\..\..\common\Thread.hh" />
+    <ClInclude Include="..\..\..\common\ThreadPool.hh" />
+    <ClInclude Include="AEventManager.hh" />
+    <ClInclude Include="AGraphManager.hh" />
+    <ClInclude Include="AGUIElement.hh" />
+    <ClInclude Include="AMenu.hh" />
+    <ClInclude Include="APage.hh" />
+    <ClInclude Include="ASocketClient.hh" />
+    <ClInclude Include="ASoundManager.hh" />
+    <ClInclude Include="Button.hh" />
+    <ClInclude Include="CheckBox.hh" />
+    <ClInclude Include="Client.hh" />
+    <ClInclude Include="CmdManager.hh" />
+    <ClInclude Include="Color.hh" />
+    <ClInclude Include="CreateRoomPage.hh" />
+    <ClInclude Include="EndGamePage.hh" />
+    <ClInclude Include="Game.hh" />
+    <ClInclude Include="GUIPage.hh" />
+    <ClInclude Include="HomePage.hh" />
+    <ClInclude Include="IEventManager.hpp" />
+    <ClInclude Include="IGraphManager.hpp" />
+    <ClInclude Include="IGUIElement.hpp" />
+    <ClInclude Include="IMenu.hpp" />
+    <ClInclude Include="InputBox.hh" />
+    <ClInclude Include="InsideRoomPage.hh" />
+    <ClInclude Include="IPage.hpp" />
+    <ClInclude Include="ISoundManager.hpp" />
+    <ClInclude Include="ListBox.hh" />
+    <ClInclude Include="Menu.hh" />
+    <ClInclude Include="PathFileManager.hh" />
+    <ClInclude Include="Rect.hh" />
+    <ClInclude Include="CursorBox.hh" />
+    <ClInclude Include="RectDecor.hh" />
+    <ClInclude Include="SettingsPage.hh" />
+    <ClInclude Include="SFML.hh" />
+    <ClInclude Include="SFMLEvent.hh" />
+    <ClInclude Include="SFMLSound.hh" />
+    <ClInclude Include="SocketClientTCP.hh" />
+    <ClInclude Include="SocketClientUDP.hh" />
+    <ClInclude Include="Sound.hh" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\common\AEntity.cpp" />
+    <ClCompile Include="..\..\..\common\AMutex.cpp" />
+    <ClCompile Include="..\..\..\common\AThread.cpp" />
+    <ClCompile Include="..\..\..\common\AThreadPool.cpp" />
+    <ClCompile Include="..\..\..\common\MemTools.cpp" />
+    <ClCompile Include="..\..\..\common\Mutex.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\ACommand.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\ChatInfoCmd.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\EntityCmd.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\InputCmd.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\ListInfoCmd.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\RoomInfoCmd.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\Serialize.cpp" />
+    <ClCompile Include="..\..\..\common\Thread.cpp" />
+    <ClCompile Include="..\..\..\common\ThreadPool.cpp" />
+    <ClCompile Include="AEventManager.cpp" />
+    <ClCompile Include="AGraphManager.cpp" />
+    <ClCompile Include="AGUIElement.cpp" />
+    <ClCompile Include="AMenu.cpp" />
+    <ClCompile Include="APage.cpp" />
+    <ClCompile Include="ASocketClient.cpp" />
+    <ClCompile Include="ASoundManager.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="CheckBox.cpp" />
+    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="CmdManager.cpp" />
+    <ClCompile Include="Color.cpp" />
+    <ClCompile Include="CreateRoomPage.cpp" />
+    <ClCompile Include="EndGamePage.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GUIPage.cpp" />
+    <ClCompile Include="HomePage.cpp" />
+    <ClCompile Include="InputBox.cpp" />
+    <ClCompile Include="InsideRoomPage.cpp" />
+    <ClCompile Include="ListBox.cpp" />
+    <ClCompile Include="LobbyPage.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="PathFileManager.cpp" />
+    <ClCompile Include="Rect.cpp" />
+    <ClCompile Include="CursorBox.cpp" />
+    <ClCompile Include="RectDecor.cpp" />
+    <ClCompile Include="SettingsPage.cpp" />
+    <ClCompile Include="SFML.cpp" />
+    <ClCompile Include="SFMLEvent.cpp" />
+    <ClCompile Include="SFMLSound.cpp" />
+    <ClCompile Include="SocketClientTCP.cpp" />
+    <ClCompile Include="SocketClientUDP.cpp" />
+    <ClCompile Include="Sound.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

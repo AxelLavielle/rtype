@@ -18,8 +18,8 @@ bool LobbyPage::init()
   std::vector<std::string>	test;
 
   initButton(70, 10, 60, Rect(20, 600, 90, 310), "BACK", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::HOME);
-  initButton(50, 10, 60, Rect(750, 600, 90, 310), "JOIN", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::ROOMLIST);
-  initButton(20, 10, 60, Rect(387, 600, 90, 310), "CREATE", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::INSIDEROOM);
+  initButton(50, 10, 60, Rect(750, 600, 90, 310), "JOIN", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::INSIDEROOM);
+  initButton(20, 10, 60, Rect(387, 600, 90, 310), "CREATE", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::CREATEROOM);
   test.push_back("ELEMENT 1");
   test.push_back("ELEMENT NEXT");
   test.push_back("ELEMENT NEXT");

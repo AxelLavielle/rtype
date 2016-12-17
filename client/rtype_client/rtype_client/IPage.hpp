@@ -19,7 +19,7 @@ public:
     {
       HOME,
       PLAY,
-      ROOMLIST,
+      CREATEROOM,
       INSIDEROOM,
       SETTINGS,
       QUIT,

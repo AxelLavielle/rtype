@@ -21,6 +21,7 @@
 #include "RoomListPage.hh"
 #include "InsideRoomPage.hh"
 #include "EndPage.hh"
+#include "CreateRoomPage.hh"
 
 class Menu :
 	public AMenu

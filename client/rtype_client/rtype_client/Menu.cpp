@@ -50,10 +50,10 @@ bool Menu::launch()
 	      pages = new LobbyPage(_graph, _event, _fileManager, &_soundManager);
 	      std::cout << "Lobby" << std::endl;
 	      break;
-	    case IPage::ROOMLIST:
+	    case IPage::CREATEROOM:
 	      delete (pages);
 	      newEvent = true;
-	      pages = new RoomListPage(_graph, _event, _fileManager, &_soundManager);
+	      pages = new CreateRoomPage(_graph, _event, _fileManager, &_soundManager);
 	      std::cout << "RoomList" << std::endl;
 	      break;
 	    case IPage::INSIDEROOM:

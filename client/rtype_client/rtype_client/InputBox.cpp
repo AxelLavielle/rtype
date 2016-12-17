@@ -58,6 +58,7 @@ bool InputBox::click()
 	std::pair<int, int>		pos;
 
 	pos = _event->getClickMousePos();
+	getInput();
 	if (pos.first != -1 && pos.second != -1
 		&& pos.first > _rect.getX() && pos.first < _rect.getX() + _rect.getWidth()
 		&& pos.second > _rect.getY() && pos.second < _rect.getY() + _rect.getHeight())

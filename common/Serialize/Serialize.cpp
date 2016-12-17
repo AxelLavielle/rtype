@@ -85,21 +85,21 @@ ICommand	*Serialize::unserializeCommand(char *data)
   std::cout << p.data << std::endl;
   switch (p.dataType)
     {
-    case CHATINFO:
+    case CHAT_INFO:
       break;
-	case ROOMINFO:
+	case ROOM_INFO:
 		break;
-	case BASICCMD:
+	case BASIC_CMD:
 		res = new BasicCmd();
 		res->setCommandArg(p.data);
 		res->setCommandType(static_cast<CmdType>(p.cmdType));
 		return (res);
 		break;
-	case ROOMLIST:
+	case ROOM_LIST:
       break;
     case ENTITY:
       break;
-    case INPUTCMD:
+    case INPUT_CMD:
       break;
     }
   return (NULL);

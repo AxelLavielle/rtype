@@ -20,7 +20,7 @@ bool Client::initSocket()
 {
 	_socket = new SocketClientTCP();
 
-	if (!_socket->init("10.16.252.95", 23737)
+	if (!_socket->init("10.16.252.95", 42000)
 		|| !_socket->connectToServer())
 		return (false);
 	_cmdManager.setSocket(_socket);

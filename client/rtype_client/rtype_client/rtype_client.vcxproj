@@ -132,7 +132,6 @@
     <ClInclude Include="..\..\..\common\AMutex.hh" />
     <ClInclude Include="..\..\..\common\AThread.hh" />
     <ClInclude Include="..\..\..\common\AThreadPool.hh" />
-    <ClInclude Include="..\..\..\common\BasicCmd.hh" />
     <ClInclude Include="..\..\..\common\EntityType.hh" />
     <ClInclude Include="..\..\..\common\IEntity.hpp" />
     <ClInclude Include="..\..\..\common\IMutex.hpp" />
@@ -142,6 +141,7 @@
     <ClInclude Include="..\..\..\common\MemTools.hh" />
     <ClInclude Include="..\..\..\common\Mutex.hh" />
     <ClInclude Include="..\..\..\common\Serialize\ACommand.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\BasicCmd.hh" />
     <ClInclude Include="..\..\..\common\Serialize\ChatInfoCmd.hh" />
     <ClInclude Include="..\..\..\common\Serialize\CmdEnum.hh" />
     <ClInclude Include="..\..\..\common\Serialize\EntityCmd.hh" />
@@ -196,10 +196,10 @@
     <ClCompile Include="..\..\..\common\AMutex.cpp" />
     <ClCompile Include="..\..\..\common\AThread.cpp" />
     <ClCompile Include="..\..\..\common\AThreadPool.cpp" />
-    <ClCompile Include="..\..\..\common\BasicCmd.cpp" />
     <ClCompile Include="..\..\..\common\MemTools.cpp" />
     <ClCompile Include="..\..\..\common\Mutex.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\ACommand.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\BasicCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\ChatInfoCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\EntityCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\InputCmd.cpp" />

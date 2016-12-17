@@ -12,7 +12,7 @@ ChatInfoCmd::~ChatInfoCmd()
 
 CmdName			ChatInfoCmd::getCommandName() const
 {
-  return (CHATINFO);
+  return (CHAT_INFO);
 }
 
 const std::string	ChatInfoCmd::getCommandArg() const

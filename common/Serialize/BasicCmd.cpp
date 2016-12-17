@@ -4,7 +4,7 @@
 
 BasicCmd::BasicCmd()
 {
-	_cmdName = BASICCMD;
+	_cmdName = BASIC_CMD;
 }
 
 

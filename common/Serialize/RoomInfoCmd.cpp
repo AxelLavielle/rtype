@@ -2,7 +2,7 @@
 
 RoomInfoCmd::RoomInfoCmd()
 {
-	_cmdName = ROOMINFO;
+	_cmdName = ROOM_INFO;
 }
 
 RoomInfoCmd::~RoomInfoCmd()

@@ -12,7 +12,7 @@ InputCmd::~InputCmd()
 
 CmdName			InputCmd::getCommandName() const
 {
-  return (INPUTCMD);
+  return (INPUT_CMD);
 }
 
 const std::string	InputCmd::getCommandArg() const

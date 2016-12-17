@@ -2,8 +2,8 @@
 
 ACommand::ACommand()
 {
-	_cmdType = EMPTYTYPE;
-	_cmdName = EMPTYNAME;
+	_cmdType = EMPTY_TYPE;
+	_cmdName = EMPTY_NAME;
 	_arg = "";
 	_separator = '|';
 }

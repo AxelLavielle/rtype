@@ -50,7 +50,7 @@
     <ClCompile Include="GUIPage.cpp" />
     <ClCompile Include="CreateRoomPage.cpp" />
     <ClCompile Include="EndGamePage.cpp" />
-    <ClCompile Include="..\..\..\common\BasicCmd.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\BasicCmd.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />
@@ -114,6 +114,6 @@
     <ClInclude Include="GUIPage.hh" />
     <ClInclude Include="CreateRoomPage.hh" />
     <ClInclude Include="EndGamePage.hh" />
-    <ClInclude Include="..\..\..\common\BasicCmd.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\BasicCmd.hh" />
   </ItemGroup>
 </Project>

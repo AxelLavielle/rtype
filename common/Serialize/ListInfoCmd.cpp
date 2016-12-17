@@ -12,7 +12,7 @@ ListInfoCmd::~ListInfoCmd()
 
 CmdName			ListInfoCmd::getCommandName() const
 {
-  return (ROOMLIST);
+  return (ROOM_LIST);
 }
 
 const std::string	ListInfoCmd::getCommandArg() const

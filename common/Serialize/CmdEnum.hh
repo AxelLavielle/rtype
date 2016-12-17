@@ -5,6 +5,8 @@ enum		CmdType
     REPLYCODE,
     CMDNAME,
     CMDARG,
+	SYN,
+	ACK,
     EMPTYTYPE
   };
 
@@ -15,5 +17,6 @@ enum		CmdName
     ROOMLIST,
     ENTITY,
     INPUTCMD,
+	BASICCMD,
     EMPTYNAME
   };

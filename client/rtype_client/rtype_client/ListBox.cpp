@@ -74,10 +74,18 @@ bool	ListBox::click()
 	it = _buttons.begin();
 	_selectedID = -1;
 	i = 0;
+	while (it != _buttons.end() && i != (_rect.getHeight() / (_height + 10)) * _currentPage)
+	{
+		++it;
+		i++;
+	}
 	while (it != _buttons.end())
 	{
 		if (it->click())
+		{
 			_selectedID = i;
+			return (true);
+		}
 		++it;
 		i++;
 	}

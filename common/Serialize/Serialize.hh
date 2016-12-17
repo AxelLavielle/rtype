@@ -3,6 +3,7 @@
 #include	"IEntity.hpp"
 #include	"ICommand.hpp"
 #include	"CmdEnum.hh"
+#include	"BasicCmd.hh"
 
 class		Serialize
 {
@@ -24,6 +25,7 @@ private:
   struct	packet
   {
     short	dataType;
+	short	cmdType;
     short	dataLength;
     char	data[65467];
   };

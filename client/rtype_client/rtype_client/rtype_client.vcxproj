@@ -74,7 +74,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\SFML\SFML-2.4.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\SFML\SFML-2.4.1\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\SFML\SFML-2.4.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -86,7 +86,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\SFML\SFML-2.4.1\include;C:\Users\Mohamad\Desktop\sfml\SFML-2.4.1-windows-vc14-64-bit\SFML-2.4.1\include;..\..\..\common\serialize;..\..\..\common;C:\Users\Mohamad\Desktop\rtype\common\Serialize</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\SFML\SFML-2.4.1\include;.;C:\Users\Mohamad\Desktop\sfml\SFML-2.4.1-windows-vc14-64-bit\SFML-2.4.1\include;..\..\..\common\serialize;..\..\..\common;C:\Users\Mohamad\Desktop\rtype\common\Serialize</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -101,7 +101,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\SFML\SFML-2.4.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\SFML\SFML-2.4.1\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -117,7 +117,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\SFML\SFML-2.4.1\include;C:\Users\Mohamad\Desktop\sfml\SFML-2.4.1-windows-vc14-64-bit\SFML-2.4.1\include;..\..\..\common\serialize;..\..\..\common;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\SFML\SFML-2.4.1\include;.;C:\Users\Mohamad\Desktop\sfml\SFML-2.4.1-windows-vc14-64-bit\SFML-2.4.1\include;..\..\..\common\serialize;..\..\..\common;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -158,6 +158,7 @@
     <ClInclude Include="APage.hh" />
     <ClInclude Include="ASocketClient.hh" />
     <ClInclude Include="ASoundManager.hh" />
+    <ClInclude Include="BasicCmd.hh" />
     <ClInclude Include="Button.hh" />
     <ClInclude Include="CheckBox.hh" />
     <ClInclude Include="Client.hh" />
@@ -213,6 +214,7 @@
     <ClCompile Include="APage.cpp" />
     <ClCompile Include="ASocketClient.cpp" />
     <ClCompile Include="ASoundManager.cpp" />
+    <ClCompile Include="BasicCmd.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="CheckBox.cpp" />
     <ClCompile Include="Client.cpp" />

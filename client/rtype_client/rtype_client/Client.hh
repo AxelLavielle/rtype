@@ -4,8 +4,8 @@
 #include "SFMLEvent.hh"
 #include "Menu.hh"
 #include "Game.hh"
-#include "Serialize.hh"
-
+#include "CmdManager.hh"
+ 
 class Client
 {
 public:
@@ -17,6 +17,7 @@ private:
 	IEventManager		*_event;
 	IMenu				*_menu;
 	SocketClientTCP		*_socket;
+	CmdManager			_cmdManager;
 
 	bool initSocket();
 	bool initGraph();

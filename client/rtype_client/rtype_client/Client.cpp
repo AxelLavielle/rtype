@@ -20,10 +20,11 @@ bool Client::initSocket()
 {
 	_socket = new SocketClientTCP();
 
-	return (true);
 	if (!_socket->init("10.16.252.95", 23737)
 		|| !_socket->connectToServer())
 		return (false);
+	_cmdManager.setSocket(_socket);
+	_cmdManager.handshake();
 	return (true);
 }
 

@@ -48,19 +48,20 @@ ICommand	*Serialize::unserializeInputCmd(char *cmd)
 
 char		*Serialize::serialize(ICommand *cmd)
 {
-  packet	p;
+  packet		p;
   std::string	tmp;
-  int		i;
-  char		*ret;
+  int			i;
+  char			*ret;
 
   ret = new char[65471];
   p.dataType = cmd->getCommandName();
+  p.cmdType = cmd->getCommandType();
   tmp = cmd->getCommandArg();
   i = -1;
   while (tmp[++i] != 0)
     p.data[i] = tmp[i];
   p.data[i] = 0;
-  p.dataLength = tmp.size() + 4;
+  p.dataLength = tmp.size() + 8;
   i = -1;
   while (++i != p.dataLength)
     ret[i] = reinterpret_cast<char *>(&p)[i];
@@ -78,6 +79,7 @@ IEntity		*Serialize::unserializeEntity(char *data)
 ICommand	*Serialize::unserializeCommand(char *data)
 {
   packet	p;
+  ICommand	*res;
 
   p = *reinterpret_cast<packet*>(data);
   std::cout << p.data << std::endl;
@@ -85,9 +87,13 @@ ICommand	*Serialize::unserializeCommand(char *data)
     {
     case CHATINFO:
       break;
-    case ROOMINFO:
-      break;
-    case ROOMLIST:
+	case ROOMINFO:
+		break;
+	case BASICCMD:
+		//res = new BasicCmd();
+		//return ();
+		break;
+	case ROOMLIST:
       break;
     case ENTITY:
       break;

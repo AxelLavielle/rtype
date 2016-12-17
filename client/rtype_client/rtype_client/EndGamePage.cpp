@@ -17,8 +17,8 @@ EndGamePage::~EndGamePage()
 
 bool			EndGamePage::init()
 {
-	initButton(70, 5, 30, Rect(180, 550, 90, 310), "RETURN\nTO MENU", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::HOME);
-	initButton(70, 5, 60, Rect(580, 550, 90, 310), "QUIT", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::QUIT);
+	initButton(70, 5, 30, Rect(180, 550, 90, 310), "RETURN\nTO MENU", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Space.ttf", IPage::HOME);
+	initButton(70, 5, 60, Rect(580, 550, 90, 310), "QUIT", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Space.ttf", IPage::QUIT);
 	return (true);
 }
 
@@ -43,11 +43,11 @@ void			EndGamePage::draw()
 	initDecor(Rect(290, 260, 190, 500), "/res/img/buttonRoom.png");
 	drawGUIElement(_buttons);
 	drawGUIElement(_guiElement);
-	_graph->drawText("GAME OVER", 230, 0, 90, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
-	_graph->drawText("Score : ", 300, 200, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+	_graph->drawText("GAME OVER", 230, 0, 90, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
+	_graph->drawText("Score : ", 300, 200, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
 	while (it != _scores.end())
 	{
-		_graph->drawText(it->first + " : " + std::to_string(it->second), 300, y, 25, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+		_graph->drawText(it->first + " : " + std::to_string(it->second), 300, y, 25, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
 		y += 40;
 		it++;
 	}

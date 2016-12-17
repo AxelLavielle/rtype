@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ServerClient.hh"
+#include "RoomManager.hh"
 
 class ClientManager
 {
@@ -16,6 +17,6 @@ public:
 	std::vector<int>				getClientsUDPSockets();
 	std::vector<ServerClient *>		&getClients();
 	void							addDataToSend(int, const char *, int);
-	void							checkDisconnectedClients();
+	void							checkDisconnectedClients(RoomManager &);
 };
 

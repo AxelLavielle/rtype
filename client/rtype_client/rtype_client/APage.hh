@@ -31,12 +31,12 @@ protected:
 
   void			initButton(const int textPosX, const int textPosY, const int textSize, const Rect & pos, const std::string & name, const std::string & sprite, const std::string & spriteHover, const std::string & fontPath, IPage::PAGE page);
   void			initButton(const int textPosX, const int textPosY, const int textSize, const Rect & pos, const std::string & name, const std::string & sprite, const std::string & spriteHover, const std::string & fontPath);
-  void			initListBox(Rect, std::string, std::string, std::string, std::vector<std::string>);
-  void			initInputBox(Rect, std::string, Color);
-  void			initCursorBox(Rect, std::string, std::string);
-  void			initCheckBox(Rect, std::string, std::string);
-  void			initDecor(Rect, std::string);
-  void			initDecor(Rect, std::string, Color);
+  void			initInputBox(const Rect & pos, const std::string & sprite, const Color & rgb);
+  void			initDecor(const Rect & pos, const std::string & sprite);
+  void			initDecor(const Rect & pos, const std::string & sprite, const Color & rgb);
+  void			initCursorBox(const Rect & pos, const std::string & spriteBar, const std::string & spriteButton);
+  void			initCheckBox(const Rect & pos, const std::string & spriteEmpty, const std::string & spriteFill);
+  void			initListBox(const Rect & pos, const std::string & font, const std::string & button, const std::string & hover, const std::vector<std::string>& elements);
   void			drawGUIElement(std::vector<AGUIElement *> guiElements);
   void			clearGUIElement(std::vector<AGUIElement *> guiElements);
   void			hoverEvent(std::vector<AGUIElement *> guiElements);

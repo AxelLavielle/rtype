@@ -62,7 +62,7 @@ void		APage::initButton(const int textPosX, const int textPosY, const int textSi
 	_guiElement.push_back(button);
 }
 
-void		APage::initInputBox(Rect pos, std::string sprite, Color rgb)
+void		APage::initInputBox(const Rect &pos, const std::string &sprite, const Color &rgb)
 {
   InputBox	*input = new InputBox(_graph, _event, pos);
 
@@ -73,7 +73,7 @@ void		APage::initInputBox(Rect pos, std::string sprite, Color rgb)
   _guiElement.push_back(input);
 }
 
-void		APage::initDecor(Rect pos, std::string sprite)
+void		APage::initDecor(const Rect &pos, const std::string &sprite)
 {
   RectDecor	*decor = new RectDecor(_graph, _event, pos);
 
@@ -81,7 +81,7 @@ void		APage::initDecor(Rect pos, std::string sprite)
   _guiElement.push_back(decor);
 }
 
-void		APage::initDecor(Rect pos, std::string sprite, Color rgb)
+void		APage::initDecor(const Rect &pos, const std::string &sprite, const Color &rgb)
 {
   RectDecor	*decor = new RectDecor(_graph, _event, pos);
 
@@ -90,7 +90,7 @@ void		APage::initDecor(Rect pos, std::string sprite, Color rgb)
   _guiElement.push_back(decor);
 }
 
-void		APage::initCursorBox(Rect pos, std::string spriteBar, std::string spriteButton)
+void		APage::initCursorBox(const Rect &pos, const std::string &spriteBar, const std::string &spriteButton)
 {
   CursorBox	*cursor = new CursorBox(_graph, _event, pos);
 
@@ -99,7 +99,7 @@ void		APage::initCursorBox(Rect pos, std::string spriteBar, std::string spriteBu
   _guiElement.push_back(cursor);
 }
 
-void		APage::initCheckBox(Rect pos, std::string spriteEmpty, std::string spriteFill)
+void		APage::initCheckBox(const Rect &pos, const std::string &spriteEmpty, const std::string &spriteFill)
 {
   CheckBox	*check = new CheckBox(_graph, _event, pos);
 
@@ -108,7 +108,7 @@ void		APage::initCheckBox(Rect pos, std::string spriteEmpty, std::string spriteF
   _guiElement.push_back(check);
 }
 
-void		APage::initListBox(Rect pos, std::string font, std::string button, std::string hover, std::vector<std::string> elements)
+void		APage::initListBox(const Rect &pos, const std::string &font, const std::string &button, const std::string &hover, const std::vector<std::string> &elements)
 {
   ListBox	*list = new ListBox(_graph, _event, pos);
 

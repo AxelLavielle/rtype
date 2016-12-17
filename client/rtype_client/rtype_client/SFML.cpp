@@ -31,7 +31,7 @@ SFML::~SFML()
 	}
 	delete _window;
 }
-#include <iostream>
+
 void SFML::setMouseCursorVisible(const bool flag)
 {
 	_window->setMouseCursorVisible(flag);
@@ -55,7 +55,7 @@ bool SFML::init()
 {
 	_window = new sf::RenderWindow();
 	_window->create(sf::VideoMode(_winX, _winY), "RTYPE");
-	return (true);
+	return (_window->isOpen());
 }
 
 bool SFML::setFullScreen(const bool mode)

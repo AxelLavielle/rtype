@@ -16,5 +16,8 @@ private:
 	IEventManager		*_event;
 	IMenu				*_menu;
 	SocketClientTCP		_socket;
+
+	bool initSocket();
+	bool initGraph();
 };
 

@@ -19,7 +19,7 @@
 #include "SettingsPage.hh"
 #include "LobbyPage.hh"
 #include "InsideRoomPage.hh"
-#include "EndPage.hh"
+#include "EndGamePage.hh"
 #include "CreateRoomPage.hh"
 
 class Menu :

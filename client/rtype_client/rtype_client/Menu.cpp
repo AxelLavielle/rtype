@@ -78,12 +78,12 @@ bool Menu::launch()
 			_game.launch();
 			return (true);
 			break;
-			//case IPage::ENDGAME:
-			//delete (pages);
-			//newEvent = true;
-			//pages = new EndPage(_graph, _event, _fileManager, &_soundManager);
-			//std::cout << "Settings" << std::endl;
-			//break;
+		case IPage::ENDGAME:
+			delete (pages);
+			newEvent = true;
+			pages = new EndGamePage(_graph, _event, _fileManager, &_soundManager);
+			std::cout << "Settings" << std::endl;
+			break;
 	    case IPage::QUIT:
 	      _graph->close();
 	      break;

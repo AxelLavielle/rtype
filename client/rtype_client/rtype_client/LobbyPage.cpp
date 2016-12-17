@@ -15,11 +15,28 @@ LobbyPage::~LobbyPage()
 
 bool LobbyPage::init()
 {
-	initButton(70, 10, 60, Rect(750, 600, 90, 310), "PLAY", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::PLAY);
-	initButton(70, 10, 60, Rect(20, 600, 90, 310), "BACK", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::HOME);
-	initButton(50, 10, 60, Rect(300, 380, 90, 500), "JOIN ROOM", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::ROOMLIST);
-	initButton(20, 10, 60, Rect(300, 150, 90, 500), "CREATE ROOM", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::INSIDEROOM);
-	return (true);
+  std::vector<std::string>	test;
+
+  initButton(70, 10, 60, Rect(20, 600, 90, 310), "BACK", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::HOME);
+  initButton(50, 10, 60, Rect(750, 600, 90, 310), "JOIN", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::ROOMLIST);
+  initButton(20, 10, 60, Rect(387, 600, 90, 310), "CREATE", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::INSIDEROOM);
+  test.push_back("ELEMENT 1");
+  test.push_back("ELEMENT NEXT");
+  test.push_back("ELEMENT NEXT");
+  test.push_back("ELEMENT NEXT");
+  test.push_back("ELEMENT NEXT");
+  test.push_back("ELEMENT NEXT");
+  test.push_back("ELEMENT NEXT");
+  test.push_back("ELEMENT NEXT NEXT");
+  test.push_back("ELEMENT NEXT NEXT");
+  test.push_back("ELEMENT NEXT NEXT");
+  test.push_back("ELEMENT NEXT NEXT");
+  test.push_back("ELEMENT NEXT NEXT");
+  test.push_back("ELEMENT NEXT NEXT");
+  test.push_back("ELEMENT NEXT NEXT");
+  test.push_back("ELEMENT NEXT NEXT NEXT");
+  initListBox(Rect(100, 250, 300, 900), "/res/fonts/Aerospace.ttf", "/res/img/buttonRoom.png", "/res/img/buttonRoomOver.png", test);
+  return (true);
 }
 
 void LobbyPage::clear()
@@ -48,6 +65,7 @@ IPage::PAGE LobbyPage::event()
 
 	hoverEvent(_buttons);
 	page = clickEvent(_buttons);
+	clickEvent(_guiElement);
 	if (page != IPage::NONE)
 		_soundManager->play(_clickSound);
 	return (page);

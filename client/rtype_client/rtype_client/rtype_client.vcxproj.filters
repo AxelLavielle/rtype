@@ -50,6 +50,7 @@
     <ClCompile Include="RoomListPage.cpp" />
     <ClCompile Include="EndPage.cpp" />
     <ClCompile Include="GUIPage.cpp" />
+    <ClCompile Include="CreateRoomPage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />
@@ -112,5 +113,6 @@
     <ClInclude Include="EndPage.hh" />
     <ClInclude Include="InsideRoomPage.hh" />
     <ClInclude Include="GUIPage.hh" />
+    <ClInclude Include="CreateRoomPage.hh" />
   </ItemGroup>
 </Project>

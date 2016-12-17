@@ -163,6 +163,7 @@
     <ClInclude Include="Client.hh" />
     <ClInclude Include="CmdManager.hh" />
     <ClInclude Include="Color.hh" />
+    <ClInclude Include="CreateRoomPage.hh" />
     <ClInclude Include="EndPage.hh" />
     <ClInclude Include="Game.hh" />
     <ClInclude Include="GUIPage.hh" />
@@ -217,6 +218,7 @@
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="CmdManager.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="CreateRoomPage.cpp" />
     <ClCompile Include="EndPage.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GUIPage.cpp" />

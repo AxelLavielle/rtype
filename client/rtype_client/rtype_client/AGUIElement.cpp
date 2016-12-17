@@ -4,6 +4,7 @@ AGUIElement::AGUIElement()
 {
 	_graph = NULL;
 	_event = NULL;
+	_typeName = "AGUIElement";
 }
 
 AGUIElement::AGUIElement(IGraphManager * graph, IEventManager * event, const Rect & rect)
@@ -11,6 +12,7 @@ AGUIElement::AGUIElement(IGraphManager * graph, IEventManager * event, const Rec
 	_graph = graph;
 	_event = event;
 	_rect = rect;
+	_typeName = "AGUIElement";
 }
 
 AGUIElement::~AGUIElement()
@@ -65,4 +67,9 @@ void AGUIElement::setTransparentColor(const Color & color)
 void AGUIElement::setFontPath(const std::string & path)
 {
 	_fontPath = path;
+}
+
+std::string AGUIElement::getTypeName() const
+{
+	return (_typeName);
 }

@@ -25,6 +25,7 @@ ListBox::ListBox(IGraphManager *graph, IEventManager *event, const Rect &rect) :
 	_nextButton.setTextSize(15);
 	_prevButton.setTextPos(10, 0);
 	_prevButton.setTextSize(15);
+	_typeName = "ListBox";
 }
 
 

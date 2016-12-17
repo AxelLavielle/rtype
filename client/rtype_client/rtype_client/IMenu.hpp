@@ -2,6 +2,7 @@
 
 #include "IGraphManager.hpp"
 #include "IEventManager.hpp"
+#include "SocketClientTCP.hh"
 
 class IMenu
 {
@@ -10,5 +11,6 @@ public:
 	virtual bool init() = 0;
 	virtual void setGraphManager(IGraphManager * graph) = 0;
 	virtual void setEventManager(IEventManager * event) = 0;
+	virtual void setSocketTCPSocket(ASocketClient * socket) = 0;
 	virtual bool launch() = 0;
 };

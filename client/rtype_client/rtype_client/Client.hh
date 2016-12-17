@@ -4,6 +4,7 @@
 #include "SFMLEvent.hh"
 #include "Menu.hh"
 #include "Game.hh"
+#include "Serialize.hh"
 
 class Client
 {
@@ -15,7 +16,7 @@ private:
 	IGraphManager		*_graph;
 	IEventManager		*_event;
 	IMenu				*_menu;
-	SocketClientTCP		_socket;
+	SocketClientTCP		*_socket;
 
 	bool initSocket();
 	bool initGraph();

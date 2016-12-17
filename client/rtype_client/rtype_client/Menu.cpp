@@ -23,53 +23,84 @@ bool Menu::init()
 	return (true);
 }
 
+void	Menu::initLobby()
+{
+	LobbyPage		*page;
+
+	page = new LobbyPage(_graph, _event, _fileManager, &_soundManager);
+	page->addRoom("ROOM 1");
+	page->addRoom("ROOM 2");
+	page->addRoom("ROOM 3");
+	page->addRoom("ROOM 4");
+	page->addRoom("ROOM 5");
+	page->addRoom("ROOM 6");
+	page->addRoom("ROOM 7");
+	page->addRoom("ROOM 8");
+	page->addRoom("ROOM 9");
+	page->addRoom("ROOM 10");
+	page->addRoom("ROOM 11");
+	page->addRoom("ROOM 12");
+	page->addRoom("ROOM 13");
+	page->addRoom("ROOM 14");
+	page->addRoom("ROOM 15");
+	_page = page;
+}
+
 bool Menu::launch()
 {
   IPage::PAGE	curr_event;
-  APage	*pages = new HomePage(_graph, _event, _fileManager, &_soundManager);
+  _page = new HomePage(_graph, _event, _fileManager, &_soundManager);
   bool		newEvent;
 
   newEvent = false;
-  pages->init();
+  _page->init();
   while (_graph->isWindowOpen())
     {
       while (_event->refresh())
 	{
-	  curr_event = pages->event();
+	  curr_event = _page->event();
+	  if (_page->getPageType() == IPage::PLAY)
+	  {
+		  LobbyPage		*lobbyPage;
+
+		  lobbyPage = static_cast<LobbyPage* >(_page);
+		  if (lobbyPage->getSelectedRoom() != -1)
+			  std::cout << "selected = " << lobbyPage->getSelectedRoom() << std::endl;
+	  }
 	  switch (curr_event)
 	    {
 	    case IPage::HOME:
-	      delete (pages);
+	      delete (_page);
 	      newEvent = true;
-	      pages = new HomePage(_graph, _event, _fileManager, &_soundManager);
+	      _page = new HomePage(_graph, _event, _fileManager, &_soundManager);
 	      std::cout << "Home" << std::endl;
 	      break;
 	    case IPage::PLAY:
-	      delete (pages);
+	      delete (_page);
 	      newEvent = true;
-	      pages = new LobbyPage(_graph, _event, _fileManager, &_soundManager);
+		  initLobby();
 	      std::cout << "Lobby" << std::endl;
 	      break;
 	    case IPage::CREATEROOM:
-	      delete (pages);
+	      delete (_page);
 	      newEvent = true;
-	      pages = new CreateRoomPage(_graph, _event, _fileManager, &_soundManager);
+	      _page = new CreateRoomPage(_graph, _event, _fileManager, &_soundManager);
 	      std::cout << "RoomList" << std::endl;
 	      break;
 	    case IPage::INSIDEROOM:
-	      delete (pages);
+	      delete (_page);
 	      newEvent = true;
-	      pages = new InsideRoomPage(_graph, _event, _fileManager, &_soundManager);
+	      _page = new InsideRoomPage(_graph, _event, _fileManager, &_soundManager);
 	      std::cout << "InsideRoom" << std::endl;
 	      break;
 	    case IPage::SETTINGS:
-	      delete (pages);
+	      delete (_page);
 	      newEvent = true;
-	      pages = new SettingsPage(_graph, _event, _fileManager, &_soundManager);
+	      _page = new SettingsPage(_graph, _event, _fileManager, &_soundManager);
 	      std::cout << "Settings" << std::endl;
 	      break;
 		case IPage::GAME:
-			delete (pages);
+			delete (_page);
 			std::cout << "Game" << std::endl;
 			newEvent = true;
 			_soundManager.stopAll();
@@ -79,9 +110,9 @@ bool Menu::launch()
 			return (true);
 			break;
 			//case IPage::ENDGAME:
-			//delete (pages);
+			//delete (_page);
 			//newEvent = true;
-			//pages = new EndPage(_graph, _event, _fileManager, &_soundManager);
+			//_page = new EndPage(_graph, _event, _fileManager, &_soundManager);
 			//std::cout << "Settings" << std::endl;
 			//break;
 	    case IPage::QUIT:
@@ -94,15 +125,15 @@ bool Menu::launch()
 	    _graph->close();
 	  if (newEvent)
 	    {
-	      pages->init();
+	      _page->init();
 	      _graph->clearWindow();
-	      pages->draw();
+	      _page->draw();
 	      _graph->refresh();
 	      newEvent = false;
 	    }
 	}
       _graph->clearWindow();
-      pages->draw();
+      _page->draw();
       _graph->refresh();
     }
   return (false);

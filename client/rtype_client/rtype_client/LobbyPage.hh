@@ -14,11 +14,11 @@ public:
 	virtual bool			launch();
 	virtual void			draw();
 	virtual IPage::PAGE		event();
+	void					addRoom(const std::string &name);
+	int						getSelectedRoom() const;
 
 private:
-	Sound						_clickSound;
-
-	void firstAnim();
-
+	Sound											_clickSound;
+	std::vector<std::string>						_room;
 };
 

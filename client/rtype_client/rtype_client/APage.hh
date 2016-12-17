@@ -14,6 +14,7 @@ public:
   virtual bool			launch() = 0;
   virtual void			draw() = 0;
   virtual IPage::PAGE	event() = 0;
+  virtual IPage::PAGE	getPageType() const;
 
 protected:
   std::map<IPage::PAGE, AGUIElement* >		_buttons;
@@ -28,6 +29,7 @@ protected:
   ISoundManager						*_soundManager;
   std::string						_backgroundSprite;
   std::pair<int, int>				_windowSize;
+  IPage::PAGE						_pageType;
 
   void			initButton(const int textPosX, const int textPosY, const int textSize, const Rect & pos, const std::string & name, const std::string & sprite, const std::string & spriteHover, const std::string & fontPath, IPage::PAGE page);
   void			initButton(const int textPosX, const int textPosY, const int textSize, const Rect & pos, const std::string & name, const std::string & sprite, const std::string & spriteHover, const std::string & fontPath);

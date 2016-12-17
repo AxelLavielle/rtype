@@ -37,5 +37,8 @@ private:
 	Sound						_clickSound;
 	SFMLSound					_soundManager;
 	PathFileManager				_fileManager;
+	APage						*_page;
+
+	void initLobby();
 };
 

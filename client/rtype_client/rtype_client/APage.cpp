@@ -17,6 +17,7 @@ APage::APage()
 	_soundManager = NULL;
 	_windowSize.first = 0;
 	_windowSize.second = 0;
+	_pageType = IPage::NONE;
 }
 
 APage::APage(IGraphManager *graph, IEventManager *event, const PathFileManager &fileManager, ISoundManager *soundManager)
@@ -27,12 +28,19 @@ APage::APage(IGraphManager *graph, IEventManager *event, const PathFileManager &
   _soundManager = soundManager;
   _backgroundSprite = "";
   _windowSize = _graph->getWindowSize();
+  _pageType = IPage::NONE;
 }
 
 APage::~APage()
 {
 
 }
+
+IPage::PAGE APage::getPageType() const
+{
+	return (_pageType);
+}
+
 
 void		APage::initButton(const int textPosX, const int textPosY, const int textSize,
 								const Rect &pos, const std::string &name, const std::string &sprite,

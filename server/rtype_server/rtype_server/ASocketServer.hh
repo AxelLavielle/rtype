@@ -16,13 +16,12 @@
 # include <stdio.h>
 # include <netdb.h>
 
-#endif 
+#endif
 
 #include <string>
 #include <vector>
-#include "ISocket.hpp"
 #include "ServerClient.hh"
-#include "MemTools.hh"
+#include "ISocket.hpp"
 
 typedef std::pair<ServerClient *, std::string> ClientMsg;
 
@@ -39,7 +38,7 @@ public:
 	virtual bool						sendAllData(std::vector<ServerClient *> &) = 0;
 	virtual std::vector<ClientMsg>		receiveData(std::vector<ServerClient *> &) = 0;
 	virtual bool						launch() = 0;
-	virtual int							acceptNewClient() = 0;
+//	virtual int							acceptNewClient() = 0;
 	virtual bool						closure();
 	virtual int							selectFds(const std::vector<int> &) = 0;
 };

@@ -1,16 +1,16 @@
-#include "SocketServerTCP.hh"
+#include "SocketServerUDP.hh"
 
-SocketServerTCP::SocketServerTCP() : ASocketServer()
+SocketServerUDP::SocketServerUDP() : ASocketServer()
 {
 	_fdMax = 0;
 	_socketServerID = INVALID_SOCKET;
 }
 
-SocketServerTCP::~SocketServerTCP()
+SocketServerUDP::~SocketServerUDP()
 {
 }
 
-void	SocketServerTCP::displayError(const std::string &msg)
+void	SocketServerUDP::displayError(const std::string &msg)
 {
 	#ifdef __linux__
 		perror(msg.c_str());
@@ -19,7 +19,7 @@ void	SocketServerTCP::displayError(const std::string &msg)
 	#endif
 }
 
-bool					SocketServerTCP::init(const std::string &addr, int port)
+bool SocketServerUDP::init(const std::string &addr, int port)
 {
 	#ifdef _WIN32
 		WSADATA			wsaData;
@@ -36,7 +36,7 @@ bool					SocketServerTCP::init(const std::string &addr, int port)
 	_addrSocket.sin_family = AF_INET;
 	_addrSocket.sin_port = htons(port);
 
-	if ((_socketServerID = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET)
+	if ((_socketServerID = socket(AF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET)
 	{
 		displayError("Socket creation failed: ");
 		#ifdef _WIN32
@@ -49,7 +49,7 @@ bool					SocketServerTCP::init(const std::string &addr, int port)
 	return (true);
 }
 
-bool SocketServerTCP::launch()
+bool SocketServerUDP::launch()
 {
 	if (bind(_socketServerID, reinterpret_cast<struct sockaddr *>(&_addrSocket), sizeof(struct sockaddr_in)) == SOCKET_ERROR)
 	{
@@ -62,113 +62,112 @@ bool SocketServerTCP::launch()
 		#endif
 		return (false);
 	}
-
-	if (listen(_socketServerID, SOMAXCONN) == INVALID_SOCKET)
-	{
-		displayError("Listen failed: ");
-		#ifdef _WIN32
-			WSACleanup();
-			closesocket(_socketServerID);
-		#elif __linux__
-			close(_socketServerID);
-		#endif
-		return (false);
-	}
 	return (true);
 }
 
-int SocketServerTCP::acceptNewClient()
+int						SocketServerUDP::acceptNewClient(struct sockaddr_in *clientAddr)
 {
-	int newClientSocketID;
+	//int					newSocketClient;
+	char				buffer[UDP_PACKET_SIZE];
+	socklen_t			addrSize;
+	int					ret;
 
-	if (!FD_ISSET(_socketServerID, &_readfds))
-		return (-1);
-
-	if ((newClientSocketID = accept(_socketServerID, NULL, NULL)) == INVALID_SOCKET)
+	addrSize = static_cast<socklen_t>(sizeof(struct sockaddr_in));
+	MemTools::set(&clientAddr, 0, sizeof(struct sockaddr));
+	
+	if ((ret = recvfrom(_socketServerID, buffer, sizeof(buffer) - 1,
+						0, reinterpret_cast<struct sockaddr *>(&clientAddr), &addrSize)) < 0)
 	{
-		displayError("Accept failed: ");
-		#ifdef _WIN32
-			WSACleanup();
-			closesocket(_socketServerID);
-		#elif __linux__
-			close(_socketServerID);
-		#endif
+		displayError("Recvfrom failed: ");
 		return (-1);
 	}
+	buffer[ret] = '\0';
 
-	if (DEBUG_MSG)
-		std::cout << "NEW CLIENT ------->" << newClientSocketID << std::endl;
+	std::cout << "HEY HEY HEY : " << buffer << std::endl;
 
-	return (newClientSocketID);
+	return (ret);
 }
 
-bool										SocketServerTCP::sendAllData(std::vector<ServerClient *> &clientList)
+bool										SocketServerUDP::sendAllData(std::vector<ServerClient *> &clientList)
 {
 	std::vector<ServerClient *>::iterator	it;
 
 	it = clientList.begin();
 	while (it != clientList.end())
 	{
-		if ((*it)->getDataLen() > 0)
+		if ((*it)->getDataLenUDP() > 0)
 		{
 			if (DEBUG_MSG)
-				std::cout << "Sending to Client " << (*it)->getTCPSocket()
-					<< " : " << (*it)->getSendData() << std::endl;
-			if (send((*it)->getTCPSocket(), (*it)->getSendData(), (*it)->getDataLen(), 0) == SOCKET_ERROR)
+				std::cout << "Sending to Client " << (*it)->getUDPSocket()
+					<< " : " << (*it)->getSendDataUDP() << std::endl;
+
+
+			if (sendto((*it)->getUDPSocket(), (*it)->getSendDataUDP(), (*it)->getDataLenUDP(),
+				0, reinterpret_cast<struct sockaddr *>((*it)->getAddrUDP()), sizeof(struct sockaddr *)) < 0)
 			{
-				displayError("Send error");
+				displayError("Sendto failed: ");
 			}
-			(*it)->resetData();
+
+			(*it)->resetDataUDP();
 		}
 		it++;
 	}
 	return (true);
 }
 
-std::string	serialize2(const char *str, int len)
+std::string	serialize(const char *str, int len)
 {
 	(void)len;
 	return (std::string(str));
 }
 
-std::vector<ClientMsg>						SocketServerTCP::receiveData(std::vector<ServerClient *> &socketsClients)
+std::vector<ClientMsg>		SocketServerUDP::receiveData(std::vector<ServerClient *> &socketsClients)
 {
 	std::vector<ServerClient *>::iterator	it;
-	char									buf[TCP_PACKET_SIZE];
+	char									buf[UDP_PACKET_SIZE];
 	std::vector<ClientMsg>					vectMsg;
 	int										len;
+	int										addrSize;
 
 	it = socketsClients.begin();
 	while (it != socketsClients.end())
 	{
-		if (FD_ISSET((*it)->getTCPSocket(), &_readfds))
+		if (FD_ISSET((*it)->getUDPSocket(), &_readfds))
 		{
-			MemTools::set(buf, 0, TCP_PACKET_SIZE);
-			if ((len = recv((*it)->getTCPSocket(), buf, TCP_PACKET_SIZE, 0)) == -1 || len == 0)
+			MemTools::set(buf, 0, UDP_PACKET_SIZE);
+			if ((len = recvfrom((*it)->getUDPSocket(), buf, sizeof(buf) - 1,
+				0, reinterpret_cast<struct sockaddr *>((*it)->getAddrUDP()), &addrSize)) <= 0)
 			{
 				if (len == -1)
-					displayError("Recv error: ");
-				#ifdef  _WIN32
-					closesocket((*it)->getTCPSocket());
+				{
+					displayError("Recvfrom error: ");
+				}
+				#ifdef _WIN32
+					closesocket((*it)->getUDPSocket());
 				#elif	__linux__
-					close((*it)->getTCPSocket());
+					close((*it)->getUDPSocket());
 				#endif
-				(*it)->setDisconnectedTCP(true);
+					(*it)->setDisconnectedUDP(true);
 			}
 			else
 			{
 				buf[len] = '\0';
 				if (DEBUG_MSG)
 					std::cout << "Received Msg [" << buf << "]" << std::endl;
-				vectMsg.push_back(std::make_pair((*it), serialize2(buf, len)));
+				vectMsg.push_back(std::make_pair((*it), serialize(buf, len)));
 			}
+
+
+
+
+
 		}
 		it++;
 	}
 	return (vectMsg);
 }
 
-int										SocketServerTCP::selectFds(const std::vector<int> &socketsClients)
+int										SocketServerUDP::selectFds(const std::vector<int> &socketsClients)
 {
 	std::vector<int>::const_iterator	it;
 

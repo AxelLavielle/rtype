@@ -2,10 +2,10 @@
 
 #include "APage.hh"
 
-class EndPage : public APage
+class						EndPage : public APage
 {
 public:
-	EndPage();
+	EndPage(IGraphManager *, IEventManager *, const PathFileManager &, ISoundManager *);
 	virtual ~EndPage();
 
 	virtual bool			init();
@@ -13,4 +13,7 @@ public:
 	virtual bool			launch();
 	virtual void			draw();
 	virtual IPage::PAGE		event();
+
+private:
+	Sound					_clickSound;
 };

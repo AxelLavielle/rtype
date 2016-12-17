@@ -13,7 +13,7 @@ public:
 	CmdManager();
 	~CmdManager();
 	bool handshake();
-	ACommand * receiveCmd();
+	ICommand * receiveCmd();
 	bool newCmd(const std::string & cmd);
 	void setSocket(ASocketClient * sosket);
 

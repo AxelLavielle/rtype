@@ -32,14 +32,15 @@ bool	CmdManager::handshake()
 	return (true);
 }
 
-ACommand	*CmdManager::receiveCmd()
+ICommand	*CmdManager::receiveCmd()
 {
 	ICommand			*cmd;
 	char				*res;
 
-	res = _socketClient->receiveData();
+	if (!(res = _socketClient->receiveData()))
+		return (NULL);
 	cmd = _serialize.unserializeCommand(res);
-	return (NULL);
+	return (cmd);
 }
 
 bool CmdManager::newCmd(const std::string & cmd)

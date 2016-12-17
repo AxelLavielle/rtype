@@ -132,6 +132,7 @@
     <ClInclude Include="..\..\..\common\AMutex.hh" />
     <ClInclude Include="..\..\..\common\AThread.hh" />
     <ClInclude Include="..\..\..\common\AThreadPool.hh" />
+    <ClInclude Include="..\..\..\common\BasicCmd.hh" />
     <ClInclude Include="..\..\..\common\EntityType.hh" />
     <ClInclude Include="..\..\..\common\IEntity.hpp" />
     <ClInclude Include="..\..\..\common\IMutex.hpp" />
@@ -158,7 +159,6 @@
     <ClInclude Include="APage.hh" />
     <ClInclude Include="ASocketClient.hh" />
     <ClInclude Include="ASoundManager.hh" />
-    <ClInclude Include="BasicCmd.hh" />
     <ClInclude Include="Button.hh" />
     <ClInclude Include="CheckBox.hh" />
     <ClInclude Include="Client.hh" />
@@ -196,6 +196,7 @@
     <ClCompile Include="..\..\..\common\AMutex.cpp" />
     <ClCompile Include="..\..\..\common\AThread.cpp" />
     <ClCompile Include="..\..\..\common\AThreadPool.cpp" />
+    <ClCompile Include="..\..\..\common\BasicCmd.cpp" />
     <ClCompile Include="..\..\..\common\MemTools.cpp" />
     <ClCompile Include="..\..\..\common\Mutex.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\ACommand.cpp" />
@@ -214,7 +215,6 @@
     <ClCompile Include="APage.cpp" />
     <ClCompile Include="ASocketClient.cpp" />
     <ClCompile Include="ASoundManager.cpp" />
-    <ClCompile Include="BasicCmd.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="CheckBox.cpp" />
     <ClCompile Include="Client.cpp" />

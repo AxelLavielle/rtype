@@ -19,4 +19,5 @@ protected:
   CmdType		_cmdType;
   CmdName		_cmdName;
   std::string	_arg;
+  char			_separator;
 };

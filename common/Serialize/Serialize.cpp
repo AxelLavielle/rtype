@@ -90,8 +90,10 @@ ICommand	*Serialize::unserializeCommand(char *data)
 	case ROOMINFO:
 		break;
 	case BASICCMD:
-		//res = new BasicCmd();
-		//return ();
+		res = new BasicCmd();
+		res->setCommandArg(p.data);
+		res->setCommandType(static_cast<CmdType>(p.cmdType));
+		return (res);
 		break;
 	case ROOMLIST:
       break;

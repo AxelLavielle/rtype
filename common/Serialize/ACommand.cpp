@@ -5,6 +5,7 @@ ACommand::ACommand()
 	_cmdType = EMPTYTYPE;
 	_cmdName = EMPTYNAME;
 	_arg = "";
+	_separator = '|';
 }
 
 ACommand::~ACommand()

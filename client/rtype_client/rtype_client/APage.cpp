@@ -5,7 +5,7 @@
 // Login   <laviel_a@epitech.net>
 // 
 // Started on  Wed Dec 14 15:41:00 2016 Axel Lavielle
-// Last update Fri Dec 16 11:42:19 2016 Axel Lavielle
+// Last update Sat Dec 17 01:19:49 2016 Axel Lavielle
 //
 
 #include	"APage.hh"
@@ -91,13 +91,14 @@ void		APage::initCheckBox(Rect pos, std::string spriteEmpty, std::string spriteF
   _guiElement.push_back(check);
 }
 
-void		APage::initListBox(Rect pos, std::string font, std::string button, std::string hover)
+void		APage::initListBox(Rect pos, std::string font, std::string button, std::string hover, std::vector<std::string> elements)
 {
   ListBox	*list = new ListBox(_graph, _event, pos);
 
   list->setFontPath(_fileManager.getRoot() + font);
   list->setButtonSprite(_fileManager.getRoot() + button);
   list->setButtonOverSprite(_fileManager.getRoot() + hover);
+  list->setElements(elements);
   _guiElement.push_back(list);
 }
 

@@ -67,6 +67,8 @@ bool	ListBox::click()
 	int max;
 	std::vector<Button>::iterator	it;
 
+
+	std::cout << "PUTE" << std::endl;
 	max = _elements.size() / (_rect.getHeight() / (_height + 10));
 	if (_elements.size() % (_rect.getHeight() / (_height + 10)))
 		max++;

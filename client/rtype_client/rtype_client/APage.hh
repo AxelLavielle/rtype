@@ -29,7 +29,7 @@ protected:
   std::string						_backgroundSprite;
 
   void			initButton(const int textPosX, const int textPosY, const int textSize, const Rect & pos, const std::string & name, const std::string & sprite, const std::string & spriteHover, const std::string & fontPath, IPage::PAGE page);
-  void			initListBox(Rect, std::string, std::string, std::string);
+  void			initListBox(Rect, std::string, std::string, std::string, std::vector<std::string>);
   void			initInputBox(Rect, std::string, Color);
   void			initCursorBox(Rect, std::string, std::string);
   void			initCheckBox(Rect, std::string, std::string);

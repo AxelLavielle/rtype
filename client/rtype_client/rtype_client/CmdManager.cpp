@@ -40,6 +40,8 @@ ICommand	*CmdManager::receiveCmd()
 	if (!(res = _socketClient->receiveData()))
 		return (NULL);
 	cmd = _serialize.unserializeCommand(res);
+	if (cmd->getCommandName() == BASICCMD)
+
 	return (cmd);
 }
 

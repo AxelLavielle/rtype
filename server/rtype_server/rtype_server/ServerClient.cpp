@@ -1,6 +1,6 @@
 #include "ServerClient.hh"
 
-ServerClient::ServerClient(int socketFd)
+ServerClient::ServerClient(const int socketFd)
 {
 	_TCPSocketFd = socketFd;
 	_UDPSocketFd = -1;
@@ -11,7 +11,7 @@ ServerClient::ServerClient(int socketFd)
 	_isDisconnectedTCP = false;
 	_isDisconnectedUDP = false;
 	_logState = false;
-	_currentRoom = NULL;
+	_currentRoomId = -1;
 }
 
 ServerClient::~ServerClient()
@@ -28,7 +28,7 @@ int			ServerClient::getUDPSocket() const
 	return (_UDPSocketFd);
 }
 
-void		ServerClient::addDataToSend(const char *data, int dataLen)
+void		ServerClient::addDataToSend(const char *data, const int dataLen)
 {
 	int		i;
 	int		j;
@@ -44,7 +44,7 @@ void		ServerClient::addDataToSend(const char *data, int dataLen)
 	_lenData += dataLen;
 }
 
-void		ServerClient::addUDPDataToSend(const char *data, int dataLen)
+void		ServerClient::addUDPDataToSend(const char *data, const int dataLen)
 {
 	int		i;
 	int		j;
@@ -108,27 +108,28 @@ bool ServerClient::isDisconnectedUDP() const
 	return (_isDisconnectedUDP);
 }
 
-void	ServerClient::setDisconnectedTCP(bool disconnected)
+void	ServerClient::setDisconnectedTCP(const bool disconnected)
 {
 	_isDisconnectedTCP = disconnected;
 }
 
-void	ServerClient::setDisconnectedUDP(bool disconnected)
+
+void	ServerClient::setDisconnectedUDP(const bool disconnected)
 {
 	_isDisconnectedUDP = disconnected;
 }
 
-void ServerClient::setCurrentRoom(Room *room)
+void	ServerClient::setCurrentRoom(const int roomId)
 {
-	_currentRoom = room;
+	_currentRoomId = roomId;
 }
 
-Room		*ServerClient::getCurrentRoom() const
+int		ServerClient::getCurrentRoom() const
 {
-	return (_currentRoom);
+	return (_currentRoomId);
 }
 
-void ServerClient::setLogged(bool state)
+void	ServerClient::setLogged(const bool state)
 {
 	_logState = state;
 }

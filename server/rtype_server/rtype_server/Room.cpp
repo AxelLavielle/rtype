@@ -37,6 +37,8 @@ void					Room::pauseGame()
 
 bool					Room::addClient(ServerClient *client)
 {
+	if (_clients.size() >= MAX_PLAYERS)
+		return (false);
 	_clients.push_back(client);
 	return (true);
 }

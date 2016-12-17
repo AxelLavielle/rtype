@@ -83,18 +83,25 @@ void			CmdManager::cmdJoinRoom(ServerClient *client, const std::string &msgClien
 {
 	std::string roomName;
 	std::string msg;
-	Room		*r;
-
+	
 	roomName = msgClient.substr(5);
 	roomName.pop_back();
 	msg = "I want to join |" + roomName + "|\n";
-	if (_roomManager->getRoomByName(roomName) != NULL)
+
+	try
 	{
-		r = _roomManager->getRoomByName(roomName);
-		msg += "Room exist :D : " + r->getName() + "\n";
-		_roomManager->addClientToRoom(client, _roomManager->getRoomByName(roomName)->getId());
+		_roomManager->getRoomByName(roomName);
+		msg += "Room exist :D : " + _roomManager->getRoomByName(roomName).getName() + "\n";
+		if (_roomManager->addClientToRoom(client, _roomManager->getRoomByName(roomName).getId()) == true)
+			msg += "Yes I joined room!\n";
+		else
+			msg += "Nope, room is full...\n";
 	}
-	else
+	catch (const std::exception &error)
+	{
+		std::cerr << "############ " << error.what() << std::endl;
 		msg += "Room does not exist :(\n";
+	}
+		
 	_clientManager->addDataToSend(client->getTCPSocket(), msg.c_str(), msg.size());
 }

@@ -13,19 +13,19 @@ int								RoomManager::addRoom(const std::string &roomName)
 {
 	static int					idRoom = 0;
 
-	_roomList.push_back(new Room(idRoom, roomName));
+	_roomList.push_back(Room(idRoom, roomName));
 	idRoom++;
 	return (idRoom - 1);
 }
 
-bool							RoomManager::removeRoom(int roomId)
+bool							RoomManager::removeRoom(const int roomId)
 {
-	std::vector<Room *>::iterator	it;
+	std::vector<Room>::iterator	it;
 
 	it = _roomList.begin();
 	while (it != _roomList.end())
 	{
-		if ((*it)->getId() == roomId)
+		if ((*it).getId() == roomId)
 		{
 			_roomList.erase(it);
 			return (true);
@@ -35,35 +35,35 @@ bool							RoomManager::removeRoom(int roomId)
 	return (false);
 }
 
-Room									*RoomManager::getRoomByName(const std::string &roomName) const
+Room									&RoomManager::getRoomByName(const std::string &roomName)
 {
-	std::vector<Room *>::const_iterator	it;
+	std::vector<Room>::iterator	it;
 
 	it = _roomList.begin();
 	while (it != _roomList.end())
 	{
-		if ((*it)->getName().compare(roomName) == 0)
+		if ((*it).getName().compare(roomName) == 0)
 			return (*it);
 		it++;
 	}
-	return (NULL);
+	throw (std::exception("No such room"));
 }
 
-Room									*RoomManager::getRoomById(int roomId) const
+Room									&RoomManager::getRoomById(const int roomId)
 {
-	std::vector<Room *>::const_iterator	it;
+	std::vector<Room>::iterator	it;
 
 	it = _roomList.begin();
 	while (it != _roomList.end())
 	{
-		if ((*it)->getId() == roomId)
+		if ((*it).getId() == roomId)
 			return (*it);
 		it++;
 	}
-	return (NULL);
+	throw (std::exception("No such room"));
 }
 
-std::vector<Room *> RoomManager::getRoomList() const
+std::vector<Room> &RoomManager::getRoomList()
 {
 	return (_roomList);
 }
@@ -86,17 +86,17 @@ std::string			listClients(std::vector<ServerClient *> clientList)
 std::string								RoomManager::getRoomListString() const
 {
 	std::string							roomList;
-	std::vector<Room *>::const_iterator	it;
+	std::vector<Room>::const_iterator	it;
 	
 	it = _roomList.begin();
 	while (it != _roomList.end())
 	{
 		roomList += "Room ";
-		roomList += std::to_string((*it)->getId());
+		roomList += std::to_string((*it).getId());
 		roomList += " : ";
-		roomList += (*it)->getName();
+		roomList += (*it).getName();
 		roomList += "\n";
-		roomList += listClients((*it)->getClients());
+		roomList += listClients((*it).getClients());
 		
 		it++;
 	}
@@ -105,24 +105,65 @@ std::string								RoomManager::getRoomListString() const
 
 bool		RoomManager::addClientToRoom(ServerClient *client, const std::string &name)
 {
-	Room	*room;
-
-	if ((room = getRoomByName(name)) == NULL)
+	try
+	{
+		getRoomByName(name);
+	}
+	catch (const std::exception &error)
+	{
+		std::cerr << "############ " << error.what() << std::endl;
 		return (false);
-	room->addClient(client);
+	}
+	std::cout << "BLA BLA BLA BLA BLA -------> " << std::endl;
+	if (getRoomByName(name).addClient(client) == false)
+		return (false);
+
+	if (client->getCurrentRoom() != -1)
+	{
+		try
+		{
+			getRoomById(client->getCurrentRoom());
+			getRoomById(client->getCurrentRoom()).removeClient(client);
+		}
+		catch (const std::exception &error)
+		{
+			std::cerr << "############ " << error.what() << std::endl;
+		}
+
+	}
+	client->setCurrentRoom(getRoomByName(name).getId());
+
 	return (true);
 }
 
-bool	RoomManager::addClientToRoom(ServerClient *client, int id)
+bool		RoomManager::addClientToRoom(ServerClient *client, const int id)
 {
-	Room	*room;
-
-	if ((room = getRoomById(id)) == NULL)
+	try
+	{
+		getRoomById(id);
+	}
+	catch (const std::exception &error)
+	{
+		std::cerr << "############ " << error.what() << std::endl;
 		return (false);
-	room->addClient(client);
-	if (client->getCurrentRoom() != NULL)
-		client->getCurrentRoom()->removeClient(client);
-	client->setCurrentRoom(room);
+	}
 
+	if (getRoomById(id).addClient(client) == false)
+		return (false);
+
+	if (client->getCurrentRoom() != - 1)
+	{
+		try
+		{
+			getRoomById(client->getCurrentRoom());
+			getRoomById(client->getCurrentRoom()).removeClient(client);
+		}
+		catch (const std::exception &error)
+		{
+			std::cerr << "############ " << error.what() << std::endl;
+		}
+
+	}
+	client->setCurrentRoom(id);
 	return (true);
 }

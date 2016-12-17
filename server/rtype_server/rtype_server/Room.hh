@@ -5,6 +5,8 @@
 #include <vector>
 class ServerClient;
 
+#define MAX_PLAYERS	(4)
+
 class Room
 {
 public:
@@ -25,7 +27,5 @@ private:
 	std::string					_name;
 	int							_id;
 	std::vector<ServerClient *>	_clients;
-	unsigned int				_nbPlayer;
-
 };
 

@@ -6,7 +6,6 @@
 #define DEBUG_MSG (true)
 
 #include "MemTools.hh"
-#include "Room.hh"
 #include <vector>
 #include <iostream>
 #include <string>
@@ -20,7 +19,7 @@ private:
 	char				_sendData[TCP_PACKET_SIZE];
 	int					_lenData;
 	bool				_isDisconnectedTCP;
-	Room				*_currentRoom;
+	int					_currentRoomId;
 
 	int					_UDPSocketFd;
 	char				_sendDataUDP[UDP_PACKET_SIZE];
@@ -35,14 +34,13 @@ public:
 	~ServerClient();
 
 	int					getTCPSocket() const;
-	void				addDataToSend(const char *, int);
+	void				addDataToSend(const char *, const int);
 	const char			*getSendData() const;
 	void				resetData();
 	int					getDataLen() const;
-	void				closeSocket(int);
-
+	
 	int					getUDPSocket() const;
-	void				addUDPDataToSend(const char *, int);
+	void				addUDPDataToSend(const char *, const int);
 	const char			*getSendDataUDP() const;
 	void				resetDataUDP();
 	int					getDataLenUDP() const;
@@ -51,13 +49,13 @@ public:
 	
 	bool				isDisconnectedTCP() const;
 	bool				isDisconnectedUDP() const;
-	void				setDisconnectedTCP(bool);
-	void				setDisconnectedUDP(bool);
+	void				setDisconnectedTCP(const bool);
+	void				setDisconnectedUDP(const bool);
 
-	void				setCurrentRoom(Room *);
-	Room				*getCurrentRoom() const;
+	void				setCurrentRoom(const int);
+	int					getCurrentRoom() const;
 
-	void				setLogged(bool);
+	void				setLogged(const bool);
 	bool				isLogged() const;
 };
 

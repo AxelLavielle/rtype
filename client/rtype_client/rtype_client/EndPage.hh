@@ -5,7 +5,7 @@
 class						EndPage : public APage
 {
 public:
-	EndPage(IGraphManager *, IEventManager *, const PathFileManager &, ISoundManager *);
+	EndPage(IGraphManager *graph, IEventManager *event, const PathFileManager &fileManager, ISoundManager *soundManager);
 	virtual ~EndPage();
 
 	virtual bool			init();

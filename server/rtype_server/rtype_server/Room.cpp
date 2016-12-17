@@ -35,8 +35,35 @@ void					Room::pauseGame()
 
 }
 
-bool					Room::addClient(const Client &client)
+bool					Room::addClient(ServerClient *client)
 {
 	_clients.push_back(client);
 	return (true);
+}
+
+bool										Room::removeClient(ServerClient *client)
+{
+	std::vector<ServerClient *>::iterator	it;
+
+	it = _clients.begin();
+	while (it != _clients.end())
+	{
+		if ((*it) == client)
+		{
+			_clients.erase(it);
+			return (true);
+		}
+		it++;
+	}
+	return (false);
+}
+
+std::vector<ServerClient *>		Room::getClients() const
+{
+	return (_clients);
+}
+
+int								Room::getNbClients() const
+{
+	return (_clients.size());
 }

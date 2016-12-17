@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vector>
-#include "SocketServerTCP.hh"
 #include "ServerClient.hh"
 
 class ClientManager
@@ -13,7 +11,9 @@ public:
 	ClientManager();
 	~ClientManager();
 	void							addClient(int);
+	void							removeClient(ServerClient *);
 	std::vector<int>				getClientsTCPSockets();
+	std::vector<int>				getClientsUDPSockets();
 	std::vector<ServerClient *>		&getClients();
 	void							addDataToSend(int, const char *, int);
 	void							checkDisconnectedClients();

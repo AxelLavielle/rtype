@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
+#include "MemTools.hh"
 
 class				ISocket
 {

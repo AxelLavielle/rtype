@@ -13,7 +13,7 @@ public:
 	virtual bool			launch();
 	virtual void			draw();
 	virtual IPage::PAGE		event();
-
+	
 private:
 	Sound					_clickSound;
 };

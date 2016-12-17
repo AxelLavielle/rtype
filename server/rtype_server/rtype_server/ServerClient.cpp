@@ -8,7 +8,10 @@ ServerClient::ServerClient(int socketFd)
 	_lenData = 0;
 	MemTools::set(_sendDataUDP, 0, UDP_PACKET_SIZE);
 	_lenDataUDP = 0;
-	_isDisconnected = false;
+	_isDisconnectedTCP = false;
+	_isDisconnectedUDP = false;
+	_logState = false;
+	_currentRoom = NULL;
 }
 
 ServerClient::~ServerClient()
@@ -67,6 +70,7 @@ int			ServerClient::getDataLen() const
 	return (_lenData);
 }
 
+
 void		ServerClient::resetData()
 {
 	MemTools::set(_sendData, 0, TCP_PACKET_SIZE);
@@ -94,12 +98,47 @@ struct sockaddr_in *ServerClient::getAddrUDP() const
 	return (_clientAddr);
 }
 
-bool ServerClient::isDisconnected() const
+bool ServerClient::isDisconnectedTCP() const
 {
-	return (_isDisconnected);
+	return (_isDisconnectedTCP);
 }
 
-void	ServerClient::setDisconnected(bool disconnected)
+bool ServerClient::isDisconnectedUDP() const
 {
-	_isDisconnected = disconnected;
+	return (_isDisconnectedUDP);
+}
+
+void	ServerClient::setDisconnectedTCP(bool disconnected)
+{
+	_isDisconnectedTCP = disconnected;
+}
+
+void	ServerClient::setDisconnectedUDP(bool disconnected)
+{
+	_isDisconnectedUDP = disconnected;
+}
+
+void ServerClient::setCurrentRoom(Room *room)
+{
+	_currentRoom = room;
+}
+
+Room		*ServerClient::getCurrentRoom() const
+{
+	return (_currentRoom);
+}
+
+void ServerClient::setLogged(bool state)
+{
+	_logState = state;
+}
+
+bool	ServerClient::isLogged() const
+{
+	return (_logState);
+}
+
+void	ServerClient::resetUDPSocket()
+{
+	_UDPSocketFd = -1;
 }

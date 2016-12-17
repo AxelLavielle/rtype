@@ -22,8 +22,11 @@
 #include <vector>
 #include "ServerClient.hh"
 #include "ISocket.hpp"
+#include "ICommand.hpp"
+#include "Serialize.hh"
 
-typedef std::pair<ServerClient *, std::string> ClientMsg;
+//typedef std::pair<ServerClient *, std::string> ClientMsg;
+typedef std::pair<ServerClient *, ICommand *> ClientMsg;
 
 class ASocketServer : public ISocket
 {

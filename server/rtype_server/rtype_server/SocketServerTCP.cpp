@@ -137,6 +137,7 @@ std::vector<ClientMsg>						SocketServerTCP::receiveData(std::vector<ServerClien
 	char									buf[TCP_PACKET_SIZE];
 	std::vector<ClientMsg>					vectMsg;
 	int										len;
+	Serialize								serializer;
 
 	it = socketsClients.begin();
 	while (it != socketsClients.end())
@@ -148,6 +149,7 @@ std::vector<ClientMsg>						SocketServerTCP::receiveData(std::vector<ServerClien
 			{
 				if (len == -1)
 					displayError("Recv error: ");
+				
 				#ifdef  _WIN32
 					closesocket((*it)->getTCPSocket());
 				#elif	__linux__
@@ -157,10 +159,9 @@ std::vector<ClientMsg>						SocketServerTCP::receiveData(std::vector<ServerClien
 			}
 			else
 			{
-				buf[len] = '\0';
 				if (DEBUG_MSG)
-					std::cout << "Received Msg [" << buf << "]" << std::endl;
-				vectMsg.push_back(std::make_pair((*it), serialize2(buf, len)));
+					std::cout << "Received Msg of len [" << len << "]" << std::endl;
+				vectMsg.push_back(std::make_pair((*it), serializer.unserializeCommand(buf)));
 			}
 		}
 		it++;

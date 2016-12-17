@@ -5,6 +5,7 @@
 #include "ClientManager.hh"
 #include "RoomManager.hh"
 #include "CmdManager.hh"
+#include "BasicCmd.hh"
 
 class CmdManager;
 
@@ -12,13 +13,14 @@ class Server
 {
 private:
 	SocketServerTCP	_socketServerTCP;
-	SocketServerUDP	_socketServerUDP;
+	//SocketServerUDP	_socketServerUDP;
 	ClientManager	_clientManager;
 	RoomManager		_roomManager;
 	CmdManager		_cmdManager;
 	int				_acknowledgementNumber;
 
 	void			processMsg(const std::vector<ClientMsg> &);
+	void			processBasicCmd(ServerClient *, BasicCmd *);
 
 public:
 	Server();
@@ -27,5 +29,4 @@ public:
 	bool	init();
 	bool	launch();
 	bool	launchUDP();
-	void	closeSocket(int);
 };

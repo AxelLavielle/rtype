@@ -4,6 +4,7 @@
 #include "ClientManager.hh"
 #include "RoomManager.hh"
 #include "ASocketServer.hh"
+#include "BasicCmd.hh"
 
 class CmdManager
 {
@@ -17,10 +18,10 @@ public:
 	CmdManager(ClientManager *, RoomManager *);
 	~CmdManager();
 
-	void			cmdCreateRoom(ServerClient *, const std::string &);
-	void			cmdHandshakeSyn(ServerClient *, const std::string &, int);
-	void			cmdHandshakeAck(ServerClient *, const std::string &, int);
-	void			cmdListRoom(ServerClient *, const std::string &);
-	void			cmdJoinRoom(ServerClient *, const std::string &);
+	//void			cmdCreateRoom(ServerClient *, const std::string &);
+	void			cmdHandshakeSyn(ServerClient *, BasicCmd *, int);
+	void			cmdHandshakeAck(ServerClient *, BasicCmd *, int);
+	//void			cmdListRoom(ServerClient *, const std::string &);
+	//void			cmdJoinRoom(ServerClient *, const std::string &);
 
 };

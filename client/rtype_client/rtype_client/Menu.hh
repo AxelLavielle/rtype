@@ -20,8 +20,7 @@
 #include "LobbyPage.hh"
 #include "RoomListPage.hh"
 #include "InsideRoomPage.hh"
-
-#define ANIMDURATION 1000
+#include "EndPage.hh"
 
 class Menu :
 	public AMenu
@@ -38,22 +37,5 @@ private:
 	Sound						_clickSound;
 	SFMLSound					_soundManager;
 	PathFileManager				_fileManager;
-
-	void initButton();
-	void firstAnim(const int i, std::vector<Button>::iterator it);
-	void drawButton();
-	void drawListBox();
-	void drawInput();
-	void drawCursorBox();
-	void drawCheckBox();
-	void drawGUIElement();
-	void roomList();
-	void createRoom();
-	void settings();
-	void clickEvent();
-	char buttonEvent();
-	void roomButton();
-	void clear();
-	void setButtonSprite();
 };
 

@@ -5,12 +5,15 @@
 
 class ADlLoader : public IDlLoader
 {
-public:
-	ADlLoader();
-	virtual			~ADlLoader();
-	virtual void		*getHandle();
-	virtual bool		closeHandle();
 protected:
 	std::string		_dlPath;
 	void		       	*_dlHandle;
+public:
+	ADlLoader();
+	virtual ~ADlLoader();
+
+	virtual void	*getHandle();
+	virtual IEntity	*getInstance() = 0;
+	virtual bool	load(const std::string &) = 0;
+	virtual bool	refresh() = 0;
 };

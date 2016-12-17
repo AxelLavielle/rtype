@@ -26,7 +26,7 @@ bool PathFileManager::init()
 {
 	char	*buff;
 
-#if !defined(__linux__) && !defined(__APPLE)
+#if !defined(__linux__) && !defined(__APPLE__)
 
 	size_t	size;
 	std::string::iterator	it;

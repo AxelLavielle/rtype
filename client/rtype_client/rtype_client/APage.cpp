@@ -15,6 +15,8 @@ APage::APage()
 	_graph = NULL;
 	_event = NULL;
 	_soundManager = NULL;
+	_windowSize.first = 0;
+	_windowSize.second = 0;
 }
 
 APage::APage(IGraphManager *graph, IEventManager *event, const PathFileManager &fileManager, ISoundManager *soundManager)
@@ -24,6 +26,7 @@ APage::APage(IGraphManager *graph, IEventManager *event, const PathFileManager &
   _fileManager = fileManager;
   _soundManager = soundManager;
   _backgroundSprite = "";
+  _windowSize = _graph->getWindowSize();
 }
 
 APage::~APage()
@@ -43,6 +46,20 @@ void		APage::initButton(const int textPosX, const int textPosY, const int textSi
   button->setBackgroundOverSprite(_fileManager.getRoot() + spriteHover);
   button->setFontPath(_fileManager.getRoot() + fontPath);
   _buttons.insert(std::pair<IPage::PAGE, AGUIElement *>(page, button));
+}
+
+void		APage::initButton(const int textPosX, const int textPosY, const int textSize,
+								const Rect &pos, const std::string &name, const std::string &sprite,
+								const std::string &spriteHover, const std::string &fontPath)
+{
+	Button	*button = new Button(_graph, _event, pos, name);
+
+	button->setTextPos(textPosX, textPosY);
+	button->setTextSize(textSize);
+	button->setBackgroundSprite(_fileManager.getRoot() + sprite);
+	button->setBackgroundOverSprite(_fileManager.getRoot() + spriteHover);
+	button->setFontPath(_fileManager.getRoot() + fontPath);
+	_guiElement.push_back(button);
 }
 
 void		APage::initInputBox(Rect pos, std::string sprite, Color rgb)

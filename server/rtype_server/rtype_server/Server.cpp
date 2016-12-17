@@ -72,10 +72,10 @@ bool							Server::launch()
 
 		vectMsg = _socketServerTCP.receiveData(_clientManager.getClients());
 		processMsg(vectMsg);
-		_clientManager.checkDisconnectedClients();
+		_clientManager.checkDisconnectedClients(_roomManager);
 
 		_socketServerTCP.sendAllData(_clientManager.getClients());
-		_clientManager.checkDisconnectedClients();
+		_clientManager.checkDisconnectedClients(_roomManager);
 	}
 	return (true);
 }
@@ -99,10 +99,10 @@ bool							Server::launchUDP()
 
 		vectMsg = _socketServerUDP.receiveData(_clientManager.getClients());
 		processMsg(vectMsg);
-		_clientManager.checkDisconnectedClients();
+		_clientManager.checkDisconnectedClients(_roomManager);
 
 		_socketServerUDP.sendAllData(_clientManager.getClients());
-		_clientManager.checkDisconnectedClients();
+		_clientManager.checkDisconnectedClients(_roomManager);
 	}
 	return (true);
 }

@@ -79,7 +79,7 @@ void						ClientManager::addDataToSend(int clientSocket, const char *data, int d
 	}
 }
 
-void		ClientManager::checkDisconnectedClients()
+void		ClientManager::checkDisconnectedClients(RoomManager &roomManager)
 {
 	std::vector<ServerClient *>::iterator it;
 
@@ -90,6 +90,8 @@ void		ClientManager::checkDisconnectedClients()
 		{
 			if (DEBUG_MSG)
 				std::cout << "################## ERASE TCP: " << (*it)->getTCPSocket() << " !!!" << std::endl;
+			if ((*it)->getCurrentRoom() != -1)
+				roomManager.getRoomById((*it)->getCurrentRoom()).removeClient((*it));
 			it = _clientList.erase(it);
 		}
 		else if ((*it)->isDisconnectedUDP())

@@ -114,7 +114,7 @@ bool		RoomManager::addClientToRoom(ServerClient *client, const std::string &name
 		std::cerr << "############ " << error.what() << std::endl;
 		return (false);
 	}
-	std::cout << "BLA BLA BLA BLA BLA -------> " << std::endl;
+	
 	if (getRoomByName(name).addClient(client) == false)
 		return (false);
 
@@ -129,8 +129,8 @@ bool		RoomManager::addClientToRoom(ServerClient *client, const std::string &name
 		{
 			std::cerr << "############ " << error.what() << std::endl;
 		}
-
 	}
+
 	client->setCurrentRoom(getRoomByName(name).getId());
 
 	return (true);

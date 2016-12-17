@@ -68,6 +68,22 @@ bool Menu::launch()
 	      pages = new SettingsPage(_graph, _event, _fileManager, &_soundManager);
 	      std::cout << "Settings" << std::endl;
 	      break;
+		case IPage::GAME:
+			delete (pages);
+			std::cout << "Game" << std::endl;
+			newEvent = true;
+			_soundManager.stopAll();
+			_game.setGraph(_graph);
+			_game.setEvent(_event);
+			_game.launch();
+			return (true);
+			break;
+			//case IPage::ENDGAME:
+		//	delete (pages);
+		//	newEvent = true;
+		//	pages = new EndPage(_graph, _event, _fileManager, &_soundManager);
+		//	std::cout << "Settings" << std::endl;
+		//	break;
 	    case IPage::QUIT:
 	      _graph->close();
 	      break;

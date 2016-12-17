@@ -49,6 +49,7 @@
     <ClCompile Include="LobbyPage.cpp" />
     <ClCompile Include="RoomListPage.cpp" />
     <ClCompile Include="EndPage.cpp" />
+    <ClCompile Include="GUIPage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />
@@ -109,5 +110,7 @@
     <ClInclude Include="HomePage.hh" />
     <ClInclude Include="SettingsPage.hh" />
     <ClInclude Include="EndPage.hh" />
+    <ClInclude Include="InsideRoomPage.hh" />
+    <ClInclude Include="GUIPage.hh" />
   </ItemGroup>
 </Project>

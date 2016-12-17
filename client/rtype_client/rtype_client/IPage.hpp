@@ -23,6 +23,7 @@ public:
       INSIDEROOM,
       SETTINGS,
       QUIT,
+	  GAME,
 	  ENDGAME,
       NONE
     };

@@ -165,12 +165,14 @@
     <ClInclude Include="Color.hh" />
     <ClInclude Include="EndPage.hh" />
     <ClInclude Include="Game.hh" />
+    <ClInclude Include="GUIPage.hh" />
     <ClInclude Include="HomePage.hh" />
     <ClInclude Include="IEventManager.hpp" />
     <ClInclude Include="IGraphManager.hpp" />
     <ClInclude Include="IGUIElement.hpp" />
     <ClInclude Include="IMenu.hpp" />
     <ClInclude Include="InputBox.hh" />
+    <ClInclude Include="InsideRoomPage.hh" />
     <ClInclude Include="IPage.hpp" />
     <ClInclude Include="ISoundManager.hpp" />
     <ClInclude Include="ListBox.hh" />
@@ -217,6 +219,7 @@
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="EndPage.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GUIPage.cpp" />
     <ClCompile Include="HomePage.cpp" />
     <ClCompile Include="InputBox.cpp" />
     <ClCompile Include="InsideRoomPage.cpp" />

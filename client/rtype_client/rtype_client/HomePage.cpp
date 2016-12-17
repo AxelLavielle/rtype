@@ -1,7 +1,5 @@
 #include "HomePage.hh"
 
-
-
 HomePage::HomePage(IGraphManager *graph, IEventManager *event, const PathFileManager &fileManager, ISoundManager *soundManager) : APage(graph, event, fileManager, soundManager)
 {
 	_animInc = 0;

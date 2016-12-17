@@ -13,6 +13,8 @@
 #include "InputCmd.hh"
 #include "Serialize.hh"
 #include "SocketClientUDP.hh"
+#include "APage.hh"
+#include "GUIPage.hh"
 
 class Game
 {
@@ -34,8 +36,7 @@ private:
 	ICommand					*_input;
 	Serialize					_serialize;
 	ASocketClient				*_sock;
-
-	void createUI();
-	void drawUi();
+	APage						*_guiPage;
+	PathFileManager				_fileManager;
 };
 

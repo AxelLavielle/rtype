@@ -19,9 +19,11 @@ SRC	=	$(COM)/ACommand.cpp	 	\
 		$(DIR)/Client.cpp 		\
 		$(DIR)/CmdManager.cpp 		\
 		$(DIR)/Color.cpp 		\
+		$(DIR)/CreateRoomPage.cpp	\
 		$(DIR)/CursorBox.cpp 		\
 		$(COM)/EntityCmd.cpp 		\
 		$(DIR)/Game.cpp 		\
+		$(DIR)/GUIPage.cpp 		\
 		$(DIR)/HomePage.cpp 		\
 		$(DIR)/InputBox.cpp 		\
 		$(COM)/InputCmd.cpp 		\

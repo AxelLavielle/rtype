@@ -34,7 +34,7 @@ void	Menu::initLobby()
 
 	page = new LobbyPage(_graph, _event, _fileManager, &_soundManager);
 	_page = page;
-	if (!socket)
+	if (!_socket)
 		return;
 	_cmdManager.setSocket(_socket);
 	if (!(cmd = _cmdManager.getRoomList()))

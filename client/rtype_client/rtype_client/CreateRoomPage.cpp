@@ -53,6 +53,14 @@ IPage::PAGE CreateRoomPage::event()
 
 std::string CreateRoomPage::getRoomName() const
 {
+	std::vector<AGUIElement* >::const_iterator	it;
 
+	it = _guiElement.begin();
+	while (it != _guiElement.end())
+	{
+		//if ()
+		//	return ();
+		++it;
+	}
 	return ("");
 }

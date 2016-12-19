@@ -11,7 +11,11 @@ ClientManager::~ClientManager()
 
 void				ClientManager::addClient(int clientSocketId)
 {
+	static int id = 0;
+
 	_clientList.push_back(new ServerClient(clientSocketId));
+	_clientList.back()->setPlayerId(id);
+	id++;
 }
 
 

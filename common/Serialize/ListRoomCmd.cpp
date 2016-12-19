@@ -56,12 +56,12 @@ const std::string	ListRoomCmd::getCommandArg() const
 	return (_arg);
 }
 
-RoomIdInfos	ListRoomCmd::getRoom(const int index) const
+RoomIdInfos					ListRoomCmd::getRoom(const int index) const
 {
 	return (_roomList.at(index));
 }
 
-std::vector<RoomIdInfos> ListRoomCmd::getAllRooms() const
+std::vector<RoomIdInfos>	ListRoomCmd::getAllRooms() const
 {
 	return (_roomList);
 }

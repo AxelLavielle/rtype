@@ -13,6 +13,7 @@ ServerClient::ServerClient(const int socketFd)
 	_logState = false;
 	_currentRoomId = -1;
 	_playerName = "";
+	_status = false;
 }
 
 ServerClient::~ServerClient()
@@ -148,6 +149,26 @@ void ServerClient::setPlayerName(const std::string &name)
 std::string ServerClient::getPlayerName() const
 {
 	return (_playerName);
+}
+
+void ServerClient::setPlayerId(const int id)
+{
+	_playerId = id;
+}
+
+int ServerClient::getPlayerId() const
+{
+	return (_playerId);
+}
+
+void ServerClient::setStatus(const bool status)
+{
+	_status = status;
+}
+
+bool ServerClient::isReady() const
+{
+	return (_status);
 }
 
 void	ServerClient::resetUDPSocket()

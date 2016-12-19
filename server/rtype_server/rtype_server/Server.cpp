@@ -80,6 +80,25 @@ void										Server::processMsg(const std::vector<ClientMsg> &vectMsg)
 	}
 }
 
+void							Server::processGames()
+{
+	std::vector<Room>			roomsReady;
+	std::vector<Room>::iterator	it;
+
+	//std::cout << "Process Games" << std::endl;
+	roomsReady = _roomManager.getRoomsReady();
+	if (roomsReady.size() == 0)
+		return;
+	it = roomsReady.begin();
+	while (it != roomsReady.end())
+	{
+		//std::cout << "Room [" << (*it).getName() << "] is READY" << std::endl;
+		//_cmdManager.cmdLaunchGame((*it).getClients(), (*it).getId());
+		it++;
+	}
+	
+}
+
 bool							Server::launch()
 {
 	std::vector<int>			socketsClients;
@@ -98,7 +117,7 @@ bool							Server::launch()
 		vectMsg = _socketServerTCP.receiveData(_clientManager.getClients());
 		processMsg(vectMsg);
 		_clientManager.checkDisconnectedClients(_roomManager);
-
+		processGames();
 		_socketServerTCP.sendAllData(_clientManager.getClients());
 		_clientManager.checkDisconnectedClients(_roomManager);
 	}

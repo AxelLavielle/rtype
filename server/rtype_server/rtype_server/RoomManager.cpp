@@ -167,3 +167,23 @@ bool		RoomManager::addClientToRoom(ServerClient *client, const int id)
 	client->setCurrentRoom(id);
 	return (true);
 }
+#include <Windows.h>
+
+std::vector<Room>				RoomManager::getRoomsReady()
+{
+	std::vector<Room>			roomsReady;
+	std::vector<Room>::iterator	it;
+
+	if (_roomList.size() == 0)
+		return (roomsReady);
+	
+	it = _roomList.begin();
+	while (it != _roomList.end())
+	{
+		//std::cout << "Room [" << (*it).getName() << "] : " << (*it).getNbClientsReady() << std::endl;
+		if ((*it).getNbClients() > 0 && (*it).getNbClients() == (*it).getNbClientsReady())
+			roomsReady.push_back((*it));
+		it++;
+	}
+	return (roomsReady);
+}

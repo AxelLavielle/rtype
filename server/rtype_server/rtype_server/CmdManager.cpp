@@ -20,7 +20,7 @@ void	CmdManager::closeSocket(int socket)
 }
 
 void				CmdManager::cmdHandshakeSyn(ServerClient *client, BasicCmd *msgClient,
-	int acknowledgementNumber)
+												const int acknowledgementNumber)
 {
 	BasicCmd		cmd;
 	std::string		handshake;
@@ -38,7 +38,7 @@ void				CmdManager::cmdHandshakeSyn(ServerClient *client, BasicCmd *msgClient,
 }
 
 void			CmdManager::cmdHandshakeAck(ServerClient *client, BasicCmd *msgClient,
-	int acknowledgementNumber)
+											const int acknowledgementNumber)
 {
 	std::string	handshake;
 
@@ -100,6 +100,7 @@ void							CmdManager::cmdListRoom(ServerClient *client, BasicCmd *msgClient)
 	_roomManager->addRoom("blih");
 	_roomManager->addRoom("azertyu");
 
+	client->setStatus(true);
 	_roomManager->addClientToRoom(client, "blih");
 
 	roomList = _roomManager->getRoomList();
@@ -143,4 +144,23 @@ void			CmdManager::cmdJoinRoom(ServerClient *client, BasicCmd *msgClient)
 	}
 	msgSerialized = serializer.serialize(&reply);
 	_clientManager->addDataToSend(client->getTCPSocket(), msgSerialized, sizeof(reply));
+}
+
+void			CmdManager::cmdLaunchGame(const std::vector<ServerClient *> &clients, const int idRoom)
+{
+	BasicCmd									cmd;
+	char										*msgSerialized;
+	Serialize									serializer;
+	std::vector<ServerClient *>::const_iterator	it;
+
+	it = clients.begin();
+	cmd.setCommandType(LAUNCH_GAME);
+	cmd.addArg(std::to_string(idRoom));
+	while (it != clients.end())
+	{
+		cmd.addArg(std::to_string((*it)->getPlayerId()));
+		msgSerialized = serializer.serialize(&cmd);
+		_clientManager->addDataToSend((*it)->getTCPSocket(), msgSerialized, sizeof(cmd));
+	}
+
 }

@@ -2,6 +2,9 @@
 
 #include	"ACommand.hh"
 
+typedef std::pair<std::string, int>			RoomNameNbPlayer;
+typedef std::pair<int, RoomNameNbPlayer>	RoomIdInfos;
+
 class		ListRoomCmd : public ACommand
 {
 public:
@@ -11,11 +14,10 @@ public:
   virtual CmdName							getCommandName() const;
   virtual const std::string					getCommandArg() const;
   virtual void								setCommandArg(const std::string &);
-  void										addRoom(const std::string &, const int);
-  std::pair<std::string, int>				getRoom(const int index) const;
-  std::vector<std::pair<std::string, int>>	getAllRooms() const;
-
+  void										addRoom(const int, const std::string &, const int);
+  RoomIdInfos								getRoom(const int index) const;
+  std::vector<RoomIdInfos>					getAllRooms() const;
 
 protected:
-	std::vector<std::pair<std::string, int>> _roomList;
+	std::vector<RoomIdInfos>				_roomList;
 };

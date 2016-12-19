@@ -89,6 +89,7 @@ IEntity		*Serialize::unserializeEntity(char *data)
   packet	p;
   IEntity	*res;
 
+  p = *reinterpret_cast<packet*>(data);
   switch (static_cast<rtype::EntityType>(p.dataType))
     {
     case rtype::EntityType::PLAYER:
@@ -103,8 +104,9 @@ IEntity		*Serialize::unserializeEntity(char *data)
     case rtype::EntityType::BARRIER:
       res = new Barrier();
       break;
+    default:
+      break;
     }
-  p = *reinterpret_cast<packet*>(data);
   res->setType(static_cast<rtype::EntityType>(p.dataType));
   res->setPosX(*reinterpret_cast<double *>(&data[0]));
   // res.setPosY();
@@ -142,6 +144,8 @@ ICommand	*Serialize::unserializeCommand(char *data)
     case ENTITY:
       break;
     case INPUT_CMD:
+      break;
+    default:
       break;
     }
   return (NULL);

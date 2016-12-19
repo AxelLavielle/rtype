@@ -20,7 +20,7 @@ private:
 	int					_lenData;
 	bool				_isDisconnectedTCP;
 	int					_currentRoomId;
-
+	std::string			_playerName;
 	int					_UDPSocketFd;
 	char				_sendDataUDP[UDP_PACKET_SIZE];
 	int					_lenDataUDP;
@@ -57,5 +57,8 @@ public:
 
 	void				setLogged(const bool);
 	bool				isLogged() const;
+
+	void				setPlayerName(const std::string &);
+	std::string			getPlayerName() const;
 };
 

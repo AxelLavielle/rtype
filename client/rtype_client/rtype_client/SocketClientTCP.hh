@@ -29,7 +29,11 @@ public:
 	virtual bool		closure();
 	virtual bool		connectToServer();
 
+	void				setOptLen(int);
+
 private:
+	int					_optLen;
+
 #ifdef _WIN32
 	WSADATA				_wsaData;
 	SOCKET				_connectSocket;

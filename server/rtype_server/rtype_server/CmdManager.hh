@@ -20,7 +20,7 @@ public:
 	CmdManager(ClientManager *, RoomManager *);
 	~CmdManager();
 
-	//void			cmdCreateRoom(ServerClient *, const std::string &);
+	void			cmdCreateRoom(ServerClient *, BasicCmd *);
 	void			cmdHandshakeSyn(ServerClient *, BasicCmd *, int);
 	void			cmdHandshakeAck(ServerClient *, BasicCmd *, int);
 	void			cmdListRoom(ServerClient *, BasicCmd *);

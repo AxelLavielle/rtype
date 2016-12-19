@@ -37,3 +37,17 @@ CmdType ACommand::getCommandType() const
 {
 	return (_cmdType);
 }
+
+std::vector<std::string>		ACommand::split(const std::string &s)
+{
+	std::vector<std::string>	elems;
+	std::stringstream			ss;
+	std::string					item;
+
+	ss.str(s);
+	while (std::getline(ss, item, _separator))
+	{
+		elems.push_back(item);
+	}
+	return (elems);
+}

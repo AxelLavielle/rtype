@@ -88,6 +88,7 @@ IEntity		*Serialize::unserializeEntity(char *data)
 {
   packet	p;
   IEntity	*res;
+  int		i;
 
   p = *reinterpret_cast<packet*>(data);
   switch (static_cast<rtype::EntityType>(p.dataType))
@@ -105,17 +106,23 @@ IEntity		*Serialize::unserializeEntity(char *data)
       res = new Barrier();
       break;
     default:
+      res = NULL;
       break;
     }
+  if (res == NULL)
+    return (NULL);
   res->setType(static_cast<rtype::EntityType>(p.dataType));
   res->setPosX(*reinterpret_cast<double *>(&data[0]));
-  // res.setPosY();
-  // res.setSpeedX();
-  // res.setSpeedY();
-
-
-  // res.setSpriteRepo();
-  // res.setName();
+  res->setPosY(*reinterpret_cast<double *>(&data[8]));
+  res->setSpeedX(*reinterpret_cast<double *>(&data[16]));
+  res->setSpeedY(*reinterpret_cast<double *>(&data[24]));
+  res->setLife(*reinterpret_cast<int *>(&data[32]));
+  i = 36;
+  while (data[i] != ',')
+    i++;
+  data[i] = 0;
+  res->setSpriteRepo(std::string(&data[36]));
+  res->setName(std::string(&data[i + 1]));
   return (res);
 }
 
@@ -140,7 +147,10 @@ ICommand	*Serialize::unserializeCommand(char *data)
       return (res);
       break;
     case ROOM_LIST:
-      break;
+		res = new ListRoomCmd();
+		res->setCommandArg(p.data);
+		res->setCommandType(static_cast<CmdType>(p.cmdType));
+		break;
     case ENTITY:
       break;
     case INPUT_CMD:

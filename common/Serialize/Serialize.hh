@@ -8,6 +8,7 @@
 #include	"PowerUp.hh"
 #include	"Monster.hh"
 #include	"Barrier.hh"
+#include	"ListRoomCmd.hh"
 
 class		Serialize
 {

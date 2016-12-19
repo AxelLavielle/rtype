@@ -125,7 +125,7 @@ IEntity		*Serialize::unserializeEntity(char *data)
   res->setName(std::string(&data[i + 1]));
   return (res);
 }
-
+#include <iostream>
 ICommand	*Serialize::unserializeCommand(char *data)
 {
   packet	p;
@@ -146,6 +146,7 @@ ICommand	*Serialize::unserializeCommand(char *data)
       break;
     case ROOM_LIST:
 		res = new ListRoomCmd();
+		std::cout << "data = " << p.data << std::endl;
 		res->setCommandArg(p.data);
 		res->setCommandType(static_cast<CmdType>(p.cmdType));
 		return (res);

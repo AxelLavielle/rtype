@@ -77,7 +77,7 @@ ListRoomCmd	*CmdManager::getRoomList()
 		return (NULL);
 	cmd = _serialize.unserializeCommand(res);
 	resCmd = static_cast<ListRoomCmd*>(cmd);
-	std::cout << resCmd->getRoom(0).first << std::endl;
+	std::cout << "LALA = " << resCmd->getRoom(0).first << std::endl;
 	
 	delete cmd;
 	return (resCmd);

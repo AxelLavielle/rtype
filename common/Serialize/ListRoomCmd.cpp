@@ -21,26 +21,28 @@ void				ListRoomCmd::addRoom(const int idRoom, const std::string &name, const in
 			+ name + _separator
 			+ std::to_string(nbPlayers) + _separator;
 }
-
+#include <iostream>
 void									ListRoomCmd::setCommandArg(const std::string &arg)
 {
 	std::vector<std::string>			vectString;
-	std::vector<std::string>::iterator	it;
 	RoomNameNbPlayer namePlayer;
 	RoomIdInfos		idInfos;
+	unsigned int						i;
 
+	i = 0;
 	_arg = arg;
 	vectString = split(arg);
-	it = vectString.begin();
-	while (it != vectString.end())
+	while (i < vectString.size())
 	{
-		if (it + 2 != vectString.end())
+		if (i + 2 != vectString.size())
 		{
-			namePlayer = std::make_pair((*(it + 1)), std::stoi((*(it + 2))));
-			idInfos = std::make_pair(std::stoi((*it)), namePlayer);
+			namePlayer = std::make_pair((vectString[i + 1]), std::stoi((vectString[i + 2])));
+			idInfos = std::make_pair(std::stoi(vectString[i]), namePlayer);
+			std::cout << "NamePlayer = " << namePlayer.first << std::endl;
+			std::cout << "idInfo = " << idInfos.first << std::endl;
 			_roomList.push_back(idInfos);
 		}
-		it += 3;
+		i += 3;
 	}
 }
 

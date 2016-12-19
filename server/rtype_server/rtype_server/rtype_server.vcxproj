@@ -111,11 +111,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\common\IEntity.hpp" />
     <ClInclude Include="..\..\..\common\ISocket.hpp" />
     <ClInclude Include="..\..\..\common\Serialize\ACommand.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\AEntity.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\Barrier.hh" />
     <ClInclude Include="..\..\..\common\Serialize\BasicCmd.hh" />
     <ClInclude Include="..\..\..\common\Serialize\CmdEnum.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\EntityType.hh" />
     <ClInclude Include="..\..\..\common\Serialize\ICommand.hpp" />
+    <ClInclude Include="..\..\..\common\Serialize\ListRoomCmd.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\Monster.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\Player.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\PowerUp.hh" />
     <ClInclude Include="..\..\..\common\Serialize\Serialize.hh" />
     <ClInclude Include="ASocketServer.hh" />
     <ClInclude Include="ClientManager.hh" />
@@ -129,7 +137,13 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\common\MemTools.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\ACommand.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\AEntity.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\Barrier.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\BasicCmd.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\ListRoomCmd.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\Monster.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\Player.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\PowerUp.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\Serialize.cpp" />
     <ClCompile Include="ASocketServer.cpp" />
     <ClCompile Include="ClientManager.cpp" />

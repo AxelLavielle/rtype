@@ -1,6 +1,8 @@
 #pragma once
 
 #include	<string>
+#include	<vector>
+#include	<sstream>
 #include	"ICommand.hpp"
 
 class		ACommand : public ICommand
@@ -20,4 +22,7 @@ protected:
   CmdName		_cmdName;
   std::string	_arg;
   char			_separator;
+
+  std::vector<std::string>	split(const std::string &);
+
 };

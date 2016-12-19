@@ -2,7 +2,7 @@
 
 Server::Server() : _cmdManager(&_clientManager, &_roomManager)
 {
-	_acknowledgementNumber = 42;
+	_acknowledgementNumber = 666;
 }
 
 Server::~Server()
@@ -28,15 +28,18 @@ void										Server::processBasicCmd(ServerClient *client, BasicCmd *cmd)
 	switch (cmd->getCommandType())
 	{
 	case HANDSHAKE_SYN:
-		std::cout << "HANDSHAKE SYN" << std::endl;
+		std::cout << "---------> HANDSHAKE SYN" << std::endl;
 		_cmdManager.cmdHandshakeSyn(client, cmd, _acknowledgementNumber);
 		break;
 
 	case HANDSHAKE_ACK:
-		std::cout << "HANDSHAKE ACK" << std::endl;
+		std::cout << "---------> HANDSHAKE ACK" << std::endl;
 		_cmdManager.cmdHandshakeAck(client, cmd, _acknowledgementNumber);
 		break;
 
+	case GET_ROOM_LIST:
+		std::cout << "---------> GET ROOM LIST" << std::endl;
+		_cmdManager.cmdListRoom(client, cmd);
 	default:
 		break;
 	}
@@ -52,7 +55,8 @@ void										Server::processMsg(const std::vector<ClientMsg> &vectMsg)
 	{
 		//if (DEBUG_MSG)
 		//	std::cout << "Client {" << (*it).first->getTCPSocket() << "} Sent : [" << (*it).second << "]" << std::endl;
-		
+	
+		//_cmdManager.cmdListRoom((*it).first, reinterpret_cast<BasicCmd *>((*it).second));
 		std::cout << "[ProcessMsg] cmdType :" << (*it).second->getCommandName() << std::endl;
 		switch ((*it).second->getCommandName())
 		{
@@ -63,7 +67,7 @@ void										Server::processMsg(const std::vector<ClientMsg> &vectMsg)
 			std::cout << "NO CMD" << std::endl;
 			break;
 		}
-
+		std::cout << "End Processing" << std::endl;
 		//if ((*it).second.compare(0, 4, "SYN ") == 0) // SYN_HANDSHAKE
 		//	_cmdManager.cmdHandshakeSyn((*it).first, (*it).second, _acknowledgementNumber);
 		//else if ((*it).second.compare(0, 4, "ACK ") == 0) // ACK_HANDSHAKE

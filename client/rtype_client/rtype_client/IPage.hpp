@@ -35,5 +35,5 @@ public:
   virtual bool			launch() = 0;
   virtual void			draw() = 0;
   virtual IPage::PAGE	event() = 0;
-  virtual PAGE getPageType() const = 0;
+  virtual IPage::PAGE getPageType() const = 0;
 };

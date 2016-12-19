@@ -116,29 +116,31 @@ void							CmdManager::cmdListRoom(ServerClient *client, BasicCmd *msgClient)
 	_clientManager->addDataToSend(client->getTCPSocket(), msgSerialized, sizeof(roomListMsg));
 }
 
-//void			CmdManager::cmdJoinRoom(ServerClient *client, BasicCmd *msgClient)
-//{
-//	std::string roomName;
-//	std::string msg;
-//	
-//	roomName = msgClient.substr(5);
-//	roomName.pop_back();
-//	msg = "I want to join |" + roomName + "|\n";
-//
-//	try
-//	{
-//		_roomManager->getRoomByName(roomName);
-//		msg += "Room exist :D : " + _roomManager->getRoomByName(roomName).getName() + "\n";
-//		if (_roomManager->addClientToRoom(client, _roomManager->getRoomByName(roomName).getId()) == true)
-//			msg += "Yes I joined room!\n";
-//		else
-//			msg += "Nope, room is full...\n";
-//	}
-//	catch (const std::exception &error)
-//	{
-//		std::cerr << "############ " << error.what() << std::endl;
-//		msg += "Room does not exist :(\n";
-//	}
-//		
-//	_clientManager->addDataToSend(client->getTCPSocket(), msg.c_str(), msg.size());
-//}
+void			CmdManager::cmdJoinRoom(ServerClient *client, BasicCmd *msgClient)
+{
+	int			idRoom;
+	std::string playerName;
+	BasicCmd	reply;
+	char		*msgSerialized;
+	Serialize	serializer;
+	
+	idRoom = std::stoi(msgClient->getArg(0));
+	playerName = msgClient->getArg(1);
+	reply.setCommandType(REPLY_CODE);
+	try
+	{
+		_roomManager->getRoomById(idRoom);
+		
+		if (_roomManager->addClientToRoom(client, _roomManager->getRoomById(idRoom).getId()) == true)
+			reply.setCommandArg(std::to_string(ROOM_JOINED));
+		else
+			reply.setCommandArg(std::to_string(ROOM_FULL));
+	}
+	catch (const std::exception &error)
+	{
+		std::cerr << "############ " << error.what() << std::endl;
+		reply.setCommandArg(std::to_string(ROOM_NOT_EXIST));
+	}
+	msgSerialized = serializer.serialize(&reply);
+	_clientManager->addDataToSend(client->getTCPSocket(), msgSerialized, sizeof(reply));
+}

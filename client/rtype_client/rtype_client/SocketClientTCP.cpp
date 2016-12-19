@@ -11,7 +11,7 @@ SocketClientTCP::~SocketClientTCP()
 
 }
 
-bool				SocketClientTCP::init(const std::string &addr, int port)
+bool				SocketClientTCP::init(const std::string &addr, const int port)
 {
 #ifdef _WIN32
 	int				iResult;
@@ -203,7 +203,7 @@ bool			SocketClientTCP::closure()
 	return (true);
 }
 
-void			SocketClientTCP::setOptLen(int len)
+void			SocketClientTCP::setOptLen(const int len)
 {
 	_optLen = len;
 }

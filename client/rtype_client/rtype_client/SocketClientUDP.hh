@@ -24,7 +24,7 @@ public:
 	SocketClientUDP();
 	virtual ~SocketClientUDP();
 
-	virtual bool		init(const std::string &, int);
+	virtual bool		init(const std::string &, const int);
 	virtual bool		sendData(const char *, const int datasize);
 	virtual char		*receiveData();
 	virtual bool		closure();

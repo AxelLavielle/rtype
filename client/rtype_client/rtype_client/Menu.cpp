@@ -180,7 +180,7 @@ bool Menu::launch()
 				tmpPage = static_cast<CreateRoomPage* >(_page);
 				if (!_cmdManager.createRoom(tmpPage->getRoomName(), "Player 1"))
 				{
-					std::cout << "STOP !! " << std::endl;
+					std::cerr << "Cannot create room" << std::endl;
 					break;
 				}
 				delete (_page);

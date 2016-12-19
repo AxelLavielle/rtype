@@ -14,7 +14,7 @@ CreateRoomPage::~CreateRoomPage()
 
 bool CreateRoomPage::init()
 {
-	initButton(70, 5, 60, Rect(750, 600, 90, 310), "PLAY", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::INSIDEROOM);
+	initButton(70, 5, 60, Rect(750, 600, 90, 310), "PLAY", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::CREATEROOMACTION);
 	initButton(70, 5, 60, Rect(10, 600, 90, 310), "BACK", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::PLAY);
 	initInputBox(Rect(200, 300, 30, 700), "/res/img/buttonRoom.png", Color(255, 255, 255));
 	return (true);

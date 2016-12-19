@@ -68,6 +68,8 @@ bool	ListBox::click()
 	int max;
 	std::vector<Button>::iterator	it;
 
+	if (_elements.size() <= 0)
+		return (false);
 	max = _elements.size() / (_rect.getHeight() / (_height + 10));
 	if (_elements.size() % (_rect.getHeight() / (_height + 10)))
 		max++;
@@ -127,18 +129,23 @@ bool ListBox::draw()
 	//	_graph->drawRectangle("../../res/img/button.jpg", _rect);
 
 	drawButton();
-	_nextButton.draw();
-	_nextButton.over();
-	_prevButton.draw();
-	_prevButton.over();
-	ss << _currentPage + 1 << " / " << max;
-	_graph->drawText(ss.str(), _rect.getX() + _rect.getWidth() - 120, _rect.getY() + _rect.getHeight() + 10, 20, Color(255, 255, 255), _fontPath);
+	if (_elements.size() > 0)
+	{
+		_nextButton.draw();
+		_prevButton.draw();
+		ss << _currentPage + 1 << " / " << max;
+		_graph->drawText(ss.str(), _rect.getX() + _rect.getWidth() - 120, _rect.getY() + _rect.getHeight() + 10, 20, Color(255, 255, 255), _fontPath);
+	}
 	return (true);
 }
 
 bool ListBox::over()
 {
-	//Not implemented
+	if (_elements.size() > 0)
+	{
+		_nextButton.over();
+		_prevButton.over();
+	}
 	return (false);
 }
 

@@ -22,6 +22,7 @@
 #include "EndGamePage.hh"
 #include "CreateRoomPage.hh"
 #include "ThreadPool.hh"
+#include "CmdManager.hh"
 
 #define RECO_DURATION 5000
 
@@ -41,7 +42,8 @@ private:
 	SFMLSound					_soundManager;
 	PathFileManager				_fileManager;
 	APage						*_page;
-	ThreadPool					_pool;
+	CmdManager					_cmdManager;
+
 	std::chrono::high_resolution_clock::time_point        _t1Conn;
 
 	void initLobby();

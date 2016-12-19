@@ -4,11 +4,9 @@
 int		main()
 {
   DlManager	DM;
-  DM.setFolderPath("./entities");
+  DM.setFolderPath("../../../common/entities");
 
-
-  IEntity *testt = DM.getdl("Player1");
-  if (testt)
-    std::cout << "get " << testt->getName() << std::endl;
+  IEntity	*test = DM.getdl("Player1");
+  std::cout << test->getName() << std::endl;
   return (0);
 }

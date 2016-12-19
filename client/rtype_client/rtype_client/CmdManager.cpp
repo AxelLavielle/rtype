@@ -65,10 +65,12 @@ ICommand	*CmdManager::receiveCmd()
 	cmd = _serialize.unserializeCommand(res);
 	switch (cmd->getCommandName())
 	{
-		case (BASIC_CMD):
-		if (cmd->getCommandType() == HANDSHAKE_SYN_ACK)
-			confirmHandshake(res, cmd);
-		break;
+	case (BASIC_CMD):
+	  if (cmd->getCommandType() == HANDSHAKE_SYN_ACK)
+	    confirmHandshake(res, cmd);
+	  break;
+	default:
+	  break;
 	}
 	return (cmd);
 }

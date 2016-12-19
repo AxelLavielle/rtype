@@ -48,7 +48,11 @@ char		*Serialize::serialize(IEntity *entity)
   i = -1;
   while (tmps[++i] != 0)
     p.data[j++] = tmps[i];
-  p.data[j] = 0;
+  p.data[j++] = ',';
+  tmps = entity->getName();
+  i = -1;
+  while (tmps[++i] != 0)
+    p.data[j++] = tmps[i];
   p.dataLength = j;
   i = -1;
   while (++i != p.dataLength)
@@ -72,7 +76,7 @@ char		*Serialize::serialize(ICommand *cmd)
   while (tmp[++i] != 0)
     p.data[i] = tmp[i];
   p.data[i] = 0;
-  p.dataLength = tmp.size() + 8;
+  p.dataLength = tmp.size() + 6;
   i = -1;
   while (++i != p.dataLength)
     ret[i] = reinterpret_cast<char *>(&p)[i];
@@ -82,8 +86,35 @@ char		*Serialize::serialize(ICommand *cmd)
 
 IEntity		*Serialize::unserializeEntity(char *data)
 {
-  (void)data;
-  return (NULL);
+  packet	p;
+  IEntity	*res;
+
+  switch (static_cast<rtype::EntityType>(p.dataType))
+    {
+    case rtype::EntityType::PLAYER:
+      res = new Player();
+      break;
+    case rtype::EntityType::POWER_UP:
+      res = new PowerUp();
+      break;
+    case rtype::EntityType::MONSTER:
+      res = new Monster();
+      break;
+    case rtype::EntityType::BARRIER:
+      res = new Barrier();
+      break;
+    }
+  p = *reinterpret_cast<packet*>(data);
+  res->setType(static_cast<rtype::EntityType>(p.dataType));
+  res->setPosX(*reinterpret_cast<double *>(&data[0]));
+  // res.setPosY();
+  // res.setSpeedX();
+  // res.setSpeedY();
+
+
+  // res.setSpriteRepo();
+  // res.setName();
+  return (res);
 }
 
 #include	<iostream>

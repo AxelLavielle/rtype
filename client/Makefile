@@ -2,44 +2,55 @@ CC	=	g++
 
 DIR	=	rtype_client/rtype_client
 
-COM	=	../common/Serialize
+COM	=	../common/
+
+SER	=	../common/Serialize
 
 NAME	=	client
 
-SRC	=	$(COM)/ACommand.cpp	 	\
+SRC	=	$(SER)/ACommand.cpp	 	\
+		$(SER)/AEntity.cpp	 	\
 		$(DIR)/AEventManager.cpp 	\
 		$(DIR)/AGraphManager.cpp 	\
 		$(DIR)/AGUIElement.cpp		\
 		$(DIR)/AMenu.cpp 		\
+		$(COM)/AMutex.cpp 		\
+		$(DIR)/APage.cpp 		\
 		$(DIR)/ASocketClient.cpp 	\
 		$(DIR)/ASoundManager.cpp 	\
-		$(COM)/BasicCmd.cpp 		\
+		$(COM)/AThreadPool.cpp	 	\
+		$(COM)/AThread.cpp	 	\
+		$(SER)/BasicCmd.cpp 		\
 		$(DIR)/Button.cpp 		\
+		$(SER)/Barrier.cpp 		\
 		$(DIR)/CheckBox.cpp 		\
-		$(COM)/ChatInfoCmd.cpp 		\
+		$(SER)/ChatInfoCmd.cpp 		\
 		$(DIR)/Client.cpp 		\
 		$(DIR)/CmdManager.cpp 		\
 		$(DIR)/Color.cpp 		\
 		$(DIR)/CreateRoomPage.cpp	\
 		$(DIR)/CursorBox.cpp 		\
 		$(DIR)/EndGamePage.cpp 		\
-		$(COM)/EntityCmd.cpp 		\
+		$(SER)/EntityCmd.cpp 		\
 		$(DIR)/Game.cpp 		\
 		$(DIR)/GUIPage.cpp 		\
 		$(DIR)/HomePage.cpp 		\
 		$(DIR)/InputBox.cpp 		\
-		$(COM)/InputCmd.cpp 		\
+		$(SER)/InputCmd.cpp 		\
 		$(DIR)/InsideRoomPage.cpp	\
-		$(COM)/ListInfoCmd.cpp 		\
+		$(SER)/ListInfoCmd.cpp 		\
 		$(DIR)/ListBox.cpp 		\
 		$(DIR)/LobbyPage.cpp 		\
 		$(DIR)/main.cpp 		\
 		$(DIR)/Menu.cpp 		\
-		$(DIR)/APage.cpp 		\
+		$(COM)/Mutex.cpp 		\
+		$(SER)/Monster.cpp 		\
+		$(SER)/Player.cpp 		\
+		$(SER)/PowerUp.cpp 		\
 		$(DIR)/Rect.cpp 		\
 		$(DIR)/RectDecor.cpp 		\
-		$(COM)/RoomInfoCmd.cpp 		\
-		$(COM)/Serialize.cpp		\
+		$(SER)/RoomInfoCmd.cpp 		\
+		$(SER)/Serialize.cpp		\
 		$(DIR)/SettingsPage.cpp		\
 		$(DIR)/SFML.cpp 		\
 		$(DIR)/SFMLEvent.cpp 		\
@@ -47,6 +58,8 @@ SRC	=	$(COM)/ACommand.cpp	 	\
 		$(DIR)/SocketClientTCP.cpp	\
 		$(DIR)/SocketClientUDP.cpp	\
 		$(DIR)/Sound.cpp		\
+		$(COM)/ThreadPool.cpp		\
+		$(COM)/Thread.cpp		\
 		$(DIR)/PathFileManager.cpp
 
 OBJ	=	$(SRC:.cpp=.o)

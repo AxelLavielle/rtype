@@ -4,6 +4,10 @@
 #include	"ICommand.hpp"
 #include	"CmdEnum.hh"
 #include	"BasicCmd.hh"
+#include	"Player.hh"
+#include	"PowerUp.hh"
+#include	"Monster.hh"
+#include	"Barrier.hh"
 
 class		Serialize
 {
@@ -27,6 +31,6 @@ private:
     short	dataType;
     short	cmdType;
     short	dataLength;
-    char	data[65467];
+    char	data[65465];
   };
 };

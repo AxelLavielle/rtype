@@ -8,7 +8,7 @@ SocketClientUDP::~SocketClientUDP()
 {
 }
 
-bool			SocketClientUDP::init(const std::string &addr, int port)
+bool			SocketClientUDP::init(const std::string &addr, const int port)
 {
 #ifdef _WIN32
 	WSADATA wsa;

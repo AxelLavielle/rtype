@@ -12,11 +12,11 @@ public:
 	ASocketClient();
 	virtual ~ASocketClient();
 
-	virtual bool	init(const std::string &, int) = 0;
+	virtual bool	init(const std::string &, const int) = 0;
+	virtual bool	closure() = 0;
 	virtual bool	sendData(const char *, const int datasize) = 0;
 	virtual char	*receiveData() = 0;
 	virtual bool	connectToServer() = 0;
-	virtual bool	closure() = 0;
 
 protected:
 	int				_port;

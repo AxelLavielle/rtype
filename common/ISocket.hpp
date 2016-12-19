@@ -10,7 +10,7 @@ class				ISocket
 public:
 	virtual ~ISocket() {}
 	
-	virtual bool	init(const std::string &, int) = 0;
+	virtual bool	init(const std::string &, const int) = 0;
 	virtual bool	closure() = 0;
 };
 

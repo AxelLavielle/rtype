@@ -37,12 +37,12 @@ public:
 	ASocketServer();
 	virtual ~ASocketServer();
 
-	virtual bool						init(const std::string &, int) = 0;
-	virtual bool						sendAllData(std::vector<ServerClient *> &) = 0;
+	virtual bool				init(const std::string &, const int) = 0;
+	virtual bool				closure();
+	virtual bool				sendAllData(std::vector<ServerClient *> &) = 0;
 	virtual std::vector<ClientMsg>		receiveData(std::vector<ServerClient *> &) = 0;
-	virtual bool						launch() = 0;
+	virtual bool				launch() = 0;
+	virtual int				selectFds(const std::vector<int> &) = 0;
 //	virtual int							acceptNewClient() = 0;
-	virtual bool						closure();
-	virtual int							selectFds(const std::vector<int> &) = 0;
 };
 

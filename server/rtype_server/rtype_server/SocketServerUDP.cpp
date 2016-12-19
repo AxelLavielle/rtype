@@ -19,7 +19,7 @@ void	SocketServerUDP::displayError(const std::string &msg)
 	#endif
 }
 
-bool SocketServerUDP::init(const std::string &addr, int port)
+bool SocketServerUDP::init(const std::string &addr, const int port)
 {
 	#ifdef _WIN32
 		WSADATA			wsaData;

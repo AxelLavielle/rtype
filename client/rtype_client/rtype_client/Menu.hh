@@ -23,6 +23,7 @@
 #include "CreateRoomPage.hh"
 #include "PausePage.hh"
 #include "ThreadPool.hh"
+#include "Thread.hh"
 #include "CmdManager.hh"
 
 #define RECO_DURATION 5000

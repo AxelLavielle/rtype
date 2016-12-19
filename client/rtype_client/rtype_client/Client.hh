@@ -22,7 +22,7 @@ private:
 	IMenu				*_menu;
 	SocketClientTCP		*_socket;
 	CmdManager			_cmdManager;
-	AThreadPool			*_pool;
+	ThreadPool			*_pool;
 	AMutex				*_mutex;
 
 	bool initSocket();

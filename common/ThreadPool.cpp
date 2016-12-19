@@ -2,6 +2,7 @@
 
 ThreadPool::ThreadPool()
 {
+  _size = 0;
 }
 
 ThreadPool::~ThreadPool()
@@ -61,7 +62,7 @@ bool ThreadPool::is_thread_in(IThread *thread)
 	}
 	return (false);
 }
-	
+
 void ThreadPool::deleteUnusedThread()
 {
 	unsigned int	i = 0;
@@ -76,4 +77,9 @@ void ThreadPool::deleteUnusedThread()
 		i++;
 	}
 	_size = _threadGroup.size();
+}
+
+int ThreadPool::getSize() const
+{
+  return (_size);
 }

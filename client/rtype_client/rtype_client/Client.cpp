@@ -2,7 +2,6 @@
 
 Client::Client()
 {
-	_pool = new ThreadPool();
 	_mutex = new Mutex();
 	_socket = new SocketClientTCP();
 }
@@ -14,7 +13,6 @@ Client::~Client()
 	delete _graph;
 	delete _event;
 	delete _menu;
-	delete _pool;
 	delete _mutex;
 }
 
@@ -58,12 +56,12 @@ bool Client::launch()
 	_menu->setMutex(_mutex);
 	_menu->init();
 	th.createThread(std::bind(&Client::initSocket, this));
-	_pool->addThread(&th);
+	_pool.addThread(&th);
 	if (!_menu->launch())
 	{
-		_pool->joinAll();
+		_pool.joinAll();
 		return (false);
 	}
-	_pool->joinAll();
+	_pool.joinAll();
 	return (true);
 }

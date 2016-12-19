@@ -23,6 +23,8 @@
 #include "CreateRoomPage.hh"
 #include "ThreadPool.hh"
 
+#define RECO_DURATION 5000
+
 class Menu :
 	public AMenu
 {
@@ -40,6 +42,7 @@ private:
 	PathFileManager				_fileManager;
 	APage						*_page;
 	ThreadPool					_pool;
+	std::chrono::high_resolution_clock::time_point        _t1Conn;
 
 	void initLobby();
 	bool tryToConnect();

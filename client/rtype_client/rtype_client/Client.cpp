@@ -21,7 +21,7 @@ Client::~Client()
 bool Client::initSocket()
 {
 	_mutex->lock();//10.16.252.95
-	if (!_socket->init("10.16.252.95", 42000)
+	if (!_socket->init("127.0.0.1", 42000)
 		|| !_socket->connectToServer())
 	{
 		_menu->setSocketTCPSocket(_socket);

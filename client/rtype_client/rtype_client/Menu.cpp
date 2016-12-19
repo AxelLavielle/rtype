@@ -20,6 +20,7 @@ bool Menu::init()
 	_clickSound.setDuration(-1);
 	_clickSound.setFilePath(_fileManager.getRoot() + "/res/sounds/buttonClick.wav");
 	_soundManager.play(_music);
+	_t1Conn = std::chrono::high_resolution_clock::now();
 	return (true);
 }
 
@@ -73,15 +74,35 @@ bool Menu::launch()
   IPage::PAGE	curr_event;
   _page = new HomePage(_graph, _event, _fileManager, &_soundManager);
   bool		newEvent;
+  Thread		*th = NULL;
+  std::chrono::high_resolution_clock::time_point        t2Conn;
+  double				duration;
 
   newEvent = false;
   _page->init();
   while (_graph->isWindowOpen())
     {
-	  Thread		*th = new Thread();
+	  
+	  t2Conn = std::chrono::high_resolution_clock::now();
+	  duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2Conn - _t1Conn).count();;
+	  if (duration >= RECO_DURATION)
+	  {
+		  std::cout << "COUCOU = " << duration << std::endl;
+		  if (_mutex->tryLock() && _socket && !_socket->isConnected())
+		  {
+			  if (th)
+			  {
+				  th->join();
+				  _pool.removeThread(th);
+			  }
+			  th = new Thread();
+			  th->createThread(std::bind(&Menu::tryToConnect, this));
+			  _pool.addThread(th);
+			  _t1Conn = std::chrono::high_resolution_clock::now();
+			  _mutex->unlock();
+		  }
+	  }
 
-	  th->createThread(std::bind(&Menu::tryToConnect, this));
-	  _pool.addThread(th);
 	  while (_event->refresh())
 		{
 		  curr_event = _page->event();

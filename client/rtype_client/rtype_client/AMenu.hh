@@ -5,6 +5,7 @@
 #include "IEventManager.hpp"
 #include "Serialize.hh"
 #include "AMutex.hh"
+#include "ThreadPool.hh"
 
 class AMenu :
 	public IMenu
@@ -22,5 +23,6 @@ protected:
 	IEventManager		*_event;
 	ASocketClient		*_socket;
 	AMutex				*_mutex;
+	ThreadPool			_pool;
 };
 

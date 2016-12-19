@@ -15,5 +15,9 @@ int		main()
 	  std::cout << "bite" << std::endl;
   }
 	while (1);
+//  DM.setFolderPath("../../../common/entities");
+//
+//  IEntity	*test = DM.getdl("Player1");
+//  std::cout << test->getName() << std::endl;
   return (0);
 }

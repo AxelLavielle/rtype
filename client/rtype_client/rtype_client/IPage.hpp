@@ -25,6 +25,7 @@ public:
       QUIT,
 	  GAME,
 	  ENDGAME,
+	  PAUSE,
       NONE
     };
 

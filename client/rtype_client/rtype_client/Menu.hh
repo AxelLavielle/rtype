@@ -21,6 +21,7 @@
 #include "InsideRoomPage.hh"
 #include "EndGamePage.hh"
 #include "CreateRoomPage.hh"
+#include "PausePage.hh"
 #include "ThreadPool.hh"
 #include "CmdManager.hh"
 

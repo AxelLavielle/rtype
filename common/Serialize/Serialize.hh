@@ -14,19 +14,13 @@ class		Serialize
 {
 public:
   Serialize();
-  char		*serialize(IEntity *);
-  char		*serialize(ICommand *);
-  IEntity	*unserializeEntity(char *);
-  ICommand	*unserializeCommand(char *);
+  static char		*serialize(IEntity *);
+  static char		*serialize(ICommand *);
+  static IEntity	*unserializeEntity(char *);
+  static ICommand	*unserializeCommand(char *);
   ~Serialize();
 
 private:
-  ICommand	*unserializeChatInfoCmd(char*);
-  ICommand	*unserializeRoomInfoCmd(char*);
-  ICommand	*unserializeRoomListCmd(char*);
-  ICommand	*unserializeEntityCmd(char*);
-  ICommand	*unserializeInputCmd(char*);
-
   struct	packet
   {
     short	dataType;

@@ -138,6 +138,12 @@ bool Menu::launch()
 		      _page = new InsideRoomPage(_graph, _event, _fileManager, &_soundManager);
 		      std::cout << "InsideRoom" << std::endl;
 		      break;
+		    case IPage::PAUSE:
+		      delete (_page);
+		      newEvent = true;
+		      _page = new PausePage(_graph, _event, _fileManager, &_soundManager);
+		      std::cout << "Pause" << std::endl;
+		      break;
 		    case IPage::SETTINGS:
 		      delete (_page);
 		      newEvent = true;

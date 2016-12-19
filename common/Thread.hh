@@ -8,7 +8,7 @@ class Thread : public AThread
 public:
 	Thread();
 	virtual ~Thread();
-	std::thread *getThread();
+	std::thread *getThread() const;
 	template<typename F>
 	bool createThread(F threadfunc);
 	virtual void join();

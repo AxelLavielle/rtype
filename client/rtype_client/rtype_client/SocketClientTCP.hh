@@ -24,7 +24,7 @@ public:
 	virtual ~SocketClientTCP();
 
 	virtual bool		init(const std::string &, int);
-	virtual bool		sendData(const char *);
+	virtual bool		sendData(const char *, const int datasize);
 	virtual char		*receiveData();
 	virtual bool		closure();
 	virtual bool		connectToServer();

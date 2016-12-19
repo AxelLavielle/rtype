@@ -26,7 +26,7 @@ bool	CmdManager::handshake()
 	cmd->setCommandArg(ss.str());
 	cmd->setCommandType(CmdType::HANDSHAKE_SYN);
 	res = _serialize.serialize(cmd);
-	_socketClient->sendData(res);
+	_socketClient->sendData(res, sizeof(*cmd));
 	delete cmd;
 	receiveCmd();
 	return (true);
@@ -57,7 +57,7 @@ ICommand	*CmdManager::receiveCmd()
 				ss << key1 + 1;
 				newCmd->setCommandArg(ss.str());
 				newCmd->setCommandType(CmdType::HANDSHAKE_SYN);
-				_socketClient->sendData(_serialize.serialize(newCmd));
+				_socketClient->sendData(_serialize.serialize(newCmd), sizeof(*newCmd));
 			}
 		}
 	return (cmd);

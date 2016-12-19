@@ -57,6 +57,7 @@ void		CmdManager::confirmHandshake(const char *msg, ICommand *cmd)
 	int					key1;
 	int					key2;
 
+	(void)msg;
 	basicCmd = static_cast<BasicCmd*>(cmd);
 	key1 = std::stoi(basicCmd->getArg(0));
 	key2 = std::stoi(basicCmd->getArg(1));

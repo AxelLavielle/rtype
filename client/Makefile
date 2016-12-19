@@ -38,7 +38,7 @@ SRC	=	$(SER)/ACommand.cpp	 	\
 		$(DIR)/InputBox.cpp 		\
 		$(SER)/InputCmd.cpp 		\
 		$(DIR)/InsideRoomPage.cpp	\
-		$(SER)/ListInfoCmd.cpp 		\
+		$(SER)/ListRoomCmd.cpp 		\
 		$(DIR)/ListBox.cpp 		\
 		$(DIR)/LobbyPage.cpp 		\
 		$(DIR)/main.cpp 		\

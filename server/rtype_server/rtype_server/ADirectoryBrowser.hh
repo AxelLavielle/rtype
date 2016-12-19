@@ -2,7 +2,11 @@
 
 #include <vector>
 #include <string>
+#ifdef __linux__
 #include <dirent.h>
+#elif _WIN32
+#include <windows.h>
+#endif
 #include "IDirectoryBrowser.hpp"
 
 class ADirectoryBrowser
@@ -11,8 +15,13 @@ class ADirectoryBrowser
 protected:
   std::vector<std::string>	_files;
   std::string			_path;
+  #ifdef __linux__
   DIR				*_dir;
   struct dirent			*_ent;
+  #elif _WIN32
+  WIN32_FIND_DATA		_findFileData;
+  HANDLE			_handle;
+  #endif
 public:
   ADirectoryBrowser();
   virtual ~ADirectoryBrowser();

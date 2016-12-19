@@ -50,3 +50,9 @@ IPage::PAGE CreateRoomPage::event()
 		_soundManager->play(_clickSound);
 	return (page);
 }
+
+std::string CreateRoomPage::getRoomName() const
+{
+
+	return ("");
+}

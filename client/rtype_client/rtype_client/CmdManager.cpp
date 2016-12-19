@@ -39,6 +39,8 @@ ListRoomCmd	*CmdManager::getRoomList()
 	BasicCmd			basicCmd;
 	char				*res;
 
+	if (!_socketClient)
+		return (NULL);
 	basicCmd.setCommandType(GET_ROOM_LIST);
 	_socketClient->sendData(_serialize.serialize(&basicCmd), sizeof(basicCmd));
 	if (!(res = _socketClient->receiveData()))

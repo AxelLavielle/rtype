@@ -37,7 +37,8 @@ void	Menu::initLobby()
 	if (!socket)
 		return;
 	_cmdManager.setSocket(_socket);
-	cmd = _cmdManager.getRoomList();
+	if (!(cmd = _cmdManager.getRoomList()))
+		return;
 	rooms = cmd->getAllRooms();
 	it = rooms.begin();
 	while (it != rooms.end())
@@ -56,7 +57,7 @@ bool Menu::tryToConnect()
 	if (_socket && !_socket->isConnected())
 	{
 		std::cout << "TRY TO CONNECT" << std::endl;
-		_socket->init("10.16.252.95", 42000);
+		_socket->init("127.0.0.1", 42000);
 		_socket->connectToServer();
 		if (_socket->isConnected())
 		{
@@ -84,14 +85,14 @@ bool Menu::launch()
   while (_graph->isWindowOpen())
     {
 	  t2Conn = std::chrono::high_resolution_clock::now();
-	  duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2Conn - _t1Conn).count();;
+	  duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2Conn - _t1Conn).count();
 	  if (duration >= RECO_DURATION)
 	  {
 		  if (_mutex->tryLock() && _socket && !_socket->isConnected())
 		  {
 			  if (th)
 			  {
-				  th->join();
+				  _pool.joinAll();
 				  _pool.removeThread(th);
 			  }
 			  th = new Thread();
@@ -159,6 +160,7 @@ bool Menu::launch()
 				_game.setEvent(_event);
 				_game.launch();
 				_pool.joinAll();
+				std::cout << "QUIT LA" << std::endl;
 				return (true);
 				break;
 			case IPage::ENDGAME:
@@ -188,6 +190,7 @@ bool Menu::launch()
       _page->draw();
       _graph->refresh();
     }
-  _pool.joinAll();
+	std::cout << "QUIT LA2" << std::endl;
+	_pool.joinAll();
   return (false);
 }

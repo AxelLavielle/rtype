@@ -50,7 +50,7 @@ void InputBox::setTextColor(const Color & color)
 bool InputBox::draw()
 {
 	_graph->drawRectangle(_backgroundSprite, _rect);
-	_graph->drawText(_key, _rect.getX() + 10, _rect.getY(), 20, _textColor, "../../res/fonts/OpenSans-Regular.ttf");
+	_graph->drawText(_key, _rect.getX() + 10, _rect.getY(), 20, _textColor, _fontPath);
 	return (true);
 }
 

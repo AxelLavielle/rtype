@@ -17,9 +17,11 @@ public:
 	virtual bool	sendData(const char *, const int datasize) = 0;
 	virtual char	*receiveData() = 0;
 	virtual bool	connectToServer() = 0;
+	virtual bool	isConnected() const;
 
 protected:
 	int				_port;
 	int				_socketClientId;
+	bool			_connected;
 };
 

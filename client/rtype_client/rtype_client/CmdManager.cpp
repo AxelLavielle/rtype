@@ -32,6 +32,23 @@ bool	CmdManager::handshake()
 	return (true);
 }
 
+ListRoomCmd	*CmdManager::getRoomList()
+{
+	ListRoomCmd			*resCmd;
+	ICommand			*cmd;
+	BasicCmd			basicCmd;
+	char				*res;
+
+	basicCmd.setCommandType(GET_ROOM_LIST);
+	_socketClient->sendData(_serialize.serialize(&basicCmd), sizeof(basicCmd));
+	if (!(res = _socketClient->receiveData()))
+		return (NULL);
+	cmd = _serialize.unserializeCommand(res);
+	resCmd = static_cast<ListRoomCmd*>(cmd);
+	std::cout << resCmd->getRoom(0).first << std::endl;
+	return (resCmd);
+}
+
 void		CmdManager::confirmHandshake(const char *msg, ICommand *cmd)
 {
 	BasicCmd			*basicCmd;
@@ -67,9 +84,12 @@ ICommand	*CmdManager::receiveCmd()
 	switch (cmd->getCommandName())
 	{
 	case (BASIC_CMD):
-	  if (cmd->getCommandType() == HANDSHAKE_SYN_ACK)
-	    confirmHandshake(res, cmd);
-	  break;
+		if (cmd->getCommandType() == HANDSHAKE_SYN_ACK)
+			confirmHandshake(res, cmd);
+		break;
+	case (ROOM_LIST):
+		getRoomList();
+		break;
 	default:
 	  break;
 	}

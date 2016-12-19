@@ -6,6 +6,7 @@
 #include "SocketClientTCP.hh"
 #include "Serialize.hh"
 #include "BasicCmd.hh"
+#include "ListRoomCmd.hh"
 
 class CmdManager
 {
@@ -13,6 +14,7 @@ public:
 	CmdManager();
 	~CmdManager();
 	bool handshake();
+	ListRoomCmd *getRoomList();
 	ICommand * receiveCmd();
 	bool newCmd(const std::string & cmd);
 	void setSocket(ASocketClient * sosket);

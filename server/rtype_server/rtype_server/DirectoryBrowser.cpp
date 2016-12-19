@@ -28,14 +28,22 @@ bool	DirectoryBrowser::refresh()
       closedir(_dir);
       return (true);
     }
-  std::cout << "can't open dir" << std::endl;
+  std::cerr << "Can't open dir" << std::endl;
+
   #elif _WIN32
-  if (_handle  = FindFirstFile(_path.c_str(), &_findFileData) == INVALID_HANDLE_VALUE)
-    return (false);
+	if ((_handle = FindFirstFile(_path.c_str(), &_findFileData)) == INVALID_HANDLE_VALUE)
+	{
+		std::cerr << "Can't open dir" << std::endl;
+		return (false);
+	}
   while (FindNextFile(_handle, &_findFileData))
     {
-
+		if (this->extIsValid(".so", _findFileData.cFileName) && std::string(_findFileData.cFileName).size() > 3)
+			_files.push_back(_path + "/" + _findFileData.cFileName);
     }
+  FindClose(_handle);
+  return (true);
+
 #endif
   return (false);
 }

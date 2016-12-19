@@ -13,6 +13,7 @@ public:
 	virtual bool removeThread(IThread *thread);
 	virtual void joinAll();
 	virtual bool is_thread_in(IThread *thread);
+	virtual void deleteUnusedThread();
 
 private:
 	std::vector<IThread *>		_threadGroup;

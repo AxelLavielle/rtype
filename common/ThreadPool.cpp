@@ -24,6 +24,7 @@ bool ThreadPool::removeThread(IThread * thread)
 	{
 		if (_threadGroup[i] == thread)
 		{
+			delete _threadGroup[i];
 			_threadGroup.erase(_threadGroup.begin() + i);
 			a++;
 			break;
@@ -43,6 +44,7 @@ void ThreadPool::joinAll()
 	while (i != _threadGroup.size())
 	{
 		_threadGroup[i]->join();
+		//delete _threadGroup[i];
 		i++;
 	}
 }
@@ -60,3 +62,18 @@ bool ThreadPool::is_thread_in(IThread *thread)
 	return (false);
 }
 	
+void ThreadPool::deleteUnusedThread()
+{
+	unsigned int	i = 0;
+
+	while (i != _threadGroup.size())
+	{
+		if (!_threadGroup[i]->isJoinable())
+		{
+			delete _threadGroup[i];
+			_threadGroup.erase(_threadGroup.begin() + i);
+		}
+		i++;
+	}
+	_size = _threadGroup.size();
+}

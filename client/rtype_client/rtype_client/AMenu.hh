@@ -4,6 +4,7 @@
 #include "IGraphManager.hpp"
 #include "IEventManager.hpp"
 #include "Serialize.hh"
+#include "AMutex.hh"
 
 class AMenu :
 	public IMenu
@@ -15,9 +16,11 @@ public:
 	virtual void setEventManager(IEventManager * event);
 	virtual bool launch() = 0;
 	virtual void setSocketTCPSocket(ASocketClient * socket);
+	virtual void setMutex(AMutex * mutex);
 protected:
 	IGraphManager		*_graph;
 	IEventManager		*_event;
 	ASocketClient		*_socket;
+	AMutex				*_mutex;
 };
 

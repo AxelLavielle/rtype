@@ -21,9 +21,11 @@ bool	DirectoryBrowser::refresh()
     {
       while ((_ent = readdir(_dir)) != NULL)
 	{
-	  std::cout << _ent->d_name << std::endl;
 	  if (this->extIsValid(".so", _ent->d_name) && std::string(_ent->d_name).size() > 3)
-	    _files.push_back(_path + "/" + _ent->d_name);
+	    {
+	      std::cout << _ent->d_name << std::endl;
+	      _files.push_back(_path + "/" + _ent->d_name);
+	    }
 	}
       closedir(_dir);
       return (true);
@@ -39,7 +41,10 @@ bool	DirectoryBrowser::refresh()
   while (FindNextFile(_handle, &_findFileData))
     {
 		if (this->extIsValid(".so", _findFileData.cFileName) && std::string(_findFileData.cFileName).size() > 3)
-			_files.push_back(_path + "/" + _findFileData.cFileName);
+		  {
+		    std::cout << _findFileData.cFileName << std::endl;
+		    _files.push_back(_path + "/" + _findFileData.cFileName);
+		  }
     }
   FindClose(_handle);
   return (true);

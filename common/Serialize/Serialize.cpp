@@ -88,6 +88,7 @@ IEntity		*Serialize::unserializeEntity(char *data)
 {
   packet	p;
   IEntity	*res;
+  int		i;
 
   p = *reinterpret_cast<packet*>(data);
   switch (static_cast<rtype::EntityType>(p.dataType))
@@ -116,9 +117,12 @@ IEntity		*Serialize::unserializeEntity(char *data)
   res->setSpeedX(*reinterpret_cast<double *>(&data[16]));
   res->setSpeedY(*reinterpret_cast<double *>(&data[24]));
   res->setLife(*reinterpret_cast<int *>(&data[32]));
-
-  // res.setSpriteRepo();
-  // res.setName();
+  i = 36;
+  while (data[i] != ',')
+    i++;
+  data[i] = 0;
+  res->setSpriteRepo(std::string(&data[36]));
+  res->setName(std::string(&data[i + 1]));
   return (res);
 }
 

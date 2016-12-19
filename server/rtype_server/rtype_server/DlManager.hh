@@ -3,8 +3,8 @@
 #include <dlfcn.h>
 #include <vector>
 #include <utility>
-#include "IDlLoader.hpp"
-#include "IDirectoryBrowser.hpp"
+#include "DlLoader.hh"
+#include "DirectoryBrowser.hh"
 
 class DlManager
 {

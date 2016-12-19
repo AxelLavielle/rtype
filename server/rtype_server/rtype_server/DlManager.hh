@@ -19,7 +19,7 @@ public:
 	void						clearEntities();
 	bool	       					refresh();
 	void						setBrowser(IDirectoryBrowser *);
-	IDirectoryBrowser				*getBrowser();
+	IDirectoryBrowser				*getBrowser() const;
 	bool						loadEntities(const std::vector<std::string>&);
 	bool						loadEntity(const std::string &path);
 private:

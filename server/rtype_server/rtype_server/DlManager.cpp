@@ -58,7 +58,7 @@ void							DlManager::clearEntities()
   _dl.clear();
 }
 
-IDirectoryBrowser					*DlManager::getBrowser()
+IDirectoryBrowser					*DlManager::getBrowser() const
 {
   return (_browser);
 }

@@ -1,14 +1,19 @@
 #include "DlManager.hh"
 #include <iostream>
+#include "IEntity.hpp"
 
 int		main()
 {
   DlManager	DM;
-  DM.setFolderPath("./entities");
-
+  DM.setFolderPath("C:/Users/Mohamad/Desktop/rtype/common/entities");
 
   IEntity *testt = DM.getdl("Player1");
   if (testt)
     std::cout << "get " << testt->getName() << std::endl;
+  else
+  {
+	  std::cout << "bite" << std::endl;
+  }
+	while (1);
   return (0);
 }

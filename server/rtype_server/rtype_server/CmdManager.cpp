@@ -80,6 +80,8 @@ void							CmdManager::cmdListRoom(ServerClient *client, BasicCmd *msgClient)
 	std::vector<Room>::iterator	it;
 	char						*msgSerialized;
 
+
+	(void)msgClient;
 	_roomManager->addRoom("test1");
 	_roomManager->addRoom("blih");
 	_roomManager->addRoom("azertyu");

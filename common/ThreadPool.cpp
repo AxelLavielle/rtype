@@ -50,7 +50,7 @@ void ThreadPool::joinAll()
 	}
 }
 
-bool ThreadPool::is_thread_in(IThread *thread)
+bool ThreadPool::isThreadIn(IThread *thread)
 {
 	unsigned int	i = 0;
 

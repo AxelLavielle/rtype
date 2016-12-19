@@ -68,7 +68,7 @@ ListRoomCmd	*CmdManager::getRoomList()
 	BasicCmd			basicCmd;
 	char				*res;
 
-	if (!_socketClient)
+	if (!_socketClient || !_socketClient->isConnected())
 		return (NULL);
 	basicCmd.setCommandType(GET_ROOM_LIST);
 	_socketClient->sendData(_serialize.serialize(&basicCmd), sizeof(basicCmd));
@@ -92,6 +92,8 @@ void		CmdManager::confirmHandshake(const char *msg, ICommand *cmd)
 	int					key2;
 
 	(void)msg;
+	if (!_socketClient || !_socketClient->isConnected())
+		return;
 	basicCmd = static_cast<BasicCmd*>(cmd);
 	key1 = std::stoi(basicCmd->getArg(0));
 	key2 = std::stoi(basicCmd->getArg(1));

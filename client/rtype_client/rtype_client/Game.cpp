@@ -7,12 +7,12 @@ Game::Game()
 	_size.first = 0;
 	_size.second = 0;
 	_dificulty = 0;
+	_fileManager.init();
 	_musicStage1.setDuration(-1);
 	_musicStage1.setLoop(true);
 	_musicStage1.setMusic(true);
-	_musicStage1.setFilePath("../../res/sounds/stage1.wav");
+	_musicStage1.setFilePath(_fileManager.getRoot() + "/res/sounds/stage1.wav");
 	_input = new InputCmd();
-	_fileManager.init();
 	_sock = new SocketClientUDP();
 	_sock->init("127.0.0.1", 4242);
 	_sock->connectToServer();
@@ -78,7 +78,7 @@ int Game::launch()
 		}
 
 		_graph->clearWindow();
-		_graph->setBackground("../../res/img/stars_background.jpg", -1, -1);
+		_graph->setBackground(_fileManager.getRoot() + "/res/img/stars_background.jpg", -1, -1);
 		_graph->drawRectangle(Color(255, 255, 255), Rect(i, 300, 50, 50));
 		_guiPage->draw();
 		_graph->refresh();

@@ -90,14 +90,14 @@ bool				SocketClientTCP::sendData(const char *data, const int datasize)
 		return (false);
 	}
 
-	iResult = shutdown(_connectSocket, SD_SEND);
-	if (iResult == SOCKET_ERROR)
-	{
-		std::cerr << "Shutdown failed: " << WSAGetLastError() << std::endl;
-		closesocket(_connectSocket);
-		WSACleanup();
-		return (false);
-	}
+	//iResult = shutdown(_connectSocket, SD_SEND);
+	//if (iResult == SOCKET_ERROR)
+	//{
+	//	std::cerr << "Shutdown failed: " << WSAGetLastError() << std::endl;
+	//	closesocket(_connectSocket);
+	//	WSACleanup();
+	//	return (false);
+	//}
 
 #elif __linux__
 	if (send(_sock, data, datasize, 0) < 0)

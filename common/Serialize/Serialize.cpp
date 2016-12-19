@@ -48,7 +48,11 @@ char		*Serialize::serialize(IEntity *entity)
   i = -1;
   while (tmps[++i] != 0)
     p.data[j++] = tmps[i];
-  p.data[j] = 0;
+  p.data[j++] = ',';
+  tmps = entity->getName();
+  i = -1;
+  while (tmps[++i] != 0)
+    p.data[j++] = tmps[i];
   p.dataLength = j;
   i = -1;
   while (++i != p.dataLength)
@@ -72,7 +76,7 @@ char		*Serialize::serialize(ICommand *cmd)
   while (tmp[++i] != 0)
     p.data[i] = tmp[i];
   p.data[i] = 0;
-  p.dataLength = tmp.size() + 8;
+  p.dataLength = tmp.size() + 6;
   i = -1;
   while (++i != p.dataLength)
     ret[i] = reinterpret_cast<char *>(&p)[i];
@@ -82,8 +86,44 @@ char		*Serialize::serialize(ICommand *cmd)
 
 IEntity		*Serialize::unserializeEntity(char *data)
 {
-  (void)data;
-  return (NULL);
+  packet	p;
+  IEntity	*res;
+  int		i;
+
+  p = *reinterpret_cast<packet*>(data);
+  switch (static_cast<rtype::EntityType>(p.dataType))
+    {
+    case rtype::EntityType::PLAYER:
+      res = new Player();
+      break;
+    case rtype::EntityType::POWER_UP:
+      res = new PowerUp();
+      break;
+    case rtype::EntityType::MONSTER:
+      res = new Monster();
+      break;
+    case rtype::EntityType::BARRIER:
+      res = new Barrier();
+      break;
+    default:
+      res = NULL;
+      break;
+    }
+  if (res == NULL)
+    return (NULL);
+  res->setType(static_cast<rtype::EntityType>(p.dataType));
+  res->setPosX(*reinterpret_cast<double *>(&data[0]));
+  res->setPosY(*reinterpret_cast<double *>(&data[8]));
+  res->setSpeedX(*reinterpret_cast<double *>(&data[16]));
+  res->setSpeedY(*reinterpret_cast<double *>(&data[24]));
+  res->setLife(*reinterpret_cast<int *>(&data[32]));
+  i = 36;
+  while (data[i] != ',')
+    i++;
+  data[i] = 0;
+  res->setSpriteRepo(std::string(&data[36]));
+  res->setName(std::string(&data[i + 1]));
+  return (res);
 }
 
 #include	<iostream>
@@ -107,10 +147,16 @@ ICommand	*Serialize::unserializeCommand(char *data)
       return (res);
       break;
     case ROOM_LIST:
-      break;
+		res = new ListRoomCmd();
+		res->setCommandArg(p.data);
+		res->setCommandType(static_cast<CmdType>(p.cmdType));
+		return (res);
+		break;
     case ENTITY:
       break;
     case INPUT_CMD:
+      break;
+    default:
       break;
     }
   return (NULL);

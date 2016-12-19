@@ -46,7 +46,7 @@ Room									&RoomManager::getRoomByName(const std::string &roomName)
 			return (*it);
 		it++;
 	}
-	throw (std::exception("No such room"));
+	throw (std::runtime_error("No such room"));
 }
 
 Room									&RoomManager::getRoomById(const int roomId)
@@ -60,7 +60,7 @@ Room									&RoomManager::getRoomById(const int roomId)
 			return (*it);
 		it++;
 	}
-	throw (std::exception("No such room"));
+	throw (std::runtime_error("No such room"));
 }
 
 std::vector<Room> &RoomManager::getRoomList()

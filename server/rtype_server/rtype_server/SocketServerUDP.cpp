@@ -136,7 +136,7 @@ std::vector<ClientMsg>		SocketServerUDP::receiveData(std::vector<ServerClient *>
 		{
 			MemTools::set(buf, 0, UDP_PACKET_SIZE);
 			if ((len = recvfrom((*it)->getUDPSocket(), buf, sizeof(buf) - 1,
-				0, reinterpret_cast<struct sockaddr *>((*it)->getAddrUDP()), &addrSize)) <= 0)
+					    0, reinterpret_cast<struct sockaddr *>((*it)->getAddrUDP()), reinterpret_cast<socklen_t *>(&addrSize))) <= 0)
 			{
 				if (len == -1)
 				{

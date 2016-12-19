@@ -10,9 +10,8 @@ protected:
 public:
   Player();
   virtual ~Player();
-
+  IEntity		*createEntity();
   virtual void		update();
-  IEntity	*entityCreator();
   int			getId() const;
   void			setId(const int);
 };

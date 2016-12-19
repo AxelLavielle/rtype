@@ -18,21 +18,6 @@ void BasicCmd::addArg(const std::string & str)
 	_arg += str + _separator;
 }
 
-std::vector<std::string> BasicCmd::split(const std::string &s)
-{
-	std::vector<std::string> elems;
-	std::stringstream		ss;
-
-	ss.str(s);
-	std::string item;
-
-	while (std::getline(ss, item, _separator))
-	{
-		elems.push_back(item);
-	}
-	return (elems);
-}
-
 void BasicCmd::setCommandArg(const std::string & arg)
 {
 	_arg = arg;

@@ -11,10 +11,8 @@ protected:
 public:
   Monster();
   virtual ~Monster();
-
-  virtual void		setName(const std::string &);
-  virtual std::string	getName() const;
   virtual void		update();
+  IEntity	*createEntity();
   void		setId(const int);
   int		getId() const;
 };

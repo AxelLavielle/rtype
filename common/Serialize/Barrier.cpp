@@ -12,3 +12,8 @@ Barrier::~Barrier()
 void	Barrier::update(void)
 {
 }
+
+extern "C" IEntity	*Barrier::createEntity()
+{
+  return (new Barrier);
+}

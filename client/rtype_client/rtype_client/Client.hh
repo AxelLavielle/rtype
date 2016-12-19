@@ -5,7 +5,11 @@
 #include "Menu.hh"
 #include "Game.hh"
 #include "CmdManager.hh"
- 
+#include "AThreadPool.hh"
+#include "ThreadPool.hh"
+#include "AMutex.hh"
+#include "Mutex.hh"
+
 class Client
 {
 public:
@@ -18,6 +22,8 @@ private:
 	IMenu				*_menu;
 	SocketClientTCP		*_socket;
 	CmdManager			_cmdManager;
+	AThreadPool			*_pool;
+	AMutex				*_mutex;
 
 	bool initSocket();
 	bool initGraph();

@@ -145,19 +145,19 @@ std::vector<ClientMsg>						SocketServerTCP::receiveData(std::vector<ServerClien
 		if (FD_ISSET((*it)->getTCPSocket(), &_readfds))
 		{
 			MemTools::set(buf, 0, TCP_PACKET_SIZE);
-			if ((len = recv((*it)->getTCPSocket(), buf, TCP_PACKET_SIZE, 0)) == -1 || len == 0)
+			if ((len = recv((*it)->getTCPSocket(), buf, TCP_PACKET_SIZE, 0)) == -1)
 			{
-				if (len == -1)
-					displayError("Recv error: ");
+				displayError("Recv error: ");
 				
 				#ifdef  _WIN32
 					closesocket((*it)->getTCPSocket());
 				#elif	__linux__
 					close((*it)->getTCPSocket());
 				#endif
+				std::cout << "Disconnection : RECEIVE : LEN = " << len << std::endl;
 				(*it)->setDisconnectedTCP(true);
 			}
-			else
+			else if (len > 0)
 			{
 				if (DEBUG_MSG)
 					std::cout << "Received Msg of len [" << len << "]" << std::endl;

@@ -4,7 +4,7 @@
 
 CmdManager::CmdManager()
 {
-	_handKey = 4242;
+	_handKey = 42;
 }
 
 void CmdManager::setSocket(ASocketClient * socketClient)
@@ -32,34 +32,46 @@ bool	CmdManager::handshake()
 	return (true);
 }
 
-ICommand	*CmdManager::receiveCmd()
+void		CmdManager::confirmHandshake(const char *msg, ICommand *cmd)
 {
-	ICommand			*cmd;
 	BasicCmd			*basicCmd;
 	BasicCmd			*newCmd;
 	std::stringstream	ss;
-	char				*res;
 	int					key1;
 	int					key2;
+
+	basicCmd = static_cast<BasicCmd*>(cmd);
+	key1 = std::stoi(basicCmd->getArg(0));
+	key2 = std::stoi(basicCmd->getArg(1));
+	if (key2 == _handKey + 1)
+	{
+		newCmd = new BasicCmd();
+		ss << key1 + 1;
+		newCmd->setCommandArg(ss.str());
+		newCmd->setCommandType(CmdType::HANDSHAKE_ACK);
+		_socketClient->sendData(_serialize.serialize(newCmd), sizeof(*newCmd));
+	}
+	else
+		std::cerr << "ERROR: handshake" << std::endl;
+}
+
+ICommand	*CmdManager::receiveCmd()
+{
+	ICommand			*cmd;
+	char				*res;
 
 	if (!(res = _socketClient->receiveData()))
 		return (NULL);
 	cmd = _serialize.unserializeCommand(res);
-	if (cmd->getCommandName() == BASIC_CMD)
-		if (cmd->getCommandType() == HANDSHAKE_SYN_ACK)
-		{
-			basicCmd = static_cast<BasicCmd*>(cmd);
-			key1 = std::stoi(basicCmd->getArg(0));
-			key2 = std::stoi(basicCmd->getArg(1));
-			if (key2 == _handKey + 1)
-			{
-				newCmd = new BasicCmd();
-				ss << key1 + 1;
-				newCmd->setCommandArg(ss.str());
-				newCmd->setCommandType(CmdType::HANDSHAKE_SYN);
-				_socketClient->sendData(_serialize.serialize(newCmd), sizeof(*newCmd));
-			}
-		}
+	switch (cmd->getCommandName())
+	{
+	case (BASIC_CMD):
+	  if (cmd->getCommandType() == HANDSHAKE_SYN_ACK)
+	    confirmHandshake(res, cmd);
+	  break;
+	default:
+	  break;
+	}
 	return (cmd);
 }
 

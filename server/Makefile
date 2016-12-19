@@ -1,39 +1,50 @@
 
-CC	=	g++
+CC		=	g++
 
-DIR	=	rtype_server/rtype_server
+DIR		=	rtype_server/rtype_server
 
-COMMON	=	../common/
+COMMON		=	../common
 
-NAME	=	server
+SERIALIZE	=	../common/Serialize
 
-SRC	=	$(DIR)/ASocketServer.cpp	\
-		$(DIR)/main.cpp			\
-		$(DIR)/SocketServerTCP.cpp	\
-		$(DIR)/SocketServerUDP.cpp	\
-		$(DIR)/ClientManager.cpp	\
-		$(DIR)/ServerClient.cpp		\
-		$(DIR)/Server.cpp		\
-		$(DIR)/Room.cpp			\
-		$(DIR)/RoomManager.cpp		\
-		$(COMMON)/MemTools.cpp		\
+NAME		=	server
 
-OBJ	=	$(SRC:.cpp=.o)
+SRC		=	$(DIR)/ASocketServer.cpp	\
+			$(DIR)/main.cpp			\
+			$(DIR)/SocketServerTCP.cpp	\
+			$(DIR)/ClientManager.cpp	\
+			$(DIR)/ServerClient.cpp		\
+			$(DIR)/Server.cpp		\
+			$(DIR)/Room.cpp			\
+			$(DIR)/RoomManager.cpp		\
+			$(DIR)/CmdManager.cpp		\
+			$(COMMON)/MemTools.cpp		\
+			$(SERIALIZE)/AEntity.cpp	\
+			$(SERIALIZE)/Serialize.cpp	\
+			$(SERIALIZE)/BasicCmd.cpp	\
+			$(SERIALIZE)/ListRoomCmd.cpp	\
+			$(SERIALIZE)/ACommand.cpp	\
+			$(SERIALIZE)/Player.cpp		\
+			$(SERIALIZE)/PowerUp.cpp	\
+			$(SERIALIZE)/Monster.cpp	\
+			$(SERIALIZE)/Barrier.cpp	\
 
-CPPFLAGS=	-W -Wall -Wextra -ansi -pedantic -g -std=c++11 -I$(DIR) -I$(COMMON)
+OBJ		=	$(SRC:.cpp=.o)
+
+CPPFLAGS	=	-W -Wall -Wextra -ansi -pedantic -g -std=c++11 -I$(DIR) -I$(COMMON) -I$(SERIALIZE)
 
 
-all:		$(NAME)
+all		:	$(NAME)
 
-$(NAME):	$(OBJ)
-		$(CC) $(OBJ) -o $(NAME) $(LDFLAGS)
+$(NAME)		:	$(OBJ)
+			$(CC) $(OBJ) -o $(NAME) $(LDFLAGS)
 
-clean:
-		rm -rf $(DIR)/$(OBJ)
+clean		:
+			rm -rf $(DIR)/$(OBJ)
 
-fclean:		clean
-		rm -rf $(NAME)
+fclean		:	clean
+			rm -rf $(NAME)
 
-re:		fclean all
+re		:	fclean all
 
-.PHONY:		all clean fclean re
+.PHONY		:	all clean fclean re

@@ -10,7 +10,7 @@ protected:
 public:
   PowerUp();
   virtual	~PowerUp();
-
+  IEntity	*createEntity();
   virtual void	update();
   void	setPower(const int);
   int	getPower(void) const;

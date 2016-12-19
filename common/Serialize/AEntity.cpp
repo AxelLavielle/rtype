@@ -52,6 +52,46 @@ void			AEntity::setName(const std::string &name)
   _name = name;
 }
 
+void			AEntity::setSpriteRepo(const std::string &path)
+{
+  _spritePath = path;
+}
+
+std::string		AEntity::getSpriteRepo() const
+{
+  return (_spritePath);
+}
+
+double			AEntity::getSpeedX() const
+{
+  return (_speedX);
+}
+
+void			AEntity::setSpeedX(const double speedX)
+{
+  _speedX = speedX;
+}
+
+double			AEntity::getSpeedY() const
+{
+  return (_speedY);
+}
+
+void			AEntity::setSpeedY(const double speedY)
+{
+  _speedY = speedY;
+}
+
+int			AEntity::getLife() const
+{
+  return (_life);
+}
+
+void			AEntity::setLife(const int life)
+{
+  _life = life;
+}
+
 IEntity			*AEntity::createEntity()
 {
   return (NULL);

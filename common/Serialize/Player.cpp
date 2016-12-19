@@ -1,5 +1,6 @@
 #include "Player.hh"
 #include "EntityType.hh"
+#include <iostream>
 
 Player::Player()
 {
@@ -25,7 +26,7 @@ void		Player::update(void)
 {
 }
 
-extern "C" IEntity	*createEntity()
+extern "C" IEntity	*Player::createEntity()
 {
   return (new Player);
 }

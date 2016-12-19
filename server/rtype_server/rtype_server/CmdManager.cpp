@@ -15,7 +15,7 @@ void	CmdManager::closeSocket(int socket)
 #ifdef  _WIN32
 	closesocket(socket);
 #elif	__linux__
-	close(client->getTCPSocket());
+	close(socket);
 #endif
 }
 
@@ -37,24 +37,19 @@ void	CmdManager::closeSocket(int socket)
 void				CmdManager::cmdHandshakeSyn(ServerClient *client, BasicCmd *msgClient,
 															int acknowledgementNumber)
 {
-	BasicCmd		msg;
+	BasicCmd		cmd;
 	std::string		handshake;
 	Serialize		serializer;
 	char			*msgSerialized;
 
 	handshake = msgClient->getArg(0);
 	std::cout << "[HandshakeSyn] : " << handshake << std::endl;
-	msg.setCommandType(HANDSHAKE_SYN_ACK);
-	msg.addArg(std::to_string(acknowledgementNumber));
-	msg.addArg(std::to_string(std::stoi(handshake) + 1));
-	msgSerialized = serializer.serialize(&msg);
-	std::cout << "[HandshakeSyn] Sending : " << msg.getCommandArg() << std::endl;
-
-	/*msg = "SYN-ACK [" + std::to_string(acknowledgementNumber) + "] & ";
-	msg += std::to_string(std::stoi(handshake) + 1) + "\n";
-	OutputDebugString(msg.c_str());
-	*/
-	_clientManager->addDataToSend(client->getTCPSocket(), msgSerialized, sizeof(msg));
+	cmd.setCommandType(HANDSHAKE_SYN_ACK);
+	cmd.addArg(std::to_string(acknowledgementNumber));
+	cmd.addArg(std::to_string(std::stoi(handshake) + 1));
+	msgSerialized = serializer.serialize(&cmd);
+	std::cout << "[HandshakeSyn] Sending : " << cmd.getCommandArg() << std::endl;
+	_clientManager->addDataToSend(client->getTCPSocket(), msgSerialized, sizeof(cmd));
 }
 
 void			CmdManager::cmdHandshakeAck(ServerClient *client, BasicCmd *msgClient,
@@ -62,12 +57,13 @@ void			CmdManager::cmdHandshakeAck(ServerClient *client, BasicCmd *msgClient,
 {
 	std::string	handshake;
 
+	std::cout << "[Handshake Ack] : init" << std::endl;
 	handshake = msgClient->getArg(0);
+	std::cout << "[Handshake Ack] : " << handshake << std::endl;
 	if (std::stoi(handshake) == acknowledgementNumber + 1)
 	{
-		//msg = "OK CONNECTED\n";
+		std::cout << std::endl << "Client [" << client->getTCPSocket() << "] is now CONNECTED" << std::endl << std::endl;
 		client->setLogged(true);
-		//_clientManager->addDataToSend(client->getTCPSocket(), msg.c_str(), msg.size());
 	}
 	else
 	{
@@ -75,16 +71,58 @@ void			CmdManager::cmdHandshakeAck(ServerClient *client, BasicCmd *msgClient,
 		_clientManager->removeClient(client);
 	}
 }
-//
-//void				CmdManager::cmdListRoom(ServerClient *client, const std::string &msgClient)
-//{
-//	std::string		msg;
-//
-//	(void)msgClient;
-//	msg = "RoomList :\n" + _roomManager->getRoomListString() + "\n";
-//	_clientManager->addDataToSend(client->getTCPSocket(), msg.c_str(), msg.size());
-//}
-//
+
+void							CmdManager::cmdListRoom(ServerClient *client, BasicCmd *msgClient)
+{
+	ListRoomCmd					roomListMsg;
+	Serialize					serializer;
+	std::vector<Room>			roomList;
+	std::vector<Room>::iterator	it;
+	char						*msgSerialized;
+
+
+	(void)msgClient;
+	_roomManager->addRoom("test1");
+	_roomManager->addRoom("blih");
+	_roomManager->addRoom("azertyu");
+
+	_roomManager->addClientToRoom(client, "blih");
+
+	roomList = _roomManager->getRoomList();
+	it = roomList.begin();
+	while (it != roomList.end())
+	{
+		std::cout << "Adding Room (" << (*it).getName() << ", " << (*it).getNbClients() << ")" << std::endl;
+		roomListMsg.addRoom((*it).getName(), (*it).getNbClients());
+		it++;
+	}
+	std::cout << std::endl << std::endl;
+	roomListMsg.getCommandArg();
+	msgSerialized = serializer.serialize(&roomListMsg);
+
+	ListRoomCmd *test;
+	test = static_cast<ListRoomCmd *>(serializer.unserializeCommand(msgSerialized));
+	if (test != NULL)
+		test->getCommandArg();
+	else
+		std::cout << "Test is NULL" << std::endl;
+	/*std::vector<std::pair<std::string, int>>			roomInfos;
+	std::vector<std::pair<std::string, int>>::iterator	itTest;
+
+	roomInfos = roomListMsg.getAllRooms();
+*/
+	/*itTest = roomInfos.begin();
+	while (itTest != roomInfos.end())
+	{
+		std::cout << "Room serialized : (" << (*itTest).first << ", " << (*itTest).second << ")" << std::endl;
+		itTest++;
+	}
+	*/
+	//std::cout << std::endl << std::endl;
+	//msg = "RoomList :\n" + _roomManager->getRoomListString() + "\n";
+	_clientManager->addDataToSend(client->getTCPSocket(), msgSerialized, sizeof(roomListMsg));
+}
+
 //void			CmdManager::cmdJoinRoom(ServerClient *client, const std::string &msgClient)
 //{
 //	std::string roomName;

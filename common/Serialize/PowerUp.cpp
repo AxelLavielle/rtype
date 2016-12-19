@@ -22,3 +22,8 @@ void		PowerUp::setPower(const int power)
 void		PowerUp::update(void)
 {
 }
+
+extern "C" IEntity	*PowerUp::createEntity()
+{
+  return (new PowerUp);
+}

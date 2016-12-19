@@ -105,14 +105,17 @@ IEntity		*Serialize::unserializeEntity(char *data)
       res = new Barrier();
       break;
     default:
+      res = NULL;
       break;
     }
+  if (res == NULL)
+    return (NULL);
   res->setType(static_cast<rtype::EntityType>(p.dataType));
   res->setPosX(*reinterpret_cast<double *>(&data[0]));
-  // res.setPosY();
-  // res.setSpeedX();
-  // res.setSpeedY();
-
+  res->setPosY(*reinterpret_cast<double *>(&data[8]));
+  res->setSpeedX(*reinterpret_cast<double *>(&data[16]));
+  res->setSpeedY(*reinterpret_cast<double *>(&data[24]));
+  res->setLife(*reinterpret_cast<int *>(&data[32]));
 
   // res.setSpriteRepo();
   // res.setName();

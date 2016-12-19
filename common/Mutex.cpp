@@ -23,7 +23,7 @@ void Mutex::unlock()
 	_mutex->unlock();
 }
 
-bool Mutex::tryLock()
+bool Mutex::tryLock() const
 {
 	return (_mutex->try_lock());
 }

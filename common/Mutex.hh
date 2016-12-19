@@ -10,7 +10,7 @@ public:
 	virtual ~Mutex();
 	virtual void lock();
 	virtual void unlock();
-	virtual bool tryLock();
+	virtual bool tryLock() const;
 
 private:
 	std::mutex *_mutex;

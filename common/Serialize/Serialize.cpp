@@ -10,8 +10,6 @@ Serialize::~Serialize()
 
 }
 
-#include	<iostream>
-#include	<bitset>
 char		*Serialize::serialize(IEntity *entity)
 {
   packet	p;
@@ -128,14 +126,12 @@ IEntity		*Serialize::unserializeEntity(char *data)
   return (res);
 }
 
-#include	<iostream>
 ICommand	*Serialize::unserializeCommand(char *data)
 {
   packet	p;
   ICommand	*res;
 
   p = *reinterpret_cast<packet*>(data);
-  std::cout << p.data << std::endl;
   switch (p.dataType)
     {
     case CHAT_INFO:

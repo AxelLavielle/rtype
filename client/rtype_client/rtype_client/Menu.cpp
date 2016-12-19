@@ -21,30 +21,30 @@ bool Menu::init()
 	_clickSound.setFilePath(_fileManager.getRoot() + "/res/sounds/buttonClick.wav");
 	_soundManager.play(_music);
 	_t1Conn = std::chrono::high_resolution_clock::now();
+	_cmdManager.setSocket(_socket);
 	return (true);
 }
 
 void	Menu::initLobby()
 {
 	LobbyPage		*page;
+	ListRoomCmd		*cmd;
+	std::vector<RoomIdInfos>		rooms;
+	std::vector<RoomIdInfos>::iterator		it;
 
 	page = new LobbyPage(_graph, _event, _fileManager, &_soundManager);
-	page->addRoom("ROOM 1");
-	page->addRoom("ROOM 2");
-	page->addRoom("ROOM 3");
-	page->addRoom("ROOM 4");
-	page->addRoom("ROOM 5");
-	page->addRoom("ROOM 6");
-	page->addRoom("ROOM 7");
-	page->addRoom("ROOM 8");
-	page->addRoom("ROOM 9");
-	page->addRoom("ROOM 10");
-	page->addRoom("ROOM 11");
-	page->addRoom("ROOM 12");
-	page->addRoom("ROOM 13");
-	page->addRoom("ROOM 14");
-	page->addRoom("ROOM 15");
 	_page = page;
+	if (!socket)
+		return;
+	_cmdManager.setSocket(_socket);
+	cmd = _cmdManager.getRoomList();
+	rooms = cmd->getAllRooms();
+	it = rooms.begin();
+	while (it != rooms.end())
+	{
+		page->addRoom(it->second.first);
+		++it;
+	}
 }
 
 bool Menu::tryToConnect()
@@ -60,7 +60,7 @@ bool Menu::tryToConnect()
 	if (_socket && !_socket->isConnected())
 	{
 		std::cout << "TRY TO CONNECT" << std::endl;
-		_socket->init("127.0.0.1", 42000);
+		_socket->init("10.16.252.95", 42000);
 		_socket->connectToServer();
 	}
 	if (_socket)
@@ -82,7 +82,6 @@ bool Menu::launch()
   _page->init();
   while (_graph->isWindowOpen())
     {
-	  
 	  t2Conn = std::chrono::high_resolution_clock::now();
 	  duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2Conn - _t1Conn).count();;
 	  if (duration >= RECO_DURATION)
@@ -98,11 +97,10 @@ bool Menu::launch()
 			  th = new Thread();
 			  th->createThread(std::bind(&Menu::tryToConnect, this));
 			  _pool.addThread(th);
-			  _t1Conn = std::chrono::high_resolution_clock::now();
 			  _mutex->unlock();
 		  }
+		  _t1Conn = std::chrono::high_resolution_clock::now();
 	  }
-
 	  while (_event->refresh())
 		{
 		  curr_event = _page->event();
@@ -124,7 +122,7 @@ bool Menu::launch()
 		      break;
 		    case IPage::PLAY:
 		      delete (_page);
-		      newEvent = true;
+			  newEvent = true;
 			  initLobby();
 		      std::cout << "Lobby" << std::endl;
 		      break;
@@ -139,6 +137,12 @@ bool Menu::launch()
 		      newEvent = true;
 		      _page = new InsideRoomPage(_graph, _event, _fileManager, &_soundManager);
 		      std::cout << "InsideRoom" << std::endl;
+		      break;
+		    case IPage::PAUSE:
+		      delete (_page);
+		      newEvent = true;
+		      _page = new PausePage(_graph, _event, _fileManager, &_soundManager);
+		      std::cout << "Pause" << std::endl;
 		      break;
 		    case IPage::SETTINGS:
 		      delete (_page);

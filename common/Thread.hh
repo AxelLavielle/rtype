@@ -20,6 +20,6 @@ private:
 template<typename F>
 inline bool Thread::createThread(F threadfunc)
 {
-	_thread = new boost::thread(threadfunc);
+	_thread = new std::thread(threadfunc);
 	return (true);
 }

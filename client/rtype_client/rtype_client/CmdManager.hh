@@ -21,5 +21,7 @@ private:
 	ASocketClient		*_socketClient;
 	Serialize			_serialize;
 	int					_handKey;
+
+	void confirmHandshake(const char * msg, ICommand * cmd);
 };
 

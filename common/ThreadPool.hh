@@ -12,7 +12,7 @@ public:
 	bool	addThread(IThread *thread);
 	bool	removeThread(IThread *thread);
 	void	joinAll();
-	bool	is_thread_in(IThread *thread);
+	bool	isThreadIn(IThread *thread);
 	void	deleteUnusedThread();
         int	getSize() const;
 

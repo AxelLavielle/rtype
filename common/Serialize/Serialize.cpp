@@ -152,6 +152,7 @@ ICommand	*Serialize::unserializeCommand(char *data)
 		res = new ListRoomCmd();
 		res->setCommandArg(p.data);
 		res->setCommandType(static_cast<CmdType>(p.cmdType));
+		return (res);
 		break;
     case ENTITY:
       break;

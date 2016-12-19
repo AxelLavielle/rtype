@@ -19,23 +19,8 @@ void	CmdManager::closeSocket(int socket)
 #endif
 }
 
-//void								CmdManager::cmdCreateRoom(ServerClient *client, const std::string &msgClient)
-//{
-//	std::string						msg;
-//	int								newRoom;
-//	std::string						roomName;
-//
-//	roomName = msgClient.substr(5);
-//	roomName.pop_back();
-//	newRoom = _roomManager->addRoom(roomName);
-//	msg = "Created |" + roomName + "| ---> Id = " + std::to_string(newRoom) + "\n";
-//
-//	_clientManager->addDataToSend(client->getTCPSocket(), msg.c_str(), msg.size());
-//	_roomManager->addClientToRoom(client, newRoom);
-//}
-
 void				CmdManager::cmdHandshakeSyn(ServerClient *client, BasicCmd *msgClient,
-															int acknowledgementNumber)
+	int acknowledgementNumber)
 {
 	BasicCmd		cmd;
 	std::string		handshake;
@@ -53,7 +38,7 @@ void				CmdManager::cmdHandshakeSyn(ServerClient *client, BasicCmd *msgClient,
 }
 
 void			CmdManager::cmdHandshakeAck(ServerClient *client, BasicCmd *msgClient,
-											int acknowledgementNumber)
+	int acknowledgementNumber)
 {
 	std::string	handshake;
 
@@ -70,6 +55,35 @@ void			CmdManager::cmdHandshakeAck(ServerClient *client, BasicCmd *msgClient,
 		closeSocket(client->getTCPSocket());
 		_clientManager->removeClient(client);
 	}
+}
+
+void								CmdManager::cmdCreateRoom(ServerClient *client, BasicCmd *msgClient)
+{
+	int								newRoom;
+	std::string						roomName;
+	std::string						playerName;
+	BasicCmd						reply;
+	char							*msgSerialized;
+	Serialize						serializer;
+
+	roomName = msgClient->getArg(0);
+	playerName = msgClient->getArg(1);
+	client->setPlayerName(playerName);
+	newRoom = _roomManager->addRoom(roomName);
+	std::cout << "Player " << playerName << " created |" << roomName
+			  << "| ---> Id = " << std::to_string(newRoom) << std::endl;
+	reply.setCommandType(REPLY_CODE);
+	if (client->getCurrentRoom() != -1) // ALREADY IN ROOM
+	{
+		reply.setCommandArg(std::to_string(NOT_IN_LOBBY));
+	}
+	else
+	{
+		reply.setCommandArg(std::to_string(ROOM_CREATED));
+		_roomManager->addClientToRoom(client, newRoom);
+	}
+	msgSerialized = serializer.serialize(&reply);
+	_clientManager->addDataToSend(client->getTCPSocket(), msgSerialized, sizeof(reply));
 }
 
 void							CmdManager::cmdListRoom(ServerClient *client, BasicCmd *msgClient)
@@ -92,31 +106,17 @@ void							CmdManager::cmdListRoom(ServerClient *client, BasicCmd *msgClient)
 	it = roomList.begin();
 	while (it != roomList.end())
 	{
-		std::cout << "Adding Room (" << (*it).getName() << ", " << (*it).getNbClients() << ")" << std::endl;
-		roomListMsg.addRoom((*it).getName(), (*it).getNbClients());
+		roomListMsg.addRoom((*it).getId(), (*it).getName(), (*it).getNbClients());
 		it++;
 	}
 	std::cout << std::endl << std::endl;
+	roomListMsg.getCommandArg();
 	msgSerialized = serializer.serialize(&roomListMsg);
 
-	/*std::vector<std::pair<std::string, int>>			roomInfos;
-	std::vector<std::pair<std::string, int>>::iterator	itTest;
-
-	roomInfos = roomListMsg.getAllRooms();
-*/
-	/*itTest = roomInfos.begin();
-	while (itTest != roomInfos.end())
-	{
-		std::cout << "Room serialized : (" << (*itTest).first << ", " << (*itTest).second << ")" << std::endl;
-		itTest++;
-	}
-	*/
-	//std::cout << std::endl << std::endl;
-	//msg = "RoomList :\n" + _roomManager->getRoomListString() + "\n";
 	_clientManager->addDataToSend(client->getTCPSocket(), msgSerialized, sizeof(roomListMsg));
 }
 
-//void			CmdManager::cmdJoinRoom(ServerClient *client, const std::string &msgClient)
+//void			CmdManager::cmdJoinRoom(ServerClient *client, BasicCmd *msgClient)
 //{
 //	std::string roomName;
 //	std::string msg;

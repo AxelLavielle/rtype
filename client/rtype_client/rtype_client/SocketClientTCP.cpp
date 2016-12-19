@@ -52,15 +52,37 @@ bool				SocketClientTCP::init(const std::string &addr, int port)
 		return (false);
 	}
 
+	BOOL optVal = FALSE;
+	_optLen = 1;
+
+	iResult = setsockopt(_connectSocket, SOL_SOCKET, SO_KEEPALIVE, (char *)&optVal, _optLen);
+	if (iResult == SOCKET_ERROR)
+	{
+		std::cerr << "setsockopt for SO_KEEPALIVE failed with error : " << WSAGetLastError() << std::endl;
+		return (false);
+	}
+
 #elif __linux__
 	if ((_sock = socket(AF_INET, SOCK_STREAM, 0)) == -1)
 	{
-		std::cout << "Could not create socket" << std::endl;
+		std::cerr << "Could not create socket" << std::endl;
 		return (false);
 	}
 	_server.sin_addr.s_addr = inet_addr(addr.c_str());
 	_server.sin_family = AF_INET;
 	_server.sin_port = htons(port);
+
+	struct timeval timeout;      
+
+	timeout.tv_sec = 10;
+	timeout.tv_usec = 0;
+
+	if (setsockopt (_sock, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
+	  std::cerr << "setsockopt failed" << std::endl;
+
+	if (setsockopt (_sock, SOL_SOCKET, SO_SNDTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
+	  std::cerr << "setsockopt failed" << std::endl;
+
 #endif
 	return (true);
 }
@@ -178,4 +200,9 @@ bool			SocketClientTCP::closure()
 
 #endif
 	return (true);
+}
+
+void			SocketClientTCP::setOptLen(int len)
+{
+	_optLen = len;
 }

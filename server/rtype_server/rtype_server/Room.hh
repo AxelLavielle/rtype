@@ -22,6 +22,7 @@ public:
 	bool						removeClient(ServerClient *);
 	std::vector<ServerClient *> getClients() const;
 	int							getNbClients() const;
+	int							getNbClientsReady() const;
 
 private:
 	std::string					_name;

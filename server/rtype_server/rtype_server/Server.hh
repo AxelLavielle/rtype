@@ -21,6 +21,8 @@ private:
 
 	void			processMsg(const std::vector<ClientMsg> &);
 	void			processBasicCmd(ServerClient *, BasicCmd *);
+	void			processGames();
+
 
 public:
 	Server();

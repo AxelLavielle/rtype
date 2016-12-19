@@ -69,3 +69,19 @@ int								Room::getNbClients() const
 {
 	return (_clients.size());
 }
+
+int												Room::getNbClientsReady() const
+{
+	std::vector<ServerClient *>::const_iterator	it;
+	int											nb;
+
+	nb = 0;
+	it = _clients.begin();
+	while (it != _clients.end())
+	{
+		if ((*it)->isReady())
+			nb++;
+		it++;
+	}
+	return (nb);
+}

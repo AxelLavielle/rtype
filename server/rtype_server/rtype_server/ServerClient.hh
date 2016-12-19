@@ -21,12 +21,13 @@ private:
 	bool				_isDisconnectedTCP;
 	int					_currentRoomId;
 	std::string			_playerName;
+	int					_playerId;
 	int					_UDPSocketFd;
 	char				_sendDataUDP[UDP_PACKET_SIZE];
 	int					_lenDataUDP;
 	struct sockaddr_in	*_clientAddr;	
 	bool				_isDisconnectedUDP;
-
+	bool				_status;
 	bool				_logState;
 
 public:
@@ -60,5 +61,12 @@ public:
 
 	void				setPlayerName(const std::string &);
 	std::string			getPlayerName() const;
+
+	void				setPlayerId(const int);
+	int					getPlayerId() const;
+
+	void				setStatus(const bool);
+	bool				isReady() const;
+
 };
 

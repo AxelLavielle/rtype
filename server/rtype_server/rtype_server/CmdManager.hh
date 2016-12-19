@@ -21,9 +21,11 @@ public:
 	~CmdManager();
 
 	void			cmdCreateRoom(ServerClient *, BasicCmd *);
-	void			cmdHandshakeSyn(ServerClient *, BasicCmd *, int);
-	void			cmdHandshakeAck(ServerClient *, BasicCmd *, int);
+	void			cmdHandshakeSyn(ServerClient *, BasicCmd *, const int);
+	void			cmdHandshakeAck(ServerClient *, BasicCmd *, const int);
 	void			cmdListRoom(ServerClient *, BasicCmd *);
 	void			cmdJoinRoom(ServerClient *, BasicCmd *);
+
+	void			cmdLaunchGame(const std::vector<ServerClient *> &, const int);
 
 };

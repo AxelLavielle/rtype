@@ -18,6 +18,8 @@ public:
 	virtual bool launch() = 0;
 	virtual void setSocketTCPSocket(ASocketClient * socket);
 	virtual void setMutex(AMutex * mutex);
+	virtual bool init() = 0;
+
 protected:
 	IGraphManager		*_graph;
 	IEventManager		*_event;
@@ -25,4 +27,3 @@ protected:
 	AMutex				*_mutex;
 	ThreadPool			_pool;
 };
-

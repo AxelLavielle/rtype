@@ -53,15 +53,16 @@ bool Menu::tryToConnect()
 
 	res = false;
 	_mutex->lock();
-	if (_socket)
-		std::cout << "SOCKET EXIST !!" << std::endl;
-	else
-		std::cout << "SOCKET NOT EXIST !!" << std::endl;
 	if (_socket && !_socket->isConnected())
 	{
 		std::cout << "TRY TO CONNECT" << std::endl;
 		_socket->init("10.16.252.95", 42000);
 		_socket->connectToServer();
+		if (_socket->isConnected())
+		{
+			_cmdManager.setSocket(_socket);
+			_cmdManager.handshake();
+		}
 	}
 	if (_socket)
 		res = _socket->isConnected();
@@ -86,7 +87,6 @@ bool Menu::launch()
 	  duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2Conn - _t1Conn).count();;
 	  if (duration >= RECO_DURATION)
 	  {
-		  std::cout << "COUCOU = " << duration << std::endl;
 		  if (_mutex->tryLock() && _socket && !_socket->isConnected())
 		  {
 			  if (th)

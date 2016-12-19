@@ -186,6 +186,7 @@
     <ClInclude Include="ListBox.hh" />
     <ClInclude Include="Menu.hh" />
     <ClInclude Include="PathFileManager.hh" />
+    <ClInclude Include="PausePage.hh" />
     <ClInclude Include="Rect.hh" />
     <ClInclude Include="CursorBox.hh" />
     <ClInclude Include="RectDecor.hh" />
@@ -242,6 +243,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="PathFileManager.cpp" />
+    <ClCompile Include="PausePage.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="CursorBox.cpp" />
     <ClCompile Include="RectDecor.cpp" />

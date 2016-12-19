@@ -22,7 +22,6 @@ public:
 	virtual std::string		getName() const = 0;
 	virtual void			setLife(const int) = 0;
 	virtual int			getLife() const = 0;
-	virtual IEntity			*createEntity() = 0;
 	virtual std::string		getSpriteRepo() const = 0;
 	virtual void			setSpriteRepo(const std::string &) = 0;
 };

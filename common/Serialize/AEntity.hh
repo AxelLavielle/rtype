@@ -16,7 +16,6 @@ public:
 	virtual		void			setPosY(const double);
 	virtual		rtype::EntityType	getType() const;
 	virtual		void			setType(const rtype::EntityType &);
-	virtual		IEntity			*createEntity();
 	virtual		void			setName(const std::string &);
 	virtual		std::string		getName() const;
 	virtual		void			setSpriteRepo(const std::string &);

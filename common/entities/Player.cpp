@@ -25,3 +25,8 @@ void		Player::setId(const int id)
 void		Player::update(void)
 {
 }
+
+extern "C" IEntity	*createEntity()
+{
+  return (new Player);
+}

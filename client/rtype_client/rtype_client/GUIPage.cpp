@@ -45,7 +45,8 @@ void GUIPage::draw()
 	initDecor(Rect(80, _windowSize.second - 130, 50, 300), "/res/img/barreDefense" + std::to_string(_def) + ".png");
 	initDecor(Rect(80, _windowSize.second - 75, 50, 300), "/res/img/barreVie" + std::to_string(_hp) + ".png");
 	drawGUIElement(_guiElement);
-	_graph->drawText("HEN TYPE", _windowSize.first / 2 - 220, 0, 80, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+	_graph->drawText("HEN", _windowSize.first / 2 - 220, 0, 80, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+	_graph->drawText("TYPE", _windowSize.first / 2, 0, 80, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
 	_graph->drawText("Nb joueur : " + std::to_string(_nbPlayers), _windowSize.first - 230, _windowSize.second - 110, 19, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
 	_graph->drawText("Mode : " + _mode, _windowSize.first - 230, _windowSize.second - 70, 19, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
 	_graph->drawText("Score : " + std::to_string(_score), _windowSize.first - 600, _windowSize.second - 100, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");

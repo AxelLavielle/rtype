@@ -29,12 +29,15 @@ public:
 	virtual bool		closure();
 	virtual bool		connectToServer();
 
+	void				setOptLen(int);
+
 private:
 #ifdef _WIN32
 	WSADATA				_wsaData;
 	SOCKET				_connectSocket;
 	struct addrinfo		*_result;
 	struct addrinfo		*_ptr;
+	int					_optLen;
 #elif __linux__
 	int					_sock;
 	struct sockaddr_in	_server;

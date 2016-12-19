@@ -52,6 +52,16 @@ bool				SocketClientTCP::init(const std::string &addr, int port)
 		return (false);
 	}
 
+	BOOL optVal = FALSE;
+	_optLen = 1;
+
+	iResult = setsockopt(_connectSocket, SOL_SOCKET, SO_KEEPALIVE, (char *)&optVal, _optLen);
+	if (iResult == SOCKET_ERROR)
+	{
+		std::cout << "setsockopt for SO_KEEPALIVE failed with error : " << WSAGetLastError() << std::endl;
+		return (false);
+	}
+
 #elif __linux__
 	if ((_sock = socket(AF_INET, SOCK_STREAM, 0)) == -1)
 	{
@@ -178,4 +188,9 @@ bool			SocketClientTCP::closure()
 
 #endif
 	return (true);
+}
+
+void			SocketClientTCP::setOptLen(int len)
+{
+	_optLen = len;
 }

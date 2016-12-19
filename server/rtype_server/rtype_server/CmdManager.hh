@@ -5,6 +5,7 @@
 #include "RoomManager.hh"
 #include "ASocketServer.hh"
 #include "BasicCmd.hh"
+#include "ACommand.hh"
 
 class CmdManager
 {

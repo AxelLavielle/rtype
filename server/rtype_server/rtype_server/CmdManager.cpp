@@ -15,7 +15,7 @@ void	CmdManager::closeSocket(int socket)
 #ifdef  _WIN32
 	closesocket(socket);
 #elif	__linux__
-	close(client->getTCPSocket());
+	close(socket);
 #endif
 }
 

@@ -13,6 +13,6 @@ public:
 	virtual bool tryLock();
 
 private:
-	std::mutex _mutex;
+	std::mutex *_mutex;
 };
 

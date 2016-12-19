@@ -105,6 +105,7 @@ bool Menu::launch()
 	  while (_event->refresh())
 		{
 		  curr_event = _page->event();
+
 		  if (_page->getPageType() == IPage::PLAY)
 		  {
 			  LobbyPage		*lobbyPage;
@@ -169,9 +170,22 @@ bool Menu::launch()
 				_page = new EndGamePage(_graph, _event, _fileManager, &_soundManager);
 				std::cout << "Settings" << std::endl;
 				break;
-			    case IPage::QUIT:
-		     _graph->close();
-		      break;
+			case IPage::QUIT:
+				_graph->close();
+				break;
+			case IPage::CREATEROOMACTION:
+				newEvent = true;
+				std::cout << "CreateRoomAction" << std::endl;
+				CreateRoomPage		*tmpPage;
+				tmpPage = static_cast<CreateRoomPage* >(_page);
+				if (!_cmdManager.createRoom(tmpPage->getRoomName(), "Player 1"))
+				{
+					std::cout << "STOP !! " << std::endl;
+					break;
+				}
+				delete (_page);
+				_page = new InsideRoomPage(_graph, _event, _fileManager, &_soundManager);
+				break;
 			default:
 			   break;
 	    }

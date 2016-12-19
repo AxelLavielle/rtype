@@ -14,6 +14,7 @@ public:
 	CmdManager();
 	~CmdManager();
 	bool handshake();
+	bool createRoom(const std::string & rommName, const std::string & playerName);
 	ListRoomCmd *getRoomList();
 	ICommand * receiveCmd();
 	bool newCmd(const std::string & cmd);

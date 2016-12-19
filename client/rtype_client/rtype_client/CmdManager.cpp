@@ -32,6 +32,35 @@ bool	CmdManager::handshake()
 	return (true);
 }
 
+bool		CmdManager::createRoom(const std::string & rommName, const std::string & playerName)
+{
+	BasicCmd		*newCmd;
+	ICommand		*cmd;
+
+	if (!_socketClient || !_socketClient->isConnected())
+		return (false);
+	newCmd = new BasicCmd();
+	newCmd->setCommandType(CREATE_ROOM);
+	newCmd->addArg(rommName);
+	newCmd->addArg(playerName);
+	if (!_socketClient->sendData(_serialize.serialize(newCmd), sizeof(*newCmd)))
+		return (false);
+	cmd = receiveCmd();
+	if (cmd->getCommandName() == BASIC_CMD && cmd->getCommandType() == REPLY_CODE)
+	{
+		BasicCmd		*tmpCmd;
+
+		tmpCmd = static_cast<BasicCmd* >(cmd);
+		if (static_cast<CmdType>(std::stoi(tmpCmd->getArg(0))) == ROOM_CREATED)
+		{
+			std::cout << "CREATE ROOM OK" << std::endl;
+			return (true);
+		}
+	}
+	delete newCmd;
+	return (false);
+}
+
 ListRoomCmd	*CmdManager::getRoomList()
 {
 	ListRoomCmd			*resCmd;
@@ -43,11 +72,14 @@ ListRoomCmd	*CmdManager::getRoomList()
 		return (NULL);
 	basicCmd.setCommandType(GET_ROOM_LIST);
 	_socketClient->sendData(_serialize.serialize(&basicCmd), sizeof(basicCmd));
+
 	if (!(res = _socketClient->receiveData()))
 		return (NULL);
 	cmd = _serialize.unserializeCommand(res);
 	resCmd = static_cast<ListRoomCmd*>(cmd);
 	std::cout << resCmd->getRoom(0).first << std::endl;
+	
+	delete cmd;
 	return (resCmd);
 }
 
@@ -91,6 +123,12 @@ ICommand	*CmdManager::receiveCmd()
 		break;
 	case (ROOM_LIST):
 		getRoomList();
+		break;
+	case (REPLY_CODE):
+		BasicCmd	*newCmd;
+
+		newCmd = static_cast<BasicCmd* >(cmd);
+		return (newCmd);
 		break;
 	default:
 	  break;

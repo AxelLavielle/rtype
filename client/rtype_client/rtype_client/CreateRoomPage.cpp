@@ -58,8 +58,13 @@ std::string CreateRoomPage::getRoomName() const
 	it = _guiElement.begin();
 	while (it != _guiElement.end())
 	{
-		//if ()
-		//	return ();
+		if ((*it)->getTypeName() == "InputBox")
+		{
+			InputBox	*box;
+	
+			box = static_cast<InputBox* >((*it));
+			return (box->getText());
+		}
 		++it;
 	}
 	return ("");

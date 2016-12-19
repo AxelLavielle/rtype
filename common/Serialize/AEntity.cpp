@@ -91,8 +91,3 @@ void			AEntity::setLife(const int life)
 {
   _life = life;
 }
-
-IEntity			*AEntity::createEntity()
-{
-  return (NULL);
-}

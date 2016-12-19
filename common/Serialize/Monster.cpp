@@ -24,7 +24,7 @@ void		Monster::update(void)
 {
 }
 
-extern "C" IEntity	*Monster::createEntity()
+extern "C" IEntity	*createEntity()
 {
   return (new Monster);
 }

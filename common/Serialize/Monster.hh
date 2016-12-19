@@ -12,7 +12,6 @@ public:
   Monster();
   virtual ~Monster();
   virtual void		update();
-  IEntity	*createEntity();
   void		setId(const int);
   int		getId() const;
 };

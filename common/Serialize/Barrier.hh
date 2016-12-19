@@ -7,7 +7,7 @@ class Barrier :
 {
 public:
   Barrier();
-  IEntity		*createEntity();
-  virtual		~Barrier();
+  virtual ~Barrier();
   virtual void		update();
+  IEntity	*createEntity();
 };

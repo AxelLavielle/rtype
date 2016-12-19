@@ -6,7 +6,6 @@ class PausePage :
 	public APage
 {
 public:
-  PausePage();
   PausePage(IGraphManager*, IEventManager*, const PathFileManager&, ISoundManager*);
   virtual ~PausePage();
   virtual bool			init();

@@ -24,6 +24,6 @@ public:
 	void			cmdHandshakeSyn(ServerClient *, BasicCmd *, int);
 	void			cmdHandshakeAck(ServerClient *, BasicCmd *, int);
 	void			cmdListRoom(ServerClient *, BasicCmd *);
-	//void			cmdJoinRoom(ServerClient *, const std::string &);
+	void			cmdJoinRoom(ServerClient *, BasicCmd *);
 
 };

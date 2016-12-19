@@ -45,5 +45,6 @@ typedef enum	ReplyCodes
 	ROOM_NAME_CHANGED = 261,
 	NOT_IN_LOBBY = 450,
 	NOT_IN_ROOM = 451,
+	ROOM_FULL = 452,
 	ROOM_NOT_EXIST = 530
 }				ReplyCodes;

@@ -65,13 +65,13 @@ bool				SocketClientTCP::init(const std::string &addr, int port)
 	return (true);
 }
 
-bool				SocketClientTCP::sendData(const char *data)
+bool				SocketClientTCP::sendData(const char *data, const int datasize)
 {
 #ifdef _WIN32
 	const char		*sendbuf = data;
 	int				iResult;
 
-	iResult = send(_connectSocket, sendbuf, static_cast<int>(strlen(sendbuf)), 0);
+	iResult = send(_connectSocket, sendbuf, static_cast<int>(datasize), 0);
 	if (iResult == SOCKET_ERROR)
 	{
 		std::cerr << "Send failed: " << WSAGetLastError() << std::endl;
@@ -90,7 +90,7 @@ bool				SocketClientTCP::sendData(const char *data)
 	}
 
 #elif __linux__
-	if (send(_sock, data, strlen(data), 0) < 0)
+	if (send(_sock, data, (data), 0) < 0)
 	{
 		std::cout << "Send failed" << std::endl;
 		return (false);

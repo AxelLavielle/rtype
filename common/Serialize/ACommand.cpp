@@ -35,5 +35,5 @@ void ACommand::setCommandType(CmdType type)
 
 CmdType ACommand::getCommandType() const
 {
-	return _cmdType;
+	return (_cmdType);
 }

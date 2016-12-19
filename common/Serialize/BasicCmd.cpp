@@ -15,7 +15,7 @@ BasicCmd::~BasicCmd()
 void BasicCmd::addArg(const std::string & str)
 {
 	_argList.push_back(str);
-	_arg += _separator + str;
+	_arg += str + _separator;
 }
 
 std::vector<std::string> BasicCmd::split(const std::string &s)

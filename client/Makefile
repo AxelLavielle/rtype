@@ -13,6 +13,7 @@ SRC	=	$(COM)/ACommand.cpp	 	\
 		$(DIR)/AMenu.cpp 		\
 		$(DIR)/ASocketClient.cpp 	\
 		$(DIR)/ASoundManager.cpp 	\
+		$(COM)/BasicCmd.cpp 		\
 		$(DIR)/Button.cpp 		\
 		$(DIR)/CheckBox.cpp 		\
 		$(COM)/ChatInfoCmd.cpp 		\
@@ -21,6 +22,7 @@ SRC	=	$(COM)/ACommand.cpp	 	\
 		$(DIR)/Color.cpp 		\
 		$(DIR)/CreateRoomPage.cpp	\
 		$(DIR)/CursorBox.cpp 		\
+		$(DIR)/EndGamePage.cpp 		\
 		$(COM)/EntityCmd.cpp 		\
 		$(DIR)/Game.cpp 		\
 		$(DIR)/GUIPage.cpp 		\

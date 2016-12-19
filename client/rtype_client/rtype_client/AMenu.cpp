@@ -23,3 +23,8 @@ void AMenu::setSocketTCPSocket(ASocketClient * socket)
 {
 	_socket = socket;
 }
+
+void AMenu::setMutex(AMutex * mutex)
+{
+	_mutex = mutex;
+}

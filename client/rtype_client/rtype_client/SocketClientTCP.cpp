@@ -166,6 +166,7 @@ bool				SocketClientTCP::connectToServer()
 	}
 
 #endif
+	_connected = true;
 	return (true);
 }
 

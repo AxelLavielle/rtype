@@ -12,6 +12,7 @@ public:
 	template<typename F>
 	bool createThread(F threadfunc);
 	virtual void join();
+	virtual bool isJoinable() const;
 
 private:
 	std::thread *_thread;

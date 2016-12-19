@@ -9,6 +9,7 @@ Thread::Thread()
 
 Thread::~Thread()
 {
+	delete _thread;
 }
 
 std::thread *Thread::getThread()
@@ -19,4 +20,9 @@ std::thread *Thread::getThread()
 void Thread::join()
 {
 	_thread->join();
+}
+
+bool Thread::isJoinable() const 
+{
+	return (_thread->joinable());
 }

@@ -4,6 +4,7 @@ Client::Client()
 {
 	_pool = new ThreadPool();
 	_mutex = new Mutex();
+	_socket = new SocketClientTCP();
 }
 
 Client::~Client()
@@ -19,15 +20,18 @@ Client::~Client()
 
 bool Client::initSocket()
 {
-	_mutex->lock();
-	_socket = new SocketClientTCP();
-
+	_mutex->lock();//10.16.252.95
 	if (!_socket->init("10.16.252.95", 42000)
 		|| !_socket->connectToServer())
+	{
+		_menu->setSocketTCPSocket(_socket);
+		_mutex->unlock();
 		return (false);
+	}
+	_menu->setSocketTCPSocket(_socket);
 	_cmdManager.setSocket(_socket);
 	_cmdManager.handshake();
-	_menu->setSocketTCPSocket(_socket);
+	_cmdManager.getRoomList();
 	_mutex->unlock();
 	return (true);
 }
@@ -50,11 +54,17 @@ bool Client::launch()
 
 	if (!initGraph())
 		return (false);
-	_menu->init();
 	_menu->setEventManager(_event);
-	_menu->setGraphManager(_graph);	
+	_menu->setGraphManager(_graph);
+	_menu->setMutex(_mutex);
+	_menu->init();
 	th.createThread(std::bind(&Client::initSocket, this));
+	_pool->addThread(&th);
 	if (!_menu->launch())
+	{
+		_pool->joinAll();
 		return (false);
+	}
+	_pool->joinAll();
 	return (true);
 }

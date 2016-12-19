@@ -11,6 +11,7 @@ public:
 	virtual void joinAll() = 0;
 	virtual int  getSize();
 	virtual bool is_thread_in(IThread *thread) = 0;
+	virtual void deleteUnusedThread() = 0;
 
 protected:
 	int _size;

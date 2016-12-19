@@ -21,6 +21,7 @@
 #include "InsideRoomPage.hh"
 #include "EndGamePage.hh"
 #include "CreateRoomPage.hh"
+#include "ThreadPool.hh"
 
 class Menu :
 	public AMenu
@@ -38,7 +39,9 @@ private:
 	SFMLSound					_soundManager;
 	PathFileManager				_fileManager;
 	APage						*_page;
+	ThreadPool					_pool;
 
 	void initLobby();
+	bool tryToConnect();
 };
 

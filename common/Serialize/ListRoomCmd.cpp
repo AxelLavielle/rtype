@@ -37,9 +37,11 @@ CmdName			ListRoomCmd::getCommandName() const
 {
   return (ROOM_LIST);
 }
+#include <iostream>
 
 const std::string	ListRoomCmd::getCommandArg() const
 {
+	std::cout << "[ListRoomCmd] : ARG = {" << _arg << "}" << std::endl;
 	return (_arg);
 }
 

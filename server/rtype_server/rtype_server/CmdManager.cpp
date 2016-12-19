@@ -97,8 +97,15 @@ void							CmdManager::cmdListRoom(ServerClient *client, BasicCmd *msgClient)
 		it++;
 	}
 	std::cout << std::endl << std::endl;
+	roomListMsg.getCommandArg();
 	msgSerialized = serializer.serialize(&roomListMsg);
 
+	ListRoomCmd *test;
+	test = static_cast<ListRoomCmd *>(serializer.unserializeCommand(msgSerialized));
+	if (test != NULL)
+		test->getCommandArg();
+	else
+		std::cout << "Test is NULL" << std::endl;
 	/*std::vector<std::pair<std::string, int>>			roomInfos;
 	std::vector<std::pair<std::string, int>>::iterator	itTest;
 

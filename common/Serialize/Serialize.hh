@@ -25,7 +25,7 @@ private:
   struct	packet
   {
     short	dataType;
-	short	cmdType;
+    short	cmdType;
     short	dataLength;
     char	data[65467];
   };

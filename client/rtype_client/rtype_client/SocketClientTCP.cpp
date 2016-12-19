@@ -90,7 +90,7 @@ bool				SocketClientTCP::sendData(const char *data, const int datasize)
 	}
 
 #elif __linux__
-	if (send(_sock, data, (data), 0) < 0)
+	if (send(_sock, data, datasize, 0) < 0)
 	{
 		std::cout << "Send failed" << std::endl;
 		return (false);

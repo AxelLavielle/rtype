@@ -3,6 +3,7 @@
 
 Menu::Menu()
 {
+	_playerName = "Player 1";
 }
 
 Menu::~Menu()
@@ -19,6 +20,8 @@ bool Menu::init()
 	_music.setLoop(true);
 	_clickSound.setDuration(-1);
 	_clickSound.setFilePath(_fileManager.getRoot() + "/res/sounds/buttonClick.wav");
+			      _soundManager.setMusicVolume(100);
+			      _soundManager.setSoundVolume(100);
 	_soundManager.play(_music);
 	_t1Conn = std::chrono::high_resolution_clock::now();
 	_cmdManager.setSocket(_socket);
@@ -43,7 +46,7 @@ void	Menu::initLobby()
 	it = rooms.begin();
 	while (it != rooms.end())
 	{
-		page->addRoom(it->second.first);
+		page->addRoom(*it);
 		++it;
 	}
 }
@@ -57,7 +60,7 @@ bool Menu::tryToConnect()
 	if (_socket && !_socket->isConnected())
 	{
 		std::cout << "TRY TO CONNECT" << std::endl;
-		_socket->init("127.0.0.1", 42000);
+		_socket->init("127.0.0.10", 42000);
 		_socket->connectToServer();
 		if (_socket->isConnected())
 		{
@@ -71,49 +74,67 @@ bool Menu::tryToConnect()
 	return (res);
 }
 
+void	Menu::manageReco(Thread *th)
+{
+	std::chrono::high_resolution_clock::time_point      t2Conn;
+	double												duration;
+
+	t2Conn = std::chrono::high_resolution_clock::now();
+	duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2Conn - _t1Conn).count();
+	if (duration >= RECO_DURATION)
+	{
+		if (_socket && !_socket->isConnected())
+		{
+			if (th)
+			{
+				_pool.joinAll();
+				_pool.removeThread(th);
+			}
+			th = new Thread();
+			th->createThread(std::bind(&Menu::tryToConnect, this));
+			_pool.addThread(th);
+		}
+		_t1Conn = std::chrono::high_resolution_clock::now();
+	}
+}
+
 bool Menu::launch()
 {
   IPage::PAGE	curr_event;
   _page = new HomePage(_graph, _event, _fileManager, &_soundManager);
   bool		newEvent;
   Thread		*th = NULL;
-  std::chrono::high_resolution_clock::time_point        t2Conn;
-  double				duration;
   std::pair<std::string, std::pair<int, int> > tmp;
 
   newEvent = false;
   _page->init();
   while (_graph->isWindowOpen())
     {
-	  t2Conn = std::chrono::high_resolution_clock::now();
-	  duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2Conn - _t1Conn).count();
-	  if (duration >= RECO_DURATION)
-	  {
-		  if (_mutex->tryLock() && _socket && !_socket->isConnected())
-		  {
-			  if (th)
-			  {
-				  _pool.joinAll();
-				  _pool.removeThread(th);
-			  }
-			  th = new Thread();
-			  th->createThread(std::bind(&Menu::tryToConnect, this));
-			  _pool.addThread(th);
-			  _mutex->unlock();
-		  }
-		  _t1Conn = std::chrono::high_resolution_clock::now();
-	  }
+	  manageReco(th);
 	  while (_event->refresh())
 		{
 		  curr_event = _page->event();
+
 
 		  if (_page->getPageType() == IPage::PLAY)
 		  {
 			  LobbyPage		*lobbyPage;
 
 			  lobbyPage = static_cast<LobbyPage* >(_page);
-			  if (lobbyPage->getSelectedRoom() != -1)
-				  std::cout << "selected = " << lobbyPage->getSelectedRoom() << std::endl;
+			  if (lobbyPage->getSelectedRoom().first != -84)
+			  {
+				  std::cout << lobbyPage->getSelectedRoom().first << std::endl;
+				  if (!_cmdManager.joinRoom(lobbyPage->getSelectedRoom().first, _playerName))
+					  std::cerr << "Can not join room" << std::endl;
+				  else
+				  {
+					  delete _page;
+					  newEvent = true;
+					  _page = new InsideRoomPage(_graph, _event, _fileManager, &_soundManager);
+				  }
+			  }
+
+
 		  }
 		  switch (curr_event)
 		    {
@@ -124,16 +145,26 @@ bool Menu::launch()
 		      std::cout << "Home" << std::endl;
 		      break;
 		    case IPage::PLAY:
+				if (_page->getPageType() == IPage::INSIDEROOM)
+					_cmdManager.leaveRoom();
 		      delete (_page);
 			  newEvent = true;
 			  initLobby();
 		      std::cout << "Lobby" << std::endl;
 		      break;
 		    case IPage::SAVE:
+				SettingsPage	*tmpPageSettings;
+				tmpPageSettings = static_cast<SettingsPage *>(_page);
 		      tmp = static_cast<SettingsPage *>(_page)->save();
-		      _soundManager.setMusicVolume(tmp.second.first);
-		      _soundManager.setSoundVolume(tmp.second.second);
-		      std::cout << "Save" << std::endl;
+		      //_soundManager.setMusicVolume(tmp.second.first);
+		      //_soundManager.setSoundVolume(tmp.second.second);
+			  _mutex->lock();
+			  if (_socket)
+			  {
+				  _socket->setIp(tmpPageSettings->getServerInfo().first);
+				  _socket->setPort(tmpPageSettings->getServerInfo().second);
+			  }
+			  _mutex->unlock();
 		      break;
 		    case IPage::CREATEROOM:
 		      delete (_page);
@@ -172,8 +203,8 @@ bool Menu::launch()
 				_soundManager.stopAll();
 				_game.setGraph(_graph);
 				_game.setEvent(_event);
-				_game.launch();
 				_pool.joinAll();
+				_game.launch();
 				std::cout << "QUIT LA" << std::endl;
 				return (true);
 				break;

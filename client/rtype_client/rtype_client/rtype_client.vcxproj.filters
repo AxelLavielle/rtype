@@ -55,6 +55,7 @@
     <ClCompile Include="..\..\..\common\Serialize\Monster.cpp" />
     <ClCompile Include="ASocketClient.cpp" />
     <ClCompile Include="PausePage.cpp" />
+    <ClCompile Include="SettingsNextPage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />
@@ -124,5 +125,7 @@
     <ClInclude Include="..\..\..\common\Serialize\PowerUp.hh" />
     <ClInclude Include="..\..\..\common\Serialize\Monster.hh" />
     <ClInclude Include="PausePage.hh" />
+    <ClInclude Include="SettingsNextPage.hh" />
+    <ClInclude Include="LobbyPage.hh" />
   </ItemGroup>
 </Project>

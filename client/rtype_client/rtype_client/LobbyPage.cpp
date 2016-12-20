@@ -14,9 +14,13 @@ LobbyPage::~LobbyPage()
 	clear();
 }
 
-void LobbyPage::addRoom(const std::string &name)
+void LobbyPage::addRoom(RoomIdInfos room)
 {
-	_room.push_back(name);
+	std::stringstream	ss;
+
+	ss << room.second.second;
+	_roomName.push_back(room.second.first + " : " + ss.str() + " players");
+	_room.push_back(room);
 }
 
 bool LobbyPage::init()
@@ -24,9 +28,8 @@ bool LobbyPage::init()
   std::vector<std::string>	test;
 
   initButton(70, 10, 60, Rect(20, 600, 90, 310), "BACK", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::HOME);
-  initButton(50, 10, 60, Rect(750, 600, 90, 310), "JOIN", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::INSIDEROOM);
-  initButton(20, 10, 60, Rect(387, 600, 90, 310), "CREATE", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::CREATEROOM);
-  initListBox(Rect(100, 250, 300, 900), "/res/fonts/Space.ttf", "/res/img/buttonRoom.png", "/res/img/buttonRoomOver.png", _room);
+  initButton(20, 10, 60, Rect(750, 600, 90, 310), "CREATE", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::CREATEROOM);
+  initListBox(Rect(100, 250, 300, 900), "/res/fonts/Space.ttf", "/res/img/buttonRoom.png", "/res/img/buttonRoomOver.png", _roomName);
   return (true);
 }
 
@@ -50,7 +53,7 @@ void LobbyPage::draw()
 	drawGUIElement(_guiElement);
 }
 
-int		LobbyPage::getSelectedRoom() const
+RoomIdInfos		LobbyPage::getSelectedRoom() const
 {
 	std::vector<AGUIElement*>::const_iterator		it;
 
@@ -62,11 +65,13 @@ int		LobbyPage::getSelectedRoom() const
 			ListBox		*list;
 
 			list = static_cast<ListBox* >(*it);
-			return (list->getSelectedID());
+			if (list->getSelectedID() >= 0)
+				return (_room.at(list->getSelectedID()));
 		}
 		++it;
 	}
-	return (-1);
+	std::pair<std::string, int> res("", -84);
+	return (std::pair<int, std::pair<std::string, int>>(-84, res));
 }
 
 IPage::PAGE LobbyPage::event()

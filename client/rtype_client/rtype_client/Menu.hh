@@ -46,10 +46,12 @@ private:
 	PathFileManager				_fileManager;
 	APage						*_page;
 	CmdManager					_cmdManager;
+	std::string					_playerName;
 
 	std::chrono::high_resolution_clock::time_point        _t1Conn;
 
 	void initLobby();
 	bool tryToConnect();
+	void manageReco(Thread * th);
 };
 

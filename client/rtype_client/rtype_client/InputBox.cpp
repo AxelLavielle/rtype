@@ -19,6 +19,11 @@ InputBox::InputBox() : AGUIElement()
 	_backgroundColor.setB(255);
 }
 
+void	InputBox::setText(const std::string &text)
+{
+	_key = text;
+}
+
 std::string InputBox::getText() const
 {
 	return (_key);

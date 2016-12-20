@@ -169,10 +169,10 @@ bool		RoomManager::addClientToRoom(ServerClient *client, const int id)
 }
 #include <Windows.h>
 
-std::vector<Room>				RoomManager::getRoomsReady()
+std::vector<Room>						RoomManager::getRoomsReady() const
 {
-	std::vector<Room>			roomsReady;
-	std::vector<Room>::iterator	it;
+	std::vector<Room>					roomsReady;
+	std::vector<Room>::const_iterator	it;
 
 	if (_roomList.size() == 0)
 		return (roomsReady);

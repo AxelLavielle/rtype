@@ -8,6 +8,6 @@ public:
   RoomInfoCmd();
   virtual	~RoomInfoCmd();
 
-protected:
+private:
   std::string	_arg;
 };

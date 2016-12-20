@@ -197,6 +197,26 @@ void			CmdManager::cmdLeaveRoom(ServerClient *client, BasicCmd *msgClient)
 	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(reply));
 }
 
+void			CmdManager::cmdSetStatus(ServerClient *client, BasicCmd *msgClient)
+{
+	BasicCmd	reply;
+	char		*msgSerialized;
+
+	reply.setCommandType(REPLY_CODE);
+	if (client->getCurrentRoom() == -1)
+		reply.setCommandArg(std::to_string(NOT_IN_ROOM));
+	else
+	{
+		if (client->isReady())
+			client->setStatus(false);
+		else
+			client->setStatus(true);
+		reply.setCommandArg(std::to_string(STATUS_CHANGED));
+	}
+	msgSerialized = Serialize::serialize(&reply);
+	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(reply));
+}
+
 void											CmdManager::cmdLaunchGame(const std::vector<ServerClient *> &clients, const int idRoom)
 {
 	BasicCmd									cmd;

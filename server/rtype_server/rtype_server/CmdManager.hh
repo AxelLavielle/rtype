@@ -29,6 +29,7 @@ public:
 	void			cmdListRoom(ServerClient *, BasicCmd *);
 	void			cmdJoinRoom(ServerClient *, BasicCmd *);
 	void			cmdLeaveRoom(ServerClient *, BasicCmd *);
+	void			cmdSetStatus(ServerClient *, BasicCmd *);
 
 	void			cmdLaunchGame(const std::vector<ServerClient *> &, const int);
 

@@ -132,6 +132,7 @@ bool		RoomManager::addClientToRoom(ServerClient *client, const int id)
 	client->setCurrentRoom(id);
 	return (true);
 }
+
 bool RoomManager::removeClientFromRoom(ServerClient *client, const int id)
 {
 	try

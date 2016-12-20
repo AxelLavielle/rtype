@@ -130,6 +130,7 @@ bool							Server::launch()
 	}
 
 	_pool.joinAll();
+	return (true);
 }
 
 bool							Server::TCPLoop()
@@ -198,7 +199,7 @@ bool									Server::UDPLoop()
 				{
 					tcpSocket = std::stoi(str);
 					std::cout << "TCP SOCKET = " << tcpSocket << std::endl;
-					
+
 					_mutex->lock();
 					client = _clientManager.getClientByTCP(tcpSocket);
 					if (client != NULL && client->getAddrUDP() == NULL)

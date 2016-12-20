@@ -194,7 +194,7 @@ bool Menu::launch()
 		      break;
 		    case IPage::INSIDEROOM:
 		      delete (_page);
-			  RoomInfoCmd		*roomInfo1;
+		      //			  RoomInfoCmd		*roomInfo1;
 			  newEvent = true;
 		      _page = new InsideRoomPage(_graph, _event, _fileManager, &_soundManager);
 			  //roomInfo1 = _cmdManager.getRoomInfo();

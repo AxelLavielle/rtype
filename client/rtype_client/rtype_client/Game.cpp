@@ -36,11 +36,11 @@ int Game::launch()
 {
 	std::chrono::high_resolution_clock::time_point      t1;
 	std::chrono::high_resolution_clock::time_point	    t2;
-	double												duration;
-	int													i;
-	bool												first = true;
+	// double												duration;
+	// int													i;
+	// bool												first = true;
 
-	i = 100;
+	// i = 100;
 	_graph->setFullScreen(true);
 	_graph->setMouseCursorVisible(false);
 	_size = _graph->getWindowSize();

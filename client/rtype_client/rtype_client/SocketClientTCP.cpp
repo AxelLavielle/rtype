@@ -13,6 +13,10 @@ SocketClientTCP::~SocketClientTCP()
 
 bool				SocketClientTCP::init(const std::string &addr, const int port)
 {
+	if (_port == -1)
+		_port = port;
+	if (_ip == "")
+		_ip = addr;
 #ifdef _WIN32
 	int				iResult;
 
@@ -33,7 +37,7 @@ bool				SocketClientTCP::init(const std::string &addr, const int port)
 	_result = NULL;
 	_ptr = NULL;
 
-	iResult = getaddrinfo(addr.c_str(), std::to_string(port).c_str(), &hints, &_result);
+	iResult = getaddrinfo(_ip.c_str(), std::to_string(_port).c_str(), &hints, &_result);
 	if (iResult != 0)
 	{
 		std::cerr << "getaddrinfo failed: " << iResult << std::endl;
@@ -68,9 +72,9 @@ bool				SocketClientTCP::init(const std::string &addr, const int port)
 		std::cerr << "Could not create socket" << std::endl;
 		return (false);
 	}
-	_server.sin_addr.s_addr = inet_addr(addr.c_str());
+	_server.sin_addr.s_addr = inet_addr(_ip.c_str());
 	_server.sin_family = AF_INET;
-	_server.sin_port = htons(port);
+	_server.sin_port = htons(_port);
 
 	struct timeval timeout;      
 

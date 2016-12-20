@@ -42,10 +42,11 @@ void ThreadPool::joinAll()
 {
 	unsigned int	i = 0;
 
-	while (i != _threadGroup.size())
+	while (i < _threadGroup.size())
 	{
 		_threadGroup[i]->join();
 		//delete _threadGroup[i];
+		//_threadGroup.erase(_threadGroup.begin() + i);
 		i++;
 	}
 }

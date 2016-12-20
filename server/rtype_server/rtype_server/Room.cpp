@@ -3,12 +3,14 @@
 Room::Room(const int id)
 {
 	_id = id;
+	_inGame = false;
 }
 
 Room::Room(const int id, const std::string &name)
 {
 	_id = id;
 	_name = name;
+	_inGame = false;
 }
 
 Room::~Room()
@@ -84,4 +86,14 @@ int												Room::getNbClientsReady() const
 		it++;
 	}
 	return (nb);
+}
+
+void			Room::setInGame(const bool inGame)
+{
+	_inGame = inGame;
+}
+
+bool			Room::isInGame() const
+{
+	return (_inGame);
 }

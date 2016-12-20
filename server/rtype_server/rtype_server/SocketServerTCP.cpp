@@ -31,11 +31,6 @@ bool					SocketServerTCP::init(const std::string &addr, const int port)
 		}
 	#endif
 
-	MemTools::set(&_addrSocket, 0, sizeof(struct sockaddr_in));
-	_addrSocket.sin_addr.s_addr = htonl(INADDR_ANY);
-	_addrSocket.sin_family = AF_INET;
-	_addrSocket.sin_port = htons(port);
-
 	if ((_socketServerID = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET)
 	{
 		displayError("Socket creation failed: ");
@@ -46,11 +41,17 @@ bool					SocketServerTCP::init(const std::string &addr, const int port)
 	}
 	_fdMax = _socketServerID;
 	(void)addr;
+	_port = port;
 	return (true);
 }
 
 bool SocketServerTCP::launch()
 {
+	MemTools::set(&_addrSocket, 0, sizeof(struct sockaddr_in));
+	_addrSocket.sin_addr.s_addr = htonl(INADDR_ANY);
+	_addrSocket.sin_family = AF_INET;
+	_addrSocket.sin_port = htons(_port);
+
 	if (bind(_socketServerID, reinterpret_cast<struct sockaddr *>(&_addrSocket), sizeof(struct sockaddr_in)) == SOCKET_ERROR)
 	{
 		displayError("Bind failed: ");
@@ -109,16 +110,16 @@ bool										SocketServerTCP::sendAllData(std::vector<ServerClient *> &clientLi
 	it = clientList.begin();
 	while (it != clientList.end())
 	{
-		if ((*it)->getDataLen() > 0)
+		if ((*it)->getDataLenTCP() > 0)
 		{
 			if (DEBUG_MSG)
 				std::cout << "Sending to Client " << (*it)->getTCPSocket()
-					<< " : " << (*it)->getSendData() << std::endl;
-			if (send((*it)->getTCPSocket(), (*it)->getSendData(), (*it)->getDataLen(), 0) == SOCKET_ERROR)
+					<< " : " << (*it)->getSendDataTCP() << std::endl;
+			if (send((*it)->getTCPSocket(), (*it)->getSendDataTCP(), (*it)->getDataLenTCP(), 0) == SOCKET_ERROR)
 			{
 				displayError("Send error");
 			}
-			(*it)->resetData();
+			(*it)->resetDataTCP();
 		}
 		it++;
 	}

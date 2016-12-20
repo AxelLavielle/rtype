@@ -9,6 +9,7 @@
 #include "ThreadPool.hh"
 #include "AMutex.hh"
 #include "Mutex.hh"
+#include "SocketClientUDP.hh"
 
 class Client
 {

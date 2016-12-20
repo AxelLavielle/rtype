@@ -16,6 +16,62 @@ CmdManager::~CmdManager()
 {
 }
 
+bool	CmdManager::setStatus()
+{
+	BasicCmd		*newCmd;
+	ICommand		*cmd;
+
+	if (!_socketClient || !_socketClient->isConnected())
+		return (false);
+	newCmd = new BasicCmd();
+	newCmd->setCommandType(SET_STATUS);
+	_socketClient->sendData(_serialize.serialize(newCmd), sizeof(*newCmd));
+	cmd = receiveCmd();
+	delete newCmd;
+	if (cmd && cmd->getCommandName() == BASIC_CMD && cmd->getCommandType() == REPLY_CODE)
+	{
+		BasicCmd		*tmpCmd;
+
+		tmpCmd = static_cast<BasicCmd* >(cmd);
+		if (static_cast<ReplyCodes>(std::stoi(tmpCmd->getArg(0))) == STATUS_CHANGED)
+		{
+			std::cout << "Room left" << std::endl;
+			delete cmd;
+			return (true);
+		}
+	}
+	delete cmd;
+	return (false);
+}
+
+bool	CmdManager::leaveRoom()
+{
+	BasicCmd		*newCmd;
+	ICommand		*cmd;
+
+	if (!_socketClient || !_socketClient->isConnected())
+		return (false);
+	newCmd = new BasicCmd();
+	newCmd->setCommandType(LEAVE_ROOM);
+	_socketClient->sendData(_serialize.serialize(newCmd), sizeof(*newCmd));
+	cmd = receiveCmd();
+	delete newCmd;
+	if (cmd && cmd->getCommandName() == BASIC_CMD && cmd->getCommandType() == REPLY_CODE)
+	{
+		BasicCmd		*tmpCmd;
+
+		tmpCmd = static_cast<BasicCmd* >(cmd);
+		if (static_cast<ReplyCodes>(std::stoi(tmpCmd->getArg(0))) == LEFT_ROOM)
+		{
+			std::cout << "Room left" << std::endl;
+			delete cmd;
+			return (true);
+		}
+	}
+	delete cmd;
+	return (false);
+}
+
 bool	CmdManager::handshake()
 {
 	std::stringstream	ss;
@@ -44,7 +100,10 @@ bool		CmdManager::createRoom(const std::string & rommName, const std::string & p
 	newCmd->addArg(rommName);
 	newCmd->addArg(playerName);
 	if (!_socketClient->sendData(_serialize.serialize(newCmd), sizeof(*newCmd)))
+	{
+		delete newCmd;
 		return (false);
+	}
 	cmd = receiveCmd();
 	if (cmd->getCommandName() == BASIC_CMD && cmd->getCommandType() == REPLY_CODE)
 	{
@@ -54,10 +113,45 @@ bool		CmdManager::createRoom(const std::string & rommName, const std::string & p
 		if (static_cast<ReplyCodes>(std::stoi(tmpCmd->getArg(0))) == ROOM_CREATED)
 		{
 			std::cout << "CREATE ROOM OK" << std::endl;
+			delete cmd;
+			delete newCmd;
 			return (true);
 		}
 	}
+	delete cmd;
 	delete newCmd;
+	return (false);
+}
+
+bool	CmdManager::joinRoom(const int id, std::string & playerName)
+{
+	ICommand	*cmd;
+	BasicCmd	basicCmd;
+	// char		*res;
+	std::stringstream ss;
+
+	ss << id;
+	if (!_socketClient || !_socketClient->isConnected())
+		return (false);
+	basicCmd.setCommandType(JOIN_ROOM);
+	basicCmd.addArg(ss.str());
+	basicCmd.addArg(playerName);
+	_socketClient->sendData(_serialize.serialize(&basicCmd), sizeof(basicCmd));
+
+	cmd = receiveCmd();
+	if (cmd && cmd->getCommandName() == BASIC_CMD && cmd->getCommandType() == REPLY_CODE)
+	{
+		BasicCmd		*tmpCmd;
+
+		tmpCmd = static_cast<BasicCmd* >(cmd);
+		if (static_cast<ReplyCodes>(std::stoi(tmpCmd->getArg(0))) == ROOM_JOINED)
+		{
+			std::cout << "JOIN ROOM OK" << std::endl;
+			delete cmd;
+			return (true);
+		}
+	}
+	delete cmd;
 	return (false);
 }
 
@@ -77,9 +171,6 @@ ListRoomCmd	*CmdManager::getRoomList()
 		return (NULL);
 	cmd = _serialize.unserializeCommand(res);
 	resCmd = static_cast<ListRoomCmd*>(cmd);
-	std::cout << "LALA = " << resCmd->getRoom(0).first << std::endl;
-	
-	delete cmd;
 	return (resCmd);
 }
 

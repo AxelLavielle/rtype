@@ -16,43 +16,39 @@ class ServerClient
 {
 private:
 	int					_TCPSocketFd;
-	char				_sendData[TCP_PACKET_SIZE];
-	int					_lenData;
+	char				_sendDataTCP[TCP_PACKET_SIZE];
+	int					_lenDataTCP;
 	bool				_isDisconnectedTCP;
-	int					_currentRoomId;
-	std::string			_playerName;
-	int					_playerId;
-	int					_UDPSocketFd;
+
 	char				_sendDataUDP[UDP_PACKET_SIZE];
 	int					_lenDataUDP;
-	struct sockaddr_in	*_clientAddr;	
-	bool				_isDisconnectedUDP;
-	bool				_status;
+	struct sockaddr_in	*_clientAddrUDP;
+
+	bool				_readyStatus;
 	bool				_logState;
+	int					_currentRoomId;
+	std::string			_playerName;
 
 public:
-	ServerClient(int);
+	ServerClient(const int);
 	~ServerClient();
 
 	int					getTCPSocket() const;
-	void				addDataToSend(const char *, const int);
-	const char			*getSendData() const;
-	void				resetData();
-	int					getDataLen() const;
-	
-	int					getUDPSocket() const;
+	void				addTCPDataToSend(const char *, const int);
+	const char			*getSendDataTCP() const;
+	void				resetDataTCP();
+	int					getDataLenTCP() const;
+	bool				isDisconnectedTCP() const;
+	void				setDisconnectedTCP(const bool);
+
+	struct sockaddr_in	*getAddrUDP() const;
 	void				addUDPDataToSend(const char *, const int);
 	const char			*getSendDataUDP() const;
 	void				resetDataUDP();
 	int					getDataLenUDP() const;
-	struct sockaddr_in	*getAddrUDP() const;
-	void				resetUDPSocket();
+	void				setAddrUDP(struct sockaddr_in *);
+	void				resetAddrUDP();
 	
-	bool				isDisconnectedTCP() const;
-	bool				isDisconnectedUDP() const;
-	void				setDisconnectedTCP(const bool);
-	void				setDisconnectedUDP(const bool);
-
 	void				setCurrentRoom(const int);
 	int					getCurrentRoom() const;
 
@@ -61,9 +57,6 @@ public:
 
 	void				setPlayerName(const std::string &);
 	std::string			getPlayerName() const;
-
-	void				setPlayerId(const int);
-	int					getPlayerId() const;
 
 	void				setStatus(const bool);
 	bool				isReady() const;

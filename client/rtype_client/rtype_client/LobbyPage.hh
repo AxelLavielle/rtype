@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include "APage.hh"
+#include "ListRoomCmd.hh"
 
 class LobbyPage :
 	public APage
@@ -14,11 +15,12 @@ public:
 	virtual bool			launch();
 	virtual void			draw();
 	virtual IPage::PAGE		event();
-	void					addRoom(const std::string &name);
-	int						getSelectedRoom() const;
+	void					addRoom(RoomIdInfos);
+	RoomIdInfos				getSelectedRoom() const;
 
 private:
 	Sound											_clickSound;
-	std::vector<std::string>						_room;
+	std::vector<RoomIdInfos>						_room;
+	std::vector<std::string>						_roomName;
 };
 

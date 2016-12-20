@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include <string>
 #include <vector>
 #include <stdexcept>
@@ -21,8 +22,8 @@ public:
 	Room				&getRoomByName(const std::string &);
 	Room				&getRoomById(const int);
 	std::vector<Room>	&getRoomList();
-	std::string			getRoomListString() const;
 	bool				addClientToRoom(ServerClient *, const std::string &);
 	bool				addClientToRoom(ServerClient *, int);
+	bool				removeClientFromRoom(ServerClient *, const int);
 	std::vector<Room>	getRoomsReady() const;
 };

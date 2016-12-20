@@ -7,14 +7,17 @@
 
 #include "ASocketServer.hh"
 
+typedef std::pair<ServerClient *, ICommand *> ClientMsg;
+
 class SocketServerTCP : public ASocketServer
 {
 private:
 	struct sockaddr_in	_addrSocket;
-	int			_fdMax;
-	fd_set			_readfds;
-	fd_set			_writefds;
-	void			displayError(const std::string &);
+	int					_fdMax;
+	fd_set				_readfds;
+	fd_set				_writefds;
+
+	void				displayError(const std::string &);
 
 public:
 	SocketServerTCP();
@@ -23,7 +26,7 @@ public:
 	virtual bool					init(const std::string &, const int);
 	virtual bool					launch();
 	virtual bool					sendAllData(std::vector<ServerClient *> &);
-	virtual std::vector<ClientMsg>			receiveData(std::vector<ServerClient *> &);
-	virtual int					selectFds(const std::vector<int> &);
-	int						acceptNewClient();
+	std::vector<ClientMsg>			receiveData(std::vector<ServerClient *> &);
+	int								selectFds(const std::vector<int> &);
+	int								acceptNewClient();
 };

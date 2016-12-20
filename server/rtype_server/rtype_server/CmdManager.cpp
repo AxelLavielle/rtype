@@ -204,6 +204,7 @@ void			CmdManager::cmdSetStatus(ServerClient *client, BasicCmd *msgClient)
 	BasicCmd	reply;
 	char		*msgSerialized;
 
+	(void)msgClient;
 	reply.setCommandType(REPLY_CODE);
 	if (client->getCurrentRoom() == -1)
 		reply.setCommandArg(std::to_string(NOT_IN_ROOM));

@@ -78,6 +78,7 @@ std::pair<std::string, int>		SettingsPage::getServerInfo()
 		}
 		++it;
 	}
+	return (std::make_pair<std::string, int>("", -1));
 }
 
 std::pair<std::string, std::pair<int, int> > SettingsPage::save() const

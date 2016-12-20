@@ -57,9 +57,10 @@ bool			SocketClientUDP::init(const std::string &addr, const int port)
 bool			SocketClientUDP::sendData(const char *data, const int datasize)
 {
 	int			slen = sizeof(_siOther);
-	int			res;
 
 #ifdef _WIN32
+	int			res;
+
 	if ((res = sendto(_sock, data, datasize, 0, reinterpret_cast<struct sockaddr *>(&_siOther), slen)) == SOCKET_ERROR)
 	{
 		std::cerr << "sendto() failed with error code : " << WSAGetLastError() << std::endl;

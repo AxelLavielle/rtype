@@ -9,6 +9,7 @@
 #include	"Monster.hh"
 #include	"Barrier.hh"
 #include	"ListRoomCmd.hh"
+#include	"RoomInfoCmd.hh"
 
 class		Serialize
 {

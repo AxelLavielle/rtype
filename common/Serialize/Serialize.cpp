@@ -137,7 +137,11 @@ ICommand	*Serialize::unserializeCommand(char *data)
     case CHAT_INFO:
       break;
     case ROOM_INFO:
-      break;
+		res = new RoomInfoCmd();
+		res->setCommandArg(p->data);
+		res->setCommandType(static_cast<CmdType>(p->cmdType));
+		return (res);
+		break;
     case BASIC_CMD:
       res = new BasicCmd();
       res->setCommandArg(p->data);

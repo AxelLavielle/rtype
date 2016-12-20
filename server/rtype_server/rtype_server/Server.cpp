@@ -66,6 +66,11 @@ void										Server::processBasicCmd(ServerClient *client, BasicCmd *cmd)
 		_cmdManager.cmdSetStatus(client, cmd);
 		break;
 
+	case GET_ROOM:
+		std::cout << "---------> GET ROOM" << std::endl;
+		_cmdManager.cmdRoomInfo(client, cmd);
+		break;
+
 	default:
 		break;
 	}

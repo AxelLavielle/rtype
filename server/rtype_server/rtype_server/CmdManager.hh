@@ -17,7 +17,6 @@ private:
 	AMutex			*_mutex;
 	void			closeSocket(int);
 
-
 public:
 	CmdManager(ClientManager *, RoomManager *);
 	~CmdManager();
@@ -27,6 +26,7 @@ public:
 	void			cmdHandshakeSyn(ServerClient *, BasicCmd *, const int);
 	void			cmdHandshakeAck(ServerClient *, BasicCmd *, const int);
 	void			cmdListRoom(ServerClient *, BasicCmd *);
+	void			cmdRoomInfo(ServerClient *, BasicCmd *);
 	void			cmdJoinRoom(ServerClient *, BasicCmd *);
 	void			cmdLeaveRoom(ServerClient *, BasicCmd *);
 	void			cmdSetStatus(ServerClient *, BasicCmd *);

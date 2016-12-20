@@ -6,6 +6,7 @@ InputBox::InputBox(IGraphManager *graph, IEventManager *event, const Rect &rect)
 	_backgroundColor.setG(255);
 	_backgroundColor.setB(255);
 	_typeName = "InputBox";
+	_focus = false;
 }
 
 InputBox::~InputBox()
@@ -33,18 +34,22 @@ bool InputBox::getInput()
 {
 	std::string key;
 
-	key = "";
-	key = _event->getTextEntered();
-	if (key[0] == 8)
-	{
+	if (_focus)
+	  {
+	    key = "";
+	    key = _event->getTextEntered();
+	    if (key[0] == 8)
+	      {
 		if (_key.size() > 0)
-			_key.pop_back();
+		  _key.pop_back();
 		key = "";
-	}
-	if (key == "" || _key.size() >= 32)
-		return (false);
-	_key += key;
-	return (true);
+	      }
+	    if (key == "" || _key.size() >= 32)
+	      return (false);
+	    _key += key;
+	    return (true);
+	  }
+	return (false);
 }
 
 void InputBox::setTextColor(const Color & color)
@@ -69,6 +74,7 @@ bool InputBox::click()
       && pos.first > _rect.getX() && pos.first < _rect.getX() + _rect.getWidth()
       && pos.second > _rect.getY() && pos.second < _rect.getY() + _rect.getHeight())
     {
+      _focus = true;
       _backgroundColor.setR(192);
       _backgroundColor.setG(192);
       _backgroundColor.setB(192);
@@ -76,6 +82,7 @@ bool InputBox::click()
     }
   else if (pos.first != -1 && pos.second != -1)
     {
+      _focus = false;
       _backgroundColor.setR(255);
       _backgroundColor.setG(255);
       _backgroundColor.setB(255);

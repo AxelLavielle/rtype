@@ -19,7 +19,8 @@ public:
 	void setEvent(IEventManager *event);
 
 private:
-	std::string		_key;
-	Color			_textColor;
+  bool			_focus;
+  std::string		_key;
+  Color			_textColor;
 };
 

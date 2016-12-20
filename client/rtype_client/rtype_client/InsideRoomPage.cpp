@@ -7,6 +7,7 @@ InsideRoomPage::InsideRoomPage(IGraphManager *graph, IEventManager *event, const
 	_clickSound.setDuration(-1);
 	_clickSound.setFilePath(_fileManager.getRoot() + "/res/sounds/buttonClick.wav");
 	_roomName = "";
+	_pageType = IPage::INSIDEROOM;
 
 	//Temporaire
 	_playerList.insert(std::pair<std::string, bool>("PLAYER 1", false));

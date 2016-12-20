@@ -22,6 +22,7 @@ void				ListRoomCmd::addRoom(const int idRoom, const std::string &name, const in
 			+ std::to_string(nbPlayers) + _separator;
 }
 #include <iostream>
+
 void									ListRoomCmd::setCommandArg(const std::string &arg)
 {
 	std::vector<std::string>			vectString;
@@ -38,19 +39,17 @@ void									ListRoomCmd::setCommandArg(const std::string &arg)
 		{
 			namePlayer = std::make_pair((vectString[i + 1]), std::stoi((vectString[i + 2])));
 			idInfos = std::make_pair(std::stoi(vectString[i]), namePlayer);
-			std::cout << "NamePlayer = " << namePlayer.first << std::endl;
-			std::cout << "idInfo = " << idInfos.first << std::endl;
 			_roomList.push_back(idInfos);
 		}
 		i += 3;
 	}
+	std::cout << this <<" DANS LA FUNCTION = " << _roomList.size() << std::endl;
 }
 
 CmdName			ListRoomCmd::getCommandName() const
 {
   return (ROOM_LIST);
 }
-#include <iostream>
 
 const std::string	ListRoomCmd::getCommandArg() const
 {
@@ -65,5 +64,6 @@ RoomIdInfos					ListRoomCmd::getRoom(const int index) const
 
 std::vector<RoomIdInfos>	ListRoomCmd::getAllRooms() const
 {
+	std::cout << this << " DANS LE GETTEUR = " << _roomList.size() << std::endl;
 	return (_roomList);
 }

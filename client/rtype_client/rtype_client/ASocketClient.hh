@@ -18,10 +18,13 @@ public:
 	virtual char	*receiveData() = 0;
 	virtual bool	connectToServer() = 0;
 	virtual bool	isConnected() const;
+	virtual void			setIp(const std::string &ip);
+	virtual void			setPort(const int);
 
 protected:
 	int				_port;
 	int				_socketClientId;
 	bool			_connected;
+	std::string		_ip;
 };
 

@@ -19,7 +19,7 @@ Client::~Client()
 bool Client::initSocket()
 {
 	_mutex->lock();//10.16.252.95
-	if (!_socket->init("127.0.0.1", 42000)
+	if (!_socket->init("10.16.252.95", 42000)
 		|| !_socket->connectToServer())
 	{
 		_menu->setSocketTCPSocket(_socket);
@@ -48,7 +48,22 @@ bool	Client::initGraph()
 bool Client::launch()
 {
 	Thread		th;
+	SocketClientUDP		udpSocket;
+	BasicCmd			*cmd = new BasicCmd();
+	ICommand			*newCmd;
+	BasicCmd			*b;
+	char				*res;
 
+	cmd->setCommandType(REPLY_CODE);
+	cmd->addArg("4242");
+	cmd->addArg("COUCOU");
+	if (!udpSocket.init("10.16.252.95", 9999) || !udpSocket.connectToServer())
+		return (false);
+	udpSocket.sendData(Serialize::serialize(cmd), sizeof(*cmd));
+	//res = udpSocket.receiveData();
+	//newCmd = Serialize::unserializeCommand(res);
+	//b = static_cast<BasicCmd* >(newCmd);
+	//std::cout << b->getArg(0) << std::endl;
 	if (!initGraph())
 		return (false);
 	_menu->setEventManager(_event);
@@ -60,8 +75,10 @@ bool Client::launch()
 	if (!_menu->launch())
 	{
 		_pool.joinAll();
+		_socket->closure();
 		return (false);
 	}
 	_pool.joinAll();
+	_socket->closure();
 	return (true);
 }

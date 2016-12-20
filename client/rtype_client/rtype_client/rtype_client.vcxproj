@@ -182,12 +182,14 @@
     <ClInclude Include="IPage.hpp" />
     <ClInclude Include="ISoundManager.hpp" />
     <ClInclude Include="ListBox.hh" />
+    <ClInclude Include="LobbyPage.hh" />
     <ClInclude Include="Menu.hh" />
     <ClInclude Include="PathFileManager.hh" />
     <ClInclude Include="PausePage.hh" />
     <ClInclude Include="Rect.hh" />
     <ClInclude Include="CursorBox.hh" />
     <ClInclude Include="RectDecor.hh" />
+    <ClInclude Include="SettingsNextPage.hh" />
     <ClInclude Include="SettingsPage.hh" />
     <ClInclude Include="SFML.hh" />
     <ClInclude Include="SFMLEvent.hh" />
@@ -244,6 +246,7 @@
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="CursorBox.cpp" />
     <ClCompile Include="RectDecor.cpp" />
+    <ClCompile Include="SettingsNextPage.cpp" />
     <ClCompile Include="SettingsPage.cpp" />
     <ClCompile Include="SFML.cpp" />
     <ClCompile Include="SFMLEvent.cpp" />

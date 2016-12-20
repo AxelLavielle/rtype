@@ -125,6 +125,7 @@ bool							Server::launch()
 	}
 
 	_pool.joinAll();
+	return (true);
 }
 
 bool							Server::TCPLoop()

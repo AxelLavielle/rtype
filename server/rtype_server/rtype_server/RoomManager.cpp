@@ -132,7 +132,6 @@ bool		RoomManager::addClientToRoom(ServerClient *client, const int id)
 	client->setCurrentRoom(id);
 	return (true);
 }
-#include <Windows.h>
 
 std::vector<Room>						RoomManager::getRoomsReady() const
 {

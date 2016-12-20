@@ -12,6 +12,7 @@ NAME		=	server
 SRC		=	$(DIR)/ASocketServer.cpp	\
 			$(DIR)/main.cpp			\
 			$(DIR)/SocketServerTCP.cpp	\
+			$(DIR)/SocketServerUDP.cpp	\
 			$(DIR)/ClientManager.cpp	\
 			$(DIR)/ServerClient.cpp		\
 			$(DIR)/Server.cpp		\
@@ -19,6 +20,11 @@ SRC		=	$(DIR)/ASocketServer.cpp	\
 			$(DIR)/RoomManager.cpp		\
 			$(DIR)/CmdManager.cpp		\
 			$(COMMON)/MemTools.cpp		\
+			$(COMMON)/Thread.cpp		\
+			$(COMMON)/Mutex.cpp		\
+			$(COMMON)/AThread.cpp		\
+			$(COMMON)/AMutex.cpp		\
+			$(COMMON)/ThreadPool.cpp	\
 			$(SERIALIZE)/AEntity.cpp	\
 			$(SERIALIZE)/Serialize.cpp	\
 			$(SERIALIZE)/BasicCmd.cpp	\

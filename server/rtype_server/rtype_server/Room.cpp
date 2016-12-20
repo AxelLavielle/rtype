@@ -1,11 +1,11 @@
 #include "Room.hh"
 
-Room::Room(int id)
+Room::Room(const int id)
 {
 	_id = id;
 }
 
-Room::Room(int id, const std::string &name)
+Room::Room(const int id, const std::string &name)
 {
 	_id = id;
 	_name = name;

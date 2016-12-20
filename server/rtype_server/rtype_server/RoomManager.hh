@@ -24,5 +24,5 @@ public:
 	std::string			getRoomListString() const;
 	bool				addClientToRoom(ServerClient *, const std::string &);
 	bool				addClientToRoom(ServerClient *, int);
-	std::vector<Room>	getRoomsReady();
+	std::vector<Room>	getRoomsReady() const;
 };

@@ -10,6 +10,11 @@ CmdManager::~CmdManager()
 {
 }
 
+void	CmdManager::setMutex(AMutex *mutex)
+{
+	_mutex = mutex;
+}
+
 void	CmdManager::closeSocket(int socket)
 {
 #ifdef  _WIN32
@@ -49,6 +54,11 @@ void			CmdManager::cmdHandshakeAck(ServerClient *client, BasicCmd *msgClient,
 	{
 		std::cout << std::endl << "Client [" << client->getTCPSocket() << "] is now CONNECTED" << std::endl << std::endl;
 		client->setLogged(true);
+
+		_mutex->lock();
+		client->setStatus(true);
+		_roomManager->addClientToRoom(client, "blih");
+		_mutex->unlock();
 	}
 	else
 	{
@@ -69,7 +79,10 @@ void								CmdManager::cmdCreateRoom(ServerClient *client, BasicCmd *msgClient)
 	roomName = msgClient->getArg(0);
 	playerName = msgClient->getArg(1);
 	client->setPlayerName(playerName);
+
+	_mutex->lock();
 	newRoom = _roomManager->addRoom(roomName);
+	_mutex->unlock();
 	std::cout << "Player " << playerName << " created |" << roomName
 			  << "| ---> Id = " << std::to_string(newRoom) << std::endl;
 	reply.setCommandType(REPLY_CODE);
@@ -80,7 +93,9 @@ void								CmdManager::cmdCreateRoom(ServerClient *client, BasicCmd *msgClient)
 	else
 	{
 		reply.setCommandArg(std::to_string(ROOM_CREATED));
+		_mutex->lock();
 		_roomManager->addClientToRoom(client, newRoom);
+		_mutex->unlock();
 	}
 	msgSerialized = serializer.serialize(&reply);
 	_clientManager->addDataToSend(client->getTCPSocket(), msgSerialized, sizeof(reply));
@@ -96,14 +111,10 @@ void							CmdManager::cmdListRoom(ServerClient *client, BasicCmd *msgClient)
 
 
 	(void)msgClient;
-	_roomManager->addRoom("test1");
-	_roomManager->addRoom("blih");
-	_roomManager->addRoom("azertyu");
-
-	client->setStatus(true);
-	_roomManager->addClientToRoom(client, "blih");
-
+	_mutex->lock();
 	roomList = _roomManager->getRoomList();
+	_mutex->unlock();
+
 	it = roomList.begin();
 	while (it != roomList.end())
 	{
@@ -130,12 +141,13 @@ void			CmdManager::cmdJoinRoom(ServerClient *client, BasicCmd *msgClient)
 	reply.setCommandType(REPLY_CODE);
 	try
 	{
+		_mutex->lock();
 		_roomManager->getRoomById(idRoom);
-		
 		if (_roomManager->addClientToRoom(client, _roomManager->getRoomById(idRoom).getId()) == true)
 			reply.setCommandArg(std::to_string(ROOM_JOINED));
 		else
 			reply.setCommandArg(std::to_string(ROOM_FULL));
+		_mutex->unlock();
 	}
 	catch (const std::exception &error)
 	{
@@ -146,7 +158,7 @@ void			CmdManager::cmdJoinRoom(ServerClient *client, BasicCmd *msgClient)
 	_clientManager->addDataToSend(client->getTCPSocket(), msgSerialized, sizeof(reply));
 }
 
-void			CmdManager::cmdLaunchGame(const std::vector<ServerClient *> &clients, const int idRoom)
+void											CmdManager::cmdLaunchGame(const std::vector<ServerClient *> &clients, const int idRoom)
 {
 	BasicCmd									cmd;
 	char										*msgSerialized;
@@ -162,5 +174,5 @@ void			CmdManager::cmdLaunchGame(const std::vector<ServerClient *> &clients, con
 		msgSerialized = serializer.serialize(&cmd);
 		_clientManager->addDataToSend((*it)->getTCPSocket(), msgSerialized, sizeof(cmd));
 	}
-
+	//launchUDP();
 }

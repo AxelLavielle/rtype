@@ -58,7 +58,11 @@ std::vector<int>							ClientManager::getClientsUDPSockets()
 	while (it != _clientList.end())
 	{
 		if ((*it)->getUDPSocket() != -1)
+		{
+			std::cout << "Add UDP Socket " << (*it)->getUDPSocket() << std::endl;
 			vectClientsSockets.push_back((*it)->getUDPSocket());
+		}
+			
 		it++;
 	}
 	return (vectClientsSockets);
@@ -83,9 +87,9 @@ void						ClientManager::addDataToSend(int clientSocket, const char *data, int d
 	}
 }
 
-void		ClientManager::checkDisconnectedClients(RoomManager &roomManager)
+void										ClientManager::checkDisconnectedClients(RoomManager &roomManager)
 {
-	std::vector<ServerClient *>::iterator it;
+	std::vector<ServerClient *>::iterator	it;
 
 	it = _clientList.begin();
 	while (it != _clientList.end())
@@ -98,7 +102,7 @@ void		ClientManager::checkDisconnectedClients(RoomManager &roomManager)
 				roomManager.getRoomById((*it)->getCurrentRoom()).removeClient((*it));
 			it = _clientList.erase(it);
 		}
-		else if ((*it)->isDisconnectedUDP())
+		else if ((*it)->isDisconnectedUDP() && (*it)->getUDPSocket() != -1)
 		{
 			if (DEBUG_MSG)
 				std::cout << "################## ERASE UDP: " << (*it)->getUDPSocket() << " !!!" << std::endl;

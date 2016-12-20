@@ -128,11 +128,11 @@ IEntity		*Serialize::unserializeEntity(char *data)
 #include <iostream>
 ICommand	*Serialize::unserializeCommand(char *data)
 {
-  packet	p;
+  packet	*p;
   ICommand	*res;
 
-  p = *reinterpret_cast<packet*>(data);
-  switch (p.dataType)
+  p = reinterpret_cast<packet*>(data);
+  switch (p->dataType)
     {
     case CHAT_INFO:
       break;
@@ -140,15 +140,15 @@ ICommand	*Serialize::unserializeCommand(char *data)
       break;
     case BASIC_CMD:
       res = new BasicCmd();
-      res->setCommandArg(p.data);
-      res->setCommandType(static_cast<CmdType>(p.cmdType));
+      res->setCommandArg(p->data);
+      res->setCommandType(static_cast<CmdType>(p->cmdType));
       return (res);
       break;
     case ROOM_LIST:
 		res = new ListRoomCmd();
-		std::cout << "data = " << p.data << std::endl;
-		res->setCommandArg(p.data);
-		res->setCommandType(static_cast<CmdType>(p.cmdType));
+		std::cout << "data = " << p->data << std::endl;
+		res->setCommandArg(p->data);
+		res->setCommandType(static_cast<CmdType>(p->cmdType));
 		return (res);
 		break;
     case ENTITY:

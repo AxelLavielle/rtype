@@ -136,6 +136,7 @@ void			CmdManager::cmdJoinRoom(ServerClient *client, BasicCmd *msgClient)
 	char		*msgSerialized;
 	Serialize	serializer;
 
+	(void)msgClient;
 	idRoom = std::stoi(msgClient->getArg(0));
 	playerName = msgClient->getArg(1);
 	reply.setCommandType(REPLY_CODE);
@@ -182,6 +183,7 @@ void			CmdManager::cmdLeaveRoom(ServerClient *client, BasicCmd *msgClient)
 	BasicCmd	reply;
 	char		*msgSerialized;
 
+	(void)msgClient;
 	reply.setCommandType(REPLY_CODE);
 	if (client->getCurrentRoom() != -1)
 	{

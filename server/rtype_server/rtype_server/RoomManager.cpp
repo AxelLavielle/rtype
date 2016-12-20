@@ -145,7 +145,7 @@ bool RoomManager::removeClientFromRoom(ServerClient *client, const int id)
 		return (false);
 	}
 	getRoomById(id).removeClient(client);
-
+	return (true);
 }
 
 std::vector<Room>						RoomManager::getRoomsReady() const

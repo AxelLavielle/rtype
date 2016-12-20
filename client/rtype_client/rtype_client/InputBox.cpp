@@ -6,6 +6,7 @@ InputBox::InputBox(IGraphManager *graph, IEventManager *event, const Rect &rect)
 	_backgroundColor.setG(255);
 	_backgroundColor.setB(255);
 	_typeName = "InputBox";
+	_focus = false;
 }
 
 InputBox::~InputBox()

@@ -78,7 +78,10 @@ int						SocketServerUDP::acceptNewClient(struct sockaddr_in *clientAddr)
 	if ((ret = recvfrom(_socketServerID, buffer, sizeof(buffer) - 1,
 						0, reinterpret_cast<struct sockaddr *>(&clientAddr), &addrSize)) < 0)
 	{
+		//std::cout << std::endl << std::endl;
+		//std::cout << "Recvfrom failed : " << ret << std::endl;
 		displayError("Recvfrom failed: ");
+		std::cout << std::endl << std::endl;
 		return (-1);
 	}
 	buffer[ret] = '\0';
@@ -105,7 +108,7 @@ bool										SocketServerUDP::sendAllData(std::vector<ServerClient *> &clientLi
 			if (sendto((*it)->getUDPSocket(), (*it)->getSendDataUDP(), (*it)->getDataLenUDP(),
 				0, reinterpret_cast<struct sockaddr *>((*it)->getAddrUDP()), sizeof(struct sockaddr *)) < 0)
 			{
-				displayError("Sendto failed: ");
+				//displayError("Sendto failed: ");
 			}
 
 			(*it)->resetDataUDP();
@@ -113,12 +116,6 @@ bool										SocketServerUDP::sendAllData(std::vector<ServerClient *> &clientLi
 		it++;
 	}
 	return (true);
-}
-
-std::string	serialize(const char *str, int len)
-{
-	(void)len;
-	return (std::string(str));
 }
 
 std::vector<ClientMsg>		SocketServerUDP::receiveData(std::vector<ServerClient *> &socketsClients)
@@ -136,12 +133,9 @@ std::vector<ClientMsg>		SocketServerUDP::receiveData(std::vector<ServerClient *>
 		{
 			MemTools::set(buf, 0, UDP_PACKET_SIZE);
 			if ((len = recvfrom((*it)->getUDPSocket(), buf, sizeof(buf) - 1,
-					    0, reinterpret_cast<struct sockaddr *>((*it)->getAddrUDP()), reinterpret_cast<socklen_t *>(&addrSize))) <= 0)
+					    0, reinterpret_cast<struct sockaddr *>((*it)->getAddrUDP()), reinterpret_cast<socklen_t *>(&addrSize))) < 0)
 			{
-				if (len == -1)
-				{
-					displayError("Recvfrom error: ");
-				}
+				displayError("Recvfrom error: ");
 				#ifdef _WIN32
 					closesocket((*it)->getUDPSocket());
 				#elif	__linux__
@@ -149,12 +143,13 @@ std::vector<ClientMsg>		SocketServerUDP::receiveData(std::vector<ServerClient *>
 				#endif
 					(*it)->setDisconnectedUDP(true);
 			}
-			else
+			else if (len > 0)
 			{
 				buf[len] = '\0';
 				if (DEBUG_MSG)
 					std::cout << "Received Msg [" << buf << "]" << std::endl;
-				vectMsg.push_back(std::make_pair((*it), serialize(buf, len)));
+				vectMsg.push_back(std::make_pair((*it), Serialize::unserializeCommand(buf)));
+				//vectMsg.push_back(std::make_pair((*it), serialize(buf, len)));
 			}
 
 
@@ -171,11 +166,13 @@ int										SocketServerUDP::selectFds(const std::vector<int> &socketsClients)
 {
 	std::vector<int>::const_iterator	it;
 
-	FD_ZERO(&_readfds);
+	/*FD_ZERO(&_readfds);
 	FD_ZERO(&_writefds);
 	FD_SET(_socketServerID, &_readfds);
 	_fdMax = _socketServerID;
 
+	if (socketsClients.size() == 0)
+		return (0);
 	it = socketsClients.begin();
 	while (it != socketsClients.end())
 	{
@@ -185,11 +182,11 @@ int										SocketServerUDP::selectFds(const std::vector<int> &socketsClients)
 			_fdMax = (*it);
 		it++;
 	}
-
-	if (select(_fdMax + 1, &_readfds, &_writefds, NULL, NULL) < 0)
+*/
+	/*if (select(_fdMax + 1, &_readfds, &_writefds, NULL, NULL) < 0)
 	{
 		displayError("Select error: ");
 	}
-
+*/
 	return (0);
 }

@@ -56,26 +56,26 @@ bool InputBox::draw()
 
 bool InputBox::click()
 {
-	std::pair<int, int>		pos;
+  std::pair<int, int>		pos;
 
-	pos = _event->getClickMousePos();
-	getInput();
-	if (pos.first != -1 && pos.second != -1
-		&& pos.first > _rect.getX() && pos.first < _rect.getX() + _rect.getWidth()
-		&& pos.second > _rect.getY() && pos.second < _rect.getY() + _rect.getHeight())
-	{
-		_backgroundColor.setR(192);
-		_backgroundColor.setG(192);
-		_backgroundColor.setB(192);
-		return (true);
-	}
-	else if (pos.first != -1 && pos.second != -1)
-	{
-		_backgroundColor.setR(255);
-		_backgroundColor.setG(255);
-		_backgroundColor.setB(255);
-	}
-	return (false);
+  pos = _event->getClickMousePos();
+  getInput();
+  if (pos.first != -1 && pos.second != -1
+      && pos.first > _rect.getX() && pos.first < _rect.getX() + _rect.getWidth()
+      && pos.second > _rect.getY() && pos.second < _rect.getY() + _rect.getHeight())
+    {
+      _backgroundColor.setR(192);
+      _backgroundColor.setG(192);
+      _backgroundColor.setB(192);
+      return (true);
+    }
+  else if (pos.first != -1 && pos.second != -1)
+    {
+      _backgroundColor.setR(255);
+      _backgroundColor.setG(255);
+      _backgroundColor.setB(255);
+    }
+  return (false);
 }
 
 bool InputBox::over()

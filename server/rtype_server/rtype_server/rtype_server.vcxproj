@@ -82,7 +82,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\rtype\common\Serialize;C:\rtype\common;.;C:\SFML\SFML-2.4.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\49312\Desktop\RENDUS\RTYPE\rtype\common;C:\Users\49312\Desktop\RENDUS\RTYPE\rtype\common\Serialize;C:\Users\49312\Desktop\RENDUS\RTYPE\rtype\server\rtype_server\rtype_server;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -114,8 +114,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\common\AMutex.hh" />
+    <ClInclude Include="..\..\..\common\AThread.hh" />
     <ClInclude Include="..\..\..\common\IEntity.hpp" />
     <ClInclude Include="..\..\..\common\ISocket.hpp" />
+    <ClInclude Include="..\..\..\common\MemTools.hh" />
+    <ClInclude Include="..\..\..\common\Mutex.hh" />
     <ClInclude Include="..\..\..\common\Serialize\ACommand.hh" />
     <ClInclude Include="..\..\..\common\Serialize\AEntity.hh" />
     <ClInclude Include="..\..\..\common\Serialize\Barrier.hh" />
@@ -128,6 +132,8 @@
     <ClInclude Include="..\..\..\common\Serialize\Player.hh" />
     <ClInclude Include="..\..\..\common\Serialize\PowerUp.hh" />
     <ClInclude Include="..\..\..\common\Serialize\Serialize.hh" />
+    <ClInclude Include="..\..\..\common\Thread.hh" />
+    <ClInclude Include="..\..\..\common\ThreadPool.hh" />
     <ClInclude Include="ASocketServer.hh" />
     <ClInclude Include="ClientManager.hh" />
     <ClInclude Include="CmdManager.hh" />
@@ -136,9 +142,13 @@
     <ClInclude Include="Server.hh" />
     <ClInclude Include="ServerClient.hh" />
     <ClInclude Include="SocketServerTCP.hh" />
+    <ClInclude Include="SocketServerUDP.hh" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\common\AMutex.cpp" />
+    <ClCompile Include="..\..\..\common\AThread.cpp" />
     <ClCompile Include="..\..\..\common\MemTools.cpp" />
+    <ClCompile Include="..\..\..\common\Mutex.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\ACommand.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\AEntity.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\Barrier.cpp" />
@@ -148,6 +158,8 @@
     <ClCompile Include="..\..\..\common\Serialize\Player.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\PowerUp.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\Serialize.cpp" />
+    <ClCompile Include="..\..\..\common\Thread.cpp" />
+    <ClCompile Include="..\..\..\common\ThreadPool.cpp" />
     <ClCompile Include="ASocketServer.cpp" />
     <ClCompile Include="ClientManager.cpp" />
     <ClCompile Include="CmdManager.cpp" />
@@ -157,6 +169,7 @@
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="ServerClient.cpp" />
     <ClCompile Include="SocketServerTCP.cpp" />
+    <ClCompile Include="SocketServerUDP.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

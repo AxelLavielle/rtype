@@ -10,8 +10,8 @@ class ServerClient;
 class Room
 {
 public:
-	Room(int);
-	Room(int, const std::string &);
+	Room(const int);
+	Room(const int, const std::string &);
 	~Room();
 
 	std::string					getName() const;

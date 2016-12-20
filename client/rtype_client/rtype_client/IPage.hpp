@@ -18,15 +18,16 @@ public:
   enum PAGE
     {
       HOME,
+      SAVE,
       PLAY,
       CREATEROOM,
       INSIDEROOM,
       SETTINGS,
       QUIT,
-	  GAME,
-	  ENDGAME,
-	  PAUSE,
-	  CREATEROOMACTION,
+      GAME,
+      ENDGAME,
+      PAUSE,
+      CREATEROOMACTION,
       NONE
     };
 

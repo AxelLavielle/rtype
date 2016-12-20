@@ -60,6 +60,11 @@ bool CursorBox::click()
 	return (false);
 }
 
+int CursorBox::getValue()
+{
+  return ((_rectBox.getX() - _rectBox.getWidth() / 2) - _rect.getX());
+}
+
 bool CursorBox::over()
 {
 	//Not implemented

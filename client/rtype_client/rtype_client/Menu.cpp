@@ -79,6 +79,7 @@ bool Menu::launch()
   Thread		*th = NULL;
   std::chrono::high_resolution_clock::time_point        t2Conn;
   double				duration;
+  std::pair<std::string, std::pair<int, int> > tmp;
 
   newEvent = false;
   _page->init();
@@ -127,6 +128,12 @@ bool Menu::launch()
 			  newEvent = true;
 			  initLobby();
 		      std::cout << "Lobby" << std::endl;
+		      break;
+		    case IPage::SAVE:
+		      tmp = static_cast<SettingsPage *>(_page)->save();
+		      _soundManager.setMusicVolume(tmp.second.first);
+		      _soundManager.setSoundVolume(tmp.second.second);
+		      std::cout << "Save" << std::endl;
 		      break;
 		    case IPage::CREATEROOM:
 		      delete (_page);

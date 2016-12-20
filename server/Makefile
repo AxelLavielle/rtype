@@ -37,6 +37,8 @@ SRC		=	$(DIR)/ASocketServer.cpp	\
 
 OBJ		=	$(SRC:.cpp=.o)
 
+LDFLAGS 	=  	-pthread
+
 CPPFLAGS	=	-W -Wall -Wextra -ansi -pedantic -g -std=c++11 -I$(DIR) -I$(COMMON) -I$(SERIALIZE)
 
 

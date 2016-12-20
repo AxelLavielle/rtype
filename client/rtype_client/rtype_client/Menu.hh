@@ -17,6 +17,7 @@
 #include "PathFileManager.hh"
 #include "HomePage.hh"
 #include "SettingsPage.hh"
+#include "SettingsNextPage.hh"
 #include "LobbyPage.hh"
 #include "InsideRoomPage.hh"
 #include "EndGamePage.hh"

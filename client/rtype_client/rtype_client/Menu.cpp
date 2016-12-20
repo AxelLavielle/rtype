@@ -159,6 +159,12 @@ bool Menu::launch()
 		      _page = new SettingsPage(_graph, _event, _fileManager, &_soundManager);
 		      std::cout << "Settings" << std::endl;
 		      break;
+		    case IPage::SETTINGSNEXT:
+		      delete (_page);
+		      newEvent = true;
+		      _page = new SettingsNextPage(_graph, _event, _fileManager, &_soundManager);
+		      std::cout << "SettingsNext" << std::endl;
+		      break;
 			case IPage::GAME:
 				delete (_page);
 				std::cout << "Game" << std::endl;

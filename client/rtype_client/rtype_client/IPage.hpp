@@ -23,6 +23,7 @@ public:
       CREATEROOM,
       INSIDEROOM,
       SETTINGS,
+      SETTINGSNEXT,
       QUIT,
       GAME,
       ENDGAME,

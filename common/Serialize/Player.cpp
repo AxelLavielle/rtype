@@ -12,7 +12,7 @@ Player::~Player()
 {
 }
 
-int		Player::getId(void) const
+int		Player::getId() const
 {
   return (_id);
 }
@@ -22,6 +22,6 @@ void		Player::setId(const int id)
   _id = id;
 }
 
-void		Player::update(void)
+void		Player::update()
 {
 }

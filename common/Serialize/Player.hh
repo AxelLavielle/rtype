@@ -5,12 +5,14 @@
 class Player :
 	public AEntity
 {
-protected:
+private:
   int			_id;
 public:
   Player();
   virtual ~Player();
+
   virtual void		update();
+
   int			getId() const;
   void			setId(const int);
 };

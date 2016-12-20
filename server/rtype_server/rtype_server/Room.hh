@@ -23,10 +23,13 @@ public:
 	std::vector<ServerClient *> getClients() const;
 	int							getNbClients() const;
 	int							getNbClientsReady() const;
+	void						setInGame(const bool);
+	bool						isInGame() const;
 
 private:
 	std::string					_name;
 	int							_id;
 	std::vector<ServerClient *>	_clients;
+	bool						_inGame;
 };
 

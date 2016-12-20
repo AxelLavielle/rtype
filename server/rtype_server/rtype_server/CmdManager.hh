@@ -28,6 +28,7 @@ public:
 	void			cmdHandshakeAck(ServerClient *, BasicCmd *, const int);
 	void			cmdListRoom(ServerClient *, BasicCmd *);
 	void			cmdJoinRoom(ServerClient *, BasicCmd *);
+	void			cmdLeaveRoom(ServerClient *, BasicCmd *);
 
 	void			cmdLaunchGame(const std::vector<ServerClient *> &, const int);
 

@@ -132,7 +132,20 @@ bool		RoomManager::addClientToRoom(ServerClient *client, const int id)
 	client->setCurrentRoom(id);
 	return (true);
 }
-#include <Windows.h>
+bool RoomManager::removeClientFromRoom(ServerClient *client, const int id)
+{
+	try
+	{
+		getRoomById(id);
+	}
+	catch (const std::exception &error)
+	{
+		std::cerr << "############ " << error.what() << std::endl;
+		return (false);
+	}
+	getRoomById(id).removeClient(client);
+
+}
 
 std::vector<Room>						RoomManager::getRoomsReady() const
 {
@@ -145,8 +158,9 @@ std::vector<Room>						RoomManager::getRoomsReady() const
 	it = _roomList.begin();
 	while (it != _roomList.end())
 	{
-		//std::cout << "Room [" << (*it).getName() << "] : " << (*it).getNbClientsReady() << std::endl;
-		if ((*it).getNbClients() > 0 && (*it).getNbClients() == (*it).getNbClientsReady())
+		if ((*it).getNbClients() > 0
+			&& (*it).getNbClients() == (*it).getNbClientsReady()
+			&& (*it).isInGame() == false)
 			roomsReady.push_back((*it));
 		it++;
 	}

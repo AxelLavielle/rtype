@@ -137,7 +137,6 @@ void			CmdManager::cmdJoinRoom(ServerClient *client, BasicCmd *msgClient)
 	Serialize	serializer;
 
 	idRoom = std::stoi(msgClient->getArg(0));
-	std::cout << "ID ROOM = " << idRoom << std::endl;
 	playerName = msgClient->getArg(1);
 	reply.setCommandType(REPLY_CODE);
 	std::cout << "Player [" << playerName << "] wants to join room [" << idRoom << "]";
@@ -153,6 +152,7 @@ void			CmdManager::cmdJoinRoom(ServerClient *client, BasicCmd *msgClient)
 		{
 			_mutex->lock();
 			_roomManager->getRoomById(idRoom);
+			client->setStatus(true);
 			if (_roomManager->addClientToRoom(client, _roomManager->getRoomById(idRoom).getId()) == true)
 			{
 				std::cout << "Room JOINED !" << std::endl;
@@ -177,6 +177,26 @@ void			CmdManager::cmdJoinRoom(ServerClient *client, BasicCmd *msgClient)
 	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(reply));
 }
 
+void			CmdManager::cmdLeaveRoom(ServerClient *client, BasicCmd *msgClient)
+{
+	BasicCmd	reply;
+	char		*msgSerialized;
+
+	reply.setCommandType(REPLY_CODE);
+	if (client->getCurrentRoom() != -1)
+	{
+		std::cout << "Leaving Room " << client->getCurrentRoom() << std::endl;
+		_roomManager->removeClientFromRoom(client, client->getCurrentRoom());
+		client->setCurrentRoom(-1);
+		reply.setCommandArg(std::to_string(LEFT_ROOM));
+	}
+	else
+		reply.setCommandArg(std::to_string(NOT_IN_ROOM));
+
+	msgSerialized = Serialize::serialize(&reply);
+	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(reply));
+}
+
 void											CmdManager::cmdLaunchGame(const std::vector<ServerClient *> &clients, const int idRoom)
 {
 	BasicCmd									cmd;
@@ -184,6 +204,7 @@ void											CmdManager::cmdLaunchGame(const std::vector<ServerClient *> &clie
 	Serialize									serializer;
 	std::vector<ServerClient *>::const_iterator	it;
 
+	std::cout << std::endl << "LAUNCH GAME IN ROOM [" << idRoom << "]" << std::endl;
 	it = clients.begin();
 	cmd.setCommandType(LAUNCH_GAME);
 	cmd.addArg(std::to_string(idRoom));
@@ -191,7 +212,13 @@ void											CmdManager::cmdLaunchGame(const std::vector<ServerClient *> &clie
 	{
 		cmd.addArg(std::to_string((*it)->getTCPSocket()));
 		msgSerialized = serializer.serialize(&cmd);
+		_mutex->lock();
 		_clientManager->addDataToSendTCP((*it)->getTCPSocket(), msgSerialized, sizeof(cmd));
+		_mutex->unlock();
+		it++;
 	}
+	_mutex->lock();
+	_roomManager->getRoomById(idRoom).setInGame(true);
+	_mutex->unlock();
 	//launchUDP();
 }

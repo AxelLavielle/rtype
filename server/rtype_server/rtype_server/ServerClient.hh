@@ -30,7 +30,7 @@ private:
 	std::string			_playerName;
 
 public:
-	ServerClient(int);
+	ServerClient(const int);
 	~ServerClient();
 
 	int					getTCPSocket() const;

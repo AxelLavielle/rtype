@@ -28,7 +28,7 @@ bool SocketServerUDP::init(const std::string &addr, const int port)
 		}
 	#endif
 
-	if ((_socketFd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1)
+	if ((_socketServerID = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1)
 	{
 		displayError("Socket UDP Creation failed: ");
 		return (false);
@@ -46,23 +46,13 @@ bool					SocketServerUDP::launch()
 	serverAddr.sin_port = htons(_port);
 	serverAddr.sin_addr.s_addr = htonl(INADDR_ANY);
 
-	if (bind(_socketFd, (SOCKADDR *)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR)
+	if (bind(_socketServerID, (SOCKADDR *)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR)
 	{
 		displayError("Sokcet UDP Bind failed: ");
 		return (false);
 	}
 
 	return (true);
-}
-
-int						SocketServerUDP::acceptNewClient(struct sockaddr_in *clientAddr)
-{
-	return (0);
-}
-
-int SocketServerUDP::selectFds(const std::vector<int>&)
-{
-	return (0);
 }
 
 bool										SocketServerUDP::sendAllData(std::vector<ServerClient *> &clientList)
@@ -73,7 +63,7 @@ bool										SocketServerUDP::sendAllData(std::vector<ServerClient *> &clientLi
 	it = clientList.begin();
 	while (it != clientList.end())
 	{
-		len = sendto(_socketFd, (*it)->getSendDataUDP(), (*it)->getDataLenUDP(),
+		len = sendto(_socketServerID, (*it)->getSendDataUDP(), (*it)->getDataLenUDP(),
 						0, (SOCKADDR *)(*it)->getAddrUDP(), sizeof(struct sockaddr_in));
 		if (len == -1)
 		{
@@ -94,7 +84,7 @@ std::vector<UDPClientMsg>		SocketServerUDP::receiveData()
 
 	clientAddrSize = sizeof(clientAddr);
 	MemTools::set(buf, 0, UDP_PACKET_SIZE);
-	len = recvfrom(_socketFd, buf, UDP_PACKET_SIZE, 0, (struct sockaddr *)&clientAddr, &clientAddrSize);
+	len = recvfrom(_socketServerID, buf, UDP_PACKET_SIZE, 0, (struct sockaddr *)&clientAddr, &clientAddrSize);
 	if (len == -1)
 	{
 		displayError("Recvfrom failed: ");

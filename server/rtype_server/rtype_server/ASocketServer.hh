@@ -25,13 +25,12 @@
 #include "ICommand.hpp"
 #include "Serialize.hh"
 
-//typedef std::pair<ServerClient *, std::string> ClientMsg;
-typedef std::pair<ServerClient *, ICommand *> ClientMsg;
 
 class ASocketServer : public ISocket
 {
 protected:
 	int				_socketServerID;
+	int				_port;
 
 public:
 	ASocketServer();
@@ -40,9 +39,6 @@ public:
 	virtual bool				init(const std::string &, const int) = 0;
 	virtual bool				closure();
 	virtual bool				sendAllData(std::vector<ServerClient *> &) = 0;
-	//virtual std::vector<ClientMsg>		receiveData(std::vector<ServerClient *> &) = 0;
 	virtual bool				launch() = 0;
-	virtual int				selectFds(const std::vector<int> &) = 0;
-//	virtual int							acceptNewClient() = 0;
 };
 

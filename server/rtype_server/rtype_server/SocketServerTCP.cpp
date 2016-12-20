@@ -31,11 +31,6 @@ bool					SocketServerTCP::init(const std::string &addr, const int port)
 		}
 	#endif
 
-	MemTools::set(&_addrSocket, 0, sizeof(struct sockaddr_in));
-	_addrSocket.sin_addr.s_addr = htonl(INADDR_ANY);
-	_addrSocket.sin_family = AF_INET;
-	_addrSocket.sin_port = htons(port);
-
 	if ((_socketServerID = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET)
 	{
 		displayError("Socket creation failed: ");
@@ -46,11 +41,17 @@ bool					SocketServerTCP::init(const std::string &addr, const int port)
 	}
 	_fdMax = _socketServerID;
 	(void)addr;
+	_port = port;
 	return (true);
 }
 
 bool SocketServerTCP::launch()
 {
+	MemTools::set(&_addrSocket, 0, sizeof(struct sockaddr_in));
+	_addrSocket.sin_addr.s_addr = htonl(INADDR_ANY);
+	_addrSocket.sin_family = AF_INET;
+	_addrSocket.sin_port = htons(_port);
+
 	if (bind(_socketServerID, reinterpret_cast<struct sockaddr *>(&_addrSocket), sizeof(struct sockaddr_in)) == SOCKET_ERROR)
 	{
 		displayError("Bind failed: ");

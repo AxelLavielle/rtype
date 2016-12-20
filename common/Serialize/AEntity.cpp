@@ -13,7 +13,7 @@ void			AEntity::setPosX(const double posX)
   _posX = posX;
 }
 
-double			AEntity::getPosX(void) const
+double			AEntity::getPosX() const
 {
   return (_posX);
 }
@@ -23,13 +23,9 @@ void			AEntity::setPosY(const double posY)
   _posY = posY;
 }
 
-double			AEntity::getPosY(void) const
+double			AEntity::getPosY() const
 {
   return (_posY);
-}
-
-void			AEntity::update(void)
-{
 }
 
 void			AEntity::setType(const rtype::EntityType &type)
@@ -37,7 +33,7 @@ void			AEntity::setType(const rtype::EntityType &type)
   _type = type;
 }
 
-rtype::EntityType	AEntity::getType(void) const
+rtype::EntityType	AEntity::getType() const
 {
   return (_type);
 }

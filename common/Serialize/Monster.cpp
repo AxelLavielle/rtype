@@ -20,7 +20,7 @@ int		Monster::getId() const
   return (_id);
 }
 
-void		Monster::update(void)
+void		Monster::update()
 {
 }
 

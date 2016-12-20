@@ -60,7 +60,7 @@ bool CursorBox::click()
 	return (false);
 }
 
-int CursorBox::getValue()
+int CursorBox::getValue() const
 {
   return ((_rectBox.getX() - _rectBox.getWidth() / 2) - _rect.getX());
 }

@@ -12,7 +12,7 @@ public:
 	virtual bool draw();
 	virtual bool click();
 	virtual bool over();
-  int getValue();
+	int getValue() const;
 
 private:
 	Rect		_rectLine;

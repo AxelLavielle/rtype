@@ -98,6 +98,26 @@ void	Menu::manageReco(Thread *th)
 	}
 }
 
+bool	Menu::checkReady(RoomInfoCmd *roomInfo, InsideRoomPage *page)
+{
+	std::vector<PlayerInfo>					pl;
+	std::vector<PlayerInfo>::iterator		it;
+	bool									res;
+
+	res = true;
+	it = pl.begin();
+	page->setRoomName(roomInfo->getName());
+	while (it != pl.end())
+	{
+		std::cout << "player = " << it->first << std::endl;
+		page->addPlayer(it->first, it->second);
+		if (!it->second)
+			res = false;
+		++it;
+	}
+	return (res);
+}
+
 bool Menu::launch()
 {
   IPage::PAGE	curr_event;
@@ -174,10 +194,15 @@ bool Menu::launch()
 		      break;
 		    case IPage::INSIDEROOM:
 		      delete (_page);
-		      newEvent = true;
+			  RoomInfoCmd		*roomInfo1;
+			  newEvent = true;
 		      _page = new InsideRoomPage(_graph, _event, _fileManager, &_soundManager);
-		      std::cout << "InsideRoom" << std::endl;
-		      break;
+			  //roomInfo1 = _cmdManager.getRoomInfo();
+			  //checkReady(roomInfo1, (static_cast<InsideRoomPage*>(_page)));
+			  //_page->clear();
+			  //_page->init();
+			  std::cout << "InsideRoom" << std::endl;
+			  break;
 		    case IPage::PAUSE:
 		      delete (_page);
 		      newEvent = true;
@@ -197,9 +222,22 @@ bool Menu::launch()
 		      std::cout << "SettingsNext" << std::endl;
 		      break;
 			case IPage::GAME:
+				newEvent = true;
+				//if (_page->getPageType() == IPage::INSIDEROOM)
+				//{
+				//	RoomInfoCmd		*roomInfo;
+				//	std::cout << "WAIT FOR PLAYER" << std::endl;
+				//	_cmdManager.setStatus();
+				//	roomInfo = _cmdManager.getRoomInfo();
+				//	if (!checkReady(roomInfo, (static_cast<InsideRoomPage* >(_page))))
+				//	{
+				//		_page->clear();
+				//		_page->init();
+				//		break;
+				//	}
+				//}
 				delete (_page);
 				std::cout << "Game" << std::endl;
-				newEvent = true;
 				_soundManager.stopAll();
 				_game.setGraph(_graph);
 				_game.setEvent(_event);

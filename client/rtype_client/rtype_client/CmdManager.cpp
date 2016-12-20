@@ -16,6 +16,33 @@ CmdManager::~CmdManager()
 {
 }
 
+bool			CmdManager::launchGame()
+{
+	return (false);
+}
+
+RoomInfoCmd		*CmdManager::getRoomInfo()
+{
+	BasicCmd		*newCmd;
+	ICommand		*cmd;
+
+	if (!_socketClient || !_socketClient->isConnected())
+		return (NULL);
+	newCmd = new BasicCmd();
+	newCmd->setCommandType(GET_ROOM);
+	_socketClient->sendData(_serialize.serialize(newCmd), sizeof(*newCmd));
+	cmd = receiveCmd();
+	delete newCmd;
+	if (cmd && cmd->getCommandName() == ROOM_INFO)
+	{
+		RoomInfoCmd		*tmpCmd;
+		tmpCmd = static_cast<RoomInfoCmd* >(cmd);
+		return (tmpCmd);
+	}
+	delete cmd;
+	return (NULL);
+}
+
 bool	CmdManager::setStatus()
 {
 	BasicCmd		*newCmd;

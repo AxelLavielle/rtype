@@ -53,5 +53,6 @@ private:
 	void initLobby();
 	bool tryToConnect();
 	void manageReco(Thread * th);
+	bool checkReady(RoomInfoCmd * roomInfo, InsideRoomPage *page);
 };
 

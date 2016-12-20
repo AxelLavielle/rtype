@@ -8,12 +8,15 @@
 #include "Serialize.hh"
 #include "BasicCmd.hh"
 #include "ListRoomCmd.hh"
+#include "RoomInfoCmd.hh"
 
 class CmdManager
 {
 public:
 	CmdManager();
 	~CmdManager();
+	bool launchGame();
+	RoomInfoCmd * getRoomInfo();
 	bool setStatus();
 	bool leaveRoom();
 	bool handshake();

@@ -66,20 +66,20 @@ int Game::launch()
 			//	_input->setCommandArg("RIGHT");
 			//_sock->sendData(_serialize.serialize(_input));
 		}
-		t2 = std::chrono::high_resolution_clock::now();
-		duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
-		if (first || duration >= 10000)
-		{
-			i += 10;
-			if (i >= 1000)
-				i = 0;
-			first = false;
-			t1 = std::chrono::high_resolution_clock::now();
-		}
+		//t2 = std::chrono::high_resolution_clock::now();
+		//duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+		//if (first || duration >= 10000)
+		//{
+		//	i += 10;
+		//	if (i >= 1000)
+		//		i = 0;
+		//	first = false;
+		//	t1 = std::chrono::high_resolution_clock::now();
+		//}
 
 		_graph->clearWindow();
 		_graph->setBackground(_fileManager.getRoot() + "/res/img/stars_background.jpg", -1, -1);
-		_graph->drawRectangle(Color(255, 255, 255), Rect(i, 300, 50, 50));
+//		_graph->drawRectangle(Color(255, 255, 255), Rect(i, 300, 50, 50));
 		_guiPage->draw();
 		_graph->refresh();
 	}

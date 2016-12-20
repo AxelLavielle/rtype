@@ -127,7 +127,7 @@ bool	CmdManager::joinRoom(const int id, std::string & playerName)
 {
 	ICommand	*cmd;
 	BasicCmd	basicCmd;
-	char		*res;
+	// char		*res;
 	std::stringstream ss;
 
 	ss << id;

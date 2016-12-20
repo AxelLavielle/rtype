@@ -50,10 +50,11 @@ bool Client::launch()
 	Thread		th;
 	SocketClientUDP		udpSocket;
 	BasicCmd			*cmd = new BasicCmd();
-	ICommand			*newCmd;
-	BasicCmd			*b;
-	char				*res;
+	// ICommand			*newCmd;
+	// BasicCmd			*b;
+	// char				*res;
 
+	
 	cmd->setCommandType(REPLY_CODE);
 	cmd->addArg("4242");
 	cmd->addArg("COUCOU");

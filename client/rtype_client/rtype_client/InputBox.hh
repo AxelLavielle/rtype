@@ -7,6 +7,7 @@ class InputBox : public AGUIElement
 public:
 	InputBox(IGraphManager *graph, IEventManager *event, const Rect &rect);
 	InputBox();
+	void setText(const std::string & text);
 	virtual ~InputBox();
 	virtual bool draw();
 	virtual bool click();

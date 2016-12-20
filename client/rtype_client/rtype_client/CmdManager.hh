@@ -2,6 +2,7 @@
 
 #include <string>
 #include <sstream>
+#include <sstream>
 #include "CmdEnum.hh"
 #include "SocketClientTCP.hh"
 #include "Serialize.hh"
@@ -13,8 +14,11 @@ class CmdManager
 public:
 	CmdManager();
 	~CmdManager();
+	bool setStatus();
+	bool leaveRoom();
 	bool handshake();
 	bool createRoom(const std::string & rommName, const std::string & playerName);
+	bool joinRoom(const int id, std::string & playerName);
 	ListRoomCmd *getRoomList();
 	ICommand * receiveCmd();
 	bool newCmd(const std::string & cmd);

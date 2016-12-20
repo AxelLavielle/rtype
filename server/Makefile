@@ -27,6 +27,7 @@ SRC		=	$(DIR)/ASocketServer.cpp	\
 			$(COMMON)/ThreadPool.cpp	\
 			$(SERIALIZE)/AEntity.cpp	\
 			$(SERIALIZE)/Serialize.cpp	\
+			$(SERIALIZE)/RoomInfoCmd.cpp	\
 			$(SERIALIZE)/BasicCmd.cpp	\
 			$(SERIALIZE)/ListRoomCmd.cpp	\
 			$(SERIALIZE)/ACommand.cpp	\

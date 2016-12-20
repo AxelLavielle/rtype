@@ -12,6 +12,6 @@ public:
   virtual const std::string	getCommandArg() const;
   virtual void			setCommandArg(const std::string &);
 
-protected:
+private:
   std::string	_arg;
 };

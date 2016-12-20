@@ -68,41 +68,6 @@ std::vector<Room> &RoomManager::getRoomList()
 	return (_roomList);
 }
 
-std::string			listClients(std::vector<ServerClient *> clientList)
-{
-	std::string		strClients;
-	std::vector<ServerClient *>::const_iterator	itClient;
-
-	itClient = clientList.begin();
-	while (itClient != clientList.end())
-	{
-		strClients += "--------> ";
-		strClients += std::to_string((*itClient)->getTCPSocket());
-		strClients += "\n";
-		itClient++;
-	}
-	return (strClients);
-}
-std::string								RoomManager::getRoomListString() const
-{
-	std::string							roomList;
-	std::vector<Room>::const_iterator	it;
-	
-	it = _roomList.begin();
-	while (it != _roomList.end())
-	{
-		roomList += "Room ";
-		roomList += std::to_string((*it).getId());
-		roomList += " : ";
-		roomList += (*it).getName();
-		roomList += "\n";
-		roomList += listClients((*it).getClients());
-		
-		it++;
-	}
-	return (roomList);
-}
-
 bool		RoomManager::addClientToRoom(ServerClient *client, const std::string &name)
 {
 	try

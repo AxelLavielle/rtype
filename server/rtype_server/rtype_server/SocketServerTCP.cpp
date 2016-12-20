@@ -109,16 +109,16 @@ bool										SocketServerTCP::sendAllData(std::vector<ServerClient *> &clientLi
 	it = clientList.begin();
 	while (it != clientList.end())
 	{
-		if ((*it)->getDataLen() > 0)
+		if ((*it)->getDataLenTCP() > 0)
 		{
 			if (DEBUG_MSG)
 				std::cout << "Sending to Client " << (*it)->getTCPSocket()
-					<< " : " << (*it)->getSendData() << std::endl;
-			if (send((*it)->getTCPSocket(), (*it)->getSendData(), (*it)->getDataLen(), 0) == SOCKET_ERROR)
+					<< " : " << (*it)->getSendDataTCP() << std::endl;
+			if (send((*it)->getTCPSocket(), (*it)->getSendDataTCP(), (*it)->getDataLenTCP(), 0) == SOCKET_ERROR)
 			{
 				displayError("Send error");
 			}
-			(*it)->resetData();
+			(*it)->resetDataTCP();
 		}
 		it++;
 	}

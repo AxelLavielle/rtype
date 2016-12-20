@@ -21,13 +21,14 @@ private:
 	ClientManager	_clientManager;
 	RoomManager		_roomManager;
 	CmdManager		_cmdManager;
-	ThreadPool		*_pool;
+	ThreadPool		_pool;
 	AMutex			*_mutex;
 	int				_acknowledgementNumber;
 
 	void			processMsg(const std::vector<ClientMsg> &);
 	void			processBasicCmd(ServerClient *, BasicCmd *);
 	void			processGames();
+	void			processUDPMessages(std::vector<UDPClientMsg>);
 
 
 public:

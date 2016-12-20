@@ -3,7 +3,6 @@
 Server::Server() : _cmdManager(&_clientManager, &_roomManager)
 {
 	_acknowledgementNumber = 666;
-	_pool = new ThreadPool();
 	_mutex = new Mutex();
 	_cmdManager.setMutex(_mutex);
 }
@@ -15,7 +14,9 @@ Server::~Server()
 bool	Server::init()
 {
 	if (_socketServerTCP.init("127.0.0.1", 42000) == false
-		|| _socketServerTCP.launch() == false)
+		|| _socketServerTCP.launch() == false
+		|| _socketServerUDP.init("127.0.0.1", 9999) == false
+		|| _socketServerUDP.launch() == false)
 	{
 		std::cerr << "Initialization FAILED" << std::endl;
 		return (false);
@@ -115,15 +116,15 @@ bool							Server::launch()
 
 	threadTCP.createThread(std::bind(&Server::TCPLoop, this));
 	threadUDP.createThread(std::bind(&Server::UDPLoop, this));
-	_pool->addThread(&threadTCP);
-	_pool->addThread(&threadUDP);
+	_pool.addThread(&threadTCP);
+	_pool.addThread(&threadUDP);
 
 	while (42)
 	{
 		processGames();
 	}
 
-	_pool->joinAll();
+	_pool.joinAll();
 }
 
 bool							Server::TCPLoop()
@@ -140,7 +141,9 @@ bool							Server::TCPLoop()
 
 		if ((clientSocketID = _socketServerTCP.acceptNewClient()) != -1)
 		{
+			_mutex->lock();
 			_clientManager.addClient(clientSocketID);
+			_mutex->unlock();
 		}
 
 		_mutex->lock();
@@ -163,47 +166,93 @@ bool							Server::TCPLoop()
 	return (true);
 }
 
+void									Server::processUDPMessages(std::vector<UDPClientMsg> vectMsg)
+{
+	std::vector<UDPClientMsg>::iterator	it;
+
+	it = vectMsg.begin();
+	while (it != vectMsg.end())
+	{
+		std::cout << "[Process UDP Msg] cmdType :" << (*it).second->getCommandName() << std::endl;
+		it++;
+	}
+}
+
 bool							Server::UDPLoop()
 {
-	int							len;
-	sockaddr_in					receiverAddr;
-	sockaddr_in					clientAddr;
-	int							socketFd;
-	char						buf[UDP_PACKET_SIZE];
-	int							clientAddrSize;
+	//int							len;
+	//sockaddr_in					receiverAddr;
+	//sockaddr_in					*clientAddr;
+	//int							socketFd;
+	//char						buf[UDP_PACKET_SIZE];
 
-	if ((socketFd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1)
-	{
-		std::cout << "SOCKET UDP ERROR" << std::endl;
-		return (false);
-	}
+	std::vector<UDPClientMsg>			vectMsg;
+	std::vector<UDPClientMsg>::iterator	it;
+	ServerClient						*client;
+	int									tcpSocket;
 
-	receiverAddr.sin_family = AF_INET;
-	receiverAddr.sin_port = htons(9999);
-	receiverAddr.sin_addr.s_addr = htonl(INADDR_ANY);
-
-	if (bind(socketFd, (SOCKADDR *)&receiverAddr, sizeof(receiverAddr)) == SOCKET_ERROR)
-	{
-		std::cout << "SOCKET BIND ERROR" << std::endl;
-		return (false);
-	}
-	clientAddrSize = sizeof(clientAddr);
-	std::cout << "UDP OK LAUNCH LOOP" << std::endl;
 	while (42)
 	{
-		MemTools::set(buf, 0, UDP_PACKET_SIZE);
-		len = recvfrom(socketFd, buf, UDP_PACKET_SIZE, 0, (struct sockaddr *)&clientAddr, &clientAddrSize);
-		if (len > 1)
+		vectMsg = _socketServerUDP.receiveData();
+		it = vectMsg.begin();
+		while (it != vectMsg.end())
 		{
-			BasicCmd *cmd;
+			if ((*it).first != NULL)
+			{
+				std::string str = (*it).second->getCommandArg();
+				std::cout << "STR = " << str << std::endl;
+				try
+				{
+					tcpSocket = std::stoi(str);
+					std::cout << "TCP SOCKET = " << tcpSocket << std::endl;
+					
+					_mutex->lock();
+					client = _clientManager.getClientByTCP(tcpSocket);
+					if (client != NULL && client->getAddrUDP() == NULL)
+						client->setAddrUDP((*it).first);
+					_mutex->unlock();
 
-			cmd = static_cast<BasicCmd *>(Serialize::unserializeCommand(buf));
-			std::cout << "Server: Total Bytes received: " <<  len << std::endl;
-			std::cout << "Received [" << cmd->getArg(0) << "]" << std::endl;
-
+				}
+				catch (const std::exception &error)
+				{
+					std::cerr << "std::stoi error " << error.what() << std::endl;
+				}
+			}
+			it++;
 		}
-		else if (len <= 0)
-			std::cout << "Server: Connection closed with error code: " << WSAGetLastError() << std::endl;
+		processUDPMessages(vectMsg);
+		_mutex->lock();
+		_socketServerUDP.sendAllData(_clientManager.getClients());
+		_mutex->unlock();
 	}
 	return (true);
 }
+
+
+//		MemTools::set(buf, 0, UDP_PACKET_SIZE);
+//		len = recvfrom(socketFd, buf, UDP_PACKET_SIZE, 0, (struct sockaddr *)&clientAddr, &clientAddrSize);
+//		if (len > 1)
+//		{
+//			BasicCmd *cmd;
+//
+//			cmd = static_cast<BasicCmd *>(Serialize::unserializeCommand(buf));
+//			std::cout << "Server: Total Bytes received: " <<  len << std::endl;
+//			std::cout << "Received [" << cmd->getArg(0) << "]" << std::endl;
+//
+//			/*
+//			if (client->getTCP() == socketDuMsg && clinet->getAddr() == null)
+//				_clientAddr = clientAddr;
+//*/
+//			BasicCmd	reply;
+//			char		*msg;
+//
+//			reply.setCommandType(REPLY_CODE);
+//			reply.addArg("Je te reponds en UDP");
+//			msg = Serialize::serialize(&reply);
+//			len = sendto(socketFd, msg, sizeof(reply), 0,
+//				(SOCKADDR *)&clientAddr, sizeof(clientAddr));
+//			std::cout << "Sent " << len << " bytes" << std::endl;
+//		}
+		/*else if (len <= 0)
+			std::cout << "Server: Connection closed with error code: " << WSAGetLastError() << std::endl;
+	}*/

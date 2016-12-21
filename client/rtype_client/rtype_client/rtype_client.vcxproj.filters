@@ -8,7 +8,6 @@
     <ClCompile Include="ASoundManager.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="CheckBox.cpp" />
-    <ClCompile Include="CmdManager.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="InputBox.cpp" />
@@ -56,6 +55,7 @@
     <ClCompile Include="ASocketClient.cpp" />
     <ClCompile Include="PausePage.cpp" />
     <ClCompile Include="SettingsNextPage.cpp" />
+    <ClCompile Include="CmdManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />
@@ -66,7 +66,6 @@
     <ClInclude Include="ASoundManager.hh" />
     <ClInclude Include="Button.hh" />
     <ClInclude Include="CheckBox.hh" />
-    <ClInclude Include="CmdManager.hh" />
     <ClInclude Include="Color.hh" />
     <ClInclude Include="Game.hh" />
     <ClInclude Include="IEventManager.hpp" />
@@ -127,5 +126,6 @@
     <ClInclude Include="PausePage.hh" />
     <ClInclude Include="SettingsNextPage.hh" />
     <ClInclude Include="LobbyPage.hh" />
+    <ClInclude Include="CmdManager.hh" />
   </ItemGroup>
 </Project>

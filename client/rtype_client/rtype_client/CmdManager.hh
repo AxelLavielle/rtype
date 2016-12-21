@@ -24,14 +24,16 @@ public:
 	bool joinRoom(const int id, std::string & playerName);
 	ListRoomCmd *getRoomList();
 	ICommand * receiveCmd();
-	bool newCmd(const std::string & cmd);
+	bool newCmd(ICommand *command);
 	void setSocket(ASocketClient * sosket);
 
 private:
 	ASocketClient		*_socketClient;
 	Serialize			_serialize;
 	int					_handKey;
+	std::vector<ICommand*>	_cmd;
 
-	void confirmHandshake(const char * msg, ICommand * cmd);
+	bool confirmHandshake(ICommand * cmd);
+	bool sendCmd();
 };
 

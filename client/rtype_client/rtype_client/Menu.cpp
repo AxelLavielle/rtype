@@ -60,7 +60,7 @@ bool Menu::tryToConnect()
 	if (_socket && !_socket->isConnected())
 	{
 		std::cout << "TRY TO CONNECT" << std::endl;
-		_socket->init("127.0.0.10", 42000);
+		_socket->init("127.0.0.1", 42000);
 		_socket->connectToServer();
 		if (_socket->isConnected())
 		{

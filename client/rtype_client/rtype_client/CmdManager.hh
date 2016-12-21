@@ -16,6 +16,7 @@ class CmdManager
 public:
 	CmdManager();
 	~CmdManager();
+	bool sendInput(const std::string & key);
 	bool launchGame();
 	RoomInfoCmd * getRoomInfo();
 	bool setStatus();

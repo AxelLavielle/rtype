@@ -10,6 +10,7 @@
 #include	"Barrier.hh"
 #include	"ListRoomCmd.hh"
 #include	"RoomInfoCmd.hh"
+#include	"InputCmd.hh"
 
 class		Serialize
 {

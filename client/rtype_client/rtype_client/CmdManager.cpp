@@ -16,6 +16,16 @@ CmdManager::~CmdManager()
 {
 }
 
+bool			CmdManager::sendInput(const std::string &key)
+{
+	InputCmd	*newCmd;
+
+	newCmd = new InputCmd();
+
+	newCmd->setKey(key);
+	return (true);
+}
+
 bool			CmdManager::launchGame()
 {
 	return (false);

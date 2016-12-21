@@ -131,6 +131,7 @@ ICommand	*Serialize::unserializeCommand(char *data)
   packet	*p;
   ICommand	*res;
 
+  res = NULL;
   p = reinterpret_cast<packet*>(data);
   switch (p->dataType)
     {
@@ -138,29 +139,25 @@ ICommand	*Serialize::unserializeCommand(char *data)
       break;
     case ROOM_INFO:
 		res = new RoomInfoCmd();
-		res->setCommandArg(p->data);
-		res->setCommandType(static_cast<CmdType>(p->cmdType));
-		return (res);
 		break;
     case BASIC_CMD:
       res = new BasicCmd();
-      res->setCommandArg(p->data);
-      res->setCommandType(static_cast<CmdType>(p->cmdType));
-      return (res);
       break;
     case ROOM_LIST:
 		res = new ListRoomCmd();
-		std::cout << "data = " << p->data << std::endl;
-		res->setCommandArg(p->data);
-		res->setCommandType(static_cast<CmdType>(p->cmdType));
-		return (res);
 		break;
-    case ENTITY:
-      break;
-    case INPUT_CMD:
+	case INPUT_CMD:
+		res = new InputCmd();
+		break;
+	case ENTITY:
       break;
     default:
       break;
     }
-  return (NULL);
+  if (res)
+  {
+	  res->setCommandArg(p->data);
+	  res->setCommandType(static_cast<CmdType>(p->cmdType));
+  }
+  return (res);
 }

@@ -9,9 +9,10 @@ public:
   virtual	~InputCmd();
 
   virtual CmdName		getCommandName() const;
-  virtual const std::string	getCommandArg() const;
-  virtual void			setCommandArg(const std::string &);
+  std::string			getKey() const;
+  void					setKey(const std::string &key);
+  virtual void				setCommandArg(const std::string &);
 
 private:
-  std::string	_arg;
+	std::string			_key;
 };

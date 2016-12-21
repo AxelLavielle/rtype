@@ -16,7 +16,8 @@ bool PausePage::init()
 {
   initButton(70, 10, 60, Rect(380, 200, 90, 310), "PLAY", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::PAUSE);
   initButton(20, 10, 60, Rect(380, 380, 90, 310), "OPTION", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::SETTINGS);
-  initButton(70, 10, 60, Rect(380, 550, 90, 310), "QUIT", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::ENDGAME);
+  initButton(70, 10, 60, Rect(380, 550, 90, 310), "QUIT", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::QUIT);
+  _graph->setMouseCursorVisible(true);
   return (true);
 }
 
@@ -33,7 +34,6 @@ bool PausePage::launch()
 
 void PausePage::draw()
 {
-  _graph->setBackground(_backgroundSprite, 0.6f, 0.7f);
   drawGUIElement(_buttons);
   drawGUIElement(_guiElement);
 }

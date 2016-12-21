@@ -65,19 +65,18 @@ int Game::launch()
 		 std::cerr << "ERROR: connexion udp socket" << std::endl;
 		 return (0);
 	 }
-	 _cmdManager.receiveUDPCmd();
 	 initGraphElements();
 	 t1 = std::chrono::high_resolution_clock::now();
 	 _soundManager.play(_musicStage1);
-	 //_cmdManager.receiveUDPCmd();
+//	 _cmdManager.receiveUDPCmd();
 	while (_graph->isWindowOpen())
 	{
 		while (_event->refresh())
 		{
-			if (_event->getCloseEvent() || _event->getKeyStroke() == "ECHAP")
+			if (_event->getCloseEvent())
 				return (1);
-			_guiPage->event();
-
+			if (_guiPage->event() == IPage::QUIT)
+				return (0);
 			if (_event->getKeyStroke() == "UP" || _event->getKeyStroke() == "LEFT"
 				|| _event->getKeyStroke() == "DOWN" || _event->getKeyStroke() == "RIGHT")
 				_cmdManager.sendInput(_event->getKeyStroke());
@@ -86,7 +85,9 @@ int Game::launch()
 			{
 				delete _guiPage;
 				_guiPage = new PausePage(_graph, _event, _fileManager, &_soundManager);
+				_guiPage->init();
 			}
+
 		}
 		t2 = std::chrono::high_resolution_clock::now();
 		duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();

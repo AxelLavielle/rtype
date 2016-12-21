@@ -1,11 +1,16 @@
 #include "Player.hh"
 #include "EntityType.hh"
-#include <iostream>
 
 Player::Player()
 {
   this->setType(rtype::PLAYER);
   this->setName("Player1");
+}
+
+Player::Player(const std::string &name)
+{
+	this->setType(rtype::PLAYER);
+	this->setName(name);
 }
 
 Player::~Player()

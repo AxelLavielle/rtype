@@ -28,8 +28,8 @@ void				CmdManager::cmdHandshakeSyn(ServerClient *client, BasicCmd *msgClient,
 												const int acknowledgementNumber)
 {
 	BasicCmd		cmd;
+	BasicCmd		*test;
 	std::string		handshake;
-	Serialize		serializer;
 	char			*msgSerialized;
 
 	handshake = msgClient->getArg(0);
@@ -37,9 +37,13 @@ void				CmdManager::cmdHandshakeSyn(ServerClient *client, BasicCmd *msgClient,
 	cmd.setCommandType(HANDSHAKE_SYN_ACK);
 	cmd.addArg(std::to_string(acknowledgementNumber));
 	cmd.addArg(std::to_string(std::stoi(handshake) + 1));
-	msgSerialized = serializer.serialize(&cmd);
+	msgSerialized = Serialize::serialize(&cmd);
 	std::cout << "[HandshakeSyn] Sending : " << cmd.getCommandArg() << std::endl;
+
+	test = static_cast<BasicCmd *>(Serialize::unserializeCommand(msgSerialized));
+	std::cout << "______________________ TEST ARG = " << test->getArg(0) << std::endl;
 	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(cmd));
+	std::cout << std::endl;
 }
 
 void			CmdManager::cmdHandshakeAck(ServerClient *client, BasicCmd *msgClient,
@@ -47,24 +51,20 @@ void			CmdManager::cmdHandshakeAck(ServerClient *client, BasicCmd *msgClient,
 {
 	std::string	handshake;
 
-	std::cout << "[Handshake Ack] : init" << std::endl;
 	handshake = msgClient->getArg(0);
 	std::cout << "[Handshake Ack] : " << handshake << std::endl;
 	if (std::stoi(handshake) == acknowledgementNumber + 1)
 	{
 		std::cout << std::endl << "Client [" << client->getTCPSocket() << "] is now CONNECTED" << std::endl << std::endl;
 		client->setLogged(true);
-
-		_mutex->lock();
-		client->setStatus(true);
-		_roomManager->addClientToRoom(client, "blih");
-		_mutex->unlock();
 	}
 	else
 	{
+		std::cout << std::endl << "Client [" << client->getTCPSocket() << "] is DELETED" << std::endl << std::endl;
 		closeSocket(client->getTCPSocket());
 		_clientManager->removeClient(client);
 	}
+	std::cout << std::endl;
 }
 
 void								CmdManager::cmdCreateRoom(ServerClient *client, BasicCmd *msgClient)
@@ -76,15 +76,14 @@ void								CmdManager::cmdCreateRoom(ServerClient *client, BasicCmd *msgClient)
 	char							*msgSerialized;
 	Serialize						serializer;
 
+	if (client->isLogged() == false)
+		return;
 	roomName = msgClient->getArg(0);
 	playerName = msgClient->getArg(1);
-	client->setPlayerName(playerName);
-
+	
 	_mutex->lock();
 	newRoom = _roomManager->addRoom(roomName);
 	_mutex->unlock();
-	std::cout << "Player " << playerName << " created |" << roomName
-			  << "| ---> Id = " << std::to_string(newRoom) << std::endl;
 	reply.setCommandType(REPLY_CODE);
 	if (client->getCurrentRoom() != -1) // ALREADY IN ROOM
 	{
@@ -92,6 +91,9 @@ void								CmdManager::cmdCreateRoom(ServerClient *client, BasicCmd *msgClient)
 	}
 	else
 	{
+		client->setPlayerName(playerName);
+		std::cout << "Player " << playerName << " created |" << roomName
+			<< "| ---> Id = " << std::to_string(newRoom) << std::endl;
 		reply.setCommandArg(std::to_string(ROOM_CREATED));
 		_mutex->lock();
 		_roomManager->addClientToRoom(client, newRoom);
@@ -99,6 +101,7 @@ void								CmdManager::cmdCreateRoom(ServerClient *client, BasicCmd *msgClient)
 	}
 	msgSerialized = serializer.serialize(&reply);
 	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(reply));
+	std::cout << std::endl;
 }
 
 void							CmdManager::cmdListRoom(ServerClient *client, BasicCmd *msgClient)
@@ -108,6 +111,8 @@ void							CmdManager::cmdListRoom(ServerClient *client, BasicCmd *msgClient)
 	std::vector<Room>::iterator	it;
 	char						*msgSerialized;
 
+	if (client->isLogged() == false)
+		return;
 	(void)msgClient;
 	_mutex->lock();
 	roomList = _roomManager->getRoomList();
@@ -121,6 +126,7 @@ void							CmdManager::cmdListRoom(ServerClient *client, BasicCmd *msgClient)
 	}
 	msgSerialized = Serialize::serialize(&roomListMsg);
 	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(roomListMsg));
+	std::cout << std::endl;
 }
 
 void							CmdManager::cmdRoomInfo(ServerClient *client, BasicCmd *msgClient)
@@ -129,8 +135,10 @@ void							CmdManager::cmdRoomInfo(ServerClient *client, BasicCmd *msgClient)
 	RoomInfoCmd					roomInfoMsg;
 	char						*msgSerialized;
 	BasicCmd					reply;
-	std::vector<ServerClient *>::iterator it;
+	std::vector<ServerClient *>::const_iterator it;
 
+	if (client->isLogged() == false)
+		return;
 	(void)msgClient;
 	if (client->getCurrentRoom() == -1)
 	{
@@ -141,19 +149,28 @@ void							CmdManager::cmdRoomInfo(ServerClient *client, BasicCmd *msgClient)
 		return;
 	}
 	_mutex->lock();
-	room = &(_roomManager->getRoomById(client->getCurrentRoom()));
-	_mutex->unlock();
+	room = NULL;
+	room = _roomManager->getRoomById(client->getCurrentRoom());
 
+	std::cout << "NAME = " << room->getName() << std::endl;
 	roomInfoMsg.setName(room->getName());
-	it = room->getClients().begin();
-	while (it != room->getClients().end())
+	std::vector<ServerClient *> vect;
+	if (room->getClients().size() > 0)
 	{
-		roomInfoMsg.addPlayer((*it)->getPlayerName(), (*it)->isReady());
-		it++;
+		vect = room->getClients();
+		it = vect.begin();
+		while (it != vect.end())
+		{
+			std::cout << "Adding player (" << (*it)->getPlayerName() << ")" << std::endl;
+			roomInfoMsg.addPlayer((*it)->getPlayerName(), (*it)->isReady());
+			it++;
+		}
 	}
-
+	
 	msgSerialized = Serialize::serialize(&roomInfoMsg);
 	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(roomInfoMsg));
+	_mutex->unlock();
+	std::cout << std::endl;
 }
 
 void			CmdManager::cmdJoinRoom(ServerClient *client, BasicCmd *msgClient)
@@ -164,6 +181,8 @@ void			CmdManager::cmdJoinRoom(ServerClient *client, BasicCmd *msgClient)
 	char		*msgSerialized;
 	Serialize	serializer;
 
+	if (client->isLogged() == false)
+		return;
 	(void)msgClient;
 	idRoom = std::stoi(msgClient->getArg(0));
 	playerName = msgClient->getArg(1);
@@ -181,9 +200,9 @@ void			CmdManager::cmdJoinRoom(ServerClient *client, BasicCmd *msgClient)
 		{
 			_mutex->lock();
 			_roomManager->getRoomById(idRoom);
-			client->setStatus(true);
-			if (_roomManager->addClientToRoom(client, _roomManager->getRoomById(idRoom).getId()) == true)
+			if (_roomManager->addClientToRoom(client, _roomManager->getRoomById(idRoom)->getId()) == true)
 			{
+				client->setPlayerName(playerName);
 				std::cout << "Room JOINED !" << std::endl;
 				reply.setCommandArg(std::to_string(ROOM_JOINED));
 			}
@@ -204,6 +223,7 @@ void			CmdManager::cmdJoinRoom(ServerClient *client, BasicCmd *msgClient)
 
 	msgSerialized = serializer.serialize(&reply);
 	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(reply));
+	std::cout << std::endl;
 }
 
 void			CmdManager::cmdLeaveRoom(ServerClient *client, BasicCmd *msgClient)
@@ -211,6 +231,8 @@ void			CmdManager::cmdLeaveRoom(ServerClient *client, BasicCmd *msgClient)
 	BasicCmd	reply;
 	char		*msgSerialized;
 
+	if (client->isLogged() == false)
+		return;
 	(void)msgClient;
 	reply.setCommandType(REPLY_CODE);
 	if (client->getCurrentRoom() != -1)
@@ -225,6 +247,7 @@ void			CmdManager::cmdLeaveRoom(ServerClient *client, BasicCmd *msgClient)
 
 	msgSerialized = Serialize::serialize(&reply);
 	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(reply));
+	std::cout << std::endl;
 }
 
 void			CmdManager::cmdSetStatus(ServerClient *client, BasicCmd *msgClient)
@@ -232,6 +255,8 @@ void			CmdManager::cmdSetStatus(ServerClient *client, BasicCmd *msgClient)
 	BasicCmd	reply;
 	char		*msgSerialized;
 
+	if (client->isLogged() == false)
+		return;
 	(void)msgClient;
 	reply.setCommandType(REPLY_CODE);
 	if (client->getCurrentRoom() == -1)
@@ -246,6 +271,7 @@ void			CmdManager::cmdSetStatus(ServerClient *client, BasicCmd *msgClient)
 	}
 	msgSerialized = Serialize::serialize(&reply);
 	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(reply));
+	std::cout << std::endl;
 }
 
 void											CmdManager::cmdLaunchGame(const std::vector<ServerClient *> &clients, const int idRoom)
@@ -269,7 +295,8 @@ void											CmdManager::cmdLaunchGame(const std::vector<ServerClient *> &clie
 		it++;
 	}
 	_mutex->lock();
-	_roomManager->getRoomById(idRoom).setInGame(true);
+	_roomManager->getRoomById(idRoom)->setReadyToLaunch(true);
 	_mutex->unlock();
 	//launchUDP();
+	std::cout << std::endl;
 }

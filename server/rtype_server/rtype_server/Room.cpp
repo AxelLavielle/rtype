@@ -3,14 +3,16 @@
 Room::Room(const int id)
 {
 	_id = id;
-	_inGame = false;
+	_readyToLaunch = false;
+	_readyToPlay = false;
 }
 
 Room::Room(const int id, const std::string &name)
 {
 	_id = id;
 	_name = name;
-	_inGame = false;
+	_readyToLaunch = false;
+	_readyToPlay = false;
 }
 
 Room::~Room()
@@ -88,12 +90,38 @@ int												Room::getNbClientsReady() const
 	return (nb);
 }
 
-void			Room::setInGame(const bool inGame)
+int												Room::getNbClientsUDPConnected() const
 {
-	_inGame = inGame;
+	std::vector<ServerClient *>::const_iterator	it;
+	int											nb;
+
+	nb = 0;
+	it = _clients.begin();
+	while (it != _clients.end())
+	{
+		if ((*it)->getAddrUDP() != NULL)
+			nb++;
+		it++;
+	}
+	return (nb);
 }
 
-bool			Room::isInGame() const
+void			Room::setReadyToLaunch(const bool launch)
 {
-	return (_inGame);
+	_readyToLaunch = launch;
+}
+
+bool			Room::isReadyToLaunch() const
+{
+	return (_readyToLaunch);
+}
+
+void			Room::setReadyToPlay(const bool launch)
+{
+	_readyToLaunch = launch;
+}
+
+bool			Room::isReadyToPlay() const
+{
+	return (_readyToPlay);
 }

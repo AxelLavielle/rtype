@@ -7,8 +7,10 @@ class Player :
 {
 private:
   int			_id;
+
 public:
   Player();
+  Player(const std::string &);
   virtual ~Player();
 
   virtual void		update();

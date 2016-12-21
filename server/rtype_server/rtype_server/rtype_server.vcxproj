@@ -127,6 +127,7 @@
     <ClInclude Include="..\..\..\common\Serialize\CmdEnum.hh" />
     <ClInclude Include="..\..\..\common\Serialize\EntityType.hh" />
     <ClInclude Include="..\..\..\common\Serialize\ICommand.hpp" />
+    <ClInclude Include="..\..\..\common\Serialize\InputCmd.hh" />
     <ClInclude Include="..\..\..\common\Serialize\ListRoomCmd.hh" />
     <ClInclude Include="..\..\..\common\Serialize\Monster.hh" />
     <ClInclude Include="..\..\..\common\Serialize\Player.hh" />
@@ -138,6 +139,7 @@
     <ClInclude Include="ASocketServer.hh" />
     <ClInclude Include="ClientManager.hh" />
     <ClInclude Include="CmdManager.hh" />
+    <ClInclude Include="Game.hh" />
     <ClInclude Include="Room.hh" />
     <ClInclude Include="RoomManager.hh" />
     <ClInclude Include="Server.hh" />
@@ -154,6 +156,7 @@
     <ClCompile Include="..\..\..\common\Serialize\AEntity.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\Barrier.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\BasicCmd.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\InputCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\ListRoomCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\Monster.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\Player.cpp" />
@@ -165,6 +168,7 @@
     <ClCompile Include="ASocketServer.cpp" />
     <ClCompile Include="ClientManager.cpp" />
     <ClCompile Include="CmdManager.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="RoomManager.cpp" />

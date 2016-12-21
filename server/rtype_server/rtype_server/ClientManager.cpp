@@ -122,7 +122,7 @@ void										ClientManager::checkDisconnectedClients(RoomManager &roomManager)
 			if (DEBUG_MSG)
 				std::cout << "################## ERASE TCP: " << (*it)->getTCPSocket() << " !!!" << std::endl;
 			if ((*it)->getCurrentRoom() != -1)
-				roomManager.getRoomById((*it)->getCurrentRoom()).removeClient((*it));
+				roomManager.getRoomById((*it)->getCurrentRoom())->removeClient((*it));
 			it = _clientList.erase(it);
 		}
 		else

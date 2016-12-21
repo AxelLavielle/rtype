@@ -161,7 +161,7 @@ std::vector<ClientMsg>						SocketServerTCP::receiveData(std::vector<ServerClien
 			else if (len > 0)
 			{
 				if (DEBUG_MSG)
-					std::cout << "Received Msg of len [" << len << "]" << std::endl;
+					std::cout << "\\\\ Received Msg of len [" << len << "]" << std::endl;
 				vectMsg.push_back(std::make_pair((*it), Serialize::unserializeCommand(buf)));
 			}
 		}

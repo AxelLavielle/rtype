@@ -2,7 +2,7 @@
 
 Server::Server() : _cmdManager(&_clientManager, &_roomManager)
 {
-	_acknowledgementNumber = 666;
+	_acknowledgementNumber = 10;
 	_mutex = new Mutex();
 	_cmdManager.setMutex(_mutex);
 }
@@ -27,7 +27,7 @@ bool	Server::init()
 void										Server::processBasicCmd(ServerClient *client, BasicCmd *cmd)
 {
 	std::cout << "BASIC CMD" << std::endl;
-
+	
 	std::cout << "Command TYPE = " << cmd->getCommandType() << std::endl;
 	switch (cmd->getCommandType())
 	{
@@ -88,7 +88,7 @@ void										Server::processMsg(const std::vector<ClientMsg> &vectMsg)
 		switch ((*it).second->getCommandName())
 		{
 		case BASIC_CMD:
-			processBasicCmd((*it).first, reinterpret_cast<BasicCmd *>((*it).second));
+			processBasicCmd((*it).first, static_cast<BasicCmd *>((*it).second));
 			break;
 		default:
 			std::cout << "NO CMD" << std::endl;
@@ -99,25 +99,39 @@ void										Server::processMsg(const std::vector<ClientMsg> &vectMsg)
 	}
 }
 
-void							Server::processGames()
+void							Server::checkRoomsReadyToLaunch()
 {
-	std::vector<Room>			roomsReady;
+	std::vector<Room>			roomsReadyToLaunch;
 	std::vector<Room>::iterator	it;
 
-	//std::cout << "Process Games" << std::endl;
 	_mutex->lock();
-	roomsReady = _roomManager.getRoomsReady();
+	roomsReadyToLaunch = _roomManager.getRoomsReadyToLaunch();
 	_mutex->unlock();
-	if (roomsReady.size() == 0)
-		return;
-	it = roomsReady.begin();
-	while (it != roomsReady.end())
+	it = roomsReadyToLaunch.begin();
+	while (it != roomsReadyToLaunch.end())
 	{
 		//std::cout << "Room [" << (*it).getName() << "] is READY" << std::endl;
-		_cmdManager.cmdLaunchGame((*it).getClients(), (*it).getId());
+		//_cmdManager.cmdLaunchGame((*it).getClients(), (*it).getId());
 		it++;
 	}
-	
+}
+
+void							Server::processGames()
+{
+	std::vector<Room>			roomsReadyToPlay;
+	std::vector<Room>::iterator	it;
+
+	checkRoomsReadyToLaunch();
+
+	_mutex->lock();
+	roomsReadyToPlay = _roomManager.getRoomsReadyToPlay();
+	_mutex->unlock();
+	it = roomsReadyToPlay.begin();
+	while (it != roomsReadyToPlay.end())
+	{
+		_gameManager.updateGame(*it);
+		it++;
+	}
 }
 
 bool							Server::launch()
@@ -176,9 +190,9 @@ bool							Server::TCPLoop()
 	return (true);
 }
 
-void									Server::processUDPMessages(std::vector<UDPClientMsg> vectMsg)
+void											Server::processUDPMessages(const std::vector<UDPClientMsg> &vectMsg)
 {
-	std::vector<UDPClientMsg>::iterator	it;
+	std::vector<UDPClientMsg>::const_iterator	it;
 
 	it = vectMsg.begin();
 	while (it != vectMsg.end())
@@ -188,42 +202,48 @@ void									Server::processUDPMessages(std::vector<UDPClientMsg> vectMsg)
 	}
 }
 
+void											Server::checkNewUDPClients(const std::vector<UDPClientMsg> &vectMsg)
+{
+	std::vector<UDPClientMsg>::const_iterator	it;
+	ServerClient								*client;
+	int											tcpSocket;
+
+	it = vectMsg.begin();
+	while (it != vectMsg.end())
+	{
+		if ((*it).first != NULL && (*it).second != NULL)
+		{
+			std::string str = (*it).second->getCommandArg();
+			std::cout << "STR = " << str << std::endl;
+			try
+			{
+				tcpSocket = std::stoi(str);
+				std::cout << "TCP SOCKET = " << tcpSocket << std::endl;
+
+				_mutex->lock();
+				client = _clientManager.getClientByTCP(tcpSocket);
+				if (client != NULL && client->getAddrUDP() == NULL)
+					client->setAddrUDP((*it).first);
+				_mutex->unlock();
+
+			}
+			catch (const std::exception &error)
+			{
+				std::cerr << "std::stoi error " << error.what() << std::endl;
+			}
+		}
+		it++;
+	}
+}
+
 bool									Server::UDPLoop()
 {
 	std::vector<UDPClientMsg>			vectMsg;
-	std::vector<UDPClientMsg>::iterator	it;
-	ServerClient						*client;
-	int									tcpSocket;
 
 	while (42)
 	{
 		vectMsg = _socketServerUDP.receiveData();
-		it = vectMsg.begin();
-		while (it != vectMsg.end())
-		{
-			if ((*it).first != NULL)
-			{
-				std::string str = (*it).second->getCommandArg();
-				std::cout << "STR = " << str << std::endl;
-				try
-				{
-					tcpSocket = std::stoi(str);
-					std::cout << "TCP SOCKET = " << tcpSocket << std::endl;
-
-					_mutex->lock();
-					client = _clientManager.getClientByTCP(tcpSocket);
-					if (client != NULL && client->getAddrUDP() == NULL)
-						client->setAddrUDP((*it).first);
-					_mutex->unlock();
-
-				}
-				catch (const std::exception &error)
-				{
-					std::cerr << "std::stoi error " << error.what() << std::endl;
-				}
-			}
-			it++;
-		}
+		checkNewUDPClients(vectMsg);
 		processUDPMessages(vectMsg);
 		_mutex->lock();
 		_socketServerUDP.sendAllData(_clientManager.getClients());

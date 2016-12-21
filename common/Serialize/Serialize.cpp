@@ -72,6 +72,7 @@ char		*Serialize::serialize(ICommand *cmd)
   p.dataType = cmd->getCommandName();
   p.cmdType = cmd->getCommandType();
   tmp = cmd->getCommandArg();
+  std::cout << "Serialize TMP = " << tmp << std::endl;
   i = -1;
   while (tmp[++i] != 0)
     p.data[i] = tmp[i];
@@ -156,6 +157,7 @@ ICommand	*Serialize::unserializeCommand(char *data)
     }
   if (res)
   {
+	  std::cout << "UNSERIALIZE [" << p->data << "]" << std::endl;
 	  res->setCommandArg(p->data);
 	  res->setCommandType(static_cast<CmdType>(p->cmdType));
   }

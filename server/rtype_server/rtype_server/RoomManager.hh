@@ -20,10 +20,11 @@ public:
 	int					addRoom(const std::string &);
 	bool				removeRoom(const int);
 	Room				&getRoomByName(const std::string &);
-	Room				&getRoomById(const int);
+	Room				*getRoomById(const int);
 	std::vector<Room>	&getRoomList();
 	bool				addClientToRoom(ServerClient *, const std::string &);
 	bool				addClientToRoom(ServerClient *, int);
 	bool				removeClientFromRoom(ServerClient *, const int);
-	std::vector<Room>	getRoomsReady() const;
+	std::vector<Room>	getRoomsReadyToLaunch() const;
+	std::vector<Room>	getRoomsReadyToPlay() const;
 };

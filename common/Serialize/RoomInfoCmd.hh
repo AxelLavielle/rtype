@@ -17,6 +17,7 @@ public:
   const std::string	getCommandArg() const;
   const std::string	getName() const;
   std::vector<PlayerInfo>	getPlayersList() const;
+  virtual void				setCommandArg(const std::string &);
 
 
 private:

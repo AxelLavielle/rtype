@@ -48,7 +48,6 @@ RoomInfoCmd		*CmdManager::getRoomInfo()
 		tmpCmd = static_cast<RoomInfoCmd* >(cmd);
 		return (tmpCmd);
 	}
-	delete cmd;
 	return (NULL);
 }
 

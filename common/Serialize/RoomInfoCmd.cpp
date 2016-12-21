@@ -41,3 +41,38 @@ std::vector<PlayerInfo>	RoomInfoCmd::getPlayersList() const
 {
 	return (_playersList);
 }
+
+void RoomInfoCmd::setCommandArg(const std::string &arg)
+{
+	std::stringstream			ss;
+	std::string					item;
+	int							i;
+	PlayerInfo					pl;
+	bool						first;
+
+	first = true;
+	std::cout << "set command args" << std::endl;
+	ss.str(arg);
+	i = 0;
+	while (std::getline(ss, item, _separator))
+	{
+		if (first)
+		{
+			_name = item;
+			first = false;
+			break;
+		}
+		std::cout << "i = " << i << std::endl;
+		if (i == 0)
+			pl.first = item;
+		else if (i == 1)
+		{
+			std::cout << "item = " << item << std::endl;
+			pl.second = std::stoi(item);
+			_playersList.push_back(pl);
+		}
+		i++;
+		i = i % 2;
+	}
+	_arg = arg;
+}

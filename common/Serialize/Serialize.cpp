@@ -80,7 +80,6 @@ char		*Serialize::serialize(ICommand *cmd)
   }
   p.data[i] = 0;
   p.dataLength = tmp.size() + 8;
-  std::cout << "struct size = " << p.dataLength << std::endl;
   i = -1;
   while (++i != p.dataLength)
     ret[i] = reinterpret_cast<char *>(&p)[i];

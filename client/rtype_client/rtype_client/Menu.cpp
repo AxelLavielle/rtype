@@ -105,6 +105,7 @@ void	Menu::setRoomInfo(RoomInfoCmd *roomInfo, InsideRoomPage *page)
 	std::vector<PlayerInfo>					pl;
 	std::vector<PlayerInfo>::iterator		it;
 
+	std::cout << "LALALALALLLALALLALALALLALALA ======= Set room info" << std::endl;
 	it = pl.begin();
 	page->setRoomName(roomInfo->getName());
 	while (it != pl.end())
@@ -145,9 +146,16 @@ bool Menu::launch()
 					  std::cerr << "Can not join room" << std::endl;
 				  else
 				  {
+					  RoomInfoCmd			*roomInfo1;
+
 					  delete _page;
 					  _newEvent = true;
 					  _page = new InsideRoomPage(_graph, _event, _fileManager, &_soundManager);
+
+					  roomInfo1 = _cmdManager.getRoomInfo();
+					  setRoomInfo(roomInfo1, (static_cast<InsideRoomPage*>(_page)));
+					  _page->clear();
+					  _page->init();
 				  }
 			  }
 		  }
@@ -190,13 +198,8 @@ bool Menu::launch()
 		      break;
 		    case IPage::INSIDEROOM:
 		      delete (_page);
-		      RoomInfoCmd			*roomInfo1;
 			  _newEvent = true;
 		      _page = new InsideRoomPage(_graph, _event, _fileManager, &_soundManager);
-			  roomInfo1 = _cmdManager.getRoomInfo();
-			  setRoomInfo(roomInfo1, (static_cast<InsideRoomPage*>(_page)));
-			  _page->clear();
-			  _page->init();
 			  std::cout << "InsideRoom" << std::endl;
 			  break;
 		    case IPage::PAUSE:
@@ -225,16 +228,11 @@ bool Menu::launch()
 				if (_page->getPageType() == IPage::INSIDEROOM)
 				{
 					RoomInfoCmd		*roomInfo;
+
 					std::cout << "WAIT FOR PLAYER" << std::endl;
 					_cmdManager.setStatus();
 					roomInfo = _cmdManager.getRoomInfo();
 					break;
-					//if (!checkReady(roomInfo, (static_cast<InsideRoomPage* >(_page))))
-					//{
-					//	_page->clear();
-					//	_page->init();
-					//	break;
-					//}
 				}
 				delete (_page);
 				std::cout << "Game" << std::endl;

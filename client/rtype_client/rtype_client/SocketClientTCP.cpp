@@ -103,6 +103,7 @@ bool				SocketClientTCP::sendData(const char *data, const int datasize)
 		std::cerr << "Send failed: " << WSAGetLastError() << std::endl;
 		closesocket(_connectSocket);
 		WSACleanup();
+		_connected = false;
 		return (false);
 	}
 
@@ -119,6 +120,7 @@ bool				SocketClientTCP::sendData(const char *data, const int datasize)
 	if (send(_sock, data, datasize, 0) < 0)
 	{
 		std::cout << "Send failed" << std::endl;
+		_connected = false;
 		return (false);
 	}
 
@@ -191,6 +193,7 @@ bool			SocketClientTCP::closure()
 #ifdef _WIN32
 	int			iResult;
 
+	_connected = false;
 	iResult = shutdown(_connectSocket, SD_SEND);
 	if (iResult == SOCKET_ERROR)
 	{

@@ -18,8 +18,10 @@ public:
 	virtual char	*receiveData() = 0;
 	virtual bool	connectToServer() = 0;
 	virtual bool	isConnected() const;
-	virtual void			setIp(const std::string &ip);
-	virtual void			setPort(const int);
+	virtual void	setIp(const std::string &ip);
+	virtual void	setPort(const int);
+	virtual std::string		getIp() const;
+	virtual int				getPort() const;
 
 protected:
 	int				_port;

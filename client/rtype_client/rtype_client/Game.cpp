@@ -95,3 +95,13 @@ void Game::setEvent(IEventManager * event)
 {
 	_event = event;
 }
+
+void Game::setIp(const std::string & ip)
+{
+	_ip = ip;
+}
+
+void Game::setPort(const int port)
+{
+	_port = port;
+}

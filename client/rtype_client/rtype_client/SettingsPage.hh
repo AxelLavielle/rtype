@@ -9,6 +9,7 @@ public:
   SettingsPage();
   SettingsPage(IGraphManager*, IEventManager*, const PathFileManager&, ISoundManager*);
   virtual ~SettingsPage();
+  void setServerInfo(const std::string & ip, const int port);
   virtual bool			init();
   virtual void			clear();
   virtual bool			launch();
@@ -19,6 +20,8 @@ public:
 
 private:
   Sound				_clickSound;
+  std::string		_ip;
+  std::string		_port;
 
 };
 

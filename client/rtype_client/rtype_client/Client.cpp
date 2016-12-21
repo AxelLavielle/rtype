@@ -58,15 +58,17 @@ bool Client::launch()
 	cmd->setCommandType(REPLY_CODE);
 	cmd->addArg("4242");
 	cmd->addArg("COUCOU");
-	if (!udpSocket.init("10.16.252.95", 9999) || !udpSocket.connectToServer())
-		return (false);
-	udpSocket.sendData(Serialize::serialize(cmd), sizeof(*cmd));
+	//if (!udpSocket.init("10.16.252.95", 9999) || !udpSocket.connectToServer())
+	//	return (false);
+	//udpSocket.sendData(Serialize::serialize(cmd), sizeof(*cmd));
 	//res = udpSocket.receiveData();
 	//newCmd = Serialize::unserializeCommand(res);
 	//b = static_cast<BasicCmd* >(newCmd);
 	//std::cout << b->getArg(0) << std::endl;
 	if (!initGraph())
 		return (false);
+	_menu->setIp("10.16.252.95");
+	_menu->setPort(42000);
 	_menu->setEventManager(_event);
 	_menu->setGraphManager(_graph);
 	_menu->setMutex(_mutex);

@@ -37,6 +37,8 @@ public:
 	virtual ~Menu();
 	virtual bool init();
 	virtual bool launch();
+	virtual void setIp(const std::string &ip);
+	virtual void setPort(const int port);
 private:
 	std::vector<AGUIElement* >	_guiElement;
 	Game						_game;
@@ -47,12 +49,15 @@ private:
 	APage						*_page;
 	CmdManager					_cmdManager;
 	std::string					_playerName;
+	bool						_newEvent;
+	std::string					_ip;
+	int							_port;
 
 	std::chrono::high_resolution_clock::time_point        _t1Conn;
 
 	void initLobby();
 	bool tryToConnect();
 	void manageReco(Thread * th);
-	bool checkReady(RoomInfoCmd * roomInfo, InsideRoomPage *page);
+	void setRoomInfo(RoomInfoCmd * roomInfo, InsideRoomPage * page);
 };
 

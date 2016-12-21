@@ -127,7 +127,7 @@ bool		CmdManager::createRoom(const std::string & rommName, const std::string & p
 	if (!sendCmd())
 		return (false);
 	cmd = receiveCmd();
-	if (cmd->getCommandName() == BASIC_CMD && cmd->getCommandType() == REPLY_CODE)
+	if (cmd && cmd->getCommandName() == BASIC_CMD && cmd->getCommandType() == REPLY_CODE)
 	{
 		BasicCmd		*tmpCmd;
 

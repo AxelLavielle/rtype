@@ -4,6 +4,7 @@
 Menu::Menu()
 {
 	_playerName = "Player 1";
+	_newEvent = false;
 }
 
 Menu::~Menu()
@@ -42,6 +43,7 @@ void	Menu::initLobby()
 	_cmdManager.setSocket(_socket);
 	if (!(cmd = _cmdManager.getRoomList()))
 		return;
+	std::cout << "Got rooom list" << std::endl;
 	rooms = cmd->getAllRooms();
 	it = rooms.begin();
 	while (it != rooms.end())
@@ -98,35 +100,30 @@ void	Menu::manageReco(Thread *th)
 	}
 }
 
-bool	Menu::checkReady(RoomInfoCmd *roomInfo, InsideRoomPage *page)
+void	Menu::setRoomInfo(RoomInfoCmd *roomInfo, InsideRoomPage *page)
 {
 	std::vector<PlayerInfo>					pl;
 	std::vector<PlayerInfo>::iterator		it;
-	bool									res;
 
-	res = true;
 	it = pl.begin();
 	page->setRoomName(roomInfo->getName());
 	while (it != pl.end())
 	{
 		std::cout << "player = " << it->first << std::endl;
 		page->addPlayer(it->first, it->second);
-		if (!it->second)
-			res = false;
 		++it;
 	}
-	return (res);
 }
 
 bool Menu::launch()
 {
   IPage::PAGE	curr_event;
   _page = new HomePage(_graph, _event, _fileManager, &_soundManager);
-  bool		newEvent;
+  bool		_newEvent;
   Thread		*th = NULL;
   std::pair<std::string, std::pair<int, int> > tmp;
 
-  newEvent = false;
+  _newEvent = false;
   _page->init();
   while (_graph->isWindowOpen())
     {
@@ -149,18 +146,17 @@ bool Menu::launch()
 				  else
 				  {
 					  delete _page;
-					  newEvent = true;
+					  _newEvent = true;
 					  _page = new InsideRoomPage(_graph, _event, _fileManager, &_soundManager);
 				  }
 			  }
-
-
 		  }
+
 		  switch (curr_event)
 		    {
 		    case IPage::HOME:
 		      delete (_page);
-		      newEvent = true;
+		      _newEvent = true;
 		      _page = new HomePage(_graph, _event, _fileManager, &_soundManager);
 		      std::cout << "Home" << std::endl;
 		      break;
@@ -168,7 +164,7 @@ bool Menu::launch()
 				if (_page->getPageType() == IPage::INSIDEROOM)
 					_cmdManager.leaveRoom();
 		      delete (_page);
-			  newEvent = true;
+			  _newEvent = true;
 			  initLobby();
 		      std::cout << "Lobby" << std::endl;
 		      break;
@@ -188,67 +184,74 @@ bool Menu::launch()
 		      break;
 		    case IPage::CREATEROOM:
 		      delete (_page);
-		      newEvent = true;
+		      _newEvent = true;
 		      _page = new CreateRoomPage(_graph, _event, _fileManager, &_soundManager);
 		      std::cout << "RoomList" << std::endl;
 		      break;
 		    case IPage::INSIDEROOM:
 		      delete (_page);
-		      //			  RoomInfoCmd		*roomInfo1;
-			  newEvent = true;
+		      RoomInfoCmd			*roomInfo1;
+			  _newEvent = true;
 		      _page = new InsideRoomPage(_graph, _event, _fileManager, &_soundManager);
-			  //roomInfo1 = _cmdManager.getRoomInfo();
-			  //checkReady(roomInfo1, (static_cast<InsideRoomPage*>(_page)));
-			  //_page->clear();
-			  //_page->init();
+			  roomInfo1 = _cmdManager.getRoomInfo();
+			  setRoomInfo(roomInfo1, (static_cast<InsideRoomPage*>(_page)));
+			  _page->clear();
+			  _page->init();
 			  std::cout << "InsideRoom" << std::endl;
 			  break;
 		    case IPage::PAUSE:
 		      delete (_page);
-		      newEvent = true;
+		      _newEvent = true;
 		      _page = new PausePage(_graph, _event, _fileManager, &_soundManager);
 		      std::cout << "Pause" << std::endl;
 		      break;
 		    case IPage::SETTINGS:
 		      delete (_page);
-		      newEvent = true;
-		      _page = new SettingsPage(_graph, _event, _fileManager, &_soundManager);
+		      _newEvent = true;
+			  SettingsPage *tmpSettings;
+		      tmpSettings = new SettingsPage(_graph, _event, _fileManager, &_soundManager);
+			  tmpSettings->setServerInfo(_ip, _port);
+			  _page = tmpSettings;
 		      std::cout << "Settings" << std::endl;
 		      break;
 		    case IPage::SETTINGSNEXT:
 		      delete (_page);
-		      newEvent = true;
+		      _newEvent = true;
 		      _page = new SettingsNextPage(_graph, _event, _fileManager, &_soundManager);
 		      std::cout << "SettingsNext" << std::endl;
 		      break;
 			case IPage::GAME:
-				newEvent = true;
-				//if (_page->getPageType() == IPage::INSIDEROOM)
-				//{
-				//	RoomInfoCmd		*roomInfo;
-				//	std::cout << "WAIT FOR PLAYER" << std::endl;
-				//	_cmdManager.setStatus();
-				//	roomInfo = _cmdManager.getRoomInfo();
-				//	if (!checkReady(roomInfo, (static_cast<InsideRoomPage* >(_page))))
-				//	{
-				//		_page->clear();
-				//		_page->init();
-				//		break;
-				//	}
-				//}
+				_newEvent = true;
+				if (_page->getPageType() == IPage::INSIDEROOM)
+				{
+					RoomInfoCmd		*roomInfo;
+					std::cout << "WAIT FOR PLAYER" << std::endl;
+					_cmdManager.setStatus();
+					roomInfo = _cmdManager.getRoomInfo();
+					break;
+					//if (!checkReady(roomInfo, (static_cast<InsideRoomPage* >(_page))))
+					//{
+					//	_page->clear();
+					//	_page->init();
+					//	break;
+					//}
+				}
 				delete (_page);
 				std::cout << "Game" << std::endl;
 				_soundManager.stopAll();
 				_game.setGraph(_graph);
 				_game.setEvent(_event);
+				_game.setPort(_port);
+				_game.setIp(_ip);
 				_pool.joinAll();
+				_socket->closure();
 				_game.launch();
 				std::cout << "QUIT LA" << std::endl;
 				return (true);
 				break;
 			case IPage::ENDGAME:
 				delete (_page);
-				newEvent = true;
+				_newEvent = true;
 				_page = new EndGamePage(_graph, _event, _fileManager, &_soundManager);
 				std::cout << "Settings" << std::endl;
 				break;
@@ -256,7 +259,7 @@ bool Menu::launch()
 				_graph->close();
 				break;
 			case IPage::CREATEROOMACTION:
-				newEvent = true;
+				_newEvent = true;
 				std::cout << "CreateRoomAction" << std::endl;
 				CreateRoomPage		*tmpPage;
 				tmpPage = static_cast<CreateRoomPage* >(_page);
@@ -273,13 +276,13 @@ bool Menu::launch()
 	    }
 	  if (_event->getKeyStroke() == "ECHAP" || _event->getCloseEvent())
 	    _graph->close();
-	  if (newEvent)
+	  if (_newEvent)
 	    {
 	      _page->init();
 	      _graph->clearWindow();
 	      _page->draw();
 	      _graph->refresh();
-	      newEvent = false;
+	      _newEvent = false;
 	    }
 	}
       _graph->clearWindow();
@@ -289,4 +292,14 @@ bool Menu::launch()
 	std::cout << "QUIT LA2" << std::endl;
 	_pool.joinAll();
   return (false);
+}
+
+void Menu::setIp(const std::string & ip)
+{
+	_ip = ip;
+}
+
+void Menu::setPort(const int port)
+{
+	_port = port;
 }

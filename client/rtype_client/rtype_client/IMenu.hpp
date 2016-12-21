@@ -15,4 +15,6 @@ public:
 	virtual void setSocketTCPSocket(ASocketClient * socket) = 0;
 	virtual bool launch() = 0;
 	virtual void setMutex(AMutex * mutex) = 0;
+	virtual void setIp(const std::string &ip) = 0;
+	virtual void setPort(const int port) = 0;
 };

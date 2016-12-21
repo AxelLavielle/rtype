@@ -28,3 +28,13 @@ void ASocketClient::setPort(const int port)
 {
 	_port = port;
 }
+
+std::string ASocketClient::getIp() const
+{
+	return (_ip);
+}
+
+int ASocketClient::getPort() const
+{
+	return (_port);
+}

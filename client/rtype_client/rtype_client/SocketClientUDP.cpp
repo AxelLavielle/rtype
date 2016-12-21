@@ -51,6 +51,7 @@ bool			SocketClientUDP::init(const std::string &addr, const int port)
 	//sendto(_sock, "", 1, 0, reinterpret_cast<struct sockaddr *>(&_siOther), sizeof(_siOther));
 
 #endif
+	_connected = true;
 	return (true);
 }
 
@@ -64,12 +65,14 @@ bool			SocketClientUDP::sendData(const char *data, const int datasize)
 	if ((res = sendto(_sock, data, datasize, 0, reinterpret_cast<struct sockaddr *>(&_siOther), slen)) == SOCKET_ERROR)
 	{
 		std::cerr << "sendto() failed with error code : " << WSAGetLastError() << std::endl;
+		_connected = false;
 		return (false);
 	}
 #elif __linux__
 	if (sendto(_sock, data, datasize, 0, reinterpret_cast<struct sockaddr *>(&_siOther), slen) == -1)
 	{
 		perror("sendto");
+		_connected = false;
 		return (false);
 	}
 #endif
@@ -100,6 +103,7 @@ char			*SocketClientUDP::receiveData()
 
 bool			SocketClientUDP::closure()
 {
+	_connected = false;
 #ifdef _WIN32
 	closesocket(_sock);
 	WSACleanup();

@@ -9,6 +9,7 @@
 #include "BasicCmd.hh"
 #include "ListRoomCmd.hh"
 #include "RoomInfoCmd.hh"
+#include "IEntity.hpp"
 
 class CmdManager
 {
@@ -32,6 +33,7 @@ private:
 	Serialize			_serialize;
 	int					_handKey;
 	std::vector<ICommand*>	_cmd;
+	std::vector<IEntity* >	_entity;
 
 	bool confirmHandshake(ICommand * cmd);
 	bool sendCmd();

@@ -19,6 +19,8 @@ public:
 	virtual void setSocketTCPSocket(ASocketClient * socket);
 	virtual void setMutex(AMutex * mutex);
 	virtual bool init() = 0;
+	virtual void setIp(const std::string &ip) = 0;
+	virtual void setPort(const int port) = 0;
 
 protected:
 	IGraphManager		*_graph;

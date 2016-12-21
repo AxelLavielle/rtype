@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AMapGenerator.hh"
+#include "Map.hh"
 #include <iostream>
 #include <fstream>
 #include "Barrier.hh"
@@ -8,12 +8,10 @@
 #include "PowerUp.hh"
 #include "Monster.hh"
 
-class			MapGeneratorFromFile : public AMapGenerator
+class			        MapGenerator
 {
 public:
-	MapGeneratorFromFile();
-	~MapGeneratorFromFile();
-
-	Map			generate(const std::string &);
+	static Map		generate();
+	static Map		generate(const std::string &);
 };
 

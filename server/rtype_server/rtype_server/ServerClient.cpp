@@ -3,17 +3,18 @@
 ServerClient::ServerClient(const int socketFd)
 {
 	_TCPSocketFd = socketFd;
-	_UDPSocketFd = -1;
-	MemTools::set(_sendData, 0, TCP_PACKET_SIZE);
-	_lenData = 0;
+	MemTools::set(_sendDataTCP, 0, TCP_PACKET_SIZE);
+	_lenDataTCP = 0;
+	_isDisconnectedTCP = false;
+
 	MemTools::set(_sendDataUDP, 0, UDP_PACKET_SIZE);
 	_lenDataUDP = 0;
-	_isDisconnectedTCP = false;
-	_isDisconnectedUDP = false;
+	_clientAddrUDP = NULL;
+
+	_readyStatus = false;
 	_logState = false;
 	_currentRoomId = -1;
 	_playerName = "";
-	_status = false;
 }
 
 ServerClient::~ServerClient()
@@ -25,79 +26,41 @@ int			ServerClient::getTCPSocket() const
 	return (_TCPSocketFd);
 }
 
-int			ServerClient::getUDPSocket() const
-{
-	return (_UDPSocketFd);
-}
-
-void		ServerClient::addDataToSend(const char *data, const int dataLen)
+void		ServerClient::addTCPDataToSend(const char *data)
 {
 	int		i;
 	int		j;
+	short	size;
+	char	len[2];
 
-	i = _lenData;
+	i = _lenDataTCP;
 	j = 0;
-	while (j < dataLen && i < TCP_PACKET_SIZE)
+	len[0] = data[0];
+	len[1] = data[1];
+	size = *reinterpret_cast<short*>(len);
+	while (j < size && i < TCP_PACKET_SIZE)
 	{
-		_sendData[i] = data[j];
+		_sendDataTCP[i] = data[j];
 		i++;
 		j++;
 	}
-	_lenData += dataLen;
+	_lenDataTCP += size;
 }
 
-void		ServerClient::addUDPDataToSend(const char *data, const int dataLen)
+const char	*ServerClient::getSendDataTCP() const
 {
-	int		i;
-	int		j;
-
-	i = _lenDataUDP;
-	j = 0;
-	while (j < dataLen && i < UDP_PACKET_SIZE)
-	{
-		_sendDataUDP[i] = data[j];
-		i++;
-		j++;
-	}
-	_lenDataUDP += dataLen;
+	return (&(_sendDataTCP[0]));
 }
 
-const char	*ServerClient::getSendData() const
+void		ServerClient::resetDataTCP()
 {
-	return (&(_sendData[0]));
+	MemTools::set(_sendDataTCP, 0, TCP_PACKET_SIZE);
+	_lenDataTCP = 0;
 }
 
-int			ServerClient::getDataLen() const
+int			ServerClient::getDataLenTCP() const
 {
-	return (_lenData);
-}
-
-
-void		ServerClient::resetData()
-{
-	MemTools::set(_sendData, 0, TCP_PACKET_SIZE);
-	_lenData = 0;
-}
-
-const char * ServerClient::getSendDataUDP() const
-{
-	return (&(_sendDataUDP[0]));
-}
-
-int ServerClient::getDataLenUDP() const
-{
-	return (_lenDataUDP);
-}
-
-void ServerClient::resetDataUDP()
-{
-	MemTools::set(_sendDataUDP, 0, TCP_PACKET_SIZE);
-	_lenDataUDP = 0;
-}
-
-struct sockaddr_in *ServerClient::getAddrUDP() const
-{
-	return (_clientAddr);
+	return (_lenDataTCP);
 }
 
 bool ServerClient::isDisconnectedTCP() const
@@ -105,20 +68,61 @@ bool ServerClient::isDisconnectedTCP() const
 	return (_isDisconnectedTCP);
 }
 
-bool ServerClient::isDisconnectedUDP() const
-{
-	return (_isDisconnectedUDP);
-}
-
 void	ServerClient::setDisconnectedTCP(const bool disconnected)
 {
 	_isDisconnectedTCP = disconnected;
 }
 
-
-void	ServerClient::setDisconnectedUDP(const bool disconnected)
+struct sockaddr_in *ServerClient::getAddrUDP() const
 {
-	_isDisconnectedUDP = disconnected;
+	return (_clientAddrUDP);
+}
+
+void		ServerClient::addUDPDataToSend(const char *data)
+{
+	int		i;
+	int		j;
+	char	len[2];
+	short	size;
+
+	i = _lenDataUDP;
+	j = 0;
+	len[0] = data[0];
+	len[1] = data[1];
+	size = *reinterpret_cast<short*>(len);
+	while (j < size && i < UDP_PACKET_SIZE)
+	{
+		_sendDataUDP[i] = data[j];
+		i++;
+		j++;
+	}
+	_lenDataUDP += size;
+}
+
+const char *ServerClient::getSendDataUDP() const
+{
+	return (&(_sendDataUDP[0]));
+}
+
+void ServerClient::resetDataUDP()
+{
+	MemTools::set(_sendDataUDP, 0, UDP_PACKET_SIZE);
+	_lenDataUDP = 0;
+}
+
+int ServerClient::getDataLenUDP() const
+{
+	return (_lenDataUDP);
+}
+
+void ServerClient::setAddrUDP(struct sockaddr_in *addr)
+{
+	_clientAddrUDP = addr;
+}
+
+void ServerClient::resetAddrUDP()
+{
+	_clientAddrUDP = NULL;
 }
 
 void	ServerClient::setCurrentRoom(const int roomId)
@@ -151,27 +155,12 @@ std::string ServerClient::getPlayerName() const
 	return (_playerName);
 }
 
-void ServerClient::setPlayerId(const int id)
-{
-	_playerId = id;
-}
-
-int ServerClient::getPlayerId() const
-{
-	return (_playerId);
-}
-
 void ServerClient::setStatus(const bool status)
 {
-	_status = status;
+	_readyStatus = status;
 }
 
 bool ServerClient::isReady() const
 {
-	return (_status);
-}
-
-void	ServerClient::resetUDPSocket()
-{
-	_UDPSocketFd = -1;
+	return (_readyStatus);
 }

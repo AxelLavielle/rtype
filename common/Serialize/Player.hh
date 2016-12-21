@@ -5,12 +5,16 @@
 class Player :
 	public AEntity
 {
-protected:
+private:
   int			_id;
+
 public:
   Player();
+  Player(const std::string &);
   virtual ~Player();
+
   virtual void		update();
+
   int			getId() const;
   void			setId(const int);
 };

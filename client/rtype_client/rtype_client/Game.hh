@@ -15,6 +15,7 @@
 #include "SocketClientUDP.hh"
 #include "APage.hh"
 #include "GUIPage.hh"
+#include "ASocketClient.hh"
 
 class Game
 {
@@ -24,10 +25,14 @@ public:
 	int launch();
 	void setGraph(IGraphManager * graph);
 	void setEvent(IEventManager * event);
+	void setIp(const std::string &ip);
+	void setPort(const int port);
+	void setId(const int id);
+
 private:
 	IGraphManager				*_graph;
 	IEventManager				*_event;
-	CmdManager					_cmd;
+	CmdManager					_cmdManager;
 	std::vector<IGUIElement* >	_guiElement;
 	int							_dificulty;
 	std::pair<int, int>			_size;
@@ -38,5 +43,8 @@ private:
 	ASocketClient				*_sock;
 	APage						*_guiPage;
 	PathFileManager				_fileManager;
+	std::string					_ip;
+	int							_port;
+	int							_id;
 };
 

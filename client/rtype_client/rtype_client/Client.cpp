@@ -2,9 +2,10 @@
 
 Client::Client()
 {
-	_pool = new ThreadPool();
 	_mutex = new Mutex();
 	_socket = new SocketClientTCP();
+	_ip = "127.0.0.1";
+//	_ip = "10.16.252.95";
 }
 
 Client::~Client()
@@ -14,14 +15,13 @@ Client::~Client()
 	delete _graph;
 	delete _event;
 	delete _menu;
-	delete _pool;
 	delete _mutex;
 }
 
 bool Client::initSocket()
 {
-	_mutex->lock();//10.16.252.95
-	if (!_socket->init("10.16.252.95", 42000)
+	_mutex->lock();
+	if (!_socket->init(_ip, 42000)
 		|| !_socket->connectToServer())
 	{
 		_menu->setSocketTCPSocket(_socket);
@@ -50,20 +50,26 @@ bool	Client::initGraph()
 bool Client::launch()
 {
 	Thread		th;
-
+	SocketClientUDP		udpSocket;
+	BasicCmd			*cmd = new BasicCmd();
+	
 	if (!initGraph())
 		return (false);
+	_menu->setIp(_ip);
+	_menu->setPort(42000);
 	_menu->setEventManager(_event);
 	_menu->setGraphManager(_graph);
 	_menu->setMutex(_mutex);
 	_menu->init();
 	th.createThread(std::bind(&Client::initSocket, this));
-	_pool->addThread(&th);
+	_pool.addThread(&th);
 	if (!_menu->launch())
 	{
-		_pool->joinAll();
+		_pool.joinAll();
+		_socket->closure();
 		return (false);
 	}
-	_pool->joinAll();
+	_pool.joinAll();
+	_socket->closure();
 	return (true);
 }

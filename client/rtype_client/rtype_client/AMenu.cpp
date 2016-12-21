@@ -2,6 +2,10 @@
 
 AMenu::AMenu()
 {
+	_socket = NULL;
+	_graph = NULL;
+	_event = NULL;
+	_mutex = NULL;
 }
 
 

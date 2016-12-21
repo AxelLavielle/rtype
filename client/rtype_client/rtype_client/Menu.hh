@@ -17,12 +17,14 @@
 #include "PathFileManager.hh"
 #include "HomePage.hh"
 #include "SettingsPage.hh"
+#include "SettingsNextPage.hh"
 #include "LobbyPage.hh"
 #include "InsideRoomPage.hh"
 #include "EndGamePage.hh"
 #include "CreateRoomPage.hh"
 #include "PausePage.hh"
 #include "ThreadPool.hh"
+#include "Thread.hh"
 #include "CmdManager.hh"
 
 #define RECO_DURATION 5000
@@ -35,6 +37,8 @@ public:
 	virtual ~Menu();
 	virtual bool init();
 	virtual bool launch();
+	virtual void setIp(const std::string &ip);
+	virtual void setPort(const int port);
 private:
 	std::vector<AGUIElement* >	_guiElement;
 	Game						_game;
@@ -44,10 +48,16 @@ private:
 	PathFileManager				_fileManager;
 	APage						*_page;
 	CmdManager					_cmdManager;
+	std::string					_playerName;
+	bool						_newEvent;
+	std::string					_ip;
+	int							_port;
 
 	std::chrono::high_resolution_clock::time_point        _t1Conn;
 
 	void initLobby();
 	bool tryToConnect();
+	void manageReco(Thread * th);
+	void setRoomInfo(RoomInfoCmd * roomInfo, InsideRoomPage * page);
 };
 

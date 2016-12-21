@@ -10,8 +10,8 @@ class ServerClient;
 class Room
 {
 public:
-	Room(int);
-	Room(int, const std::string &);
+	Room(const int);
+	Room(const int, const std::string &);
 	~Room();
 
 	std::string					getName() const;
@@ -23,10 +23,17 @@ public:
 	std::vector<ServerClient *> getClients() const;
 	int							getNbClients() const;
 	int							getNbClientsReady() const;
+	int							getNbClientsUDPConnected() const;
+	void						setReadyToLaunch(const bool);
+	bool						isReadyToLaunch() const;
+	void						setReadyToPlay(const bool);
+	bool						isReadyToPlay() const;
 
 private:
 	std::string					_name;
 	int							_id;
 	std::vector<ServerClient *>	_clients;
+	bool						_readyToPlay;
+	bool						_readyToLaunch;
 };
 

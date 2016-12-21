@@ -11,11 +11,7 @@ ClientManager::~ClientManager()
 
 void				ClientManager::addClient(int clientSocketId)
 {
-	static int id = 0;
-
 	_clientList.push_back(new ServerClient(clientSocketId));
-	_clientList.back()->setPlayerId(id);
-	id++;
 }
 
 
@@ -52,15 +48,19 @@ std::vector<int>							ClientManager::getClientsTCPSockets()
 std::vector<int>							ClientManager::getClientsUDPSockets()
 {
 	std::vector<int>						vectClientsSockets;
-	std::vector<ServerClient *>::iterator	it;
+	/*std::vector<ServerClient *>::iterator	it;
 
 	it = _clientList.begin();
 	while (it != _clientList.end())
 	{
 		if ((*it)->getUDPSocket() != -1)
+		{
+			std::cout << "Add UDP Socket " << (*it)->getUDPSocket() << std::endl;
 			vectClientsSockets.push_back((*it)->getUDPSocket());
+		}
+			
 		it++;
-	}
+	}*/
 	return (vectClientsSockets);
 }
 
@@ -70,7 +70,21 @@ std::vector<ServerClient *>	&ClientManager::getClients()
 	return (_clientList);
 }
 
-void						ClientManager::addDataToSend(int clientSocket, const char *data, int dataLen)
+ServerClient * ClientManager::getClientByTCP(const int tcpSocket)
+{
+	std::vector<ServerClient *>::iterator it;
+
+	it = _clientList.begin();
+	while (it != _clientList.end())
+	{
+		if ((*it)->getTCPSocket() == tcpSocket)
+			return (*it);
+		it++;
+	}
+	return (NULL);
+}
+
+void						ClientManager::addDataToSendTCP(int clientSocket, const char *data, int dataLen)
 {
 	std::vector<ServerClient *>::iterator it;
 
@@ -78,14 +92,27 @@ void						ClientManager::addDataToSend(int clientSocket, const char *data, int d
 	while (it != _clientList.end())
 	{
 		if ((*it)->getTCPSocket() == clientSocket)
-			(*it)->addDataToSend(data, dataLen);
+			(*it)->addTCPDataToSend(data);
 		it++;
 	}
 }
 
-void		ClientManager::checkDisconnectedClients(RoomManager &roomManager)
+void						ClientManager::addDataToSendUDP(int clientSocket, const char *data, int dataLen)
 {
 	std::vector<ServerClient *>::iterator it;
+
+	it = _clientList.begin();
+	while (it != _clientList.end())
+	{
+		if ((*it)->getTCPSocket() == clientSocket)
+			(*it)->addUDPDataToSend(data);
+		it++;
+	}
+}
+
+void										ClientManager::checkDisconnectedClients(RoomManager &roomManager)
+{
+	std::vector<ServerClient *>::iterator	it;
 
 	it = _clientList.begin();
 	while (it != _clientList.end())
@@ -95,14 +122,8 @@ void		ClientManager::checkDisconnectedClients(RoomManager &roomManager)
 			if (DEBUG_MSG)
 				std::cout << "################## ERASE TCP: " << (*it)->getTCPSocket() << " !!!" << std::endl;
 			if ((*it)->getCurrentRoom() != -1)
-				roomManager.getRoomById((*it)->getCurrentRoom()).removeClient((*it));
+				roomManager.getRoomById((*it)->getCurrentRoom())->removeClient((*it));
 			it = _clientList.erase(it);
-		}
-		else if ((*it)->isDisconnectedUDP())
-		{
-			if (DEBUG_MSG)
-				std::cout << "################## ERASE UDP: " << (*it)->getUDPSocket() << " !!!" << std::endl;
-			(*it)->resetUDPSocket();
 		}
 		else
 			it++;

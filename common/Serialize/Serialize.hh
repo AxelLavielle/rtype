@@ -9,6 +9,8 @@
 #include	"Monster.hh"
 #include	"Barrier.hh"
 #include	"ListRoomCmd.hh"
+#include	"RoomInfoCmd.hh"
+#include	"InputCmd.hh"
 
 class		Serialize
 {
@@ -23,9 +25,9 @@ public:
 private:
   struct	packet
   {
-    short	dataType;
+	short	dataLength;
+	short	dataType;
     short	cmdType;
-    short	dataLength;
     char	data[65465];
   };
 };

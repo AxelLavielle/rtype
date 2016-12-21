@@ -18,6 +18,6 @@ public:
   RoomIdInfos								getRoom(const int index) const;
   std::vector<RoomIdInfos>					getAllRooms() const;
 
-protected:
+private:
 	std::vector<RoomIdInfos>				_roomList;
 };

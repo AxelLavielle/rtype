@@ -5,13 +5,14 @@
 class Monster :
   public AEntity
 {
-protected:
-  int			_id;
-  std::string		_name;
+private:
+  int		_id;
 public:
   Monster();
   virtual ~Monster();
-  virtual void		update();
+
+  virtual void	update();
+
   void		setId(const int);
   int		getId() const;
 };

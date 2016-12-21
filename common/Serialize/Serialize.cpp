@@ -72,15 +72,19 @@ char		*Serialize::serialize(ICommand *cmd)
   p.dataType = cmd->getCommandName();
   p.cmdType = cmd->getCommandType();
   tmp = cmd->getCommandArg();
-  i = -1;
-  while (tmp[++i] != 0)
-    p.data[i] = tmp[i];
+  i = 0;
+  while (i < tmp.size())
+  {
+	  p.data[i] = tmp[i];
+	  i++;
+  }
   p.data[i] = 0;
-  p.dataLength = tmp.size() + 6;
+  p.dataLength = tmp.size() + 8;
   i = -1;
   while (++i != p.dataLength)
     ret[i] = reinterpret_cast<char *>(&p)[i];
   ret[i] = 0;
+  i = 0;
   return (ret);
 }
 
@@ -125,37 +129,40 @@ IEntity		*Serialize::unserializeEntity(char *data)
   res->setName(std::string(&data[i + 1]));
   return (res);
 }
-
+#include <iostream>
 ICommand	*Serialize::unserializeCommand(char *data)
 {
-  packet	p;
+  packet	*p;
   ICommand	*res;
 
-  p = *reinterpret_cast<packet*>(data);
-  switch (p.dataType)
+  res = NULL;
+  p = reinterpret_cast<packet*>(data);
+  switch (p->dataType)
     {
     case CHAT_INFO:
       break;
     case ROOM_INFO:
-      break;
+		res = new RoomInfoCmd();
+		break;
     case BASIC_CMD:
       res = new BasicCmd();
-      res->setCommandArg(p.data);
-      res->setCommandType(static_cast<CmdType>(p.cmdType));
-      return (res);
       break;
     case ROOM_LIST:
 		res = new ListRoomCmd();
-		res->setCommandArg(p.data);
-		res->setCommandType(static_cast<CmdType>(p.cmdType));
-		return (res);
 		break;
-    case ENTITY:
-      break;
-    case INPUT_CMD:
+	case INPUT_CMD:
+		res = new InputCmd();
+		break;
+	case ENTITY:
       break;
     default:
       break;
     }
-  return (NULL);
+  if (res)
+  {
+	  //std::cout << "UNSERIALIZE [" << p->data << "]" << std::endl;
+	  res->setCommandArg(p->data);
+	  res->setCommandType(static_cast<CmdType>(p->cmdType));
+  }
+  return (res);
 }

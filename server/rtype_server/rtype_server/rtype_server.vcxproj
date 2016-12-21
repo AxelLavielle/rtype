@@ -74,6 +74,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\rtype\common\Serialize;C:\rtype\common;.;C:\SFML\SFML-2.4.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -81,7 +82,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\49312\Desktop\RENDUS\RTYPE\rtype\common;C:\Users\49312\Desktop\RENDUS\RTYPE\rtype\common\Serialize;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\49312\Desktop\RENDUS\RTYPE\rtype\common;C:\Users\49312\Desktop\RENDUS\RTYPE\rtype\common\Serialize;C:\Users\49312\Desktop\RENDUS\RTYPE\rtype\server\rtype_server\rtype_server;C:\rtype\common\Serialize;C:\rtype\common;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -91,6 +92,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\rtype\common\Serialize;C:\rtype\common;.;C:\SFML\SFML-2.4.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -104,6 +106,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\rtype\common\Serialize;C:\rtype\common;.;C:\SFML\SFML-2.4.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -111,8 +114,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\common\AMutex.hh" />
+    <ClInclude Include="..\..\..\common\AThread.hh" />
     <ClInclude Include="..\..\..\common\IEntity.hpp" />
     <ClInclude Include="..\..\..\common\ISocket.hpp" />
+    <ClInclude Include="..\..\..\common\MemTools.hh" />
+    <ClInclude Include="..\..\..\common\Mutex.hh" />
     <ClInclude Include="..\..\..\common\Serialize\ACommand.hh" />
     <ClInclude Include="..\..\..\common\Serialize\AEntity.hh" />
     <ClInclude Include="..\..\..\common\Serialize\Barrier.hh" />
@@ -120,40 +127,55 @@
     <ClInclude Include="..\..\..\common\Serialize\CmdEnum.hh" />
     <ClInclude Include="..\..\..\common\Serialize\EntityType.hh" />
     <ClInclude Include="..\..\..\common\Serialize\ICommand.hpp" />
+    <ClInclude Include="..\..\..\common\Serialize\InputCmd.hh" />
     <ClInclude Include="..\..\..\common\Serialize\ListRoomCmd.hh" />
     <ClInclude Include="..\..\..\common\Serialize\Monster.hh" />
     <ClInclude Include="..\..\..\common\Serialize\Player.hh" />
     <ClInclude Include="..\..\..\common\Serialize\PowerUp.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\RoomInfoCmd.hh" />
     <ClInclude Include="..\..\..\common\Serialize\Serialize.hh" />
+    <ClInclude Include="..\..\..\common\Thread.hh" />
+    <ClInclude Include="..\..\..\common\ThreadPool.hh" />
     <ClInclude Include="ASocketServer.hh" />
     <ClInclude Include="ClientManager.hh" />
     <ClInclude Include="CmdManager.hh" />
+    <ClInclude Include="Game.hh" />
     <ClInclude Include="Room.hh" />
     <ClInclude Include="RoomManager.hh" />
     <ClInclude Include="Server.hh" />
     <ClInclude Include="ServerClient.hh" />
     <ClInclude Include="SocketServerTCP.hh" />
+    <ClInclude Include="SocketServerUDP.hh" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\common\AMutex.cpp" />
+    <ClCompile Include="..\..\..\common\AThread.cpp" />
     <ClCompile Include="..\..\..\common\MemTools.cpp" />
+    <ClCompile Include="..\..\..\common\Mutex.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\ACommand.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\AEntity.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\Barrier.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\BasicCmd.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\InputCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\ListRoomCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\Monster.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\Player.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\PowerUp.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\RoomInfoCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\Serialize.cpp" />
+    <ClCompile Include="..\..\..\common\Thread.cpp" />
+    <ClCompile Include="..\..\..\common\ThreadPool.cpp" />
     <ClCompile Include="ASocketServer.cpp" />
     <ClCompile Include="ClientManager.cpp" />
     <ClCompile Include="CmdManager.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="RoomManager.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="ServerClient.cpp" />
     <ClCompile Include="SocketServerTCP.cpp" />
+    <ClCompile Include="SocketServerUDP.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

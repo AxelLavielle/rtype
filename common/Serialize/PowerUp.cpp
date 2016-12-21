@@ -19,6 +19,6 @@ void		PowerUp::setPower(const int power)
   _power = power;
 }
 
-void		PowerUp::update(void)
+void		PowerUp::update()
 {
 }

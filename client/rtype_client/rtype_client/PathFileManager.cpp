@@ -7,14 +7,9 @@ PathFileManager::PathFileManager()
 	_root = "";
 }
 
-std::string PathFileManager::getRootPath() const
-{
-	return (_root);
-}
-
 PathFileManager::PathFileManager(const PathFileManager & p)
 {
-	_root = p.getRootPath();
+	_root = p.getRoot();
 }
 
 
@@ -63,8 +58,8 @@ std::string PathFileManager::getRoot() const
 	return _root;
 }
 
-PathFileManager & PathFileManager::operator=(const PathFileManager & p)
+PathFileManager &PathFileManager::operator=(const PathFileManager & p)
 {
-	_root = p.getRootPath();
+	_root = p.getRoot();
 	return (*this);
 }

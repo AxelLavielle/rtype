@@ -2,6 +2,7 @@
 
 ThreadPool::ThreadPool()
 {
+  _size = 0;
 }
 
 ThreadPool::~ThreadPool()
@@ -41,15 +42,16 @@ void ThreadPool::joinAll()
 {
 	unsigned int	i = 0;
 
-	while (i != _threadGroup.size())
+	while (i < _threadGroup.size())
 	{
 		_threadGroup[i]->join();
 		//delete _threadGroup[i];
+		//_threadGroup.erase(_threadGroup.begin() + i);
 		i++;
 	}
 }
 
-bool ThreadPool::is_thread_in(IThread *thread)
+bool ThreadPool::isThreadIn(IThread *thread)
 {
 	unsigned int	i = 0;
 
@@ -61,7 +63,7 @@ bool ThreadPool::is_thread_in(IThread *thread)
 	}
 	return (false);
 }
-	
+
 void ThreadPool::deleteUnusedThread()
 {
 	unsigned int	i = 0;
@@ -76,4 +78,9 @@ void ThreadPool::deleteUnusedThread()
 		i++;
 	}
 	_size = _threadGroup.size();
+}
+
+int ThreadPool::getSize() const
+{
+  return (_size);
 }

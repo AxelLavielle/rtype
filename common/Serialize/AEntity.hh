@@ -9,7 +9,7 @@ class AEntity :
 public:
 	AEntity();
 	virtual ~AEntity();
-	virtual		void			update();
+	virtual		void			update() = 0;
 	virtual		double			getPosX() const;
 	virtual		void			setPosX(const double);
 	virtual		double			getPosY() const;

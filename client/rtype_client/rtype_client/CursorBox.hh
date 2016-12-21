@@ -12,6 +12,8 @@ public:
 	virtual bool draw();
 	virtual bool click();
 	virtual bool over();
+	int getValue() const;
+
 private:
 	Rect		_rectLine;
 	Rect		_rectBox;

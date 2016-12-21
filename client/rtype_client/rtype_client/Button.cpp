@@ -6,6 +6,7 @@ Button::Button(IGraphManager *graph, IEventManager *event, const Rect &rect, con
 	_backgroundSprite = "../../res/img/button.jpg";
 	_backgroundOverSprite = "../../res/img/button_over.jpg";
 	_over = false;
+	_typeName = "Button";
 }
 
 Button::Button() : AGUIElement()

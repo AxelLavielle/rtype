@@ -52,6 +52,7 @@ SRC	=	$(SER)/ACommand.cpp	 	\
 		$(DIR)/RectDecor.cpp 		\
 		$(SER)/RoomInfoCmd.cpp 		\
 		$(SER)/Serialize.cpp		\
+		$(DIR)/SettingsNextPage.cpp	\
 		$(DIR)/SettingsPage.cpp		\
 		$(DIR)/SFML.cpp 		\
 		$(DIR)/SFMLEvent.cpp 		\

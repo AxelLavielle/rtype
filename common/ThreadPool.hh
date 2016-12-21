@@ -1,20 +1,23 @@
 #pragma once
 
-#include "AThreadPool.hh"
+#include "IThread.hpp"
 #include <thread>
 #include <vector>
 
-class ThreadPool : public AThreadPool
+class ThreadPool
 {
 public:
 	ThreadPool();
 	~ThreadPool();
-	virtual bool addThread(IThread *thread);
-	virtual bool removeThread(IThread *thread);
-	virtual void joinAll();
-	virtual bool is_thread_in(IThread *thread);
-	virtual void deleteUnusedThread();
+	bool	addThread(IThread *thread);
+	bool	removeThread(IThread *thread);
+	void	joinAll();
+	bool	isThreadIn(IThread *thread);
+	void	deleteUnusedThread();
+        int	getSize() const;
+
 
 private:
-	std::vector<IThread *>		_threadGroup;
+	std::vector<IThread *>	_threadGroup;
+	int			_size;
 };

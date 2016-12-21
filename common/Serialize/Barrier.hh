@@ -8,6 +8,8 @@ class Barrier :
 public:
   Barrier();
   virtual ~Barrier();
+
   virtual void		update();
-  IEntity	*createEntity();
+
+  IEntity		*createEntity();
 };

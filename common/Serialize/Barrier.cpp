@@ -9,6 +9,6 @@ Barrier::~Barrier()
 {
 }
 
-void	Barrier::update(void)
+void	Barrier::update()
 {
 }

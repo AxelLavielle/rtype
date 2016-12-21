@@ -13,6 +13,10 @@ SocketClientTCP::~SocketClientTCP()
 
 bool				SocketClientTCP::init(const std::string &addr, const int port)
 {
+	if (_port == -1)
+		_port = port;
+	if (_ip == "")
+		_ip = addr;
 #ifdef _WIN32
 	int				iResult;
 
@@ -33,7 +37,7 @@ bool				SocketClientTCP::init(const std::string &addr, const int port)
 	_result = NULL;
 	_ptr = NULL;
 
-	iResult = getaddrinfo(addr.c_str(), std::to_string(port).c_str(), &hints, &_result);
+	iResult = getaddrinfo(_ip.c_str(), std::to_string(_port).c_str(), &hints, &_result);
 	if (iResult != 0)
 	{
 		std::cerr << "getaddrinfo failed: " << iResult << std::endl;
@@ -68,9 +72,9 @@ bool				SocketClientTCP::init(const std::string &addr, const int port)
 		std::cerr << "Could not create socket" << std::endl;
 		return (false);
 	}
-	_server.sin_addr.s_addr = inet_addr(addr.c_str());
+	_server.sin_addr.s_addr = inet_addr(_ip.c_str());
 	_server.sin_family = AF_INET;
-	_server.sin_port = htons(port);
+	_server.sin_port = htons(_port);
 
 	struct timeval timeout;      
 
@@ -82,6 +86,48 @@ bool				SocketClientTCP::init(const std::string &addr, const int port)
 
 	if (setsockopt (_sock, SOL_SOCKET, SO_SNDTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
 	  std::cerr << "setsockopt failed" << std::endl;
+
+#endif
+	return (true);
+}
+
+bool				SocketClientTCP::sendData(const char *data)
+{
+	short			datasize;
+	char			len[2];
+
+	len[0] = data[0];
+	len[1] = data[1];
+	datasize = *reinterpret_cast<short*>(len);
+#ifdef _WIN32
+	const char		*sendbuf = data;
+	int				iResult;
+	iResult = send(_connectSocket, sendbuf, static_cast<int>(datasize), 0);
+	if (iResult == SOCKET_ERROR)
+	{
+		std::cerr << "Send failed: " << WSAGetLastError() << std::endl;
+		closesocket(_connectSocket);
+		WSACleanup();
+		_connected = false;
+		return (false);
+	}
+
+	//iResult = shutdown(_connectSocket, SD_SEND);
+	//if (iResult == SOCKET_ERROR)
+	//{
+	//	std::cerr << "Shutdown failed: " << WSAGetLastError() << std::endl;
+	//	closesocket(_connectSocket);
+	//	WSACleanup();
+	//	return (false);
+	//}
+
+#elif __linux__
+	if (send(_sock, data, datasize, 0) < 0)
+	{
+		std::cout << "Send failed" << std::endl;
+		_connected = false;
+		return (false);
+	}
 
 #endif
 	return (true);
@@ -99,6 +145,7 @@ bool				SocketClientTCP::sendData(const char *data, const int datasize)
 		std::cerr << "Send failed: " << WSAGetLastError() << std::endl;
 		closesocket(_connectSocket);
 		WSACleanup();
+		_connected = false;
 		return (false);
 	}
 
@@ -115,6 +162,7 @@ bool				SocketClientTCP::sendData(const char *data, const int datasize)
 	if (send(_sock, data, datasize, 0) < 0)
 	{
 		std::cout << "Send failed" << std::endl;
+		_connected = false;
 		return (false);
 	}
 
@@ -187,6 +235,7 @@ bool			SocketClientTCP::closure()
 #ifdef _WIN32
 	int			iResult;
 
+	_connected = false;
 	iResult = shutdown(_connectSocket, SD_SEND);
 	if (iResult == SOCKET_ERROR)
 	{

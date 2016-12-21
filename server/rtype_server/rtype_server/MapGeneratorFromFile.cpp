@@ -1,22 +1,19 @@
 #include "MapGeneratorFromFile.hh"
 
-MapGeneratorFromFile::MapGeneratorFromFile()
+Map					MapGenerator::generate()
 {
+
 }
 
-MapGeneratorFromFile::~MapGeneratorFromFile()
+Map					MapGenerator::generate(const std::string &mapFile)
 {
-}
-
-Map								MapGeneratorFromFile::generate(const std::string &mapFile)
-{
-	std::ifstream				file(mapFile.c_str());
-	char						c;
-	std::string					nb;
+	std::ifstream			file(mapFile.c_str());
+	char				c;
+	std::string			nb;
 	enum rtype::EntityType		type;
-	Map							map;
-	int							horLine = -1;
-	IEntity						*entity;
+	Map				map;
+	int				horLine = -1;
+	IEntity				*entity;
 	std::vector<IEntity *>		entityList;
 
 	while (file.get(c))

@@ -130,13 +130,11 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\common\AMutex.hh" />
     <ClInclude Include="..\..\..\common\AThread.hh" />
-    <ClInclude Include="..\..\..\common\AThreadPool.hh" />
     <ClInclude Include="..\..\..\common\EntityType.hh" />
     <ClInclude Include="..\..\..\common\IEntity.hpp" />
     <ClInclude Include="..\..\..\common\IMutex.hpp" />
     <ClInclude Include="..\..\..\common\ISocket.hpp" />
     <ClInclude Include="..\..\..\common\IThread.hpp" />
-    <ClInclude Include="..\..\..\common\IThreadPool.hpp" />
     <ClInclude Include="..\..\..\common\MemTools.hh" />
     <ClInclude Include="..\..\..\common\Mutex.hh" />
     <ClInclude Include="..\..\..\common\Serialize\ACommand.hh" />
@@ -184,12 +182,14 @@
     <ClInclude Include="IPage.hpp" />
     <ClInclude Include="ISoundManager.hpp" />
     <ClInclude Include="ListBox.hh" />
+    <ClInclude Include="LobbyPage.hh" />
     <ClInclude Include="Menu.hh" />
     <ClInclude Include="PathFileManager.hh" />
     <ClInclude Include="PausePage.hh" />
     <ClInclude Include="Rect.hh" />
     <ClInclude Include="CursorBox.hh" />
     <ClInclude Include="RectDecor.hh" />
+    <ClInclude Include="SettingsNextPage.hh" />
     <ClInclude Include="SettingsPage.hh" />
     <ClInclude Include="SFML.hh" />
     <ClInclude Include="SFMLEvent.hh" />
@@ -201,7 +201,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\common\AMutex.cpp" />
     <ClCompile Include="..\..\..\common\AThread.cpp" />
-    <ClCompile Include="..\..\..\common\AThreadPool.cpp" />
     <ClCompile Include="..\..\..\common\MemTools.cpp" />
     <ClCompile Include="..\..\..\common\Mutex.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\ACommand.cpp" />
@@ -247,6 +246,7 @@
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="CursorBox.cpp" />
     <ClCompile Include="RectDecor.cpp" />
+    <ClCompile Include="SettingsNextPage.cpp" />
     <ClCompile Include="SettingsPage.cpp" />
     <ClCompile Include="SFML.cpp" />
     <ClCompile Include="SFMLEvent.cpp" />

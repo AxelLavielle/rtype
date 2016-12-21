@@ -1,6 +1,5 @@
 #include "Player.hh"
 #include "EntityType.hh"
-#include <iostream>
 
 Player::Player()
 {
@@ -8,11 +7,17 @@ Player::Player()
   this->setName("Player1");
 }
 
+Player::Player(const std::string &name)
+{
+	this->setType(rtype::PLAYER);
+	this->setName(name);
+}
+
 Player::~Player()
 {
 }
 
-int		Player::getId(void) const
+int		Player::getId() const
 {
   return (_id);
 }
@@ -22,6 +27,6 @@ void		Player::setId(const int id)
   _id = id;
 }
 
-void		Player::update(void)
+void		Player::update()
 {
 }

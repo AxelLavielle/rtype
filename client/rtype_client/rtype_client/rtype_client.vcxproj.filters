@@ -8,7 +8,6 @@
     <ClCompile Include="ASoundManager.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="CheckBox.cpp" />
-    <ClCompile Include="CmdManager.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="InputBox.cpp" />
@@ -29,7 +28,6 @@
     <ClCompile Include="APage.cpp" />
     <ClCompile Include="..\..\..\common\AMutex.cpp" />
     <ClCompile Include="..\..\..\common\AThread.cpp" />
-    <ClCompile Include="..\..\..\common\AThreadPool.cpp" />
     <ClCompile Include="..\..\..\common\MemTools.cpp" />
     <ClCompile Include="..\..\..\common\Mutex.cpp" />
     <ClCompile Include="..\..\..\common\Thread.cpp" />
@@ -56,6 +54,8 @@
     <ClCompile Include="..\..\..\common\Serialize\Monster.cpp" />
     <ClCompile Include="ASocketClient.cpp" />
     <ClCompile Include="PausePage.cpp" />
+    <ClCompile Include="SettingsNextPage.cpp" />
+    <ClCompile Include="CmdManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />
@@ -66,7 +66,6 @@
     <ClInclude Include="ASoundManager.hh" />
     <ClInclude Include="Button.hh" />
     <ClInclude Include="CheckBox.hh" />
-    <ClInclude Include="CmdManager.hh" />
     <ClInclude Include="Color.hh" />
     <ClInclude Include="Game.hh" />
     <ClInclude Include="IEventManager.hpp" />
@@ -93,12 +92,10 @@
     <ClInclude Include="IPage.hpp" />
     <ClInclude Include="..\..\..\common\AMutex.hh" />
     <ClInclude Include="..\..\..\common\AThread.hh" />
-    <ClInclude Include="..\..\..\common\AThreadPool.hh" />
     <ClInclude Include="..\..\..\common\EntityType.hh" />
     <ClInclude Include="..\..\..\common\IEntity.hpp" />
     <ClInclude Include="..\..\..\common\IMutex.hpp" />
     <ClInclude Include="..\..\..\common\IThread.hpp" />
-    <ClInclude Include="..\..\..\common\IThreadPool.hpp" />
     <ClInclude Include="..\..\..\common\MemTools.hh" />
     <ClInclude Include="..\..\..\common\Mutex.hh" />
     <ClInclude Include="..\..\..\common\Thread.hh" />
@@ -127,5 +124,8 @@
     <ClInclude Include="..\..\..\common\Serialize\PowerUp.hh" />
     <ClInclude Include="..\..\..\common\Serialize\Monster.hh" />
     <ClInclude Include="PausePage.hh" />
+    <ClInclude Include="SettingsNextPage.hh" />
+    <ClInclude Include="LobbyPage.hh" />
+    <ClInclude Include="CmdManager.hh" />
   </ItemGroup>
 </Project>

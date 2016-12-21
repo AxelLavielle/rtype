@@ -8,13 +8,13 @@ class IEntity
 public:
 	virtual				~IEntity(){}
 	virtual void			update() = 0;
-	virtual double			getPosX(void) const = 0;
+	virtual double			getPosX() const = 0;
 	virtual void			setPosX(const double) = 0;
-	virtual double			getPosY(void) const = 0;
+	virtual double			getPosY() const = 0;
 	virtual void			setPosY(const double) = 0;
-	virtual double			getSpeedX(void) const = 0;
+	virtual double			getSpeedX() const = 0;
 	virtual void			setSpeedX(const double) = 0;
-	virtual double			getSpeedY(void) const = 0;
+	virtual double			getSpeedY() const = 0;
 	virtual void			setSpeedY(const double) = 0;
 	virtual void			setType(const rtype::EntityType&) = 0;
 	virtual rtype::EntityType	getType() const = 0;

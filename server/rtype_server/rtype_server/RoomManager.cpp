@@ -49,7 +49,7 @@ Room									&RoomManager::getRoomByName(const std::string &roomName)
 	throw (std::runtime_error("No such room"));
 }
 
-Room									&RoomManager::getRoomById(const int roomId)
+Room									*RoomManager::getRoomById(const int roomId)
 {
 	std::vector<Room>::iterator	it;
 
@@ -57,7 +57,7 @@ Room									&RoomManager::getRoomById(const int roomId)
 	while (it != _roomList.end())
 	{
 		if ((*it).getId() == roomId)
-			return (*it);
+			return (&(*it));
 		it++;
 	}
 	throw (std::runtime_error("No such room"));
@@ -66,41 +66,6 @@ Room									&RoomManager::getRoomById(const int roomId)
 std::vector<Room> &RoomManager::getRoomList()
 {
 	return (_roomList);
-}
-
-std::string			listClients(std::vector<ServerClient *> clientList)
-{
-	std::string		strClients;
-	std::vector<ServerClient *>::const_iterator	itClient;
-
-	itClient = clientList.begin();
-	while (itClient != clientList.end())
-	{
-		strClients += "--------> ";
-		strClients += std::to_string((*itClient)->getTCPSocket());
-		strClients += "\n";
-		itClient++;
-	}
-	return (strClients);
-}
-std::string								RoomManager::getRoomListString() const
-{
-	std::string							roomList;
-	std::vector<Room>::const_iterator	it;
-	
-	it = _roomList.begin();
-	while (it != _roomList.end())
-	{
-		roomList += "Room ";
-		roomList += std::to_string((*it).getId());
-		roomList += " : ";
-		roomList += (*it).getName();
-		roomList += "\n";
-		roomList += listClients((*it).getClients());
-		
-		it++;
-	}
-	return (roomList);
 }
 
 bool		RoomManager::addClientToRoom(ServerClient *client, const std::string &name)
@@ -123,7 +88,7 @@ bool		RoomManager::addClientToRoom(ServerClient *client, const std::string &name
 		try
 		{
 			getRoomById(client->getCurrentRoom());
-			getRoomById(client->getCurrentRoom()).removeClient(client);
+			getRoomById(client->getCurrentRoom())->removeClient(client);
 		}
 		catch (const std::exception &error)
 		{
@@ -148,7 +113,7 @@ bool		RoomManager::addClientToRoom(ServerClient *client, const int id)
 		return (false);
 	}
 
-	if (getRoomById(id).addClient(client) == false)
+	if (getRoomById(id)->addClient(client) == false)
 		return (false);
 
 	if (client->getCurrentRoom() != - 1)
@@ -156,7 +121,7 @@ bool		RoomManager::addClientToRoom(ServerClient *client, const int id)
 		try
 		{
 			getRoomById(client->getCurrentRoom());
-			getRoomById(client->getCurrentRoom()).removeClient(client);
+			getRoomById(client->getCurrentRoom())->removeClient(client);
 		}
 		catch (const std::exception &error)
 		{
@@ -167,12 +132,30 @@ bool		RoomManager::addClientToRoom(ServerClient *client, const int id)
 	client->setCurrentRoom(id);
 	return (true);
 }
-#include <Windows.h>
 
-std::vector<Room>				RoomManager::getRoomsReady()
+bool		RoomManager::removeClientFromRoom(ServerClient *client, const int id)
 {
-	std::vector<Room>			roomsReady;
-	std::vector<Room>::iterator	it;
+	Room	*room;
+
+	try
+	{
+		room = getRoomById(id);
+	}
+	catch (const std::exception &error)
+	{
+		std::cerr << "############ " << error.what() << std::endl;
+		return (false);
+	}
+	room->removeClient(client);
+	if (room->getNbClients() == 0)
+		removeRoom(id);
+	return (true);
+}
+
+std::vector<Room>						RoomManager::getRoomsReadyToLaunch() const
+{
+	std::vector<Room>					roomsReady;
+	std::vector<Room>::const_iterator	it;
 
 	if (_roomList.size() == 0)
 		return (roomsReady);
@@ -180,8 +163,29 @@ std::vector<Room>				RoomManager::getRoomsReady()
 	it = _roomList.begin();
 	while (it != _roomList.end())
 	{
-		//std::cout << "Room [" << (*it).getName() << "] : " << (*it).getNbClientsReady() << std::endl;
-		if ((*it).getNbClients() > 0 && (*it).getNbClients() == (*it).getNbClientsReady())
+		if ((*it).getNbClients() > 0
+			&& (*it).getNbClients() == (*it).getNbClientsReady()
+			&& (*it).isReadyToPlay() == false && (*it).isReadyToLaunch() == false)
+			roomsReady.push_back((*it));
+		it++;
+	}
+	return (roomsReady);
+}
+
+std::vector<Room>						RoomManager::getRoomsReadyToPlay() const
+{
+	std::vector<Room>					roomsReady;
+	std::vector<Room>::const_iterator	it;
+
+	if (_roomList.size() == 0)
+		return (roomsReady);
+
+	it = _roomList.begin();
+	while (it != _roomList.end())
+	{
+		if ((*it).isReadyToLaunch() == true
+			&& (*it).isReadyToPlay() == false 
+			&& (*it).getNbClients() == (*it).getNbClientsUDPConnected())
 			roomsReady.push_back((*it));
 		it++;
 	}

@@ -7,7 +7,6 @@ class PathFileManager
 {
 public:
 	PathFileManager();
-	std::string getRootPath() const;
 	PathFileManager(const PathFileManager &p);
 	~PathFileManager();
 	bool init();

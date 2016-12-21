@@ -9,6 +9,7 @@
 #include "ThreadPool.hh"
 #include "AMutex.hh"
 #include "Mutex.hh"
+#include "SocketClientUDP.hh"
 
 class Client
 {
@@ -22,8 +23,9 @@ private:
 	IMenu				*_menu;
 	SocketClientTCP		*_socket;
 	CmdManager			_cmdManager;
-	AThreadPool			*_pool;
+	ThreadPool			_pool;
 	AMutex				*_mutex;
+	std::string			_ip;
 
 	bool initSocket();
 	bool initGraph();

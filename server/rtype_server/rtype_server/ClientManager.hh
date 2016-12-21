@@ -16,7 +16,9 @@ public:
 	std::vector<int>				getClientsTCPSockets();
 	std::vector<int>				getClientsUDPSockets();
 	std::vector<ServerClient *>		&getClients();
-	void							addDataToSend(int, const char *, int);
+	ServerClient					*getClientByTCP(const int);
+	void							addDataToSendTCP(int, const char *, int);
+	void							addDataToSendUDP(int, const char *, int);
 	void							checkDisconnectedClients(RoomManager &);
 };
 

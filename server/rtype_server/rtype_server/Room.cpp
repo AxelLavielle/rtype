@@ -1,14 +1,18 @@
 #include "Room.hh"
 
-Room::Room(int id)
+Room::Room(const int id)
 {
 	_id = id;
+	_readyToLaunch = false;
+	_readyToPlay = false;
 }
 
-Room::Room(int id, const std::string &name)
+Room::Room(const int id, const std::string &name)
 {
 	_id = id;
 	_name = name;
+	_readyToLaunch = false;
+	_readyToPlay = false;
 }
 
 Room::~Room()
@@ -84,4 +88,40 @@ int												Room::getNbClientsReady() const
 		it++;
 	}
 	return (nb);
+}
+
+int												Room::getNbClientsUDPConnected() const
+{
+	std::vector<ServerClient *>::const_iterator	it;
+	int											nb;
+
+	nb = 0;
+	it = _clients.begin();
+	while (it != _clients.end())
+	{
+		if ((*it)->getAddrUDP() != NULL)
+			nb++;
+		it++;
+	}
+	return (nb);
+}
+
+void			Room::setReadyToLaunch(const bool launch)
+{
+	_readyToLaunch = launch;
+}
+
+bool			Room::isReadyToLaunch() const
+{
+	return (_readyToLaunch);
+}
+
+void			Room::setReadyToPlay(const bool launch)
+{
+	_readyToLaunch = launch;
+}
+
+bool			Room::isReadyToPlay() const
+{
+	return (_readyToPlay);
 }

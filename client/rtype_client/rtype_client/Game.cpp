@@ -7,17 +7,17 @@ Game::Game()
 	_size.first = 0;
 	_size.second = 0;
 	_dificulty = 0;
+	_fileManager.init();
 	_musicStage1.setDuration(-1);
 	_musicStage1.setLoop(true);
 	_musicStage1.setMusic(true);
-	_musicStage1.setFilePath("../../res/sounds/stage1.wav");
+	_musicStage1.setFilePath(_fileManager.getRoot() + "/res/sounds/stage1.wav");
 	_input = new InputCmd();
-	_fileManager.init();
 	_sock = new SocketClientUDP();
-	_sock->init("127.0.0.1", 4242);
-	_sock->connectToServer();
+	_id = -1;
+	_ip = "";
+	_port = -1;
 }
-
 
 Game::~Game()
 {
@@ -36,11 +36,16 @@ int Game::launch()
 {
 	std::chrono::high_resolution_clock::time_point      t1;
 	std::chrono::high_resolution_clock::time_point	    t2;
-	double												duration;
-	int													i;
-	bool												first = true;
+	// double												duration;
+	// int													i;
+	// bool												first = true;
 
-	i = 100;
+	// i = 100;
+	_sock->init(_ip, _port);
+	std::cout << "GAME LAUNCH" << std::endl;
+	_sock->connectToServer();
+	_cmdManager.setSocket(_sock);
+	_cmdManager.sendLaunchGame(_id);
 	_graph->setFullScreen(true);
 	_graph->setMouseCursorVisible(false);
 	_size = _graph->getWindowSize();
@@ -66,20 +71,20 @@ int Game::launch()
 			//	_input->setCommandArg("RIGHT");
 			//_sock->sendData(_serialize.serialize(_input));
 		}
-		t2 = std::chrono::high_resolution_clock::now();
-		duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
-		if (first || duration >= 10000)
-		{
-			i += 10;
-			if (i >= 1000)
-				i = 0;
-			first = false;
-			t1 = std::chrono::high_resolution_clock::now();
-		}
+		//t2 = std::chrono::high_resolution_clock::now();
+		//duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+		//if (first || duration >= 10000)
+		//{
+		//	i += 10;
+		//	if (i >= 1000)
+		//		i = 0;
+		//	first = false;
+		//	t1 = std::chrono::high_resolution_clock::now();
+		//}
 
 		_graph->clearWindow();
-		_graph->setBackground("../../res/img/stars_background.jpg", -1, -1);
-		_graph->drawRectangle(Color(255, 255, 255), Rect(i, 300, 50, 50));
+		_graph->setBackground(_fileManager.getRoot() + "/res/img/stars_background.jpg", -1, -1);
+//		_graph->drawRectangle(Color(255, 255, 255), Rect(i, 300, 50, 50));
 		_guiPage->draw();
 		_graph->refresh();
 	}
@@ -94,4 +99,19 @@ void Game::setGraph(IGraphManager * graph)
 void Game::setEvent(IEventManager * event)
 {
 	_event = event;
+}
+
+void Game::setIp(const std::string & ip)
+{
+	_ip = ip;
+}
+
+void Game::setPort(const int port)
+{
+	_port = port;
+}
+
+void Game::setId(const int id)
+{
+	_id = id;
 }

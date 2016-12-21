@@ -60,6 +60,7 @@ SRC	=	$(SER)/ACommand.cpp	 	\
 		$(DIR)/SocketClientTCP.cpp	\
 		$(DIR)/SocketClientUDP.cpp	\
 		$(DIR)/Sound.cpp		\
+		$(DIR)/LoadingPage.cpp		\
 		$(COM)/ThreadPool.cpp		\
 		$(COM)/Thread.cpp		\
 		$(COM)/MemTools.cpp		\

@@ -19,7 +19,7 @@ void	Game::updateGame(const Room &room)
 		AEntity *player = new Player ((*it)->getPlayerName());
 
 		msg = Serialize::serialize(player);
-		(*it)->addUDPDataToSend(msg, sizeof(*player));
+		(*it)->addUDPDataToSend(msg);
 		it++;
 	}
 }

@@ -34,7 +34,7 @@ public:
 	~ServerClient();
 
 	int					getTCPSocket() const;
-	void				addTCPDataToSend(const char *, const int);
+	void				addTCPDataToSend(const char *);
 	const char			*getSendDataTCP() const;
 	void				resetDataTCP();
 	int					getDataLenTCP() const;
@@ -42,7 +42,7 @@ public:
 	void				setDisconnectedTCP(const bool);
 
 	struct sockaddr_in	*getAddrUDP() const;
-	void				addUDPDataToSend(const char *, const int);
+	void				addUDPDataToSend(const char *);
 	const char			*getSendDataUDP() const;
 	void				resetDataUDP();
 	int					getDataLenUDP() const;

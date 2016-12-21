@@ -72,16 +72,20 @@ char		*Serialize::serialize(ICommand *cmd)
   p.dataType = cmd->getCommandName();
   p.cmdType = cmd->getCommandType();
   tmp = cmd->getCommandArg();
-  std::cout << "Serialize TMP = " << tmp << std::endl;
-  i = -1;
-  while (tmp[++i] != 0)
-    p.data[i] = tmp[i];
+  i = 0;
+  while (i < tmp.size())
+  {
+	  p.data[i] = tmp[i];
+	  i++;
+  }
   p.data[i] = 0;
-  p.dataLength = tmp.size() + 6;
+  p.dataLength = tmp.size() + 8;
+  std::cout << "struct size = " << p.dataLength << std::endl;
   i = -1;
   while (++i != p.dataLength)
     ret[i] = reinterpret_cast<char *>(&p)[i];
   ret[i] = 0;
+  i = 0;
   return (ret);
 }
 

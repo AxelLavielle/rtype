@@ -92,7 +92,7 @@ void						ClientManager::addDataToSendTCP(int clientSocket, const char *data, in
 	while (it != _clientList.end())
 	{
 		if ((*it)->getTCPSocket() == clientSocket)
-			(*it)->addTCPDataToSend(data, dataLen);
+			(*it)->addTCPDataToSend(data);
 		it++;
 	}
 }
@@ -105,7 +105,7 @@ void						ClientManager::addDataToSendUDP(int clientSocket, const char *data, in
 	while (it != _clientList.end())
 	{
 		if ((*it)->getTCPSocket() == clientSocket)
-			(*it)->addUDPDataToSend(data, dataLen);
+			(*it)->addUDPDataToSend(data);
 		it++;
 	}
 }

@@ -1,7 +1,5 @@
 #include "CmdManager.hh"
 
-
-
 CmdManager::CmdManager()
 {
 	_handKey = 42;
@@ -21,8 +19,10 @@ bool			CmdManager::sendInput(const std::string &key)
 	InputCmd	*newCmd;
 
 	newCmd = new InputCmd();
-
 	newCmd->setKey(key);
+	_cmd.push_back(newCmd);
+	if (!sendCmd())
+		return (false);
 	return (true);
 }
 
@@ -70,7 +70,7 @@ bool	CmdManager::setStatus()
 		tmpCmd = static_cast<BasicCmd* >(cmd);
 		if (static_cast<ReplyCodes>(std::stoi(tmpCmd->getArg(0))) == STATUS_CHANGED)
 		{
-			std::cout << "Room left" << std::endl;
+			std::cout << "Status set" << std::endl;
 			delete cmd;
 			return (true);
 		}
@@ -84,13 +84,12 @@ bool	CmdManager::leaveRoom()
 	BasicCmd		*newCmd;
 	ICommand		*cmd;
 
-	if (!_socketClient || !_socketClient->isConnected())
-		return (false);
 	newCmd = new BasicCmd();
 	newCmd->setCommandType(LEAVE_ROOM);
-	_socketClient->sendData(_serialize.serialize(newCmd), sizeof(*newCmd));
+	_cmd.push_back(newCmd);
+	if (!sendCmd())
+		return (false);
 	cmd = receiveCmd();
-	delete newCmd;
 	if (cmd && cmd->getCommandName() == BASIC_CMD && cmd->getCommandType() == REPLY_CODE)
 	{
 		BasicCmd		*tmpCmd;
@@ -163,6 +162,7 @@ bool	CmdManager::joinRoom(const int id, std::string & playerName)
 	basicCmd->setCommandType(JOIN_ROOM);
 	basicCmd->addArg(ss.str());
 	basicCmd->addArg(playerName);
+	std::cout << "Player name = " << basicCmd->getArg(1) << std::endl;
 	_cmd.push_back(basicCmd);
 	if (!sendCmd())
 		return (false);
@@ -241,7 +241,7 @@ bool		CmdManager::sendCmd()
 	it = _cmd.begin();
 	while (it != _cmd.end())
 	{
-		if (!_socketClient->sendData(_serialize.serialize(*it), sizeof(*(*it))))
+		if (!_socketClient->sendData(_serialize.serialize(*it)))
 		{
 			std::cerr << "ERROR: cant not send data" << std::endl;
 			return (false);

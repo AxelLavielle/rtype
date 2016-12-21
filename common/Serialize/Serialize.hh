@@ -25,9 +25,9 @@ public:
 private:
   struct	packet
   {
-    short	dataType;
+	short	dataLength;
+	short	dataType;
     short	cmdType;
-    short	dataLength;
     char	data[65465];
   };
 };

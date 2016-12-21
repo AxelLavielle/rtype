@@ -26,20 +26,25 @@ int			ServerClient::getTCPSocket() const
 	return (_TCPSocketFd);
 }
 
-void		ServerClient::addTCPDataToSend(const char *data, const int dataLen)
+void		ServerClient::addTCPDataToSend(const char *data)
 {
 	int		i;
 	int		j;
+	short	size;
+	char	len[2];
 
 	i = _lenDataTCP;
 	j = 0;
-	while (j < dataLen && i < TCP_PACKET_SIZE)
+	len[0] = data[0];
+	len[1] = data[1];
+	size = *reinterpret_cast<short*>(len);
+	while (j < size && i < TCP_PACKET_SIZE)
 	{
 		_sendDataTCP[i] = data[j];
 		i++;
 		j++;
 	}
-	_lenDataTCP += dataLen;
+	_lenDataTCP += size;
 }
 
 const char	*ServerClient::getSendDataTCP() const
@@ -73,20 +78,25 @@ struct sockaddr_in *ServerClient::getAddrUDP() const
 	return (_clientAddrUDP);
 }
 
-void		ServerClient::addUDPDataToSend(const char *data, const int dataLen)
+void		ServerClient::addUDPDataToSend(const char *data)
 {
 	int		i;
 	int		j;
+	char	len[2];
+	short	size;
 
 	i = _lenDataUDP;
 	j = 0;
-	while (j < dataLen && i < UDP_PACKET_SIZE)
+	len[0] = data[0];
+	len[1] = data[1];
+	size = *reinterpret_cast<short*>(len);
+	while (j < size && i < UDP_PACKET_SIZE)
 	{
 		_sendDataUDP[i] = data[j];
 		i++;
 		j++;
 	}
-	_lenDataUDP += dataLen;
+	_lenDataUDP += size;
 }
 
 const char *ServerClient::getSendDataUDP() const

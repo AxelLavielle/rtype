@@ -91,6 +91,48 @@ bool				SocketClientTCP::init(const std::string &addr, const int port)
 	return (true);
 }
 
+bool				SocketClientTCP::sendData(const char *data)
+{
+#ifdef _WIN32
+	const char		*sendbuf = data;
+	int				iResult;
+	short			datasize;
+	char			len[2];
+
+	len[0] = data[0];
+	len[1] = data[1];
+	datasize = *reinterpret_cast<short*>(len);
+	iResult = send(_connectSocket, sendbuf, static_cast<int>(datasize), 0);
+	if (iResult == SOCKET_ERROR)
+	{
+		std::cerr << "Send failed: " << WSAGetLastError() << std::endl;
+		closesocket(_connectSocket);
+		WSACleanup();
+		_connected = false;
+		return (false);
+	}
+
+	//iResult = shutdown(_connectSocket, SD_SEND);
+	//if (iResult == SOCKET_ERROR)
+	//{
+	//	std::cerr << "Shutdown failed: " << WSAGetLastError() << std::endl;
+	//	closesocket(_connectSocket);
+	//	WSACleanup();
+	//	return (false);
+	//}
+
+#elif __linux__
+	if (send(_sock, data, datasize, 0) < 0)
+	{
+		std::cout << "Send failed" << std::endl;
+		_connected = false;
+		return (false);
+	}
+
+#endif
+	return (true);
+}
+
 bool				SocketClientTCP::sendData(const char *data, const int datasize)
 {
 #ifdef _WIN32

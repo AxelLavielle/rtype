@@ -1,5 +1,6 @@
 #pragma once
 
+#include <sstream>
 #include "ISocket.hpp"
 
 #ifdef _WIN32
@@ -14,7 +15,8 @@ public:
 
 	virtual bool	init(const std::string &, const int) = 0;
 	virtual bool	closure() = 0;
-	virtual bool	sendData(const char *, const int datasize) = 0;
+	virtual bool sendData(const char * data, const int datasize) = 0;
+	virtual bool	sendData(const char *) = 0;
 	virtual char	*receiveData() = 0;
 	virtual bool	connectToServer() = 0;
 	virtual bool	isConnected() const;

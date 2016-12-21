@@ -21,6 +21,7 @@ char		*Serialize::serialize(IEntity *entity)
   int		tmpi;
 
   ret = new char[65471];
+  MemTools::set(ret, 0, 65471);
   p.dataType = entity->getType();
   p.cmdType = ENTITY;
   j = 0;
@@ -69,6 +70,7 @@ char		*Serialize::serialize(ICommand *cmd)
   char		*ret;
 
   ret = new char[65471];
+  MemTools::set(ret, 0, 65471);
   p.dataType = cmd->getCommandName();
   p.cmdType = cmd->getCommandType();
   tmp = cmd->getCommandArg();

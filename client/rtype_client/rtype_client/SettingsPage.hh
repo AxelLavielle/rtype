@@ -14,7 +14,7 @@ public:
   virtual void			clear();
   virtual bool			launch();
   virtual void			draw();
-  std::pair<std::string, int> getServerInfo();
+  std::pair<std::string, int> getServerInfo() const;
   virtual IPage::PAGE		event();
   std::pair<std::string, std::pair<int, int> > save() const;
 

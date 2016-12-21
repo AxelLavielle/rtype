@@ -36,8 +36,9 @@ int			CmdManager::launchGame()
 	{
 		BasicCmd		*basicCmd;
 
+		std::cout << "LAUNCH GAME received" << std::endl;
 		basicCmd = static_cast<BasicCmd* >(cmd);
-		res = std::stod(basicCmd->getArg(0));
+		res = std::stod(basicCmd->getArg(1));
 		return (res);
 	}
 	return (-1);

@@ -52,7 +52,7 @@ void SettingsPage::draw()
   drawGUIElement(_guiElement);
 }
 
-std::pair<std::string, int>		SettingsPage::getServerInfo()
+std::pair<std::string, int>		SettingsPage::getServerInfo() const
 {
 	std::vector<AGUIElement* >::const_iterator	it;
 

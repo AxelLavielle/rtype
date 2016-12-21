@@ -120,8 +120,6 @@ int										SocketServerUDP::selectFds()
 		perror("Error");
 	}
 
-
-
 	FD_ZERO(&_readfds);
 	FD_ZERO(&_writefds);
 	FD_SET(_socketServerID, &_readfds);

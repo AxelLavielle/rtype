@@ -157,6 +157,7 @@ void							Server::processGames()
 	_mutex->lock();
 	roomsReadyToPlay = _roomManager.getRoomsReadyToPlay();
 	_mutex->unlock();
+	
 	it = roomsReadyToPlay.begin();
 	while (it != roomsReadyToPlay.end())
 	{
@@ -256,7 +257,9 @@ void											Server::checkNewUDPClients(const std::vector<UDPClientMsg> &vectM
 				_mutex->lock();
 				client = _clientManager.getClientByTCP(tcpSocket);
 				if (client != NULL && client->getAddrUDP() == NULL)
+				{
 					client->setAddrUDP((*it).first);
+				}
 				_mutex->unlock();
 
 			}

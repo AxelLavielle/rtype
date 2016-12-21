@@ -33,6 +33,8 @@ public:
 	bool sendCmd();
 	bool sendUDPCmd();
 
+	IEntity * receiveUDPCmd();
+
 private:
 	ASocketClient		*_socketClient;
 	ASocketClient		*_socketClientUDP;

@@ -42,9 +42,8 @@ int Game::launch()
 
 	// i = 100;
 	_sock->init(_ip, _port);
-	std::cout << "GAME LAUNCH" << std::endl;
 	_sock->connectToServer();
-	_cmdManager.setSocket(_sock);
+	_cmdManager.setUDPSocket(_sock);
 	_cmdManager.sendLaunchGame(_id);
 	_graph->setFullScreen(true);
 	_graph->setMouseCursorVisible(false);
@@ -85,7 +84,7 @@ int Game::launch()
 		_graph->clearWindow();
 		_graph->setBackground(_fileManager.getRoot() + "/res/img/stars_background.jpg", -1, -1);
 //		_graph->drawRectangle(Color(255, 255, 255), Rect(i, 300, 50, 50));
-		_guiPage->draw();
+		//_guiPage->draw();
 		_graph->refresh();
 	}
 	return (0);

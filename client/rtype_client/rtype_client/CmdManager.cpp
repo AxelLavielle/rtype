@@ -24,7 +24,7 @@ bool			CmdManager::sendLaunchGame(const int id)
 	BasicCmd	*cmd;
 	std::stringstream	ss;
 
-	std::cout << "launch game sending" << std::endl;
+	std::cout << "launch game sending == " << id << std::endl;
 	ss << id;
 	cmd = new BasicCmd();
 	cmd->setCommandType(REPLY_CODE);
@@ -58,9 +58,9 @@ int			CmdManager::launchGame()
 	{
 		BasicCmd		*basicCmd;
 
-		std::cout << "LAUNCH GAME received" << std::endl;
 		basicCmd = static_cast<BasicCmd* >(cmd);
 		res = std::stod(basicCmd->getArg(1));
+		std::cout << "LAUNCH GAME received " << basicCmd->getArg(1) << std::endl;
 		return (res);
 	}
 	return (-1);
@@ -308,6 +308,18 @@ bool		CmdManager::sendUDPCmd()
 		it = _cmd.erase(it);
 	}
 	return (true);
+}
+
+IEntity		*CmdManager::receiveUDPCmd()
+{
+	IEntity	*entity;
+	char	*res;
+
+	entity = NULL;
+	if (!_socketClientUDP || !_socketClientUDP->isConnected())
+		return (NULL);
+	Serialize::unserializeCommand();
+	return (entity);
 }
 
 ICommand	*CmdManager::receiveCmd()

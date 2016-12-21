@@ -226,8 +226,8 @@ bool Menu::launch()
 				int res;
 
 				std::cout << "wait launch game" << std::endl;
-				res = _cmdManager.setStatus();
-				while (_cmdManager.launchGame() != -1); //A modifier
+				_cmdManager.setStatus();
+				while ((res = _cmdManager.launchGame()) == -1); //A modifier
 				_newEvent = true;
 				delete (_page);
 				std::cout << "Game" << std::endl;
@@ -263,8 +263,13 @@ bool Menu::launch()
 					break;
 				}
 				delete (_page);
+				RoomInfoCmd			*roomInfo1;
+
 				_page = new InsideRoomPage(_graph, _event, _fileManager, &_soundManager);
-				break;
+				roomInfo1 = _cmdManager.getRoomInfo();
+				setRoomInfo(roomInfo1, (static_cast<InsideRoomPage*>(_page)));
+				_page->clear();
+				_page->init();				break;
 			default:
 			   break;
 	    }

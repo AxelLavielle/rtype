@@ -20,7 +20,7 @@ public:
 private:
 	std::chrono::high_resolution_clock::time_point		t1;
 	Sound												_clickSound;
-	std::map<std::string, bool>							_playerList;
+	std::vector<std::pair<std::string, bool> >			_playerList;
 	std::string											_roomName;
 };
 

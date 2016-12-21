@@ -19,7 +19,7 @@ InsideRoomPage::~InsideRoomPage()
 
 bool InsideRoomPage::init()
 {
-	std::map<std::string, bool>::iterator			it;
+	std::vector<std::pair<std::string, bool> >::iterator			it;
 	int												i;
 
 	i = 1;
@@ -79,5 +79,5 @@ void InsideRoomPage::setRoomName(const std::string & roomName)
 
 void InsideRoomPage::addPlayer(const std::string & name, const bool status)
 {
-	_playerList.insert(std::pair<std::string, bool>(name, status));
+	_playerList.push_back(std::pair<std::string, bool>(name, status));
 }

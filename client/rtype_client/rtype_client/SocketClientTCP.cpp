@@ -93,15 +93,15 @@ bool				SocketClientTCP::init(const std::string &addr, const int port)
 
 bool				SocketClientTCP::sendData(const char *data)
 {
-#ifdef _WIN32
-	const char		*sendbuf = data;
-	int				iResult;
 	short			datasize;
 	char			len[2];
 
 	len[0] = data[0];
 	len[1] = data[1];
 	datasize = *reinterpret_cast<short*>(len);
+#ifdef _WIN32
+	const char		*sendbuf = data;
+	int				iResult;
 	iResult = send(_connectSocket, sendbuf, static_cast<int>(datasize), 0);
 	if (iResult == SOCKET_ERROR)
 	{

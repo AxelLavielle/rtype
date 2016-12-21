@@ -25,6 +25,7 @@ private:
 	CmdManager			_cmdManager;
 	ThreadPool			_pool;
 	AMutex				*_mutex;
+	std::string			_ip;
 
 	bool initSocket();
 	bool initGraph();

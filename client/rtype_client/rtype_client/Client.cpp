@@ -4,6 +4,8 @@ Client::Client()
 {
 	_mutex = new Mutex();
 	_socket = new SocketClientTCP();
+	_ip = "127.0.0.1";
+//	_ip = "10.16.252.95";
 }
 
 Client::~Client()
@@ -18,8 +20,8 @@ Client::~Client()
 
 bool Client::initSocket()
 {
-	_mutex->lock();//10.16.252.95
-	if (!_socket->init("10.16.252.95", 42000)
+	_mutex->lock();
+	if (!_socket->init(_ip, 42000)
 		|| !_socket->connectToServer())
 	{
 		_menu->setSocketTCPSocket(_socket);
@@ -50,24 +52,10 @@ bool Client::launch()
 	Thread		th;
 	SocketClientUDP		udpSocket;
 	BasicCmd			*cmd = new BasicCmd();
-	// ICommand			*newCmd;
-	// BasicCmd			*b;
-	// char				*res;
-
 	
-	cmd->setCommandType(REPLY_CODE);
-	cmd->addArg("4242");
-	cmd->addArg("COUCOU");
-	/*if (!udpSocket.init("10.16.252.95", 9999) || !udpSocket.connectToServer())
-		return (false);
-	udpSocket.sendData(Serialize::serialize(cmd), sizeof(*cmd));*/
-	//res = udpSocket.receiveData();
-	//newCmd = Serialize::unserializeCommand(res);
-	//b = static_cast<BasicCmd* >(newCmd);
-	//std::cout << b->getArg(0) << std::endl;
 	if (!initGraph())
 		return (false);
-	_menu->setIp("10.16.252.95");
+	_menu->setIp(_ip);
 	_menu->setPort(42000);
 	_menu->setEventManager(_event);
 	_menu->setGraphManager(_graph);

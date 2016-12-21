@@ -9,10 +9,6 @@ InsideRoomPage::InsideRoomPage(IGraphManager *graph, IEventManager *event, const
 	_roomName = "";
 	_pageType = IPage::INSIDEROOM;
 
-	_playerList.insert(std::pair<std::string, bool>("PLAYER 1", false));
-	_playerList.insert(std::pair<std::string, bool>("PLAYER 2", false));
-	_playerList.insert(std::pair<std::string, bool>("PLAYER 3", true));
-	_playerList.insert(std::pair<std::string, bool>("PLAYER 4", false));
 	_roomName = "ROOM NAME";
 }
 
@@ -54,7 +50,6 @@ void InsideRoomPage::clear()
 
 bool InsideRoomPage::launch()
 {
-	//Not implemented
 	return (true);
 }
 

@@ -62,7 +62,7 @@ bool Menu::tryToConnect()
 	if (_socket && !_socket->isConnected())
 	{
 		std::cout << "TRY TO CONNECT" << std::endl;
-		_socket->init("127.0.0.1", 42000);
+		_socket->init(_ip, 42000);
 		_socket->connectToServer();
 		if (_socket->isConnected())
 		{
@@ -105,8 +105,9 @@ void	Menu::setRoomInfo(RoomInfoCmd *roomInfo, InsideRoomPage *page)
 	std::vector<PlayerInfo>					pl;
 	std::vector<PlayerInfo>::iterator		it;
 
-	it = pl.begin();
+	pl = roomInfo->getPlayersList();
 	page->setRoomName(roomInfo->getName());
+	it = pl.begin();
 	while (it != pl.end())
 	{
 		page->addPlayer(it->first, it->second);
@@ -152,6 +153,8 @@ bool Menu::launch()
 
 					  roomInfo1 = _cmdManager.getRoomInfo();
 					  setRoomInfo(roomInfo1, (static_cast<InsideRoomPage*>(_page)));
+					  _page->clear();
+					  _page->init();
 				  }
 			  }
 		  }
@@ -220,16 +223,19 @@ bool Menu::launch()
 		      std::cout << "SettingsNext" << std::endl;
 		      break;
 			case IPage::GAME:
+				int res;
+
 				std::cout << "wait launch game" << std::endl;
-				_cmdManager.setStatus();
-				while (!_cmdManager.launchGame()); //A modifier
+				res = _cmdManager.setStatus();
+				while (_cmdManager.launchGame() != -1); //A modifier
 				_newEvent = true;
 				delete (_page);
 				std::cout << "Game" << std::endl;
 				_soundManager.stopAll();
 				_game.setGraph(_graph);
 				_game.setEvent(_event);
-				_game.setPort(_port);
+				_game.setPort(9999);
+				_game.setId(res);
 				_game.setIp(_ip);
 				_pool.joinAll();
 				_socket->closure();

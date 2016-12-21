@@ -10,8 +10,30 @@ void CmdManager::setSocket(ASocketClient * socketClient)
 	_socketClient = socketClient;
 }
 
+void CmdManager::setUDPSocket(ASocketClient * socket)
+{
+	_socketClientUDP = socket;
+}
+
 CmdManager::~CmdManager()
 {
+}
+
+bool			CmdManager::sendLaunchGame(const int id)
+{
+	BasicCmd	*cmd;
+	std::stringstream	ss;
+
+	std::cout << "launch game sending" << std::endl;
+	ss << id;
+	cmd = new BasicCmd();
+	cmd->setCommandType(REPLY_CODE);
+	cmd->addArg(ss.str());
+	_cmd.push_back(cmd);
+	if (!sendUDPCmd())
+		return (false);
+	std::cout << "launch game sent" << std::endl;
+	return (true);
 }
 
 bool			CmdManager::sendInput(const std::string &key)
@@ -122,6 +144,7 @@ bool	CmdManager::handshake()
 {
 	std::stringstream	ss;
 	ICommand			*cmd = new BasicCmd();
+	ICommand			*oldCmd;
 
 	ss << _handKey;
 	cmd->setCommandArg(ss.str());
@@ -129,7 +152,8 @@ bool	CmdManager::handshake()
 	_cmd.push_back(cmd);
 	if (!sendCmd())
 		return (false);
-	receiveCmd();
+	oldCmd = receiveCmd();
+	confirmHandshake(oldCmd);
 	return (true);
 }
 
@@ -224,6 +248,8 @@ bool		CmdManager::confirmHandshake(ICommand *cmd)
 	int					key1;
 	int					key2;
 
+	if (!cmd)
+		return (false);
 	basicCmd = static_cast<BasicCmd*>(cmd);
 	key1 = std::stoi(basicCmd->getArg(0));
 	key2 = std::stoi(basicCmd->getArg(1));
@@ -264,6 +290,26 @@ bool		CmdManager::sendCmd()
 	return (true);
 }
 
+bool		CmdManager::sendUDPCmd()
+{
+	std::vector<ICommand*>::iterator	it;
+
+	if (!_socketClientUDP || !_socketClientUDP->isConnected())
+		return (false);
+	it = _cmd.begin();
+	while (it != _cmd.end())
+	{
+		if (!_socketClientUDP->sendData(_serialize.serialize(*it)))
+		{
+			std::cerr << "ERROR: cant not send data" << std::endl;
+			return (false);
+		}
+		delete (*it);
+		it = _cmd.erase(it);
+	}
+	return (true);
+}
+
 ICommand	*CmdManager::receiveCmd()
 {
 	ICommand			*cmd;
@@ -275,10 +321,10 @@ ICommand	*CmdManager::receiveCmd()
 	cmd = _serialize.unserializeCommand(res);
 	switch (cmd->getCommandName())
 	{
-	case (BASIC_CMD):
-		if (cmd->getCommandType() == HANDSHAKE_SYN_ACK)
-			confirmHandshake(cmd);
-		break;
+	//case (BASIC_CMD):
+	//	if (cmd->getCommandType() == HANDSHAKE_SYN_ACK)
+	//		confirmHandshake(cmd);
+	//	break;
 	case (ROOM_LIST):
 		getRoomList();
 		break;

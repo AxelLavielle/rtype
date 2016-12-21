@@ -14,10 +14,10 @@ Game::Game()
 	_musicStage1.setFilePath(_fileManager.getRoot() + "/res/sounds/stage1.wav");
 	_input = new InputCmd();
 	_sock = new SocketClientUDP();
-	_sock->init("127.0.0.1", 4242);
-	_sock->connectToServer();
+	_id = -1;
+	_ip = "";
+	_port = -1;
 }
-
 
 Game::~Game()
 {
@@ -41,6 +41,11 @@ int Game::launch()
 	// bool												first = true;
 
 	// i = 100;
+	_sock->init(_ip, _port);
+	std::cout << "GAME LAUNCH" << std::endl;
+	_sock->connectToServer();
+	_cmdManager.setSocket(_sock);
+	_cmdManager.sendLaunchGame(_id);
 	_graph->setFullScreen(true);
 	_graph->setMouseCursorVisible(false);
 	_size = _graph->getWindowSize();
@@ -104,4 +109,9 @@ void Game::setIp(const std::string & ip)
 void Game::setPort(const int port)
 {
 	_port = port;
+}
+
+void Game::setId(const int id)
+{
+	_id = id;
 }

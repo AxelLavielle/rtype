@@ -16,6 +16,7 @@ class CmdManager
 public:
 	CmdManager();
 	~CmdManager();
+	bool sendLaunchGame(const int id);
 	bool sendInput(const std::string & key);
 	int launchGame();
 	RoomInfoCmd * getRoomInfo();
@@ -28,15 +29,17 @@ public:
 	ICommand * receiveCmd();
 	bool newCmd(ICommand *command);
 	void setSocket(ASocketClient * sosket);
+	void setUDPSocket(ASocketClient *socket);
+	bool sendCmd();
+	bool sendUDPCmd();
 
 private:
 	ASocketClient		*_socketClient;
+	ASocketClient		*_socketClientUDP;
 	Serialize			_serialize;
 	int					_handKey;
 	std::vector<ICommand*>	_cmd;
-	std::vector<IEntity* >	_entity;
 
 	bool confirmHandshake(ICommand * cmd);
-	bool sendCmd();
 };
 

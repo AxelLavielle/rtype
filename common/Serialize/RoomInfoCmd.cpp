@@ -54,25 +54,27 @@ void RoomInfoCmd::setCommandArg(const std::string &arg)
 	std::cout << "set command args" << std::endl;
 	ss.str(arg);
 	i = 0;
+	std::cout << arg << std::endl;
 	while (std::getline(ss, item, _separator))
 	{
 		if (first)
 		{
 			_name = item;
 			first = false;
-			break;
 		}
-		std::cout << "i = " << i << std::endl;
-		if (i == 0)
-			pl.first = item;
-		else if (i == 1)
+		else
 		{
-			std::cout << "item = " << item << std::endl;
-			pl.second = std::stoi(item);
-			_playersList.push_back(pl);
+			if (i == 0)
+			{
+				pl.first = item;
+				_playersList.push_back(pl);
+			}
+			else if (i == 1)
+				pl.second = std::stoi(item);
+			i++;
 		}
-		i++;
-		i = i % 2;
+		if (i >= 2)
+			i = 0;
 	}
 	_arg = arg;
 }

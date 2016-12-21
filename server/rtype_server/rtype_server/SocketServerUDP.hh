@@ -13,6 +13,8 @@ class SocketServerUDP : public ASocketServer
 {
 private:
 	struct sockaddr_in	_addrSocket;
+	fd_set				_readfds;
+	fd_set				_writefds;
 	void				displayError(const std::string &);
 
 public:
@@ -23,5 +25,6 @@ public:
 	virtual bool						launch();
 	virtual bool						sendAllData(std::vector<ServerClient *> &);
 	std::vector<UDPClientMsg>			receiveData();
+	int									selectFds();
 };
 

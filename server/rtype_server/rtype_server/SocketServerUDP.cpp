@@ -62,14 +62,19 @@ bool										SocketServerUDP::sendAllData(std::vector<ServerClient *> &clientLi
 	std::vector<ServerClient *>::iterator	it;
 	int										len;
 
+	if (FD_ISSET(_socketServerID, &_writefds) == false)
+		return (false);
 	it = clientList.begin();
 	while (it != clientList.end())
 	{
-		len = sendto(_socketServerID, (*it)->getSendDataUDP(), (*it)->getDataLenUDP(),
-						0, (struct sockaddr *)(*it)->getAddrUDP(), sizeof(struct sockaddr_in));
-		if (len == -1)
+		if ((*it)->getAddrUDP() != NULL)
 		{
-			displayError("Sendto failed: ");
+			len = sendto(_socketServerID, (*it)->getSendDataUDP(), (*it)->getDataLenUDP(),
+				0, (struct sockaddr *)(*it)->getAddrUDP(), sizeof(struct sockaddr_in));
+			if (len == -1)
+			{
+				//displayError("Sendto failed: ");
+			}
 		}
 		it++;
 	}
@@ -84,6 +89,8 @@ std::vector<UDPClientMsg>		SocketServerUDP::receiveData()
 	struct sockaddr_in			clientAddr;
 	int							clientAddrSize;
 
+	if (FD_ISSET(_socketServerID, &_readfds) == false)
+		return (vectMsg);
 	std::cout << "Receiving data UDP" << std::endl;
 	clientAddrSize = sizeof(clientAddr);
 	MemTools::set(buf, 0, UDP_PACKET_SIZE);
@@ -98,4 +105,32 @@ std::vector<UDPClientMsg>		SocketServerUDP::receiveData()
 		vectMsg.push_back(std::make_pair(&clientAddr, Serialize::unserializeCommand(buf)));
 	}
 	return (vectMsg);
+}
+
+int										SocketServerUDP::selectFds()
+{
+	std::vector<int>::const_iterator	it;
+	int									fdMax;
+	struct timeval						tv;
+
+	tv.tv_sec = 0;
+	tv.tv_usec = 100000;
+	if (setsockopt(_socketServerID, SOL_SOCKET, SO_RCVTIMEO, (char *)&tv, sizeof(tv)) < 0)
+	{
+		perror("Error");
+	}
+
+
+
+	FD_ZERO(&_readfds);
+	FD_ZERO(&_writefds);
+	FD_SET(_socketServerID, &_readfds);
+	FD_SET(_socketServerID, &_writefds);
+	fdMax = _socketServerID;
+
+	if (select(fdMax + 1, &_readfds, &_writefds, NULL, &tv) < 0)
+	{
+		displayError("Select error: ");
+	}
+	return (0);
 }

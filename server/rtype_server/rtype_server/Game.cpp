@@ -25,7 +25,8 @@ void	Game::updateGame(const Room &room)
 		//std::cout << "Add Player : " << player->getName() << std::endl;
 		msg = Serialize::serialize(player);
 		(*it)->addUDPDataToSend(msg);
-
+		delete(msg);
+		delete(player);
 		//test = static_cast<Player *>(Serialize::unserializeEntity(msg));
 		//std::cout << "Test serialize entity " << test->getName() << std::endl;
 		it++;

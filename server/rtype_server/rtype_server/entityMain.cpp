@@ -5,7 +5,8 @@
 int		main()
 {
   DlManager	DM;
-  DM.setFolderPath("C:/Users/Mohamad/Desktop/rtype/common/entities");
+//  DM.setFolderPath("C:/Users/Mohamad/Desktop/rtype/common/entities");
+  DM.setFolderPath("..\\..\\..\\common\\entities\\*");
 
   IEntity *testt = DM.getdl("Player1");
   if (testt)

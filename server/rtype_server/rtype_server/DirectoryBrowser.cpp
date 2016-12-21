@@ -38,9 +38,10 @@ bool	DirectoryBrowser::refresh()
 		std::cerr << "Can't open dir" << std::endl;
 		return (false);
 	}
-  while (FindNextFile(_handle, &_findFileData))
+	while (FindNextFile(_handle, &_findFileData))
     {
-		if (this->extIsValid(".so", _findFileData.cFileName) && std::string(_findFileData.cFileName).size() > 3)
+//		std::cout << _findFileData.cFileName << std::endl;
+		if (this->extIsValid(".lib", _findFileData.cFileName) && std::string(_findFileData.cFileName).size() > 3)
 		  {
 		    std::cout << _findFileData.cFileName << std::endl;
 		    _files.push_back(_path + "/" + _findFileData.cFileName);

@@ -7,8 +7,10 @@ DlLoader::DlLoader()
 
 DlLoader::~DlLoader()
 {
+#ifdef __linux__
   if (_dlHandle)
     dlclose(_dlHandle);
+#endif
 }
 
 IEntity		*DlLoader::getInstance()
@@ -18,11 +20,12 @@ IEntity		*DlLoader::getInstance()
   #ifdef __linux__
   Entity = reinterpret_cast<IEntity*(*)()>(dlsym(_dlHandle, "createEntity"));
 #elif _WIN32
-  Entity = (IEntity*)GetProcAdress((HINSTANCE)_dlHandle, "createEntity");
+//  Entity = (lpfnDllFunc1)(GetProcAddress((HINSTANCE)_dlHandle, "createEntity"));
+  Entity = reinterpret_cast<IEntity*(*)()>(GetProcAddress((HINSTANCE)_dlHandle, "createEntity"));
 #endif
   if (Entity == NULL)
     {
-      std::cout << dlerror() << std::endl;
+      std::cout << "Error in getInstance" << std::endl;
       return (NULL);
     }
   IEntity	*rtn = Entity();

@@ -4,7 +4,7 @@
 # ifdef __linux__
 # include <dlfcn.h>
 # elif _WIN32
-# include <windows.h
+# include <windows.h>
 #endif
 
 class DlLoader : public ADlLoader

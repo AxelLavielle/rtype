@@ -26,6 +26,7 @@ public:
 	  GAME,
 	  ENDGAME,
 	  PAUSE,
+	  LOADING,
       NONE
     };
 

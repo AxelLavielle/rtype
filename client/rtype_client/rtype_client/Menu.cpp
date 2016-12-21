@@ -220,7 +220,8 @@ bool Menu::launch()
 		      std::cout << "SettingsNext" << std::endl;
 		      break;
 			case IPage::GAME:
-				_cmdManager.launchGame();
+				_cmdManager.setStatus();
+				while (!_cmdManager.launchGame()); //A modifier
 				_newEvent = true;
 				delete (_page);
 				std::cout << "Game" << std::endl;

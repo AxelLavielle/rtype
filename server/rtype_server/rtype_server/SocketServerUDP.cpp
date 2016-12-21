@@ -50,7 +50,7 @@ bool					SocketServerUDP::launch()
 
 	if (bind(_socketServerID, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR)
 	{
-		displayError("Sokcet UDP Bind failed: ");
+		displayError("Socket UDP Bind failed: ");
 		return (false);
 	}
 
@@ -84,6 +84,7 @@ std::vector<UDPClientMsg>		SocketServerUDP::receiveData()
 	struct sockaddr_in			clientAddr;
 	int							clientAddrSize;
 
+	std::cout << "Receiving data UDP" << std::endl;
 	clientAddrSize = sizeof(clientAddr);
 	MemTools::set(buf, 0, UDP_PACKET_SIZE);
 	len = recvfrom(_socketServerID, buf, UDP_PACKET_SIZE, 0, (struct sockaddr *)&clientAddr, (socklen_t *)&clientAddrSize);
@@ -93,7 +94,7 @@ std::vector<UDPClientMsg>		SocketServerUDP::receiveData()
 	}
 	else
 	{
-		std::cout << "Add new Msg of " << len << " characters" << std::endl;
+		std::cout << "Received new Msg of " << len << " characters" << std::endl;
 		vectMsg.push_back(std::make_pair(&clientAddr, Serialize::unserializeCommand(buf)));
 	}
 	return (vectMsg);

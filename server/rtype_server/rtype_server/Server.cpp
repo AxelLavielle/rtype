@@ -1,8 +1,18 @@
 #include "Server.hh"
 
+
+#define COLOR_GREEN		(10)
+#define COLOR_CYAN		(11)
+#define COLOR_RED		(12)
+#define COLOR_MAGENTA	(13)
+#define COLOR_YELLOW	(14)
+#define COLOR_RESET		(15)
+
+void  *gHConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
 Server::Server() : _cmdManager(&_clientManager, &_roomManager)
 {
-	_acknowledgementNumber = 10;
+	_acknowledgementNumber = 103;
 	_mutex = new Mutex();
 	_cmdManager.setMutex(_mutex);
 }
@@ -18,7 +28,9 @@ bool	Server::init()
 		|| _socketServerUDP.init("127.0.0.1", 9999) == false
 		|| _socketServerUDP.launch() == false)
 	{
+		SetConsoleTextAttribute(gHConsole, COLOR_RED);
 		std::cerr << "Initialization FAILED" << std::endl;
+		SetConsoleTextAttribute(gHConsole, COLOR_RESET);
 		return (false);
 	}
 	return (true);
@@ -32,42 +44,59 @@ void										Server::processBasicCmd(ServerClient *client, BasicCmd *cmd)
 	switch (cmd->getCommandType())
 	{
 	case HANDSHAKE_SYN:
-		std::cout << "---------> HANDSHAKE SYN" << std::endl;
+		SetConsoleTextAttribute(gHConsole, COLOR_CYAN);
+		std::cout << "---------> HANDSHAKE SYN [" << client->getTCPSocket() << "]" << std::endl;
+		SetConsoleTextAttribute(gHConsole, COLOR_RESET);
 		_cmdManager.cmdHandshakeSyn(client, cmd, _acknowledgementNumber);
 		break;
 
 	case HANDSHAKE_ACK:
-		std::cout << "---------> HANDSHAKE ACK" << std::endl;
+		SetConsoleTextAttribute(gHConsole, COLOR_CYAN);
+		std::cout << "---------> HANDSHAKE ACK [" << client->getTCPSocket() << "]" << std::endl;
+		SetConsoleTextAttribute(gHConsole, COLOR_RESET);
 		_cmdManager.cmdHandshakeAck(client, cmd, _acknowledgementNumber);
 		break;
 
 	case GET_ROOM_LIST:
-		std::cout << "---------> GET ROOM LIST" << std::endl;
+		SetConsoleTextAttribute(gHConsole, COLOR_CYAN);
+		std::cout << "---------> GET ROOM LIST [" << client->getTCPSocket() << "]" << std::endl;
+		SetConsoleTextAttribute(gHConsole, COLOR_RESET);
 		_cmdManager.cmdListRoom(client, cmd);
 		break;
 
 	case JOIN_ROOM:
-		std::cout << "---------> JOIN ROOM" << std::endl;
+		SetConsoleTextAttribute(gHConsole, COLOR_CYAN);
+		std::cout << "---------> JOIN ROOM [" << client->getTCPSocket() << "]" << std::endl;
+		SetConsoleTextAttribute(gHConsole, COLOR_RESET);
 		_cmdManager.cmdJoinRoom(client, cmd);
 		break;
 
 	case LEAVE_ROOM:
-		std::cout << "---------> LEAVE ROOM" << std::endl;
+		SetConsoleTextAttribute(gHConsole, COLOR_CYAN);
+		std::cout << "---------> LEAVE ROOM [" << client->getTCPSocket() << "]" << std::endl;
+		SetConsoleTextAttribute(gHConsole, COLOR_RESET);
 		_cmdManager.cmdLeaveRoom(client, cmd);
 		break;
 
 	case CREATE_ROOM:
-		std::cout << "---------> CREATE ROOM" << std::endl;
+		SetConsoleTextAttribute(gHConsole, COLOR_CYAN);
+		std::cout << "---------> CREATE ROOM [" << client->getTCPSocket() << "]" << std::endl;
+		SetConsoleTextAttribute(gHConsole, COLOR_RESET);		
 		_cmdManager.cmdCreateRoom(client, cmd);
+
 		break;
 
 	case SET_STATUS:
-		std::cout << "---------> SET STATUS" << std::endl;
+		SetConsoleTextAttribute(gHConsole, COLOR_CYAN);
+		std::cout << "---------> SET STATUS [" << client->getTCPSocket() << "]" << std::endl;
 		_cmdManager.cmdSetStatus(client, cmd);
+		SetConsoleTextAttribute(gHConsole, COLOR_RESET);
 		break;
 
 	case GET_ROOM:
-		std::cout << "---------> GET ROOM" << std::endl;
+		SetConsoleTextAttribute(gHConsole, COLOR_CYAN);
+		std::cout << "---------> GET ROOM [" << client->getTCPSocket() << "]" << std::endl;
+		SetConsoleTextAttribute(gHConsole, COLOR_RESET);
 		_cmdManager.cmdRoomInfo(client, cmd);
 		break;
 
@@ -110,8 +139,10 @@ void							Server::checkRoomsReadyToLaunch()
 	it = roomsReadyToLaunch.begin();
 	while (it != roomsReadyToLaunch.end())
 	{
-		//std::cout << "Room [" << (*it).getName() << "] is READY" << std::endl;
-		//_cmdManager.cmdLaunchGame((*it).getClients(), (*it).getId());
+		SetConsoleTextAttribute(gHConsole, COLOR_GREEN);
+		std::cout << "Room [" << (*it).getName() << "] is READY" << std::endl;
+		SetConsoleTextAttribute(gHConsole, COLOR_RESET);
+		_cmdManager.cmdLaunchGame((*it).getClients(), (*it).getId());
 		it++;
 	}
 }
@@ -138,10 +169,6 @@ bool							Server::launch()
 {
 	Thread						threadTCP;
 	Thread						threadUDP;
-
-	_roomManager.addRoom("Mio");
-	_roomManager.addRoom("Mao");
-	_roomManager.addRoom("Lalalalala");
 
 	threadTCP.createThread(std::bind(&Server::TCPLoop, this));
 	threadUDP.createThread(std::bind(&Server::UDPLoop, this));
@@ -207,13 +234,18 @@ void											Server::checkNewUDPClients(const std::vector<UDPClientMsg> &vectM
 	std::vector<UDPClientMsg>::const_iterator	it;
 	ServerClient								*client;
 	int											tcpSocket;
+	BasicCmd									*cmd;
 
 	it = vectMsg.begin();
 	while (it != vectMsg.end())
 	{
 		if ((*it).first != NULL && (*it).second != NULL)
 		{
-			std::string str = (*it).second->getCommandArg();
+			std::cout << "HELLO HELLO UDP" << std::endl;
+			cmd = static_cast<BasicCmd *>((*it).second);
+			if (cmd->getCommandType() != BASIC_CMD || cmd->getCommandName() == REPLY_CODE)
+				return;
+			std::string str = cmd->getArg(0);
 			std::cout << "STR = " << str << std::endl;
 			try
 			{
@@ -242,6 +274,7 @@ bool									Server::UDPLoop()
 
 	while (42)
 	{
+		std::cout << "____________" << std::endl;
 		vectMsg = _socketServerUDP.receiveData();
 		checkNewUDPClients(vectMsg);
 		processUDPMessages(vectMsg);

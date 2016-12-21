@@ -133,18 +133,22 @@ bool		RoomManager::addClientToRoom(ServerClient *client, const int id)
 	return (true);
 }
 
-bool RoomManager::removeClientFromRoom(ServerClient *client, const int id)
+bool		RoomManager::removeClientFromRoom(ServerClient *client, const int id)
 {
+	Room	*room;
+
 	try
 	{
-		getRoomById(id);
+		room = getRoomById(id);
 	}
 	catch (const std::exception &error)
 	{
 		std::cerr << "############ " << error.what() << std::endl;
 		return (false);
 	}
-	getRoomById(id)->removeClient(client);
+	room->removeClient(client);
+	if (room->getNbClients() == 0)
+		removeRoom(id);
 	return (true);
 }
 
@@ -161,7 +165,7 @@ std::vector<Room>						RoomManager::getRoomsReadyToLaunch() const
 	{
 		if ((*it).getNbClients() > 0
 			&& (*it).getNbClients() == (*it).getNbClientsReady()
-			&& (*it).isReadyToPlay() == false)
+			&& (*it).isReadyToPlay() == false && (*it).isReadyToLaunch() == false)
 			roomsReady.push_back((*it));
 		it++;
 	}

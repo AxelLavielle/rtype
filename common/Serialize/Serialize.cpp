@@ -160,7 +160,7 @@ ICommand	*Serialize::unserializeCommand(char *data)
     }
   if (res)
   {
-	  std::cout << "UNSERIALIZE [" << p->data << "]" << std::endl;
+	  //std::cout << "UNSERIALIZE [" << p->data << "]" << std::endl;
 	  res->setCommandArg(p->data);
 	  res->setCommandType(static_cast<CmdType>(p->cmdType));
   }

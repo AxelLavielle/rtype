@@ -34,7 +34,6 @@ private:
 	void			checkNewUDPClients(const std::vector<UDPClientMsg> &);
 	void			checkRoomsReadyToLaunch();
 
-
 public:
 	Server();
 	~Server();

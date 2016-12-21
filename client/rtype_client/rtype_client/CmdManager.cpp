@@ -26,9 +26,21 @@ bool			CmdManager::sendInput(const std::string &key)
 	return (true);
 }
 
-bool			CmdManager::launchGame()
+int			CmdManager::launchGame()
 {
-	return (false);
+	ICommand	*cmd;
+	int			res;
+
+	cmd = receiveCmd();
+	if (cmd && cmd->getCommandName() == BASIC_CMD && cmd->getCommandType() == LAUNCH_GAME)
+	{
+		BasicCmd		*basicCmd;
+
+		basicCmd = static_cast<BasicCmd* >(cmd);
+		res = std::stod(basicCmd->getArg(0));
+		return (res);
+	}
+	return (-1);
 }
 
 RoomInfoCmd		*CmdManager::getRoomInfo()

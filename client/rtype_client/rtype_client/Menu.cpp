@@ -105,12 +105,10 @@ void	Menu::setRoomInfo(RoomInfoCmd *roomInfo, InsideRoomPage *page)
 	std::vector<PlayerInfo>					pl;
 	std::vector<PlayerInfo>::iterator		it;
 
-	std::cout << "LALALALALLLALALLALALALLALALA ======= Set room info" << std::endl;
 	it = pl.begin();
 	page->setRoomName(roomInfo->getName());
 	while (it != pl.end())
 	{
-		std::cout << "player = " << it->first << std::endl;
 		page->addPlayer(it->first, it->second);
 		++it;
 	}
@@ -154,8 +152,6 @@ bool Menu::launch()
 
 					  roomInfo1 = _cmdManager.getRoomInfo();
 					  setRoomInfo(roomInfo1, (static_cast<InsideRoomPage*>(_page)));
-					  _page->clear();
-					  _page->init();
 				  }
 			  }
 		  }
@@ -224,16 +220,8 @@ bool Menu::launch()
 		      std::cout << "SettingsNext" << std::endl;
 		      break;
 			case IPage::GAME:
+				_cmdManager.launchGame();
 				_newEvent = true;
-				if (_page->getPageType() == IPage::INSIDEROOM)
-				{
-					RoomInfoCmd		*roomInfo;
-
-					std::cout << "WAIT FOR PLAYER" << std::endl;
-					_cmdManager.setStatus();
-					roomInfo = _cmdManager.getRoomInfo();
-					break;
-				}
 				delete (_page);
 				std::cout << "Game" << std::endl;
 				_soundManager.stopAll();

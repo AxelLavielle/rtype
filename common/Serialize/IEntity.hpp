@@ -6,7 +6,7 @@
 class IEntity
 {
 public:
-	virtual				~IEntity(){}
+	virtual					~IEntity(){}
 	virtual void			update() = 0;
 	virtual double			getPosX() const = 0;
 	virtual void			setPosX(const double) = 0;
@@ -21,7 +21,7 @@ public:
 	virtual void			setName(const std::string &) = 0;
 	virtual std::string		getName() const = 0;
 	virtual void			setLife(const int) = 0;
-	virtual int			getLife() const = 0;
+	virtual int				getLife() const = 0;
 	virtual std::string		getSpriteRepo() const = 0;
 	virtual void			setSpriteRepo(const std::string &) = 0;
 };

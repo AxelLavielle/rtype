@@ -131,7 +131,6 @@
     <ClInclude Include="..\..\..\common\AMutex.hh" />
     <ClInclude Include="..\..\..\common\AThread.hh" />
     <ClInclude Include="..\..\..\common\EntityType.hh" />
-    <ClInclude Include="..\..\..\common\IEntity.hpp" />
     <ClInclude Include="..\..\..\common\IMutex.hpp" />
     <ClInclude Include="..\..\..\common\ISocket.hpp" />
     <ClInclude Include="..\..\..\common\IThread.hpp" />
@@ -182,6 +181,7 @@
     <ClInclude Include="IPage.hpp" />
     <ClInclude Include="ISoundManager.hpp" />
     <ClInclude Include="ListBox.hh" />
+    <ClInclude Include="LoadingPage.hh" />
     <ClInclude Include="LobbyPage.hh" />
     <ClInclude Include="Menu.hh" />
     <ClInclude Include="PathFileManager.hh" />
@@ -238,6 +238,7 @@
     <ClCompile Include="InputBox.cpp" />
     <ClCompile Include="InsideRoomPage.cpp" />
     <ClCompile Include="ListBox.cpp" />
+    <ClCompile Include="LoadingPage.cpp" />
     <ClCompile Include="LobbyPage.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />

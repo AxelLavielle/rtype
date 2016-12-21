@@ -173,6 +173,10 @@ std::vector<ClientMsg>						SocketServerTCP::receiveData(std::vector<ServerClien
 int										SocketServerTCP::selectFds(const std::vector<int> &socketsClients)
 {
 	std::vector<int>::const_iterator	it;
+	struct timeval						tv;
+
+	tv.tv_sec = 0;
+	tv.tv_usec = 100000;
 
 	FD_ZERO(&_readfds);
 	FD_ZERO(&_writefds);
@@ -189,7 +193,7 @@ int										SocketServerTCP::selectFds(const std::vector<int> &socketsClients)
 		it++;
 	}
 
-	if (select(_fdMax + 1, &_readfds, &_writefds, NULL, NULL) < 0)
+	if (select(_fdMax + 1, &_readfds, &_writefds, NULL, &tv) < 0)
 	{
 		displayError("Select error: ");
 	}

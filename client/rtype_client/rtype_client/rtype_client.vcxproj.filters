@@ -56,6 +56,7 @@
     <ClCompile Include="PausePage.cpp" />
     <ClCompile Include="SettingsNextPage.cpp" />
     <ClCompile Include="CmdManager.cpp" />
+    <ClCompile Include="LoadingPage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />
@@ -93,7 +94,6 @@
     <ClInclude Include="..\..\..\common\AMutex.hh" />
     <ClInclude Include="..\..\..\common\AThread.hh" />
     <ClInclude Include="..\..\..\common\EntityType.hh" />
-    <ClInclude Include="..\..\..\common\IEntity.hpp" />
     <ClInclude Include="..\..\..\common\IMutex.hpp" />
     <ClInclude Include="..\..\..\common\IThread.hpp" />
     <ClInclude Include="..\..\..\common\MemTools.hh" />
@@ -127,5 +127,6 @@
     <ClInclude Include="SettingsNextPage.hh" />
     <ClInclude Include="LobbyPage.hh" />
     <ClInclude Include="CmdManager.hh" />
+    <ClInclude Include="LoadingPage.hh" />
   </ItemGroup>
 </Project>

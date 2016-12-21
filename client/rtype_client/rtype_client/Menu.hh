@@ -21,6 +21,7 @@
 #include "LobbyPage.hh"
 #include "InsideRoomPage.hh"
 #include "EndGamePage.hh"
+#include "LoadingPage.hh"
 #include "CreateRoomPage.hh"
 #include "PausePage.hh"
 #include "ThreadPool.hh"

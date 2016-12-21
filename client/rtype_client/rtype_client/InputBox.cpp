@@ -67,6 +67,7 @@ bool InputBox::draw()
 bool InputBox::click()
 {
   std::pair<int, int>		pos;
+  std::string				tmp;
 
   pos = _event->getClickMousePos();
   getInput();
@@ -75,6 +76,9 @@ bool InputBox::click()
       && pos.second > _rect.getY() && pos.second < _rect.getY() + _rect.getHeight())
     {
       _focus = true;
+	  tmp = _backgroundSprite;
+	  _backgroundSprite = _backgroundOverSprite;
+	  _backgroundOverSprite = tmp;
       _backgroundColor.setR(192);
       _backgroundColor.setG(192);
       _backgroundColor.setB(192);
@@ -83,6 +87,9 @@ bool InputBox::click()
   else if (pos.first != -1 && pos.second != -1)
     {
       _focus = false;
+	  tmp = _backgroundOverSprite;
+	  _backgroundOverSprite = _backgroundSprite;
+	  _backgroundSprite = tmp;
       _backgroundColor.setR(255);
       _backgroundColor.setG(255);
       _backgroundColor.setB(255);

@@ -243,7 +243,8 @@ void											Server::checkNewUDPClients(const std::vector<UDPClientMsg> &vectM
 		{
 			std::cout << "HELLO HELLO UDP" << std::endl;
 			cmd = static_cast<BasicCmd *>((*it).second);
-			if (cmd->getCommandType() != BASIC_CMD || cmd->getCommandName() == REPLY_CODE)
+			std::cout << "TYPE = " << cmd->getCommandType() << " & NAME = " << cmd->getCommandName() << std::endl;
+			if (cmd->getCommandName() != BASIC_CMD || cmd->getCommandType() != REPLY_CODE)
 				return;
 			std::string str = cmd->getArg(0);
 			std::cout << "STR = " << str << std::endl;
@@ -274,7 +275,7 @@ bool									Server::UDPLoop()
 
 	while (42)
 	{
-		std::cout << "____________" << std::endl;
+		_socketServerUDP.selectFds();
 		vectMsg = _socketServerUDP.receiveData();
 		checkNewUDPClients(vectMsg);
 		processUDPMessages(vectMsg);

@@ -249,6 +249,12 @@ bool Menu::launch()
 				_page = new EndGamePage(_graph, _event, _fileManager, &_soundManager);
 				std::cout << "Settings" << std::endl;
 				break;
+			case IPage::LOADING:
+				delete (_page);
+				_newEvent = true;
+				_page = new LoadingPage(_graph, _event, _fileManager, &_soundManager);
+				std::cout << "Loading" << std::endl;
+				break;
 			case IPage::QUIT:
 				_graph->close();
 				break;

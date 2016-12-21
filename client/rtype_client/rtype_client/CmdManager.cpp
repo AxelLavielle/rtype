@@ -43,8 +43,9 @@ bool			CmdManager::sendInput(const std::string &key)
 	newCmd = new InputCmd();
 	newCmd->setKey(key);
 	_cmd.push_back(newCmd);
-	if (!sendCmd())
+	if (!sendUDPCmd())
 		return (false);
+	std::cout << "Input sent" << std::endl;
 	return (true);
 }
 
@@ -318,7 +319,8 @@ IEntity		*CmdManager::receiveUDPCmd()
 	entity = NULL;
 	if (!_socketClientUDP || !_socketClientUDP->isConnected())
 		return (NULL);
-	Serialize::unserializeCommand();
+	res = _socketClientUDP->receiveData();
+	Serialize::unserializeCommand(res);
 	return (entity);
 }
 

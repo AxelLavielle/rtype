@@ -20,14 +20,14 @@ void	Game::updateGame(const Room &room)
 	while (it != clients.end())
 	{
 		AEntity *player = new Player ((*it)->getPlayerName());
-		Player	*test;
+		//Player	*test;
 
-		std::cout << "Add Player : " << player->getName() << std::endl;
+		//std::cout << "Add Player : " << player->getName() << std::endl;
 		msg = Serialize::serialize(player);
 		(*it)->addUDPDataToSend(msg);
 
-		test = static_cast<Player *>(Serialize::unserializeEntity(msg));
-		std::cout << "Test serialize entity " << test->getName() << std::endl;
+		//test = static_cast<Player *>(Serialize::unserializeEntity(msg));
+		//std::cout << "Test serialize entity " << test->getName() << std::endl;
 		it++;
 	}
 }

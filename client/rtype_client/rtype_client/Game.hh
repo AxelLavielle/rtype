@@ -15,6 +15,7 @@
 #include "SocketClientUDP.hh"
 #include "APage.hh"
 #include "GUIPage.hh"
+#include "PausePage.hh"
 #include "ASocketClient.hh"
 
 class Game
@@ -46,5 +47,8 @@ private:
 	std::string					_ip;
 	int							_port;
 	int							_id;
+
+	bool initSocket();
+	void initGraphElements();
 };
 

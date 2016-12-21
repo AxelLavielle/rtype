@@ -1,6 +1,6 @@
 #pragma once
 
-#define ANIMDURATION 500
+#define ANIMDURATION 20000
 
 #include "APage.hh"
 #include <chrono>
@@ -20,6 +20,7 @@ private:
 	void													loadingAnim();
 
 	int														_animInc;
+	int														_animInc2;
 	double													_animDuration;
 	std::chrono::high_resolution_clock::time_point			t1;
 };

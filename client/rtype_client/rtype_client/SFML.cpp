@@ -155,7 +155,7 @@ bool SFML::drawRectangle(const std::string & spritePath, const Rect &rect, const
 	return (true);
 }
 
-bool SFML::drawRectangle(const std::string & spritePath, const Rect &rect, const Rect &rect2)
+bool SFML::drawRectangle(const std::string & spritePath, const Rect &rect, const Rect &rect2, const Rect &rect3)
 {
 	sf::Texture			*img;
 	sf::Sprite			sp;
@@ -170,7 +170,7 @@ bool SFML::drawRectangle(const std::string & spritePath, const Rect &rect, const
 	sp.setOrigin(sf::Vector2f(rect2.getX(), rect2.getY()));
 	sp.setTexture(*img);
 	sp.setPosition(sf::Vector2f(rect.getX(), rect.getY()));
-	sp.setTextureRect(sf::IntRect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight()));
+	sp.setTextureRect(sf::IntRect(rect3.getX(), rect3.getY(), rect3.getWidth(), rect3.getHeight()));
 	_window->draw(sp);
 	return (true);
 }

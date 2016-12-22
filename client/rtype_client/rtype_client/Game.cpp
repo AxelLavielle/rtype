@@ -51,6 +51,27 @@ void	Game::initGraphElements()
 	_guiPage->init();
 }
 
+void	Game::manageEntity()
+{
+	IEntity *entity = new Player();
+	IEntity	*newEntity;
+	char *res;
+
+	entity->setPosX(10);
+	entity->setPosY(10);
+	entity->setWidth(50);
+	entity->setHeight(50);
+	entity->setSpriteRepo("/res/img");;
+	res = Serialize::serialize(entity);
+	newEntity = Serialize::unserializeEntity(res);
+	_guiPage->draw();
+	std::cout << "x = " << newEntity->getPosX() << "y = " << newEntity->getPosY() << "height = " << entity->getHeight() << "width = " << entity->getWidth() << std::endl;
+	_graph->drawRectangle(_fileManager.getRoot() + newEntity->getSpriteRepo() + "spaceShip10.png", Rect(newEntity->getPosX(), newEntity->getPosY(), 0, 0), Rect(0, 0, entity->getHeight(), entity->getWidth()));
+	delete entity;
+	delete newEntity;
+	delete res;
+}
+
 int Game::launch()
 {
 	std::chrono::high_resolution_clock::time_point      t1;
@@ -99,11 +120,10 @@ int Game::launch()
 			first = false;
 			t1 = std::chrono::high_resolution_clock::now();
 		}
-
 		_graph->clearWindow();
 		_graph->setBackground(_fileManager.getRoot() + "/res/img/stars_background.jpg", -1, -1);
 		_graph->drawRectangle(Color(255, 255, 255), Rect(i, 300, 50, 50));
-		_guiPage->draw();
+		manageEntity();
 		_graph->refresh();
 	}
 	return (0);

@@ -57,6 +57,7 @@
     <ClCompile Include="SettingsNextPage.cpp" />
     <ClCompile Include="CmdManager.cpp" />
     <ClCompile Include="LoadingPage.cpp" />
+    <ClCompile Include="InputKey.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />
@@ -128,5 +129,6 @@
     <ClInclude Include="LobbyPage.hh" />
     <ClInclude Include="CmdManager.hh" />
     <ClInclude Include="LoadingPage.hh" />
+    <ClInclude Include="InputKey.hh" />
   </ItemGroup>
 </Project>

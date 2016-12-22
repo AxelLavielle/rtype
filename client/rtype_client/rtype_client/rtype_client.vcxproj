@@ -177,6 +177,7 @@
     <ClInclude Include="IGUIElement.hpp" />
     <ClInclude Include="IMenu.hpp" />
     <ClInclude Include="InputBox.hh" />
+    <ClInclude Include="InputKey.hh" />
     <ClInclude Include="InsideRoomPage.hh" />
     <ClInclude Include="IPage.hpp" />
     <ClInclude Include="ISoundManager.hpp" />
@@ -236,6 +237,7 @@
     <ClCompile Include="GUIPage.cpp" />
     <ClCompile Include="HomePage.cpp" />
     <ClCompile Include="InputBox.cpp" />
+    <ClCompile Include="InputKey.cpp" />
     <ClCompile Include="InsideRoomPage.cpp" />
     <ClCompile Include="ListBox.cpp" />
     <ClCompile Include="LoadingPage.cpp" />

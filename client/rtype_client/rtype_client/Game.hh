@@ -50,5 +50,6 @@ private:
 
 	bool initSocket();
 	void initGraphElements();
+	void manageEntity();
 };
 

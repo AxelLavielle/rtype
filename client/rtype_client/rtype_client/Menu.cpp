@@ -292,7 +292,7 @@ bool Menu::launch()
 	}
       _graph->clearWindow();
       _page->draw();
-      _graph->refresh();
+	  _graph->refresh();
     }
 	std::cout << "QUIT LA2" << std::endl;
 	_pool.joinAll();

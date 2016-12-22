@@ -14,6 +14,10 @@ public:
 	virtual		void			setPosX(const double);
 	virtual		double			getPosY() const;
 	virtual		void			setPosY(const double);
+	virtual double			getHeight() const;
+	virtual void			setHeight(const double);
+	virtual double			getWidth() const;
+	virtual void			setWidth(const double);
 	virtual		rtype::EntityType	getType() const;
 	virtual		void			setType(const rtype::EntityType &);
 	virtual		void			setName(const std::string &);
@@ -31,8 +35,10 @@ protected:
   double					_speedY;
  double						_speedX;
   double					_posY;
+  double					_height;
+  double					_width;
   int						_life;
-  std::string					_spritePath;
-  rtype::EntityType		       		_type;
-  std::string					_name;
+  std::string				_spritePath;
+  rtype::EntityType			_type;
+  std::string				_name;
 };

@@ -12,6 +12,10 @@ public:
 	virtual void			setPosX(const double) = 0;
 	virtual double			getPosY() const = 0;
 	virtual void			setPosY(const double) = 0;
+	virtual double			getHeight() const = 0;
+	virtual void			setHeight(const double) = 0;
+	virtual double			getWidth() const = 0;
+	virtual void			setWidth(const double) = 0;
 	virtual double			getSpeedX() const = 0;
 	virtual void			setSpeedX(const double) = 0;
 	virtual double			getSpeedY() const = 0;

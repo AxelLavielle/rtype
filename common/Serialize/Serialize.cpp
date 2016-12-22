@@ -44,7 +44,15 @@ char		*Serialize::serialize(IEntity *entity)
   tmpi = entity->getLife();
   i = -1;
   while (++i != 4)
-    p.data[j++] = reinterpret_cast<char*>(&(tmpi))[i];
+	  p.data[j++] = reinterpret_cast<char*>(&(tmpi))[i];
+  tmpd = entity->getHeight();
+  i = -1;
+  while (++i != 8)
+	  p.data[j++] = reinterpret_cast<char*>(&(tmpd))[i];
+  tmpd = entity->getWidth();
+  i = -1;
+  while (++i != 8)
+	  p.data[j++] = reinterpret_cast<char*>(&(tmpd))[i];
   tmps = entity->getSpriteRepo();
   i = -1;
   while (tmps[++i] != 0)
@@ -95,7 +103,9 @@ IEntity		*Serialize::unserializeEntity(char *data)
   packet	p;
   IEntity	*res;
   int		i;
+  std::string	tmp;
 
+  tmp = "";
   p = *reinterpret_cast<packet*>(data);
   switch (static_cast<rtype::EntityType>(p.dataType))
     {
@@ -123,11 +133,15 @@ IEntity		*Serialize::unserializeEntity(char *data)
   res->setSpeedX(*reinterpret_cast<double *>(&p.data[16]));
   res->setSpeedY(*reinterpret_cast<double *>(&p.data[24]));
   res->setLife(*reinterpret_cast<int *>(&p.data[32]));
-  i = 42;
+  res->setHeight(*reinterpret_cast<double *>(&p.data[40]));
+  res->setWidth(*reinterpret_cast<double *>(&p.data[48]));
+  i = 58;
   while (data[i] != ',')
-    i++;
-  data[i] = 0;
-  res->setSpriteRepo(std::string(&data[42]));
+  {
+	  tmp += data[i];
+	  i++;
+  }
+  res->setSpriteRepo(tmp);
   res->setName(std::string(&data[i + 1]));
   return (res);
 }

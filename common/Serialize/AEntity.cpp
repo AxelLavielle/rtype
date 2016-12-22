@@ -2,6 +2,16 @@
 
 AEntity::AEntity()
 {
+	_posX = -1;
+	_posY = -1;
+	_type = rtype::ABSTRACT;
+	_speedX = -1;
+	_speedY = -1;
+	_name = "ABSTRACT";
+	_spritePath = "";
+	_life = -1;
+	_height = -1;
+	_width = -1;
 }
 
 AEntity::~AEntity()
@@ -21,6 +31,26 @@ double			AEntity::getPosX() const
 void			AEntity::setPosY(const double posY)
 {
   _posY = posY;
+}
+
+double AEntity::getHeight() const
+{
+	return (_height);
+}
+
+void AEntity::setHeight(const double height)
+{
+	_height = height;
+}
+
+double AEntity::getWidth() const
+{
+	return (_width);
+}
+
+void AEntity::setWidth(const double width)
+{
+	_width = width;
 }
 
 double			AEntity::getPosY() const
@@ -47,10 +77,11 @@ void			AEntity::setName(const std::string &name)
 {
   _name = name;
 }
-
+#include <iostream>
 void			AEntity::setSpriteRepo(const std::string &path)
 {
   _spritePath = path;
+//  std::cout << "NONONONN = " << _spritePath << std::endl;
 }
 
 std::string		AEntity::getSpriteRepo() const

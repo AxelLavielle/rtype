@@ -155,27 +155,24 @@ bool SFML::drawRectangle(const std::string & spritePath, const Rect &rect, const
 	return (true);
 }
 
-//bool SFML::drawRectangle(const std::string & spritePath, const Rect &rect, const Rect &rect2)
-//{
-//	sf::Texture			*img;
-//	sf::Sprite			sp;
-//	sf::RectangleShape	rec(sf::Vector2f(rect.getWidth(), rect.getHeight()));
-//
-//	if (!(img = getTexture(spritePath)))
-//	{
-//		img = new sf::Texture();
-//		if (!img->loadFromFile(spritePath))
-//			return (false);
-//		_texture.push_back(std::pair<sf::Texture*, std::string>(img, spritePath));
-//	}
-//	rec.setTexture(img);
-//	rec.setPosition(rect.getX(), rect.getY());
-//	sp.setTexture(*img);
-//	sp.setPosition(sf::Vector2f(rect.getX(), rect.getY()));
-//	sp.setTextureRect(sf::IntRect(rect2.getX(), rect2.getY(), rect2.getWidth(), rect2.getWidth()));
-//	_window->draw(sp);
-//	return (true);
-//}
+bool SFML::drawRectangle(const std::string & spritePath, const Rect &rect, const Rect &rect2)
+{
+	sf::Texture			*img;
+	sf::Sprite			sp;
+
+	if (!(img = getTexture(spritePath)))
+	{
+		img = new sf::Texture();
+		if (!img->loadFromFile(spritePath))
+			return (false);
+		_texture.push_back(std::pair<sf::Texture*, std::string>(img, spritePath));
+	}
+	sp.setTexture(*img);
+	sp.setPosition(sf::Vector2f(rect.getX(), rect.getY()));
+	sp.setTextureRect(sf::IntRect(rect2.getX(), rect2.getY(), rect2.getWidth(), rect2.getWidth()));
+	_window->draw(sp);
+	return (true);
+}
 
 bool SFML::drawRectangle(const std::string & spritePath, const Rect &rect)
 {

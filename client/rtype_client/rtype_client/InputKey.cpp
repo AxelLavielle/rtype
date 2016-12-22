@@ -7,6 +7,7 @@ InputKey::InputKey(IGraphManager *graph, IEventManager *event, const Rect &rect)
 	_backgroundColor.setB(255);
 	_typeName = "InputKey";
 	_focus = false;
+	_hover = false;
 }
 
 InputKey::~InputKey()
@@ -76,9 +77,13 @@ bool InputKey::click()
       && pos.second > _rect.getY() && pos.second < _rect.getY() + _rect.getHeight())
     {
       _focus = true;
-	  // tmp = _backgroundSprite;
-	  // _backgroundSprite = _backgroundOverSprite;
-	  // _backgroundOverSprite = tmp;
+      if (!_hover)
+	{
+	  tmp = _backgroundSprite;
+	  _backgroundSprite = _backgroundOverSprite;
+	  _backgroundOverSprite = tmp;
+	  _hover = !_hover;
+	}
       _backgroundColor.setR(192);
       _backgroundColor.setG(192);
       _backgroundColor.setB(192);
@@ -87,9 +92,13 @@ bool InputKey::click()
   else if (pos.first != -1 && pos.second != -1)
     {
       _focus = false;
-	  // tmp = _backgroundOverSprite;
-	  // _backgroundOverSprite = _backgroundSprite;
-	  // _backgroundSprite = tmp;
+      if (_hover)
+	{
+	  tmp = _backgroundSprite;
+	  _backgroundSprite = _backgroundOverSprite;
+	  _backgroundOverSprite = tmp;
+	  _hover = !_hover;
+	}
       _backgroundColor.setR(255);
       _backgroundColor.setG(255);
       _backgroundColor.setB(255);

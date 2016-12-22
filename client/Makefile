@@ -80,6 +80,8 @@ $(NAME):	$(OBJ)
 
 clean:
 		rm -rf $(DIR)/$(OBJ)
+		rm -rf $(COM)/$(OBJ)
+		rm -rf $(SER)/$(OBJ)
 
 fclean:		clean
 		rm -rf $(NAME)

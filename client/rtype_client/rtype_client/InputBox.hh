@@ -20,6 +20,7 @@ public:
 
 private:
   bool			_focus;
+  bool			_hover;
   std::string		_key;
   Color			_textColor;
 };

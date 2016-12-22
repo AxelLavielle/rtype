@@ -67,12 +67,32 @@ bool			SocketClientUDP::sendData(const char *data)
 #ifdef _WIN32
 	int			res;
 
-	if ((res = sendto(_sock, data, datasize, 0, reinterpret_cast<struct sockaddr *>(&_siOther), slen)) == SOCKET_ERROR)
+	struct timeval tv;
+	tv.tv_sec = 2;
+	tv.tv_usec = 0;
+
+	fd_set writefds;
+	FD_ZERO(&writefds);
+	FD_SET(_sock, &writefds);
+
+	int ret = select(_sock + 1, &writefds, NULL, NULL, &tv);
+	if (ret > 0)
 	{
-		std::cerr << "sendto() failed with error code : " << WSAGetLastError() << std::endl;
-		_connected = false;
-		return (false);
+		if (FD_ISSET(_sock, &writefds))
+		{
+			if ((res = sendto(_sock, data, datasize, 0, reinterpret_cast<struct sockaddr *>(&_siOther), slen)) == SOCKET_ERROR)
+			{
+				std::cerr << "sendto() failed with error code : " << WSAGetLastError() << std::endl;
+				_connected = false;
+				return (false);
+			}
+		}
 	}
+	else if (ret == 0)
+		std::cout << "timed out waiting for ack" << std::endl;
+	else
+		std::cerr << "error selecting" << std::endl;
+
 #elif __linux__
 	if (sendto(_sock, data, datasize, 0, reinterpret_cast<struct sockaddr *>(&_siOther), slen) == -1)
 	{
@@ -111,14 +131,33 @@ bool			SocketClientUDP::sendData(const char *data, const int datasize)
 char			*SocketClientUDP::receiveData()
 {
 	char		*buf = new char[UDP_BUFLEN];
-	int		slen = sizeof(_siOther);
+	int			slen = sizeof(_siOther);
 
 #ifdef _WIN32
-	memset(buf, '\0', UDP_BUFLEN);
-	if (recvfrom(_sock, buf, UDP_BUFLEN, 0, reinterpret_cast<struct sockaddr *>(&_siOther), &slen) == SOCKET_ERROR)
+	struct timeval tv;
+	tv.tv_sec = 2;
+	tv.tv_usec = 0;
+
+	fd_set readfds;
+	FD_ZERO(&readfds);
+	FD_SET(_sock, &readfds);
+
+	int ret = select(_sock + 1, &readfds, NULL, NULL, &tv);
+	if (ret > 0)
 	{
-		return (NULL);
+		if (FD_ISSET(_sock, &readfds))
+		{
+			memset(buf, '\0', UDP_BUFLEN);
+			if (recvfrom(_sock, buf, UDP_BUFLEN, 0, reinterpret_cast<struct sockaddr *>(&_siOther), &slen) == SOCKET_ERROR)
+			{
+				return (NULL);
+			}
+		}
 	}
+	else if (ret == 0)
+		std::cout << "timed out waiting for ack" << std::endl;
+	else
+		std::cerr << "error selecting" << std::endl;
 
 #elif __linux__
 	memset(buf, '\0', UDP_BUFLEN);

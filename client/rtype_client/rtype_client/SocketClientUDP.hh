@@ -32,6 +32,6 @@ public:
 	virtual bool		connectToServer();
 
 private:
-	int			_sock;
+	int					_sock;
 	struct sockaddr_in	_siOther;
 };

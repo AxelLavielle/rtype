@@ -170,7 +170,7 @@ bool SFML::drawRectangle(const std::string & spritePath, const Rect &rect, const
 	sp.setOrigin(sf::Vector2f(rect2.getX(), rect2.getY()));
 	sp.setTexture(*img);
 	sp.setPosition(sf::Vector2f(rect.getX(), rect.getY()));
-	sp.setTextureRect(sf::IntRect(rect2.getX(), rect2.getY(), rect.getWidth(), rect.getWidth()));
+	sp.setTextureRect(sf::IntRect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight()));
 	_window->draw(sp);
 	return (true);
 }

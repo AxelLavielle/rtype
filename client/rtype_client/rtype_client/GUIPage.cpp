@@ -28,6 +28,7 @@ bool GUIPage::init()
 	_score = 456789;
 	_mode = "Facile";
 	_playerName = "Jean-Kebab";
+	_animInc = 0;
 	return (true);
 }
 

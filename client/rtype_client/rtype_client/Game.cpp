@@ -61,7 +61,7 @@ void	Game::manageEntity()
 	entity->setPosY(10);
 	entity->setWidth(50);
 	entity->setHeight(50);
-	entity->setSpriteRepo("/res/img");;
+	entity->setSpriteRepo("/res/img");
 	res = Serialize::serialize(entity);
 	newEntity = Serialize::unserializeEntity(res);
 	_guiPage->draw();

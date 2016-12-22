@@ -15,10 +15,14 @@ SettingsNextPage::~SettingsNextPage()
 bool SettingsNextPage::init()
 {
   initButton(70, 10, 60, Rect(750, 600, 90, 310), "SAVE", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::SAVE);
+  initButton(70, 10, 60, Rect(385, 600, 90, 310), "PREC", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::SETTINGS);
   initButton(70, 10, 60, Rect(20, 600, 90, 310), "BACK", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::HOME);
-  initCursorBox(Rect(300, 150, 30, 500), "/res/img/scrollBar.png", "/res/img/scrollButton.png");
-  initCursorBox(Rect(300, 300, 30, 500), "/res/img/scrollBar.png", "/res/img/scrollButton.png");
-  initInputBox(Rect(300, 450, 30, 500), "/res/img/buttonRoom.png", Color(135, 206, 250, 255));
+  initInputBox(Rect(500, 100, 30, 500), "/res/img/buttonRoom.png", Color(135, 206, 250, 255));
+  initInputKey(Rect(500, 175, 30, 500), "/res/img/buttonRoom.png", Color(135, 206, 250, 255));
+  initInputKey(Rect(500, 250, 30, 500), "/res/img/buttonRoom.png", Color(135, 206, 250, 255));
+  initInputKey(Rect(500, 325, 30, 500), "/res/img/buttonRoom.png", Color(135, 206, 250, 255));
+  initInputKey(Rect(500, 400, 30, 500), "/res/img/buttonRoom.png", Color(135, 206, 250, 255));
+  initInputKey(Rect(500, 475, 30, 500), "/res/img/buttonRoom.png", Color(135, 206, 250, 255));
   return (true);
 }
 
@@ -36,9 +40,12 @@ bool SettingsNextPage::launch()
 void SettingsNextPage::draw()
 {
   _graph->setBackground(_backgroundSprite, 0.6f, 0.7f);
-  _graph->drawText("Volume Musique", 300, 100, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
-  _graph->drawText("Volume SFX", 300, 250, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
-  _graph->drawText("ADRESSEIP PORT", 300, 400, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+  _graph->drawText("Nom du Joueur", 100, 100, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+  _graph->drawText("Haut", 100, 175, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+  _graph->drawText("Gauche", 100, 250, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+  _graph->drawText("Droite", 100, 325, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+  _graph->drawText("Bas", 100, 400, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+  _graph->drawText("Tirer", 100, 475, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
   drawGUIElement(_buttons);
   drawGUIElement(_guiElement);
 }

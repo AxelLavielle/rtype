@@ -66,10 +66,8 @@ bool Client::launch()
 	if (!_menu->launch())
 	{
 		_pool.joinAll();
-		_socket->closure();
 		return (false);
 	}
 	_pool.joinAll();
-	_socket->closure();
 	return (true);
 }

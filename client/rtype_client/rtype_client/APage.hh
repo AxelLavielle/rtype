@@ -34,7 +34,9 @@ protected:
   void			initButton(const int textPosX, const int textPosY, const int textSize, const Rect & pos, const std::string & name, const std::string & sprite, const std::string & spriteHover, const std::string & fontPath, IPage::PAGE page);
   void			initButton(const int textPosX, const int textPosY, const int textSize, const Rect & pos, const std::string & name, const std::string & sprite, const std::string & spriteHover, const std::string & fontPath);
   void			initInputBox(const Rect & pos, const std::string & sprite, const Color & rgb);
+  void			initInputKey(const Rect & pos, const std::string & sprite, const Color & rgb);
   void			initInputBox(const Rect & pos, const std::string & sprite, const Color & rgb, const std::string &inputText);
+  void			initInputKey(const Rect & pos, const std::string & sprite, const Color & rgb, const std::string &inputText);
   void			initDecor(const Rect & pos, const std::string & sprite);
   void			initDecor(const Rect & pos, const std::string & sprite, const Color & rgb);
   void			initCursorBox(const Rect & pos, const std::string & spriteBar, const std::string & spriteButton);

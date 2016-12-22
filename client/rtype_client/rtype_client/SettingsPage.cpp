@@ -22,9 +22,10 @@ void	SettingsPage::setServerInfo(const std::string &ip, const int port)
 }
 
 bool SettingsPage::init()
-{
-  initButton(70, 10, 60, Rect(750, 600, 90, 310), "SAVE", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::SAVE);
+{ 
   initButton(70, 10, 60, Rect(20, 600, 90, 310), "BACK", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::HOME);
+  initButton(70, 10, 60, Rect(385, 600, 90, 310), "NEXT", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::SETTINGSNEXT);
+  initButton(70, 10, 60, Rect(750, 600, 90, 310), "SAVE", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::SAVE);
   initCursorBox(Rect(300, 150, 30, 500), "/res/img/scrollBar.png", "/res/img/scrollButton.png");
   initCursorBox(Rect(300, 300, 30, 500), "/res/img/scrollBar.png", "/res/img/scrollButton.png");
   initInputBox(Rect(300, 450, 30, 500), "/res/img/buttonRoom.png", Color(135, 206, 250, 255), _ip + ":" + _port);

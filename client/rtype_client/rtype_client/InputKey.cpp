@@ -1,36 +1,36 @@
-#include "InputBox.hh"
+#include "InputKey.hh"
 
-InputBox::InputBox(IGraphManager *graph, IEventManager *event, const Rect &rect) : AGUIElement(graph, event, rect)
+InputKey::InputKey(IGraphManager *graph, IEventManager *event, const Rect &rect) : AGUIElement(graph, event, rect)
 {
 	_backgroundColor.setR(255);
 	_backgroundColor.setG(255);
 	_backgroundColor.setB(255);
-	_typeName = "InputBox";
+	_typeName = "InputKey";
 	_focus = false;
 }
 
-InputBox::~InputBox()
+InputKey::~InputKey()
 {
 }
 
-InputBox::InputBox() : AGUIElement()
+InputKey::InputKey() : AGUIElement()
 {
 	_backgroundColor.setR(255);
 	_backgroundColor.setG(255);
 	_backgroundColor.setB(255);
 }
 
-void	InputBox::setText(const std::string &text)
+void	InputKey::setText(const std::string &text)
 {
 	_key = text;
 }
 
-std::string InputBox::getText() const
+std::string InputKey::getText() const
 {
 	return (_key);
 }
 
-bool InputBox::getInput()
+bool InputKey::getInput()
 {
 	std::string key;
 
@@ -46,25 +46,25 @@ bool InputBox::getInput()
 	      }
 	    if (key == "" || _key.size() >= 32)
 	      return (false);
-	    _key += key;
+	    _key = key;
 	    return (true);
 	  }
 	return (false);
 }
 
-void InputBox::setTextColor(const Color & color)
+void InputKey::setTextColor(const Color & color)
 {
 	_textColor = color;
 }
 
-bool InputBox::draw()
+bool InputKey::draw()
 {
 	_graph->drawRectangle(_backgroundSprite, _rect);
 	_graph->drawText(_key, _rect.getX() + 10, _rect.getY(), 20, _textColor, _fontPath);
 	return (true);
 }
 
-bool InputBox::click()
+bool InputKey::click()
 {
   std::pair<int, int>		pos;
   std::string				tmp;
@@ -97,18 +97,18 @@ bool InputBox::click()
   return (false);
 }
 
-bool InputBox::over()
+bool InputKey::over()
 {
 	//Not implemented
 	return (false);
 }
 
-void InputBox::setGraph(IGraphManager * graph)
+void InputKey::setGraph(IGraphManager * graph)
 {
 	_graph = graph;
 }
 
-void InputBox::setEvent(IEventManager * event)
+void InputKey::setEvent(IEventManager * event)
 {
 	_event = event;
 }

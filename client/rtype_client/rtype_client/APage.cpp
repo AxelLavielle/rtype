@@ -5,7 +5,7 @@
 // Login   <laviel_a@epitech.net>
 // 
 // Started on  Wed Dec 14 15:41:00 2016 Axel Lavielle
-// Last update Sat Dec 17 01:19:49 2016 Axel Lavielle
+// Last update Thu Dec 22 14:32:53 2016 Axel Lavielle
 //
 
 #include	"APage.hh"
@@ -83,9 +83,35 @@ void		APage::initInputBox(const Rect &pos, const std::string &sprite, const Colo
   _guiElement.push_back(input);
 }
 
+void		APage::initInputKey(const Rect &pos, const std::string &sprite, const Color &rgb)
+{
+  InputKey	*input = new InputKey(_graph, _event, pos);
+
+  input->setEvent(_event);
+  input->setGraph(_graph);
+  input->setBackgroundSprite(_fileManager.getRoot() + sprite);
+  input->setBackgroundOverSprite(_fileManager.getRoot() + "res/img/buttonRoomOver.png");
+  input->setFontPath(_fileManager.getRoot() + "/res/fonts/OpenSans-Regular.ttf");
+  input->setTextColor(rgb);
+  _guiElement.push_back(input);
+}
+
 void APage::initInputBox(const Rect & pos, const std::string & sprite, const Color & rgb, const std::string & inputText)
 {
 	InputBox	*input = new InputBox(_graph, _event, pos);
+
+	input->setEvent(_event);
+	input->setGraph(_graph);
+	input->setBackgroundSprite(_fileManager.getRoot() + sprite);
+	input->setFontPath(_fileManager.getRoot() + "/res/fonts/OpenSans-Regular.ttf");
+	input->setTextColor(rgb);
+	input->setText(inputText);
+	_guiElement.push_back(input);
+}
+
+void APage::initInputKey(const Rect & pos, const std::string & sprite, const Color & rgb, const std::string & inputText)
+{
+	InputKey	*input = new InputKey(_graph, _event, pos);
 
 	input->setEvent(_event);
 	input->setGraph(_graph);

@@ -5,6 +5,7 @@
 #include			"Button.hh"
 #include			"ListBox.hh"
 #include			"InputBox.hh"
+#include			"InputKey.hh"
 #include			"CursorBox.hh"
 #include			"CheckBox.hh"
 #include			"RectDecor.hh"

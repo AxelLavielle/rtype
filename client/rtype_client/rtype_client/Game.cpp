@@ -66,7 +66,7 @@ void	Game::manageEntity()
 	newEntity = Serialize::unserializeEntity(res);
 	_guiPage->draw();
 	std::cout << "x = " << newEntity->getPosX() << "y = " << newEntity->getPosY() << "height = " << entity->getHeight() << "width = " << entity->getWidth() << std::endl;
-	_graph->drawRectangle(_fileManager.getRoot() + newEntity->getSpriteRepo() + "spaceShip10.png", Rect(newEntity->getPosX(), newEntity->getPosY(), 0, 0), Rect(0, 0, entity->getHeight(), entity->getWidth()));
+//	_graph->drawRectangle(_fileManager.getRoot() + newEntity->getSpriteRepo() + "spaceShip10.png", Rect(newEntity->getPosX(), newEntity->getPosY(), 0, 0), Rect(0, 0, entity->getHeight(), entity->getWidth()));
 	delete entity;
 	delete newEntity;
 	delete res;

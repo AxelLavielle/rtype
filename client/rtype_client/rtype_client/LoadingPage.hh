@@ -21,6 +21,12 @@ private:
 
 	int														_animInc;
 	int														_animInc2;
+	int														_animInc3;
+	int														_animInc4;
+	int														_imgW;
+	int														_img2W;
+	int														_img3W;
+	int														_img4W;
 	double													_animDuration;
 	std::chrono::high_resolution_clock::time_point			t1;
 };

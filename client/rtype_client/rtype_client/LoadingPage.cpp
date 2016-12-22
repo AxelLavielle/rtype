@@ -14,7 +14,13 @@ bool LoadingPage::init()
 	//initButton(70, 5, 60, Rect(_windowSize.first / 2 - 150, _windowSize.second / 2 - 60, 30, 70), "", "/res/img/spaceShip10.png", "/res/img/spaceShip10.png", "/res/fonts/Space.ttf");
 	//initButton(70, 5, 60, Rect(_windowSize.first / 2 - 150, _windowSize.second / 2 + 30, 30, 70), "", "/res/img/spaceShip10.png", "/res/img/spaceShip10.png", "/res/fonts/Space.ttf");
 	_animInc = _windowSize.first / 2 - 200;
-	_animInc2 = _windowSize.first / 2 - 35;
+	_animInc2 = _windowSize.first / 2;
+	_animInc3 = _windowSize.first / 2 - 200;
+	_animInc4 = _windowSize.first / 2;
+	_imgW = 70;
+	_img2W = 70;
+	_img3W = 0;
+	_img4W = 0;
 	return (true);
 }
 
@@ -39,17 +45,48 @@ void	LoadingPage::loadingAnim()
 //	it = _guiElement.begin();
 	//while (it != _guiElement.end())
 	//{
-		if (_animInc > _windowSize.first / 2 - 200 + 325)
-			_animInc = _windowSize.first / 2 - 200;
-		if (_animInc2 > _windowSize.first / 2 - 200 + 325)
-			_animInc2 = _windowSize.first / 2 - 200;
+
 		t2 = std::chrono::high_resolution_clock::now();
 		_animDuration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
 		if (_animDuration > ANIMDURATION)
 		{
 			t1 = std::chrono::high_resolution_clock::now();
-			_animInc += 5;
-			_animInc2 += 5;
+			if (_animInc > _windowSize.first / 2 - 200 + 325 + 70)
+				_animInc = _windowSize.first / 2 - 200;
+			if (_animInc > _windowSize.first / 2 - 200 + 325)
+			{
+				_imgW--;
+				_img3W++;
+			}
+
+			if (_animInc2 > _windowSize.first / 2 - 200 + 325 + 70)
+				_animInc2 = _windowSize.first / 2 - 200;
+			if (_animInc2 > _windowSize.first / 2 - 200 + 325)
+			{
+				_img2W--;
+				_img4W++;
+			}
+
+			if (_animInc3 > _windowSize.first / 2 - 200 + 325)
+				_animInc3 = _windowSize.first / 2 - 200 - 70;
+			if (_animInc3 < _windowSize.first / 2 - 200)
+			{
+				_imgW++;
+				_img3W--;
+			}
+
+			if (_animInc4 > _windowSize.first / 2 - 200 + 325)
+				_animInc4 = _windowSize.first / 2 - 200 - 70;
+			if (_animInc4 < _windowSize.first / 2 - 200)
+			{
+				_img2W++;
+				_img3W--;
+			}
+
+			_animInc += 1;
+			_animInc2 += 1;
+			_animInc3 += 1;
+			_animInc4 += 1;
 		}
 		//tmp = (*it)->getPos();
 		//if ((*it)->getTypeName() == "Button")
@@ -70,8 +107,10 @@ void LoadingPage::draw()
 	drawGUIElement(_guiElement);
 	drawGUIElement(_buttons);
 	_graph->drawText("Loading...", _windowSize.first / 2 - 80, _windowSize.second / 2 - 20, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
-	_graph->drawRectangle(_fileManager.getRoot() + "/res/img/spaceShip10.png", Rect(_animInc, _windowSize.second / 2 - 60, 0, 0), Rect(0, 0, 30, 70));
-	_graph->drawRectangle(_fileManager.getRoot() + "/res/img/spaceShip10.png", Rect(_animInc2, _windowSize.second / 2 + 30, 0, 0), Rect(0, 0, 30, 70));
+	_graph->drawRectangle(_fileManager.getRoot() + "/res/img/spaceShip10.png", Rect(_animInc, _windowSize.second / 2 - 60, 0, 0), Rect(0, 0, 0, 0), Rect(_animInc, _windowSize.second / 2 - 60, 30, _imgW));
+	_graph->drawRectangle(_fileManager.getRoot() + "/res/img/spaceShip10.png", Rect(_animInc2, _windowSize.second / 2 + 30, 0, 0), Rect(0, 0, 0, 0), Rect(_animInc2, _windowSize.second / 2 + 30, 30, _img2W));
+	_graph->drawRectangle(_fileManager.getRoot() + "/res/img/spaceShip10.png", Rect(_animInc3, _windowSize.second / 2 - 60, 0, 0), Rect(0, 0, 0, 0), Rect(_animInc3, _windowSize.second / 2 - 60, 30, _img3W));
+	_graph->drawRectangle(_fileManager.getRoot() + "/res/img/spaceShip10.png", Rect(_animInc4, _windowSize.second / 2 + 30, 0, 0), Rect(0, 0, 0, 0), Rect(_animInc4, _windowSize.second / 2 + 30, 30, _img4W));
 }
 
 IPage::PAGE LoadingPage::event()

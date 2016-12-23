@@ -11,8 +11,11 @@ public:
   virtual CmdName		getCommandName() const;
   std::string			getKey() const;
   void					setKey(const std::string &key);
-  virtual void				setCommandArg(const std::string &);
+  int					getId() const;
+  void					setId(const int id);
+  virtual void			setCommandArg(const std::string &);
 
 private:
 	std::string			_key;
+	int					_id;
 };

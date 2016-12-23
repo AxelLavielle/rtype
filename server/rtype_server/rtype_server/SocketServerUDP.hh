@@ -7,8 +7,6 @@
 
 #include "ASocketServer.hh"
 
-typedef std::pair<struct sockaddr_in *, ICommand *> UDPClientMsg;
-
 class SocketServerUDP : public ASocketServer
 {
 private:
@@ -24,7 +22,7 @@ public:
 	virtual bool						init(const std::string &, const int);
 	virtual bool						launch();
 	virtual bool						sendAllData(std::vector<ServerClient *> &);
-	std::vector<UDPClientMsg>			receiveData();
+	std::vector<ICommand *>				receiveData();
 	int									selectFds();
 };
 

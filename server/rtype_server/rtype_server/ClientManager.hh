@@ -11,10 +11,9 @@ private:
 public:
 	ClientManager();
 	~ClientManager();
-	void							addClient(int, SocketAddress *);
+	void							addClient(const int, SocketAddress *);
 	void							removeClient(ServerClient *);
 	std::vector<int>				getClientsTCPSockets();
-	std::vector<int>				getClientsUDPSockets();
 	std::vector<ServerClient *>		&getClients();
 	ServerClient					*getClientByTCP(const int);
 	void							addDataToSendTCP(int, const char *, int);

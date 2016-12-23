@@ -30,8 +30,7 @@ private:
 	void			processMsg(const std::vector<ClientMsg> &);
 	void			processBasicCmd(ServerClient *, BasicCmd *);
 	void			processGames();
-	void			processUDPMessages(const std::vector<UDPClientMsg> &);
-	void			checkNewUDPClients(const std::vector<UDPClientMsg> &);
+	void			processUDPMessages(const std::vector<ICommand *> &);
 	void			checkRoomsReadyToLaunch();
 
 public:

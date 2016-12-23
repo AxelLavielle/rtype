@@ -7,8 +7,6 @@
 
 #include "ASocketServer.hh"
 
-typedef std::pair<ServerClient *, ICommand *> ClientMsg;
-
 class SocketServerTCP : public ASocketServer
 {
 private:
@@ -28,5 +26,5 @@ public:
 	virtual bool					sendAllData(std::vector<ServerClient *> &);
 	std::vector<ClientMsg>			receiveData(std::vector<ServerClient *> &);
 	int								selectFds(const std::vector<int> &);
-	int								acceptNewClient();
+	NewClientInfo					acceptNewClient();
 };

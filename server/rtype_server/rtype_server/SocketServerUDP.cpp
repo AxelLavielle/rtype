@@ -41,14 +41,12 @@ bool SocketServerUDP::init(const std::string &addr, const int port)
 
 bool					SocketServerUDP::launch()
 {
-	struct sockaddr_in	serverAddr;
+	MemTools::set(&_addrSocket, 0, sizeof(_addrSocket));
+	_addrSocket.sin_family = AF_INET;
+	_addrSocket.sin_port = htons(_port);
+	_addrSocket.sin_addr.s_addr = htonl(INADDR_ANY);
 
-	MemTools::set(&serverAddr, 0, sizeof(serverAddr));
-	serverAddr.sin_family = AF_INET;
-	serverAddr.sin_port = htons(_port);
-	serverAddr.sin_addr.s_addr = htonl(INADDR_ANY);
-
-	if (bind(_socketServerID, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR)
+	if (bind(_socketServerID, (struct sockaddr *)&_addrSocket, sizeof(_addrSocket)) == SOCKET_ERROR)
 	{
 		displayError("Socket UDP Bind failed: ");
 		return (false);
@@ -67,15 +65,24 @@ bool										SocketServerUDP::sendAllData(std::vector<ServerClient *> &clientLi
 	it = clientList.begin();
 	while (it != clientList.end())
 	{
-		if ((*it)->getAddrUDP() != NULL)
+		if ((*it)->getDataLenUDP() > 0)
 		{
+			std::cout << "Sending " << (*it)->getDataLenUDP() << " characters" << std::endl;
+			
+			struct sockaddr_in newAddr;
+
+			MemTools::copy(&newAddr, &_addrSocket, sizeof(_addrSocket));
+			newAddr.sin_addr = (*it)->getAddr().getAddr();
 			len = sendto(_socketServerID, (*it)->getSendDataUDP(), (*it)->getDataLenUDP(),
-				0, (struct sockaddr *)(*it)->getAddrUDP(), sizeof(struct sockaddr_in));
+				0, (struct sockaddr *)&newAddr, sizeof(struct sockaddr));
 			if (len == -1)
 			{
+				std::cout << "ERROR " << WSAGetLastError() << std::endl;
+				Sleep(1000);
 				//displayError("Sendto failed: ");
 			}
 		}
+		(*it)->resetDataUDP();
 		it++;
 	}
 	return (true);
@@ -102,6 +109,13 @@ std::vector<UDPClientMsg>		SocketServerUDP::receiveData()
 	else
 	{
 		std::cout << "Received new Msg of " << len << " characters" << std::endl;
+
+		struct sockaddr_in *ipv4 = (struct sockaddr_in *)&clientAddr;
+		char ipAddress[INET_ADDRSTRLEN];
+		inet_ntop(AF_INET, &(ipv4->sin_addr), ipAddress, INET_ADDRSTRLEN);
+
+		std::cout << "UDP ---> Ip client Addr [" << ipAddress << "]" << std::endl;
+
 		vectMsg.push_back(std::make_pair(&clientAddr, Serialize::unserializeCommand(buf)));
 	}
 	return (vectMsg);

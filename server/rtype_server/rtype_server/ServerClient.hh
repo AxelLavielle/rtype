@@ -5,6 +5,7 @@
 #define UDP_PACKET_SIZE (1452)
 #define DEBUG_MSG (true)
 
+#include "SocketAddress.hh"
 #include "MemTools.hh"
 #include <vector>
 #include <iostream>
@@ -22,7 +23,7 @@ private:
 
 	char				_sendDataUDP[UDP_PACKET_SIZE];
 	int					_lenDataUDP;
-	struct sockaddr_in	*_clientAddrUDP;
+	SocketAddress		*_clientAddr;
 
 	bool				_readyStatus;
 	bool				_logState;
@@ -30,7 +31,7 @@ private:
 	std::string			_playerName;
 
 public:
-	ServerClient(const int);
+	ServerClient(const int, SocketAddress *);
 	~ServerClient();
 
 	int					getTCPSocket() const;
@@ -41,13 +42,11 @@ public:
 	bool				isDisconnectedTCP() const;
 	void				setDisconnectedTCP(const bool);
 
-	struct sockaddr_in	*getAddrUDP() const;
+	SocketAddress		getAddr() const;
 	void				addUDPDataToSend(const char *);
 	const char			*getSendDataUDP() const;
 	void				resetDataUDP();
 	int					getDataLenUDP() const;
-	void				setAddrUDP(struct sockaddr_in *);
-	void				resetAddrUDP();
 	
 	void				setCurrentRoom(const int);
 	int					getCurrentRoom() const;

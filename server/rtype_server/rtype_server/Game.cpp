@@ -20,6 +20,8 @@ void	Game::updateGame(const Room &room)
 	while (it != clients.end())
 	{
 		AEntity *player = new Player ((*it)->getPlayerName());
+		player->setPosX(50);
+		player->setPosY(100);
 		//Player	*test;
 
 		//std::cout << "Add Player : " << player->getName() << std::endl;

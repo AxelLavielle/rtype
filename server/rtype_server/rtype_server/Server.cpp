@@ -188,7 +188,7 @@ bool							Server::launch()
 bool							Server::TCPLoop()
 {
 	std::vector<int>			socketsClients;
-	int							clientSocketID = INVALID_SOCKET;
+	NewClientInfo				newClientInfo;
 	std::vector<ClientMsg>		vectMsg;
 	
 	while (42)
@@ -197,12 +197,14 @@ bool							Server::TCPLoop()
 		_socketServerTCP.selectFds(_clientManager.getClientsTCPSockets());
 		_mutex->unlock();
 
-		if ((clientSocketID = _socketServerTCP.acceptNewClient()) != -1)
+		if ((newClientInfo = _socketServerTCP.acceptNewClient()).first != -1)
 		{
 			_mutex->lock();
-			_clientManager.addClient(clientSocketID);
+			_clientManager.addClient(newClientInfo.first, newClientInfo.second);
 			_mutex->unlock();
 		}
+		else
+			delete(newClientInfo.second);
 
 		_mutex->lock();
 		vectMsg = _socketServerTCP.receiveData(_clientManager.getClients());
@@ -230,48 +232,6 @@ void											Server::processUDPMessages(const std::vector<UDPClientMsg> &vectM
 	}
 }
 
-void											Server::checkNewUDPClients(const std::vector<UDPClientMsg> &vectMsg)
-{
-	std::vector<UDPClientMsg>::const_iterator	it;
-	ServerClient								*client;
-	int											tcpSocket;
-	BasicCmd									*cmd;
-
-	it = vectMsg.begin();
-	while (it != vectMsg.end())
-	{
-		if ((*it).first != NULL && (*it).second != NULL)
-		{
-			std::cout << "HELLO HELLO UDP" << std::endl;
-			cmd = static_cast<BasicCmd *>((*it).second);
-			std::cout << "TYPE = " << cmd->getCommandType() << " & NAME = " << cmd->getCommandName() << std::endl;
-			if (cmd->getCommandName() != BASIC_CMD || cmd->getCommandType() != REPLY_CODE)
-				return;
-			std::string str = cmd->getArg(0);
-			std::cout << "STR = " << str << std::endl;
-			try
-			{
-				tcpSocket = std::stoi(str);
-				std::cout << "TCP SOCKET = " << tcpSocket << std::endl;
-
-				_mutex->lock();
-				client = _clientManager.getClientByTCP(tcpSocket);
-				if (client != NULL && client->getAddrUDP() == NULL)
-				{
-					client->setAddrUDP((*it).first);
-				}
-				_mutex->unlock();
-
-			}
-			catch (const std::exception &error)
-			{
-				std::cerr << "std::stoi error " << error.what() << std::endl;
-			}
-		}
-		it++;
-	}
-}
-
 bool									Server::UDPLoop()
 {
 	std::vector<UDPClientMsg>			vectMsg;
@@ -280,7 +240,6 @@ bool									Server::UDPLoop()
 	{
 		_socketServerUDP.selectFds();
 		vectMsg = _socketServerUDP.receiveData();
-		checkNewUDPClients(vectMsg);
 		processUDPMessages(vectMsg);
 		_mutex->lock();
 		_socketServerUDP.sendAllData(_clientManager.getClients());

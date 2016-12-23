@@ -83,7 +83,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\Users\49312\Desktop\RENDUS\RTYPE\rtype\common;C:\Users\49312\Desktop\RENDUS\RTYPE\rtype\common\Serialize;C:\Users\49312\Desktop\RENDUS\RTYPE\rtype\server\rtype_server\rtype_server;C:\rtype\common\Serialize;C:\rtype\common;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -144,6 +148,7 @@
     <ClInclude Include="RoomManager.hh" />
     <ClInclude Include="Server.hh" />
     <ClInclude Include="ServerClient.hh" />
+    <ClInclude Include="SocketAddress.hh" />
     <ClInclude Include="SocketServerTCP.hh" />
     <ClInclude Include="SocketServerUDP.hh" />
   </ItemGroup>
@@ -174,6 +179,7 @@
     <ClCompile Include="RoomManager.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="ServerClient.cpp" />
+    <ClCompile Include="SocketAddress.cpp" />
     <ClCompile Include="SocketServerTCP.cpp" />
     <ClCompile Include="SocketServerUDP.cpp" />
   </ItemGroup>

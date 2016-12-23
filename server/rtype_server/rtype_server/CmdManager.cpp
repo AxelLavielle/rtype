@@ -202,7 +202,7 @@ void			CmdManager::cmdJoinRoom(ServerClient *client, BasicCmd *msgClient)
 			_mutex->lock();
 			room = _roomManager->getRoomById(idRoom);
 			
-			if (room->isReadyToLaunch() == true)
+			if (room->isReady() == true)
 			{
 				std::cout << "Room ALREADY IN GAME !" << std::endl;
 				reply.setCommandArg(std::to_string(ROOM_FULL));
@@ -307,7 +307,7 @@ void											CmdManager::cmdLaunchGame(const std::vector<ServerClient *> &clie
 		it++;
 	}
 	_mutex->lock();
-	_roomManager->getRoomById(idRoom)->setReadyToLaunch(true);
+	_roomManager->getRoomById(idRoom)->setReady(true);
 	_mutex->unlock();
 	//launchUDP();
 	std::cout << std::endl;

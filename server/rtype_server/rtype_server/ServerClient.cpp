@@ -1,6 +1,6 @@
 #include "ServerClient.hh"
 
-ServerClient::ServerClient(const int socketFd)
+ServerClient::ServerClient(const int socketFd, SocketAddress *addr)
 {
 	_TCPSocketFd = socketFd;
 	MemTools::set(_sendDataTCP, 0, TCP_PACKET_SIZE);
@@ -9,8 +9,8 @@ ServerClient::ServerClient(const int socketFd)
 
 	MemTools::set(_sendDataUDP, 0, UDP_PACKET_SIZE);
 	_lenDataUDP = 0;
-	_clientAddrUDP = NULL;
-
+	_clientAddr = addr;
+	
 	_readyStatus = false;
 	_logState = false;
 	_currentRoomId = -1;
@@ -73,9 +73,9 @@ void	ServerClient::setDisconnectedTCP(const bool disconnected)
 	_isDisconnectedTCP = disconnected;
 }
 
-struct sockaddr_in *ServerClient::getAddrUDP() const
+SocketAddress	ServerClient::getAddr() const
 {
-	return (_clientAddrUDP);
+	return (*_clientAddr);
 }
 
 void		ServerClient::addUDPDataToSend(const char *data)
@@ -113,16 +113,6 @@ void ServerClient::resetDataUDP()
 int ServerClient::getDataLenUDP() const
 {
 	return (_lenDataUDP);
-}
-
-void ServerClient::setAddrUDP(struct sockaddr_in *addr)
-{
-	_clientAddrUDP = addr;
-}
-
-void ServerClient::resetAddrUDP()
-{
-	_clientAddrUDP = NULL;
 }
 
 void	ServerClient::setCurrentRoom(const int roomId)

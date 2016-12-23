@@ -9,11 +9,10 @@ ClientManager::~ClientManager()
 {
 }
 
-void				ClientManager::addClient(int clientSocketId)
+void				ClientManager::addClient(int clientSocketId, SocketAddress *addr)
 {
-	_clientList.push_back(new ServerClient(clientSocketId));
+	_clientList.push_back(new ServerClient(clientSocketId, addr));
 }
-
 
 void										ClientManager::removeClient(ServerClient *client)
 {

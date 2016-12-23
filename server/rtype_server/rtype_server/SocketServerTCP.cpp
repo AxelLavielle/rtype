@@ -31,6 +31,7 @@ bool					SocketServerTCP::init(const std::string &addr, const int port)
 		}
 	#endif
 
+
 	if ((_socketServerID = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET)
 	{
 		displayError("Socket creation failed: ");
@@ -78,14 +79,17 @@ bool SocketServerTCP::launch()
 	return (true);
 }
 
-int SocketServerTCP::acceptNewClient()
+NewClientInfo		SocketServerTCP::acceptNewClient()
 {
-	int newClientSocketID;
+	int				newClientSocketID;
+	struct sockaddr clientAddr;
+	struct in_addr	nullPtr = {0};
+	int				len = sizeof(struct sockaddr);
 
 	if (!FD_ISSET(_socketServerID, &_readfds))
-		return (-1);
+		return (std::make_pair(-1, new SocketAddress(nullPtr)));
 
-	if ((newClientSocketID = accept(_socketServerID, NULL, NULL)) == INVALID_SOCKET)
+	if ((newClientSocketID = accept(_socketServerID, &clientAddr, &len)) == INVALID_SOCKET)
 	{
 		displayError("Accept failed: ");
 		#ifdef _WIN32
@@ -94,13 +98,13 @@ int SocketServerTCP::acceptNewClient()
 		#elif __linux__
 			close(_socketServerID);
 		#endif
-		return (-1);
+		return (std::make_pair(-1, new SocketAddress(nullPtr)));
 	}
 
 	if (DEBUG_MSG)
 		std::cout << "NEW CLIENT ------->" << newClientSocketID << std::endl;
-
-	return (newClientSocketID);
+	
+	return (std::make_pair(newClientSocketID, new SocketAddress(((struct sockaddr_in *)&clientAddr)->sin_addr)));
 }
 
 bool										SocketServerTCP::sendAllData(std::vector<ServerClient *> &clientList)
@@ -110,7 +114,7 @@ bool										SocketServerTCP::sendAllData(std::vector<ServerClient *> &clientLi
 	it = clientList.begin();
 	while (it != clientList.end())
 	{
-		if ((*it)->getDataLenTCP() > 0)
+		if (FD_ISSET((*it)->getTCPSocket(), &_writefds) && (*it)->getDataLenTCP() > 0)
 		{
 			if (DEBUG_MSG)
 				std::cout << "Sending to Client " << (*it)->getTCPSocket()

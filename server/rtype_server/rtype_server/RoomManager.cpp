@@ -165,7 +165,7 @@ std::vector<Room>						RoomManager::getRoomsReadyToLaunch() const
 	{
 		if ((*it).getNbClients() > 0
 			&& (*it).getNbClients() == (*it).getNbClientsReady()
-			&& (*it).isReadyToPlay() == false && (*it).isReadyToLaunch() == false)
+			&& (*it).isReady() == false)
 			roomsReady.push_back((*it));
 		it++;
 	}
@@ -183,9 +183,9 @@ std::vector<Room>						RoomManager::getRoomsReadyToPlay() const
 	it = _roomList.begin();
 	while (it != _roomList.end())
 	{
-		if ((*it).isReadyToLaunch() == true
-			&& (*it).isReadyToPlay() == false 
-			&& (*it).getNbClients() == (*it).getNbClientsUDPConnected())
+		if ((*it).getNbClients() > 0
+			&& (*it).getNbClients() == (*it).getNbClientsReady()
+			&& (*it).isReady() == true)
 			roomsReady.push_back((*it));
 		it++;
 	}

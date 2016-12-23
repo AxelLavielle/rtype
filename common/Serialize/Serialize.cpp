@@ -100,14 +100,16 @@ char		*Serialize::serialize(ICommand *cmd)
 
 IEntity		*Serialize::unserializeEntity(char *data)
 {
-  packet	p;
+  packet	*p;
   IEntity	*res;
   int		i;
   std::string	tmp;
 
   tmp = "";
-  p = *reinterpret_cast<packet*>(data);
-  switch (static_cast<rtype::EntityType>(p.dataType))
+  p = reinterpret_cast<packet*>(data);
+  if (p == NULL)
+	  return (NULL);
+  switch (static_cast<rtype::EntityType>(p->dataType))
     {
     case rtype::EntityType::PLAYER:
       res = new Player();
@@ -127,14 +129,14 @@ IEntity		*Serialize::unserializeEntity(char *data)
     }
   if (res == NULL)
     return (NULL);
-  res->setType(static_cast<rtype::EntityType>(p.dataType));
-  res->setPosX(*reinterpret_cast<double *>(&p.data[0]));
-  res->setPosY(*reinterpret_cast<double *>(&p.data[8]));
-  res->setSpeedX(*reinterpret_cast<double *>(&p.data[16]));
-  res->setSpeedY(*reinterpret_cast<double *>(&p.data[24]));
-  res->setLife(*reinterpret_cast<int *>(&p.data[32]));
-  res->setHeight(*reinterpret_cast<double *>(&p.data[40]));
-  res->setWidth(*reinterpret_cast<double *>(&p.data[48]));
+  res->setType(static_cast<rtype::EntityType>(p->dataType));
+  res->setPosX(*reinterpret_cast<double *>(&p->data[0]));
+  res->setPosY(*reinterpret_cast<double *>(&p->data[8]));
+  res->setSpeedX(*reinterpret_cast<double *>(&p->data[16]));
+  res->setSpeedY(*reinterpret_cast<double *>(&p->data[24]));
+  res->setLife(*reinterpret_cast<int *>(&p->data[32]));
+  res->setHeight(*reinterpret_cast<double *>(&p->data[40]));
+  res->setWidth(*reinterpret_cast<double *>(&p->data[48]));
   i = 58;
   while (data[i] != ',')
   {

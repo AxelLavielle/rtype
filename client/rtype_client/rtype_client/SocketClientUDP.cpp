@@ -84,7 +84,14 @@ bool			SocketClientUDP::sendData(const char *data)
 		{
 			if ((res = sendto(_sock, data, datasize, 0, reinterpret_cast<struct sockaddr *>(&_siOther), slen)) == SOCKET_ERROR)
 			{
+#ifdef _WIN32
 				std::cerr << "sendto() failed with error code : " << WSAGetLastError() << std::endl;
+
+#elif __linux__
+
+				perror("sendto");
+
+#endif
 				_connected = false;
 				return (false);
 			}
@@ -151,9 +158,16 @@ char			*SocketClientUDP::receiveData()
 		if (FD_ISSET(_sock, &readfds))
 		{
 			memset(buf, '\0', UDP_BUFLEN);
-			if ((ret = recvfrom(_sock, buf, UDP_BUFLEN, 0, reinterpret_cast<struct sockaddr *>(&_siOther), &slen)) == SOCKET_ERROR)
+			if ((ret = recvfrom(_sock, buf, UDP_BUFLEN, 0, reinterpret_cast<struct sockaddr *>(&_siOther), reinterpret_cast<socklen_t *>(&slen))) == SOCKET_ERROR)
 			{
+#ifdef _WIN32
 				std::cout << "recvfrom failed with the error : " << WSAGetLastError() << std::endl;
+
+#elif __linux__
+
+				perror("recvfrom");
+
+#endif
 				return (NULL);
 			}
 		}

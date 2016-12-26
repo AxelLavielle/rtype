@@ -231,7 +231,7 @@ ListRoomCmd	*CmdManager::getRoomList()
 	basicCmd->setCommandType(GET_ROOM_LIST);
 	_cmd.push_back(basicCmd);
 	if (!sendCmd())
-		return (false);
+		return (NULL);
 
 	//A modifier
 	if (!(res = _socketClient->receiveData()))

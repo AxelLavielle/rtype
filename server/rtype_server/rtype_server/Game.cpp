@@ -8,15 +8,14 @@ Game::~Game()
 {
 }
 
-void	Game::updateGame(const Room &room)
+void	Game::updateGame(std::vector<ServerClient *> &clients)
 {
-	std::vector<ServerClient *>				clients;
 	std::vector<ServerClient *>::iterator	it;
 	char									*msg;
 	static int x = 50;
 	static int y = 100;
 
-	if ((clients = room.getClients()).size() == 0)
+	if (clients.size() == 0)
 		return;
 	it = clients.begin();
 	while (it != clients.end())
@@ -24,6 +23,7 @@ void	Game::updateGame(const Room &room)
 		AEntity *player = new Player ((*it)->getPlayerName());
 		player->setPosX(x);
 		player->setPosY(y);
+		player->setSpriteRepo("/res/img");
 		Player	*test;
 
 		//std::cout << "Add Player : " << player->getName() << std::endl;

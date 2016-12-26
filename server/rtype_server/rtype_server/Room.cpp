@@ -88,22 +88,6 @@ int												Room::getNbClientsReady() const
 	return (nb);
 }
 
-//int												Room::getNbClientsUDPConnected() const
-//{
-//	std::vector<ServerClient *>::const_iterator	it;
-//	int											nb;
-//
-//	nb = 0;
-//	it = _clients.begin();
-//	while (it != _clients.end())
-//	{
-//		if ((*it)->getAddr() != NULL)
-//			nb++;
-//		it++;
-//	}
-//	return (nb);
-//}
-
 void			Room::setReady(const bool status)
 {
 	_ready = status;
@@ -114,12 +98,8 @@ bool			Room::isReady() const
 	return (_ready);
 }
 
-//void			Room::setReadyToPlay(const bool launch)
-//{
-//	_readyToLaunch = launch;
-//}
-//
-//bool			Room::isReadyToPlay() const
-//{
-//	return (_readyToPlay);
-//}
+bool Room::updateGame()
+{
+	_gameManager.updateGame(_clients);
+	return (true);
+}

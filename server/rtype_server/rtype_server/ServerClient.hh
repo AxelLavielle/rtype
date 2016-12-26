@@ -7,6 +7,7 @@
 
 #include "SocketAddress.hh"
 #include "MemTools.hh"
+#include "InputCmd.hh"
 #include <vector>
 #include <iostream>
 #include <string>
@@ -29,6 +30,8 @@ private:
 	bool				_logState;
 	int					_currentRoomId;
 	std::string			_playerName;
+
+	std::vector<InputCmd>	_inputs;
 
 public:
 	ServerClient(const int, SocketAddress *);
@@ -59,6 +62,9 @@ public:
 
 	void				setStatus(const bool);
 	bool				isReady() const;
+
+	void				addInput(const InputCmd &);
+	std::vector<InputCmd>	getInputs() const;
 
 };
 

@@ -10,7 +10,6 @@
 #include "Thread.hh"
 #include "ThreadPool.hh"
 #include "Mutex.hh"
-#include "Game.hh"
 
 class CmdManager;
 
@@ -24,7 +23,6 @@ private:
 	CmdManager		_cmdManager;
 	ThreadPool		_pool;
 	AMutex			*_mutex;
-	Game			_gameManager;
 	int				_acknowledgementNumber;
 
 	void			processMsg(const std::vector<ClientMsg> &);

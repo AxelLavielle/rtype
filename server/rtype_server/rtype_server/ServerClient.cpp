@@ -154,3 +154,13 @@ bool ServerClient::isReady() const
 {
 	return (_readyStatus);
 }
+
+void ServerClient::addInput(const InputCmd &newInput)
+{
+	_inputs.push_back(newInput);
+}
+
+std::vector<InputCmd>	ServerClient::getInputs() const
+{
+	return (_inputs);
+}

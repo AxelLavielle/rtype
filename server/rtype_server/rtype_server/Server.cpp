@@ -161,7 +161,7 @@ void							Server::processGames()
 	it = roomsReadyToPlay.begin();
 	while (it != roomsReadyToPlay.end())
 	{
-		_gameManager.updateGame(*it);
+		(*it).updateGame();
 		it++;
 	}
 }
@@ -234,14 +234,13 @@ void											Server::processUDPMessages(const std::vector<ICommand *> &vectMsg
 		if (*it != NULL)
 		{
 			std::cout << "[Process UDP Msg] cmdType :" << (*it)->getCommandName() << std::endl;
-		/*	input = static_cast<InputCmd *>(*it);
+			input = static_cast<InputCmd *>(*it);
 			id = input->getId();
 			if ((client = _clientManager.getClientByTCP(id)) != NULL)
 			{
-				_gameManager.move(client, input->getKey());
-			}*/
+				client->addInput(*input);
+			}
 		}
-			
 		it++;
 	}
 

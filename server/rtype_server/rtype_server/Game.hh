@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Room.hh"
 #include "Player.hh"
 #include "Serialize.hh"
+#include "ServerClient.hh"
 
 class Game
 {
@@ -10,5 +10,5 @@ public:
 	Game();
 	~Game();
 
-	void updateGame(const Room &);
+	void updateGame(std::vector<ServerClient *> &);
 };

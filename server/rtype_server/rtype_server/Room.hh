@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ServerClient.hh"
+#include "Game.hh"
 #include <string>
 #include <vector>
 class ServerClient;
@@ -23,17 +24,15 @@ public:
 	std::vector<ServerClient *> getClients() const;
 	int							getNbClients() const;
 	int							getNbClientsReady() const;
-	/*int							getNbClientsUDPConnected() const;*/
-	/*void						setReadyToLaunch(const bool);
-	bool						isReadyToLaunch() const;*/
 	void						setReady(const bool);
 	bool						isReady() const;
+	bool						updateGame();
 
 private:
 	std::string					_name;
 	int							_id;
 	std::vector<ServerClient *>	_clients;
 	bool						_ready;
-	/*bool						_readyToLaunch;*/
+	Game						_gameManager;
 };
 

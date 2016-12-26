@@ -1,10 +1,5 @@
 #pragma once
 
-#ifdef __linux__
-# define INVALID_SOCKET (-1)
-# define SOCKET_ERROR	(-1)
-#endif
-
 #include "ASocketServer.hh"
 
 class SocketServerUDP : public ASocketServer

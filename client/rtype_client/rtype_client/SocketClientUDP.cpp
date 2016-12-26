@@ -66,8 +66,9 @@ bool			SocketClientUDP::sendData(const char *data)
 	len[0] = data[0];
 	len[1] = data[1];
 	datasize = *reinterpret_cast<short*>(len);
-#ifdef _WIN32
+//#ifdef _WIN32
 	int			res;
+
 	struct timeval tv;
 	tv.tv_sec = 2;
 	tv.tv_usec = 0;
@@ -94,14 +95,14 @@ bool			SocketClientUDP::sendData(const char *data)
 	else
 		std::cerr << "error selecting" << std::endl;
 
-#elif __linux__
-	if (sendto(_sock, data, datasize, 0, reinterpret_cast<struct sockaddr *>(&_siOther), slen) == -1)
-	{
-		perror("sendto");
-		_connected = false;
-		return (false);
-	}
-#endif
+//#elif __linux__
+//	if (sendto(_sock, data, datasize, 0, reinterpret_cast<struct sockaddr *>(&_siOther), slen) == -1)
+//	{
+//		perror("sendto");
+//		_connected = false;
+//		return (false);
+//	}
+//#endif
 	return (true);
 }
 
@@ -134,7 +135,7 @@ char			*SocketClientUDP::receiveData()
 	char		*buf = new char[UDP_BUFLEN];
 	int			slen = sizeof(struct sockaddr);
 
-#ifdef _WIN32
+//#ifdef _WIN32
 	int			ret;
 	struct timeval tv;
 	tv.tv_sec = 2;
@@ -162,13 +163,13 @@ char			*SocketClientUDP::receiveData()
 	else
 		std::cerr << "error selecting" << std::endl;
 
-#elif __linux__
-	memset(buf, '\0', UDP_BUFLEN);
-	if (recvfrom(_sock, buf, UDP_BUFLEN, 0, reinterpret_cast<struct sockaddr *>(&_siOther), reinterpret_cast<socklen_t *>(&slen)) == -1)
-	{
-		return (NULL);
-	}
-#endif
+//#elif __linux__
+//	memset(buf, '\0', UDP_BUFLEN);
+//	if (recvfrom(_sock, buf, UDP_BUFLEN, 0, reinterpret_cast<struct sockaddr *>(&_siOther), reinterpret_cast<socklen_t *>(&slen)) == -1)
+//	{
+//		return (NULL);
+//	}
+//#endif
 	std::cout << "received : " << ret << " character(s) mio mao" << std::endl;
 	//Player *test = static_cast<Player *>(Serialize::unserializeEntity(buf));
 	//if (test == NULL)

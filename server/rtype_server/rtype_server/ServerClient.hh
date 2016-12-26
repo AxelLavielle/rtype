@@ -67,6 +67,7 @@ public:
 
 	void				addInput(const InputCmd &);
 	std::vector<InputCmd>	getInputs() const;
+	void				clearInput();
 
 	void				setPlayer(IEntity *player);
 	IEntity				*getPlayer() const;

@@ -165,6 +165,11 @@ std::vector<InputCmd>	ServerClient::getInputs() const
 	return (_inputs);
 }
 
+void ServerClient::clearInput()
+{
+	_inputs.clear();
+}
+
 void ServerClient::setPlayer(IEntity * player)
 {
 	_player = player;

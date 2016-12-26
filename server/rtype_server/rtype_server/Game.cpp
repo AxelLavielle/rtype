@@ -31,10 +31,10 @@ void Game::init(std::vector<ServerClient*> &clients)
 		player->setSpeedY(1);
 		player->setSpriteRepo("/res/img/");
 		player->setType(rtype::PLAYER);
-		player = (*it)->getPlayer();
+		(*it)->setPlayer(player);
 		while (it2 != clients.end())
 		{
-			if (it != it2)
+			if (it != it2 && player)
 				(*it2)->addUDPDataToSend(Serialize::serialize(player));
 			++it2;
 		}
@@ -43,38 +43,48 @@ void Game::init(std::vector<ServerClient*> &clients)
 	}
 }
 
+void	Game::manageInput(ServerClient *client)
+{
+	std::vector<InputCmd>::iterator	it;
+	IEntity							*player;
+
+	it = client->getInputs().begin();
+	player = client->getPlayer();
+	while (it != client->getInputs().begin())
+	{
+		if (it->getKey() == "UP")
+			player->setPosY(player->getPosY() - 10);
+		else if (it->getKey() == "DOWN")
+			player->setPosY(player->getPosY() + 10);
+		else if (it->getKey() == "RIFHT")
+			player->setPosX(player->getPosX() + 10);
+		else if (it->getKey() == "LEFT")
+			player->setPosX(player->getPosX() - 10);
+		++it;
+	}
+	client->setPlayer(player);
+}
+
 void	Game::updateGame(std::vector<ServerClient *> &clients)
 {
 	std::vector<ServerClient *>::iterator	it;
+	std::vector<ServerClient *>::iterator	it2;
 	char									*msg;
-	static int x = 50;
-	static int y = 100;
+	IEntity									*player;
 
-	if (clients.size() == 0)
-		return;
 	it = clients.begin();
 	while (it != clients.end())
 	{
-		AEntity *player = new Player ((*it)->getPlayerName());
-		player->setPosX(x);
-		player->setPosY(y);
-		player->setSpriteRepo("/res/img");
-		Player	*test;
-
-		//std::cout << "Add Player : " << player->getName() << std::endl;
-		msg = Serialize::serialize(player);
-		(*it)->addUDPDataToSend(msg);
-		delete(player);
-		/*test = static_cast<Player *>(Serialize::unserializeEntity(msg));
-		std::cout << "Test serialize entity " << test->getPosX() << " " << test->getPosY() << std::endl;
-		*/
-		delete(msg);
-		//delete(test);
-		it++;
+		it2 = clients.begin();
+		manageInput(*it);
+		player = (*it)->getPlayer();
+		(*it)->clearInput();
+		while (it2 != clients.end())
+		{
+			if (it != it2 && player)
+				(*it2)->addUDPDataToSend(Serialize::serialize(player));
+			++it2;
+		}
+		++it;
 	}
-	x++;
-	if (y < 700)
-		y++;
-	else if (y > 700)
-		y--;
 }

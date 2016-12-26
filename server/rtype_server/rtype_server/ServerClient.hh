@@ -8,6 +8,7 @@
 #include "SocketAddress.hh"
 #include "MemTools.hh"
 #include "InputCmd.hh"
+#include "Player.hh"
 #include <vector>
 #include <iostream>
 #include <string>
@@ -30,6 +31,7 @@ private:
 	bool				_logState;
 	int					_currentRoomId;
 	std::string			_playerName;
+	IEntity				*_player;
 
 	std::vector<InputCmd>	_inputs;
 
@@ -66,5 +68,7 @@ public:
 	void				addInput(const InputCmd &);
 	std::vector<InputCmd>	getInputs() const;
 
+	void				setPlayer(IEntity *player);
+	IEntity				*getPlayer() const;
 };
 

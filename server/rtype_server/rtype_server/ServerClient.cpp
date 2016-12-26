@@ -164,3 +164,13 @@ std::vector<InputCmd>	ServerClient::getInputs() const
 {
 	return (_inputs);
 }
+
+void ServerClient::setPlayer(IEntity * player)
+{
+	_player = player;
+}
+
+IEntity * ServerClient::getPlayer() const
+{
+	return (_player);
+}

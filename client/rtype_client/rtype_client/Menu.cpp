@@ -179,17 +179,17 @@ bool Menu::launch()
 		    case IPage::SAVE:
 				SettingsPage	*tmpPageSettings;
 				tmpPageSettings = static_cast<SettingsPage *>(_page);
-		      tmp = static_cast<SettingsPage *>(_page)->save();
-		      //_soundManager.setMusicVolume(tmp.second.first);
-		      //_soundManager.setSoundVolume(tmp.second.second);
-			  _mutex->lock();
-			  if (_socket)
-			  {
-				  _socket->setIp(tmpPageSettings->getServerInfo().first);
-				  _socket->setPort(tmpPageSettings->getServerInfo().second);
-			  }
-			  _mutex->unlock();
-		      break;
+				tmp = static_cast<SettingsPage *>(_page)->save();
+				//_soundManager.setMusicVolume(tmp.second.first);
+				//_soundManager.setSoundVolume(tmp.second.second);
+				//_mutex->lock();
+				//if (_socket)
+				//{
+				//	  _socket->setIp(tmpPageSettings->getServerInfo().first);
+				//	  _socket->setPort(tmpPageSettings->getServerInfo().second);
+				//}
+				//_mutex->unlock();
+				 break;
 		    case IPage::CREATEROOM:
 		      delete (_page);
 		      _newEvent = true;
@@ -280,7 +280,7 @@ bool Menu::launch()
 			default:
 			   break;
 	    }
-	  if (_event->getKeyStroke() == "ECHAP" || _event->getCloseEvent())
+	  if (_event->getCloseEvent())
 	    _graph->close();
 	  if (_newEvent)
 	    {

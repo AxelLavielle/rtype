@@ -1,7 +1,5 @@
 #include "Game.hh"
 
-
-
 Game::Game()
 {
 	_size.first = 0;
@@ -53,28 +51,20 @@ void	Game::initGraphElements()
 
 void	Game::manageEntity()
 {
-	IEntity *entity = new Player();
-	IEntity	*newEntity;
-	char *res;
+	IEntity	*entity;
 
-	entity->setPosX(10);
-	entity->setPosY(10);
-	entity->setWidth(50);
-	entity->setHeight(50);
-	entity->setSpriteRepo("/res/img");
-	res = Serialize::serialize(entity);
-	newEntity = Serialize::unserializeEntity(res);
-//	_guiPage->draw();
-//	std::cout << "x = " << newEntity->getPosX() << "y = " << newEntity->getPosY() << "height = " << entity->getHeight() << "width = " << entity->getWidth() << std::endl;
-//	_graph->drawRectangle(_fileManager.getRoot() + newEntity->getSpriteRepo() + "spaceShip10.png", Rect(newEntity->getPosX(), newEntity->getPosY(), 0, 0), Rect(0, 0, entity->getHeight(), entity->getWidth()));
+	if ((entity = _cmdManager.receiveUDPCmd()) != NULL)
+	{
+		if (entity->getType() == rtype::PLAYER)
+			_graph->drawRectangle(_fileManager.getRoot() + entity->getSpriteRepo() + "/spaceShip10.png", Rect(entity->getPosX(), entity->getPosY(), entity->getHeight(), entity->getWidth()), Rect(0, 0, 0, 0), Rect(0, 0, entity->getHeight(), entity->getWidth()));
+		else
+			_graph->drawRectangle(_fileManager.getRoot() + entity->getSpriteRepo() + "/spaceShip10.png", Rect(entity->getPosX(), entity->getPosY(), entity->getHeight(), entity->getWidth()), Rect(0, 0, 0, 0), Rect(0, 0, entity->getHeight(), entity->getWidth()));
+	}
 	delete entity;
-	delete newEntity;
-	delete res;
 }
 
 int Game::launch()
 {
-	 IEntity	*entity;
  	 std::chrono::high_resolution_clock::time_point     t1;
  	 std::chrono::high_resolution_clock::time_point	    t2;
 	 double												duration;
@@ -121,10 +111,8 @@ int Game::launch()
 		}
 		_graph->clearWindow();
 		_graph->setBackground(_fileManager.getRoot() + "/res/img/stars_background.jpg", -1, -1);
-		if ((entity = _cmdManager.receiveUDPCmd()) != NULL)
-			_graph->drawRectangle(_fileManager.getRoot() + "/res/img/spaceShip10.png", Rect(entity->getPosX(), entity->getPosY(), 30, 70), Rect(0, 0, 0, 0), Rect(0, 0, 30, 70));
-		_graph->drawRectangle(Color(255, 255, 255), Rect(i, 300, 50, 50));
 		manageEntity();
+		_guiPage->draw();
 		_graph->refresh();
 	}
 	return (0);

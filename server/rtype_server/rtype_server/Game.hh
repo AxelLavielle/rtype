@@ -10,5 +10,6 @@ public:
 	Game();
 	~Game();
 
+	void init(std::vector<ServerClient *> &);
 	void updateGame(std::vector<ServerClient *> &);
 };

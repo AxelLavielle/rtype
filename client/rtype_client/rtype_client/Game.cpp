@@ -37,8 +37,8 @@ bool Game::initSocket()
 	if (!_sock->init(_ip, _port) || !_sock->connectToServer())
 		return (false);
 	_cmdManager.setUDPSocket(_sock);
-	if (!_cmdManager.sendLaunchGame(_id))
-		return (false);
+	//if (!_cmdManager.sendLaunchGame(_id))
+	//	return (false);
 	return (true);
 }
 
@@ -64,8 +64,8 @@ void	Game::manageEntity()
 	entity->setSpriteRepo("/res/img");
 	res = Serialize::serialize(entity);
 	newEntity = Serialize::unserializeEntity(res);
-	_guiPage->draw();
-	std::cout << "x = " << newEntity->getPosX() << "y = " << newEntity->getPosY() << "height = " << entity->getHeight() << "width = " << entity->getWidth() << std::endl;
+//	_guiPage->draw();
+//	std::cout << "x = " << newEntity->getPosX() << "y = " << newEntity->getPosY() << "height = " << entity->getHeight() << "width = " << entity->getWidth() << std::endl;
 //	_graph->drawRectangle(_fileManager.getRoot() + newEntity->getSpriteRepo() + "spaceShip10.png", Rect(newEntity->getPosX(), newEntity->getPosY(), 0, 0), Rect(0, 0, entity->getHeight(), entity->getWidth()));
 	delete entity;
 	delete newEntity;
@@ -74,10 +74,11 @@ void	Game::manageEntity()
 
 int Game::launch()
 {
-	std::chrono::high_resolution_clock::time_point      t1;
-	std::chrono::high_resolution_clock::time_point	    t2;
+	 IEntity	*entity;
+ 	 std::chrono::high_resolution_clock::time_point     t1;
+ 	 std::chrono::high_resolution_clock::time_point	    t2;
 	 double												duration;
-	 int													i;
+	 int												i;
 	 bool												first = true;
 
 	 i = 100;
@@ -89,7 +90,6 @@ int Game::launch()
 	 initGraphElements();
 	 t1 = std::chrono::high_resolution_clock::now();
 	 _soundManager.play(_musicStage1);
-//	 _cmdManager.receiveUDPCmd();
 	while (_graph->isWindowOpen())
 	{
 		while (_event->refresh())
@@ -100,7 +100,7 @@ int Game::launch()
 				return (0);
 			if (_event->getKeyStroke() == "UP" || _event->getKeyStroke() == "LEFT"
 				|| _event->getKeyStroke() == "DOWN" || _event->getKeyStroke() == "RIGHT")
-				_cmdManager.sendInput(_event->getKeyStroke());
+				_cmdManager.sendInput(_id, _event->getKeyStroke());
 			
 			if (_event->getKeyStroke() == "ECHAP")
 			{
@@ -108,7 +108,6 @@ int Game::launch()
 				_guiPage = new PausePage(_graph, _event, _fileManager, &_soundManager);
 				_guiPage->init();
 			}
-
 		}
 		t2 = std::chrono::high_resolution_clock::now();
 		duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
@@ -122,6 +121,8 @@ int Game::launch()
 		}
 		_graph->clearWindow();
 		_graph->setBackground(_fileManager.getRoot() + "/res/img/stars_background.jpg", -1, -1);
+		if ((entity = _cmdManager.receiveUDPCmd()) != NULL)
+			_graph->drawRectangle(_fileManager.getRoot() + "/res/img/spaceShip10.png", Rect(entity->getPosX(), entity->getPosY(), 30, 70), Rect(0, 0, 0, 0), Rect(0, 0, 30, 70));
 		_graph->drawRectangle(Color(255, 255, 255), Rect(i, 300, 50, 50));
 		manageEntity();
 		_graph->refresh();

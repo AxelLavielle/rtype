@@ -81,12 +81,12 @@ void			AEntity::setName(const std::string &name)
 void			AEntity::setSpriteRepo(const std::string &path)
 {
   _spritePath = path;
-  std::cout << "SET = " << _spritePath << std::endl;
+ // std::cout << "SET = " << _spritePath << std::endl;
 }
 
 std::string		AEntity::getSpriteRepo() const
 {
-	std::cout << "GET = " << _spritePath << std::endl;
+//	std::cout << "GET = " << _spritePath << std::endl;
   return (_spritePath);
 }
 

@@ -36,11 +36,12 @@ bool			CmdManager::sendLaunchGame(const int id)
 	return (true);
 }
 
-bool			CmdManager::sendInput(const std::string &key)
+bool			CmdManager::sendInput(const int id, const std::string &key)
 {
 	InputCmd	*newCmd;
 
 	newCmd = new InputCmd();
+	newCmd->setId(id);
 	newCmd->setKey(key);
 	_cmd.push_back(newCmd);
 	if (!sendUDPCmd())
@@ -320,7 +321,7 @@ IEntity		*CmdManager::receiveUDPCmd()
 	if (!_socketClientUDP || !_socketClientUDP->isConnected())
 		return (NULL);
 	res = _socketClientUDP->receiveData();
-	Serialize::unserializeCommand(res);
+	entity = Serialize::unserializeEntity(res);
 	return (entity);
 }
 

@@ -17,7 +17,7 @@ public:
 	CmdManager();
 	~CmdManager();
 	bool sendLaunchGame(const int id);
-	bool sendInput(const std::string & key);
+	bool sendInput(const int id, const std::string & key);
 	int launchGame();
 	RoomInfoCmd * getRoomInfo();
 	bool setStatus();

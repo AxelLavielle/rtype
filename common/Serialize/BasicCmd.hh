@@ -2,8 +2,7 @@
 
 #include "ACommand.hh"
 
-class BasicCmd :
-	public ACommand
+class BasicCmd	:	public ACommand
 {
 public:
 	BasicCmd();

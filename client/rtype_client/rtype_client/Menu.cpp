@@ -13,6 +13,7 @@ Menu::~Menu()
 
 bool Menu::init()
 {
+	_graph->setFullScreen(true);
 	_music.setDuration(-1);
 	_music.setMusic(true);
 	if (!_fileManager.init())
@@ -21,8 +22,8 @@ bool Menu::init()
 	_music.setLoop(true);
 	_clickSound.setDuration(-1);
 	_clickSound.setFilePath(_fileManager.getRoot() + "/res/sounds/buttonClick.wav");
-			      _soundManager.setMusicVolume(100);
-			      _soundManager.setSoundVolume(100);
+    _soundManager.setMusicVolume(100);
+    _soundManager.setSoundVolume(100);
 	_soundManager.play(_music);
 	_t1Conn = std::chrono::high_resolution_clock::now();
 	_cmdManager.setSocket(_socket);
@@ -246,7 +247,7 @@ bool Menu::launch()
 			case IPage::ENDGAME:
 				delete (_page);
 				_newEvent = true;
-				_page = new LoadingPage(_graph, _event, _fileManager, &_soundManager);
+				_page = new EndGamePage(_graph, _event, _fileManager, &_soundManager);
 				std::cout << "Settings" << std::endl;
 				break;
 			case IPage::LOADING:

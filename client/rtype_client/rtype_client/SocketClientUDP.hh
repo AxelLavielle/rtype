@@ -17,6 +17,8 @@
 
 # include <cstring>
 # include "ASocketClient.hh"
+# include "Player.hh"
+# include "Serialize.hh"
 
 class SocketClientUDP : public ASocketClient
 {

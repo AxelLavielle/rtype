@@ -28,9 +28,13 @@ bool			SocketClientUDP::init(const std::string &addr, const int port)
 	memset(reinterpret_cast<char *>(&_siOther), 0, sizeof(_siOther));
 	_siOther.sin_family = AF_INET;
 	_siOther.sin_port = htons(port);
-	inet_pton(AF_INET, addr.c_str(), &_siOther.sin_addr.S_un.S_addr);
+	_siOther.sin_addr.s_addr = htonl(INADDR_ANY);
+//	inet_pton(AF_INET, addr.c_str(), &_siOther.sin_addr.S_un.S_addr);
 
-	//sendto(_sock, "", 1, 0, reinterpret_cast<struct sockaddr *>(&_siOther), sizeof(_siOther));
+	if (bind(_sock, reinterpret_cast<struct sockaddr *>(&_siOther), sizeof(_siOther)) == -1)
+	{
+		std::cerr << "bind() failed with error code : " << WSAGetLastError() << std::endl;
+	}
 
 #elif __linux__
 	if ((_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1)
@@ -48,8 +52,6 @@ bool			SocketClientUDP::init(const std::string &addr, const int port)
 	    return (false);
 	  }
 
-	//sendto(_sock, "", 1, 0, reinterpret_cast<struct sockaddr *>(&_siOther), sizeof(_siOther));
-
 #endif
 	_connected = true;
 	return (true);
@@ -66,7 +68,6 @@ bool			SocketClientUDP::sendData(const char *data)
 	datasize = *reinterpret_cast<short*>(len);
 #ifdef _WIN32
 	int			res;
-
 	struct timeval tv;
 	tv.tv_sec = 2;
 	tv.tv_usec = 0;
@@ -131,9 +132,10 @@ bool			SocketClientUDP::sendData(const char *data, const int datasize)
 char			*SocketClientUDP::receiveData()
 {
 	char		*buf = new char[UDP_BUFLEN];
-	int			slen = sizeof(_siOther);
+	int			slen = sizeof(struct sockaddr);
 
 #ifdef _WIN32
+	int			ret;
 	struct timeval tv;
 	tv.tv_sec = 2;
 	tv.tv_usec = 0;
@@ -142,14 +144,15 @@ char			*SocketClientUDP::receiveData()
 	FD_ZERO(&readfds);
 	FD_SET(_sock, &readfds);
 
-	int ret = select(_sock + 1, &readfds, NULL, NULL, &tv);
+	ret = select(_sock + 1, &readfds, NULL, NULL, &tv);
 	if (ret > 0)
 	{
 		if (FD_ISSET(_sock, &readfds))
 		{
 			memset(buf, '\0', UDP_BUFLEN);
-			if (recvfrom(_sock, buf, UDP_BUFLEN, 0, reinterpret_cast<struct sockaddr *>(&_siOther), &slen) == SOCKET_ERROR)
+			if ((ret = recvfrom(_sock, buf, UDP_BUFLEN, 0, reinterpret_cast<struct sockaddr *>(&_siOther), &slen)) == SOCKET_ERROR)
 			{
+				std::cout << "recvfrom failed with the error : " << WSAGetLastError() << std::endl;
 				return (NULL);
 			}
 		}
@@ -166,6 +169,12 @@ char			*SocketClientUDP::receiveData()
 		return (NULL);
 	}
 #endif
+	std::cout << "received : " << ret << " character(s) mio mao" << std::endl;
+	//Player *test = static_cast<Player *>(Serialize::unserializeEntity(buf));
+	//if (test == NULL)
+	//	std::cout << "BRAAAAAAAAAAAAAAH" << std::endl;
+	//else
+	//	std::cout << test->getPosX() << " (/^^)/" << test->getPosY() << std::endl;
 	return (buf);
 }
 

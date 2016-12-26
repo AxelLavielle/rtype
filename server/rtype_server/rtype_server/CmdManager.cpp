@@ -277,6 +277,17 @@ void			CmdManager::cmdSetStatus(ServerClient *client, BasicCmd *msgClient)
 		else
 			client->setStatus(true);
 		reply.setCommandArg(std::to_string(STATUS_CHANGED));
+
+		/*std::vector<ServerClient *> vectClients;
+		std::vector<ServerClient *>::iterator it;
+		vectClients = _roomManager->getRoomById(client->getCurrentRoom())->getClients();
+		it = vectClients.begin();
+		while (it != vectClients.end())
+		{
+			msgSerialized = Serialize::serialize(&reply);
+			_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(reply));
+			it++;
+		}*/
 	}
 	msgSerialized = Serialize::serialize(&reply);
 	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(reply));
@@ -308,7 +319,7 @@ void											CmdManager::cmdLaunchGame(const std::vector<ServerClient *> &clie
 	}
 	_mutex->lock();
 	_roomManager->getRoomById(idRoom)->setReady(true);
+	_roomManager->getRoomById(idRoom)->initGame();
 	_mutex->unlock();
-	//launchUDP();
 	std::cout << std::endl;
 }

@@ -27,6 +27,7 @@ public:
 	void						setReady(const bool);
 	bool						isReady() const;
 	bool						updateGame();
+	bool						initGame();
 
 private:
 	std::string					_name;

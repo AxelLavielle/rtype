@@ -23,12 +23,12 @@ void	SettingsPage::setServerInfo(const std::string &ip, const int port)
 
 bool SettingsPage::init()
 { 
-  initButton(70, 10, 60, Rect(20, 600, 90, 310), "BACK", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::HOME);
-  initButton(70, 10, 60, Rect(385, 600, 90, 310), "NEXT", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::SETTINGSNEXT);
-  initButton(70, 10, 60, Rect(750, 600, 90, 310), "SAVE", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::SAVE);
-  initCursorBox(Rect(300, 150, 30, 500), "/res/img/scrollBar.png", "/res/img/scrollButton.png");
-  initCursorBox(Rect(300, 300, 30, 500), "/res/img/scrollBar.png", "/res/img/scrollButton.png");
-  initInputBox(Rect(300, 450, 30, 500), "/res/img/buttonRoom.png", Color(135, 206, 250, 255), _ip + ":" + _port);
+  initButton(70, 10, 60, Rect(_windowSize.first / 2 - 155 - _windowSize.first / 4, 900, 90, 310), "BACK", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::HOME);
+  initButton(70, 10, 60, Rect(_windowSize.first / 2 - 155, 900, 90, 310), "NEXT", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::SETTINGSNEXT);
+  initButton(70, 10, 60, Rect(_windowSize.first / 2 - 155 + _windowSize.first / 4, 900, 90, 310), "SAVE", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::SAVE);
+  initCursorBox(Rect(_windowSize.first / 2 - 250, 350, 30, 500), "/res/img/scrollBar.png", "/res/img/scrollButton.png");
+  initCursorBox(Rect(_windowSize.first / 2 - 250, 500, 30, 500), "/res/img/scrollBar.png", "/res/img/scrollButton.png");
+  initInputBox(Rect(_windowSize.first / 2 - 250, 650, 30, 500), "/res/img/buttonRoom.png", Color(135, 206, 250, 255), _ip + ":" + _port);
   return (true);
 }
 
@@ -45,10 +45,11 @@ bool SettingsPage::launch()
 
 void SettingsPage::draw()
 {
-  _graph->setBackground(_backgroundSprite, 0.6f, 0.7f);
-  _graph->drawText("Volume Musique", 300, 100, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
-  _graph->drawText("Volume SFX", 300, 250, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
-  _graph->drawText("ADRESSEIP PORT", 300, 400, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+  _graph->setBackground(_backgroundSprite, 1.0f, 1.1f);
+  _graph->drawText("Hen Type", _windowSize.first / 2 - 250, 100, 90, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+  _graph->drawText("Volume Musique", _windowSize.first / 2 - 150, 300, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+  _graph->drawText("Volume SFX", _windowSize.first / 2 - 100, 450, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+  _graph->drawText("ADRESSEIP PORT", _windowSize.first / 2 - 150, 600, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
   drawGUIElement(_buttons);
   drawGUIElement(_guiElement);
 }

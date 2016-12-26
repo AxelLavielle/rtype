@@ -16,11 +16,11 @@ HomePage::~HomePage()
 
 bool HomePage::init()
 {
-	initButton(70, 10, 60, Rect(380, 200, 90, 310), "PLAY", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::PLAY);
-	initButton(20, 10, 60, Rect(380, 380, 90, 310), "OPTION", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::SETTINGS);
-	initButton(70, 10, 60, Rect(380, 550, 90, 310), "QUIT", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::ENDGAME);
-	initDecor(Rect(290, 150, 50, 500), "/res/img/bordureHaut.png");
-	initDecor(Rect(290, 650, 50, 500), "/res/img/bordureBas.png");
+	initButton(70, 10, 60, Rect(_windowSize.first / 2 - 155, 400, 90, 310), "PLAY", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::PLAY);
+	initButton(20, 10, 60, Rect(_windowSize.first / 2 - 155, 580, 90, 310), "OPTION", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::SETTINGS);
+	initButton(70, 10, 60, Rect(_windowSize.first / 2 - 155, 750, 90, 310), "QUIT", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::ENDGAME);
+	initDecor(Rect(_windowSize.first / 2 - 250, 350, 50, 500), "/res/img/bordureHaut.png");
+	initDecor(Rect(_windowSize.first / 2 - 250, 850, 50, 500), "/res/img/bordureBas.png");
 	t1 = std::chrono::high_resolution_clock::now();
 	return (true);
 }
@@ -47,7 +47,7 @@ void HomePage::firstAnim()
 	it = _buttons.begin();
 	while (it != _buttons.end())
 	{
-		if (_animInc < 190 * i && i <= 3)
+		if (_animInc < 190 * i + 200 && i <= 3)
 		{
 			t2 = std::chrono::high_resolution_clock::now();
 			_animDuration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
@@ -67,8 +67,8 @@ void HomePage::firstAnim()
 void HomePage::draw()
 {
 	firstAnim();
-	_graph->setBackground(_backgroundSprite, 0.6f, 0.7f);
-	_graph->drawText("Hen Type", 300, 0, 90, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+	_graph->setBackground(_backgroundSprite, 1.0f, 1.1f);
+	_graph->drawText("Hen Type", _windowSize.first / 2 - 250, 100, 90, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
 	drawGUIElement(_buttons);
 	drawGUIElement(_guiElement);
 }

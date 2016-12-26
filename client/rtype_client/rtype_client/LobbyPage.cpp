@@ -27,9 +27,9 @@ bool LobbyPage::init()
 {
   std::vector<std::string>	test;
 
-  initButton(70, 10, 60, Rect(20, 600, 90, 310), "BACK", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::HOME);
-  initButton(20, 10, 60, Rect(750, 600, 90, 310), "CREATE", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::CREATEROOM);
-  initListBox(Rect(100, 250, 300, 900), "/res/fonts/Space.ttf", "/res/img/buttonRoom.png", "/res/img/buttonRoomOver.png", _roomName);
+  initButton(70, 10, 60, Rect(_windowSize.first / 2 - 155 - _windowSize.first / 4, 900, 90, 310), "BACK", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::HOME);
+  initButton(20, 10, 60, Rect(_windowSize.first / 2 - 155 + _windowSize.first / 4, 900, 90, 310), "CREATE", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::CREATEROOM);
+  initListBox(Rect(_windowSize.first - 450, 450, 300, 900), "/res/fonts/Space.ttf", "/res/img/buttonRoom.png", "/res/img/buttonRoomOver.png", _roomName);
   return (true);
 }
 
@@ -47,8 +47,8 @@ bool LobbyPage::launch()
 
 void LobbyPage::draw()
 {
-	_graph->setBackground(_backgroundSprite, 0.6f, 0.7f);
-	_graph->drawText("Hen Type", 300, 0, 90, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+	_graph->setBackground(_backgroundSprite, 1.0f, 1.1f);
+	_graph->drawText("Hen Type", _windowSize.first / 2 - 250, 100, 90, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
 	drawGUIElement(_buttons);
 	drawGUIElement(_guiElement);
 }

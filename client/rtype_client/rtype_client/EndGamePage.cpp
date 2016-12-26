@@ -17,8 +17,8 @@ EndGamePage::~EndGamePage()
 
 bool			EndGamePage::init()
 {
-	initButton(70, 5, 30, Rect(180, 550, 90, 310), "RETURN\nTO MENU", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Space.ttf", IPage::HOME);
-	initButton(70, 5, 60, Rect(580, 550, 90, 310), "QUIT", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Space.ttf", IPage::QUIT);
+	initButton(70, 5, 30, Rect(_windowSize.first / 2 - 155 - _windowSize.first / 4, 900, 90, 310), "RETURN\nTO MENU", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Space.ttf", IPage::HOME);
+	initButton(70, 5, 60, Rect(_windowSize.first / 2 - 155 + _windowSize.first / 4, 900, 90, 310), "QUIT", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Space.ttf", IPage::QUIT);
 	return (true);
 }
 
@@ -36,19 +36,19 @@ bool			EndGamePage::launch()
 void			EndGamePage::draw()
 {
 	std::vector< std::pair<std::string, int>>::iterator	it = _scores.begin();
-	int			y = 270;
+	int			y = 470;
 
-	_graph->setBackground(_backgroundSprite, 0.6f, 0.7f);
-	initDecor(Rect(290, 200, 50, 500), "/res/img/buttonRoom.png");
-	initDecor(Rect(290, 260, 190, 500), "/res/img/buttonRoom.png");
+	_graph->setBackground(_backgroundSprite, 1.0f, 1.1f);
+	initDecor(Rect(_windowSize.first / 2 - 250, 400, 50, 500), "/res/img/buttonRoom.png");
+	initDecor(Rect(_windowSize.first / 2 - 250, 460, 250, 500), "/res/img/buttonRoom.png");
 	drawGUIElement(_buttons);
 	drawGUIElement(_guiElement);
-	_graph->drawText("GAME OVER", 230, 0, 90, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
-	_graph->drawText("Score : ", 300, 200, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
+	_graph->drawText("GAME OVER", _windowSize.first / 2 - 300, 100, 90, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
+	_graph->drawText("Score : ", _windowSize.first / 2 - 230, 400, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
 	while (it != _scores.end())
 	{
-		_graph->drawText(it->first + " : " + std::to_string(it->second), 300, y, 25, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
-		y += 40;
+		_graph->drawText(it->first + " : " + std::to_string(it->second), _windowSize.first / 2 - 230, y, 25, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
+		y += 60;
 		it++;
 	}
 }

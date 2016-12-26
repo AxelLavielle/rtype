@@ -67,20 +67,18 @@ bool										SocketServerUDP::sendAllData(std::vector<ServerClient *> &clientLi
 	{
 		if ((*it)->getDataLenUDP() > 0)
 		{
-			std::cout << "Sending " << (*it)->getDataLenUDP() << " characters" << std::endl;
-			
 			struct sockaddr_in newAddr;
 
 			MemTools::copy(&newAddr, &_addrSocket, sizeof(_addrSocket));
 			newAddr.sin_addr = (*it)->getAddr().getAddr();
 			len = sendto(_socketServerID, (*it)->getSendDataUDP(), (*it)->getDataLenUDP(),
-				0, (struct sockaddr *)&newAddr, sizeof(struct sockaddr));
+						0, (struct sockaddr *)&newAddr, sizeof(struct sockaddr));
 			if (len == -1)
 			{
 				std::cout << "ERROR " << WSAGetLastError() << std::endl;
-				Sleep(1000);
 				//displayError("Sendto failed: ");
 			}
+
 		}
 		(*it)->resetDataUDP();
 		it++;
@@ -88,9 +86,9 @@ bool										SocketServerUDP::sendAllData(std::vector<ServerClient *> &clientLi
 	return (true);
 }
 
-std::vector<UDPClientMsg>		SocketServerUDP::receiveData()
+std::vector<ICommand *>		SocketServerUDP::receiveData()
 {
-	std::vector<UDPClientMsg>	vectMsg;
+	std::vector<ICommand *>		vectMsg;
 	char						buf[UDP_PACKET_SIZE];
 	int							len;
 	struct sockaddr_in			clientAddr;
@@ -110,13 +108,7 @@ std::vector<UDPClientMsg>		SocketServerUDP::receiveData()
 	{
 		std::cout << "Received new Msg of " << len << " characters" << std::endl;
 
-		struct sockaddr_in *ipv4 = (struct sockaddr_in *)&clientAddr;
-		char ipAddress[INET_ADDRSTRLEN];
-		inet_ntop(AF_INET, &(ipv4->sin_addr), ipAddress, INET_ADDRSTRLEN);
-
-		std::cout << "UDP ---> Ip client Addr [" << ipAddress << "]" << std::endl;
-
-		vectMsg.push_back(std::make_pair(&clientAddr, Serialize::unserializeCommand(buf)));
+		vectMsg.push_back(Serialize::unserializeCommand(buf));
 	}
 	return (vectMsg);
 }

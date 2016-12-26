@@ -9,7 +9,7 @@ ClientManager::~ClientManager()
 {
 }
 
-void				ClientManager::addClient(int clientSocketId, SocketAddress *addr)
+void				ClientManager::addClient(const int clientSocketId, SocketAddress *addr)
 {
 	_clientList.push_back(new ServerClient(clientSocketId, addr));
 }
@@ -44,32 +44,12 @@ std::vector<int>							ClientManager::getClientsTCPSockets()
 	return (vectClientsSockets);
 }
 
-std::vector<int>							ClientManager::getClientsUDPSockets()
-{
-	std::vector<int>						vectClientsSockets;
-	/*std::vector<ServerClient *>::iterator	it;
-
-	it = _clientList.begin();
-	while (it != _clientList.end())
-	{
-		if ((*it)->getUDPSocket() != -1)
-		{
-			std::cout << "Add UDP Socket " << (*it)->getUDPSocket() << std::endl;
-			vectClientsSockets.push_back((*it)->getUDPSocket());
-		}
-			
-		it++;
-	}*/
-	return (vectClientsSockets);
-}
-
-
 std::vector<ServerClient *>	&ClientManager::getClients()
 {
 	return (_clientList);
 }
 
-ServerClient * ClientManager::getClientByTCP(const int tcpSocket)
+ServerClient *ClientManager::getClientByTCP(const int tcpSocket)
 {
 	std::vector<ServerClient *>::iterator it;
 

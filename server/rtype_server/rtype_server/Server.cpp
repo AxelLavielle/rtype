@@ -178,6 +178,7 @@ bool							Server::launch()
 
 	while (42)
 	{
+		Sleep(10);
 		processGames();
 	}
 
@@ -220,21 +221,35 @@ bool							Server::TCPLoop()
 	return (true);
 }
 
-void											Server::processUDPMessages(const std::vector<UDPClientMsg> &vectMsg)
+void											Server::processUDPMessages(const std::vector<ICommand *> &vectMsg)
 {
-	std::vector<UDPClientMsg>::const_iterator	it;
+	std::vector<ICommand *>::const_iterator	it;
+	InputCmd								*input;
+	int										id;
+	ServerClient							*client;
 
 	it = vectMsg.begin();
 	while (it != vectMsg.end())
 	{
-		std::cout << "[Process UDP Msg] cmdType :" << (*it).second->getCommandName() << std::endl;
+		if (*it != NULL)
+		{
+			std::cout << "[Process UDP Msg] cmdType :" << (*it)->getCommandName() << std::endl;
+		/*	input = static_cast<InputCmd *>(*it);
+			id = input->getId();
+			if ((client = _clientManager.getClientByTCP(id)) != NULL)
+			{
+				_gameManager.move(client, input->getKey());
+			}*/
+		}
+			
 		it++;
 	}
+
 }
 
 bool									Server::UDPLoop()
 {
-	std::vector<UDPClientMsg>			vectMsg;
+	std::vector<ICommand *>			vectMsg;
 
 	while (42)
 	{

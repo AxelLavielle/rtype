@@ -177,6 +177,7 @@ char				*SocketClientTCP::receiveData()
 
 	if ((ret = recv(_sock, recvbuf, recvbuflen, 0)) < 0)
 	{
+		delete recvbuf;
 		return (NULL);
 	}
 	recvbuf[ret - 1] = '\0';

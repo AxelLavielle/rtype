@@ -118,6 +118,7 @@ char			*SocketClientUDP::receiveData()
 				perror("recvfrom");
 
 #endif
+				delete buf;
 				return (NULL);
 			}
 		}
@@ -126,11 +127,13 @@ char			*SocketClientUDP::receiveData()
 	else if (ret == 0)
 	  {
 		std::cout << "timed out waiting for ack" << std::endl;
+		delete buf;
 		return (NULL);
 	  }
 	else
 	  {
 		std::cerr << "error selecting" << std::endl;
+		delete buf;
 		return (NULL);
 	  }
 

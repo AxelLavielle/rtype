@@ -50,12 +50,14 @@ void Game::init(std::vector<ServerClient*> &clients)
 
 void	Game::manageInput(ServerClient *client)
 {
+	std::vector<InputCmd>			vInputs;
 	std::vector<InputCmd>::iterator	it;
 	IEntity							*player;
 
-	it = client->getInputs().begin();
+	vInputs = client->getInputs();
+	it = vInputs.begin();
 	player = client->getPlayer();
-	while (it != client->getInputs().end())
+	while (it != vInputs.end())
 	{
 		if (it->getKey() == "UP")
 			player->setPosY(player->getPosY() - 10);

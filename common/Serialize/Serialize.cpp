@@ -97,7 +97,7 @@ char		*Serialize::serialize(ICommand *cmd)
 	  i++;
   }
   p.data[i] = 0;
-  p.dataLength = tmp.size() + 6;
+  p.dataLength = tmp.size() + 8;
   i = -1;
   while (++i != p.dataLength)
     ret[i] = reinterpret_cast<char *>(&p)[i];

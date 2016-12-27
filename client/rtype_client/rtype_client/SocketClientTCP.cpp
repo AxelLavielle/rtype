@@ -169,6 +169,7 @@ char				*SocketClientTCP::receiveData()
 		recvbuf[iResult - 1] = '\0';
 		return (recvbuf);
 	}
+	delete recvbuf;
 	return (NULL);
 
 #elif __linux__

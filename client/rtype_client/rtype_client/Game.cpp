@@ -56,26 +56,33 @@ void	Game::initGraphElements()
 	_guiPage->init();
 }
 
+void	Game::clearEntity()
+{
+	std::vector<IEntity* >::iterator		it;
+
+	it = _entity.begin();
+	while (it != _entity.end())
+	{
+		delete (*it);
+		++it;
+	}
+	_entity.clear();
+}
+
 void	Game::manageEntity()
 {
 	IEntity	*entity;
 	GUIPage		*gui;
 
-	while ((entity = _cmdManager.receiveUDPCmd()) != NULL)
+	while (1)
 	{
-		if (entity->getType() == rtype::PLAYER)
+		if ((entity = _cmdManager.receiveUDPCmd()) != NULL)
 		{
-			std::cout << entity->getPosX() << " miaou " << entity->getPosY() << std::endl;
-			_graph->drawRectangle(_fileManager.getRoot() + entity->getSpriteRepo() + "/spaceShip10.png", Rect(entity->getPosX(), entity->getPosY(), entity->getHeight(), entity->getWidth()), Rect(0, 0, 0, 0), Rect(0, 0, entity->getHeight(), entity->getWidth()));
-			gui = static_cast<GUIPage*>(_guiPage);
-			//			gui->setHp(entity->getLife() / 100);
-			gui->setScore(0);
+			_mutex.lock();
+			_entity.push_back(entity);
+//				_graph->drawRectangle(_fileManager.getRoot() + entity->getSpriteRepo() + "/spaceShip10.png", Rect(entity->getPosX(), entity->getPosY(), entity->getHeight(), entity->getWidth()), Rect(0, 0, 0, 0), Rect(0, 0, entity->getHeight(), entity->getWidth()));
+			_mutex.unlock();
 		}
-		else if (entity->getType() == rtype::MONSTER)
-		  {
-			_graph->drawRectangle(_fileManager.getRoot() + entity->getSpriteRepo() + "/spaceShip10.png", Rect(entity->getPosX(), entity->getPosY(), entity->getHeight(), entity->getWidth()), Rect(0, 0, 0, 0), Rect(0, 0, entity->getHeight(), entity->getWidth()));
-		  }
-	   delete entity;
 	}
 }
 
@@ -86,6 +93,7 @@ int Game::launch()
 	 double												duration;
 	 int												i;
 	 bool												first = true;
+	 Thread												*th;
 
 	 i = 100;
 	 if (!initSocket())
@@ -96,6 +104,9 @@ int Game::launch()
 	 initGraphElements();
 	 t1 = std::chrono::high_resolution_clock::now();
 	 _soundManager.play(_musicStage1);
+	 th = new Thread();
+	 th->createThread(std::bind(&Game::manageEntity, this));
+	 _pool.addThread(th);
 	while (_graph->isWindowOpen())
 	{
 		while (_event->refresh())
@@ -127,7 +138,19 @@ int Game::launch()
 		}
 		_graph->clearWindow();
 		_graph->setBackground(_fileManager.getRoot() + "/res/img/stars_background.jpg", -1, -1);
-		manageEntity();
+
+		std::vector<IEntity* >::iterator		it;
+
+		_mutex.lock();
+		it = _entity.begin();
+		while (it != _entity.end())
+		{
+			_graph->drawRectangle(_fileManager.getRoot() + (*it)->getSpriteRepo() + "/spaceShip10.png", Rect((*it)->getPosX(), (*it)->getPosY(), (*it)->getHeight(), (*it)->getWidth()), Rect(0, 0, 0, 0), Rect(0, 0, (*it)->getHeight(), (*it)->getWidth()));
+			++it;
+		}
+		clearEntity();
+		_mutex.unlock();
+
 		_guiPage->draw();
 		_graph->refresh();
 	}

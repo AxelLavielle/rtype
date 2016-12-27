@@ -18,6 +18,8 @@
 #include "PausePage.hh"
 #include "ASocketClient.hh"
 #include "ThreadPool.hh"
+#include "Thread.hh"
+#include "Mutex.hh"
 
 class Game
 {
@@ -52,9 +54,13 @@ private:
 	std::string					_playerName;
 	int							_nbPlayer;
 	std::string					_mode;
+	ThreadPool					_pool;
+	std::vector<IEntity* >		_entity;
+	Mutex						_mutex;
 
 	bool initSocket();
 	void initGraphElements();
+	void clearEntity();
 	void manageEntity();
 };
 

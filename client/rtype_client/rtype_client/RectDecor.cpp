@@ -17,13 +17,11 @@ RectDecor::~RectDecor()
 
 bool RectDecor::click()
 {
-	//Not implemented
 	return (false);
 }
 
 bool RectDecor::over()
 {
-	//Not implemented
 	return (false);
 }
 

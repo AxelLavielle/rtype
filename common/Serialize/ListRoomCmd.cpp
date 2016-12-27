@@ -35,7 +35,7 @@ void									ListRoomCmd::setCommandArg(const std::string &arg)
 	vectString = split(arg);
 	while (i < vectString.size())
 	{
-		if (i + 2 != vectString.size())
+		if (i + 2 < vectString.size())
 		{
 			namePlayer = std::make_pair((vectString[i + 1]), std::stoi((vectString[i + 2])));
 			idInfos = std::make_pair(std::stoi(vectString[i]), namePlayer);

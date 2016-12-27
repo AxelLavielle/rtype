@@ -99,7 +99,7 @@ std::vector<ICommand *>		SocketServerUDP::receiveData()
 
 	if (FD_ISSET(_socketServerID, &_readfds) == false)
 		return (vectMsg);
-	std::cout << "Receiving data UDP" << std::endl;
+//	std::cout << "Receiving data UDP" << std::endl;
 	clientAddrSize = sizeof(clientAddr);
 	MemTools::set(buf, 0, UDP_PACKET_SIZE);
 	len = recvfrom(_socketServerID, buf, UDP_PACKET_SIZE, 0, (struct sockaddr *)&clientAddr, (socklen_t *)&clientAddrSize);

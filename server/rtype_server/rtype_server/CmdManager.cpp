@@ -278,16 +278,20 @@ void			CmdManager::cmdSetStatus(ServerClient *client, BasicCmd *msgClient)
 			client->setStatus(true);
 		reply.setCommandArg(std::to_string(STATUS_CHANGED));
 
-		/*std::vector<ServerClient *> vectClients;
+		std::vector<ServerClient *> vectClients;
 		std::vector<ServerClient *>::iterator it;
+		BasicCmd	infoCmd;
+		
+		infoCmd.setCommandType(UPDATE_ROOM);
+		msgSerialized = Serialize::serialize(&infoCmd);
 		vectClients = _roomManager->getRoomById(client->getCurrentRoom())->getClients();
 		it = vectClients.begin();
 		while (it != vectClients.end())
 		{
-			msgSerialized = Serialize::serialize(&reply);
-			_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(reply));
+			if ((*it)->getTCPSocket() != client->getTCPSocket())
+				_clientManager->addDataToSendTCP((*it)->getTCPSocket(), msgSerialized, sizeof(infoCmd));
 			it++;
-		}*/
+		}
 	}
 	msgSerialized = Serialize::serialize(&reply);
 	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(reply));

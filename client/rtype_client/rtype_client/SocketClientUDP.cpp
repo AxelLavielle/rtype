@@ -52,7 +52,6 @@ bool			SocketClientUDP::sendData(const char *data)
 	len[0] = data[0];
 	len[1] = data[1];
 	datasize = *reinterpret_cast<short*>(len);
-//#ifdef _WIN32
 
 	if (sendto(_sock, data, datasize, 0, reinterpret_cast<struct sockaddr *>(&_siOther), slen) == SOCKET_ERROR)
 	{

@@ -84,7 +84,7 @@ NewClientInfo		SocketServerTCP::acceptNewClient()
 	int				newClientSocketID;
 	struct sockaddr clientAddr;
 	struct in_addr	nullPtr = {0};
-	 int				len = sizeof(struct sockaddr);
+	socklen_t				len = sizeof(struct sockaddr);
 
 	if (!FD_ISSET(_socketServerID, &_readfds))
 		return (std::make_pair(-1, new SocketAddress(nullPtr)));

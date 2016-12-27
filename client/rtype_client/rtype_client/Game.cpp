@@ -112,7 +112,7 @@ int Game::launch()
 		_graph->clearWindow();
 		_graph->setBackground(_fileManager.getRoot() + "/res/img/stars_background.jpg", -1, -1);
 		manageEntity();
-		_guiPage->draw();
+		//_guiPage->draw();
 		_graph->refresh();
 	}
 	return (0);

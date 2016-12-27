@@ -22,14 +22,15 @@ void Game::init(std::vector<ServerClient*> &clients)
 		IEntity		*player;
 	
 		it2 = clients.begin();
-		player = new Player((*it)->getPlayerName());
-		player->setLife(100);
+		player = new Player();
+		player->setName((*it)->getPlayerName());
 		player->setPosX(100 + (i * 100));
 		player->setPosY(100);
 		player->setHeight(30);
 		player->setWidth(70);
 		player->setSpeedX(1);
 		player->setSpeedY(1);
+		player->setLife(100);
 		player->setSpriteRepo("/res/img/");
 		player->setType(rtype::PLAYER);
 		(*it)->setPlayer(player);

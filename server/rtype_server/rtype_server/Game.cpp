@@ -50,7 +50,7 @@ void	Game::manageInput(ServerClient *client)
 
 	it = client->getInputs().begin();
 	player = client->getPlayer();
-	while (it != client->getInputs().begin())
+	while (it != client->getInputs().end())
 	{
 		if (it->getKey() == "UP")
 			player->setPosY(player->getPosY() - 10);
@@ -82,7 +82,11 @@ void	Game::updateGame(std::vector<ServerClient *> &clients)
 		while (it2 != clients.end())
 		{
 			if (it != it2 && player)
-				(*it2)->addUDPDataToSend(Serialize::serialize(player));
+			{
+				msg = Serialize::serialize(player);
+				(*it2)->addUDPDataToSend(msg);
+				delete (msg);
+			}
 			++it2;
 		}
 		++it;

@@ -4,7 +4,7 @@
 Player::Player()
 {
   this->setType(rtype::PLAYER);
-  this->setName("Player1");
+  _name = "Player1";
 }
 
 Player::Player(const std::string &name)

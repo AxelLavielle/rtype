@@ -153,7 +153,7 @@ void AEntity::setArgs(const std::string & args)
 	std::vector<std::string>				res;
 
 	res = split(args);
-	std::cout << "len ICIC = " << res.size() << std::endl;
+	std::cout << "len ICIC = " << res.size() << " " << args << std::endl;
 	_name = res[0];
 	_posX = std::stoi(res[1]);
 	_posY = std::stoi(res[2]);

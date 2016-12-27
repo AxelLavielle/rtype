@@ -3,7 +3,7 @@
 Monster::Monster()
 {
   this->setType(rtype::MONSTER);
-  this->setName("Monster1");
+  _name = "Monster1";
 }
 
 Monster::~Monster()

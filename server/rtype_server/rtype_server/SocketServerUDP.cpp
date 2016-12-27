@@ -89,20 +89,21 @@ bool										SocketServerUDP::sendAllData(std::vector<ServerClient *> &clientLi
 std::vector<ICommand *>		SocketServerUDP::receiveData()
 {
 	std::vector<ICommand *>		vectMsg;
-	char						buf[UDP_PACKET_SIZE];
+	char						buf[TCP_PACKET_SIZE];
 	int							len;
 	struct sockaddr_in			clientAddr;
 	int							clientAddrSize;
 
 	if (FD_ISSET(_socketServerID, &_readfds) == false)
 		return (vectMsg);
-	std::cout << "Receiving data UDP" << std::endl;
+	//std::cout << "Receiving data UDP" << std::endl;
 	clientAddrSize = sizeof(clientAddr);
-	MemTools::set(buf, 0, UDP_PACKET_SIZE);
-	len = recvfrom(_socketServerID, buf, UDP_PACKET_SIZE, 0, (struct sockaddr *)&clientAddr, (socklen_t *)&clientAddrSize);
+	MemTools::set(buf, 0, TCP_PACKET_SIZE);
+	len = recvfrom(_socketServerID, buf, TCP_PACKET_SIZE, 0, (struct sockaddr *)&clientAddr, (socklen_t *)&clientAddrSize);
 	if (len == -1)
 	{
-		displayError("Recvfrom failed: ");
+		std::cout << "Recvfrom failed : " << WSAGetLastError() << std::endl;
+		//displayError("Recvfrom failed: ");
 	}
 	else
 	{
@@ -132,9 +133,13 @@ int										SocketServerUDP::selectFds()
 	FD_SET(_socketServerID, &_writefds);
 	fdMax = _socketServerID;
 
-	if (select(fdMax + 1, &_readfds, &_writefds, NULL, &tv) < 0)
+	int ret;
+	if ((ret = select(fdMax + 1, &_readfds, NULL, NULL, &tv)) <= 0)
 	{
-		displayError("Select error: ");
+		if (ret == -1)
+			displayError("Select error: ");
+		return (-1);
 	}
+
 	return (0);
 }

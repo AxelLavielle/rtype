@@ -253,12 +253,18 @@ void											Server::processUDPMessages(const std::vector<ICommand *> &vectMsg
 bool									Server::UDPLoop()
 {
 	std::vector<ICommand *>			vectMsg;
+	int nbMsg;
 
 	while (42)
 	{
-		_socketServerUDP.selectFds();
-		vectMsg = _socketServerUDP.receiveData();
-		processUDPMessages(vectMsg);
+		nbMsg = 0;
+		while (_socketServerUDP.selectFds() != -1)
+		{
+			//std::cout << "Msg nb" << nbMsg << std::endl;
+			vectMsg = _socketServerUDP.receiveData();
+			processUDPMessages(vectMsg);
+			nbMsg++;
+		}
 		_mutex->lock();
 		_socketServerUDP.sendAllData(_clientManager.getClients());
 		_mutex->unlock();

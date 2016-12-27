@@ -9,18 +9,18 @@ SocketServerUDP::~SocketServerUDP()
 
 void	SocketServerUDP::displayError(const std::string &msg)
 {
-	#ifdef __linux__
-		perror(msg.c_str());
-	#elif _WIN32
-		std::cerr << msg << WSAGetLastError() << std::endl;
-	#endif
+#ifdef _WIN32
+  std::cerr << msg << WSAGetLastError() << std::endl;
+#elif __linux__
+  perror(msg.c_str());
+#endif
 }
 
 bool SocketServerUDP::init(const std::string &addr, const int port)
 {
 	#ifdef _WIN32
 		WSADATA			wsaData;
-	    
+
 
 		if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
 		{
@@ -41,18 +41,18 @@ bool SocketServerUDP::init(const std::string &addr, const int port)
 
 bool					SocketServerUDP::launch()
 {
-	MemTools::set(&_addrSocket, 0, sizeof(_addrSocket));
-	_addrSocket.sin_family = AF_INET;
-	_addrSocket.sin_port = htons(_port);
-	_addrSocket.sin_addr.s_addr = htonl(INADDR_ANY);
+  MemTools::set(&_addrSocket, 0, sizeof(_addrSocket));
+  _addrSocket.sin_family = AF_INET;
+  _addrSocket.sin_port = htons(_port);
+  _addrSocket.sin_addr.s_addr = htonl(INADDR_ANY);
 
-	if (bind(_socketServerID, (struct sockaddr *)&_addrSocket, sizeof(_addrSocket)) == SOCKET_ERROR)
-	{
-		displayError("Socket UDP Bind failed: ");
-		return (false);
-	}
+  if (bind(_socketServerID, (struct sockaddr *)&_addrSocket, sizeof(_addrSocket)) == SOCKET_ERROR)
+    {
+      displayError("Socket UDP Bind failed: ");
+      return (false);
+    }
 
-	return (true);
+  return (true);
 }
 
 bool										SocketServerUDP::sendAllData(std::vector<ServerClient *> &clientList)
@@ -75,8 +75,11 @@ bool										SocketServerUDP::sendAllData(std::vector<ServerClient *> &clientLi
 						0, (struct sockaddr *)&newAddr, sizeof(struct sockaddr));
 			if (len == -1)
 			{
-				std::cout << "ERROR " << WSAGetLastError() << std::endl;
-				//displayError("Sendto failed: ");
+			  #ifdef _WIN32
+			  std::cout << "ERROR " << WSAGetLastError() << std::endl;
+			  #elif __linux__
+			  displayError("Sendto failed: ");
+			  #endif
 			}
 			//std::cout << "UDP Sent " << len << " characters" << std::endl;
 		}

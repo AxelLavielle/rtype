@@ -32,7 +32,7 @@ public:
 	virtual		void			setSpeedY(const double);
   	virtual		int			getLife() const;
 	virtual		void			setLife(const int);
-	virtual		void			setArgs(const std::string & args);
+	virtual		bool			setArgs(const std::string & args);
 	virtual		std::string		getArgs() const;
 protected:
   double					_posX;

@@ -78,7 +78,11 @@ IEntity		*Serialize::unserializeEntity(char *data)
 	  return (NULL);
   res = new Player();
   res->setType(static_cast<rtype::EntityType>(p->dataType));
-  res->setArgs(std::string(p->data));
+  if (!res->setArgs(std::string(p->data)))
+  {
+	  delete res;
+	  return (NULL);
+  }
   return (res);
 }
 #include <iostream>

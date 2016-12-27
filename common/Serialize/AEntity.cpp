@@ -149,11 +149,13 @@ void			AEntity::setLife(const int life)
 	_life = life;
 }
 #include <iostream>
-void AEntity::setArgs(const std::string & args)
+bool AEntity::setArgs(const std::string & args)
 {
 	std::vector<std::string>				res;
 
 	res = split(args);
+	if (res.size() < 8)
+		return (false);
 	std::cout << "len ICIC = " << res.size() << " " << args << std::endl;
 	_name = res[0];
 	_posX = std::stoi(res[1]);
@@ -165,6 +167,7 @@ void AEntity::setArgs(const std::string & args)
 	_life = std::stoi(res[7]);
 	_spritePath = res[8];
 	_args = args;
+	return (true);
 }
 
 std::string AEntity::getArgs() const

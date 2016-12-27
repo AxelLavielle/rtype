@@ -28,6 +28,6 @@ public:
 	virtual int				getLife() const = 0;
 	virtual std::string		getSpriteRepo() const = 0;
 	virtual void			setSpriteRepo(const std::string &) = 0;
-	virtual		void			setArgs(const std::string & args) = 0;
+	virtual		bool			setArgs(const std::string & args) = 0;
 	virtual		std::string		getArgs() const = 0;
 };

@@ -124,9 +124,15 @@ char			*SocketClientUDP::receiveData()
 		std::cout << "LEN RECV == " << ret << std::endl;
 	}
 	else if (ret == 0)
+	  {
 		std::cout << "timed out waiting for ack" << std::endl;
+		return (NULL);
+	  }
 	else
+	  {
 		std::cerr << "error selecting" << std::endl;
+		return (NULL);
+	  }
 
 	return (buf);
 }

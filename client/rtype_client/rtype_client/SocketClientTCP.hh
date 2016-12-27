@@ -37,7 +37,7 @@ private:
 
 #ifdef _WIN32
 	WSADATA				_wsaData;
-	SOCKET				_connectSocket;
+	SOCKET				_sock;
 	struct addrinfo		*_result;
 	struct addrinfo		*_ptr;
 #elif __linux__

@@ -184,7 +184,6 @@ char			*SocketClientUDP::receiveData()
 //		return (NULL);
 //	}
 //#endif
-	std::cout << "received : " << ret << " character(s) mio mao" << std::endl;
 	//Player *test = static_cast<Player *>(Serialize::unserializeEntity(buf));
 	//if (test == NULL)
 	//	std::cout << "BRAAAAAAAAAAAAAAH" << std::endl;

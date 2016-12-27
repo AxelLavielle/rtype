@@ -145,7 +145,7 @@ IEntity		*Serialize::unserializeEntity(char *data)
   res->setLife(*reinterpret_cast<int *>(&p->data[32]));
   res->setHeight(*reinterpret_cast<double *>(&p->data[36]));
   res->setWidth(*reinterpret_cast<double *>(&p->data[44]));
-  i = 52;
+  i = 58;
   while (data[i] != ',')
   {
 	  tmp += data[i];

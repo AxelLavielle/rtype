@@ -60,7 +60,7 @@ void	Game::manageInput(ServerClient *client)
 	player = client->getPlayer();
 	while (it != vInputs.end())
 	{
-		std::cout << "Player sent key [" << it->getKey() << "]" << std::endl;
+//		std::cout << "Player sent key [" << it->getKey() << "]" << std::endl;
 		if (it->getKey() == "UP" || it->getKey() == "DOWN")
 			player->setPosY((it->getKey() == "UP") ? (player->getPosY() - 10) : (player->getPosY() + 10));
 		else if (it->getKey() == "RIGHT" || it->getKey() == "LEFT")

@@ -285,6 +285,7 @@ void											Server::processUDPMessages(const std::vector<ICommand *> &vectMsg
 		if (*it != NULL)
 		{
 			//std::cout << "[Process UDP Msg] cmdType :" << (*it)->getCommandName() << std::endl;
+
 			input = static_cast<InputCmd *>(*it);
 			id = input->getId();
 			_mutex->lock();

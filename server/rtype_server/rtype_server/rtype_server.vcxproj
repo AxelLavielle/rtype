@@ -82,7 +82,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\49312\Desktop\RENDUS\RTYPE\rtype\common;C:\Users\49312\Desktop\RENDUS\RTYPE\rtype\common\Serialize;C:\Users\49312\Desktop\RENDUS\RTYPE\rtype\server\rtype_server\rtype_server;C:\rtype\common\Serialize;C:\rtype\common;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Mohamad\Desktop\rtype\common\entities;C:\Users\Mohamad\Desktop\rtype\common\Serialize;C:\Users\Mohamad\Desktop\rtype\common;C:\Users\49312\Desktop\RENDUS\RTYPE\rtype\common;C:\Users\49312\Desktop\RENDUS\RTYPE\rtype\common\Serialize;C:\Users\49312\Desktop\RENDUS\RTYPE\rtype\server\rtype_server\rtype_server;C:\rtype\common\Serialize;C:\rtype\common;.;C:\Users\Mohamad\Desktop\rtype\server\rtype_server\rtype_server\entities;C:\Users\Mohamad\Desktop\rtype\server\rtype_server\rtype_server;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Bscmake>

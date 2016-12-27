@@ -45,10 +45,10 @@ bool				SocketClientTCP::init(const std::string &addr, const int port)
 		return (false);
 	}
 
-	_connectSocket = INVALID_SOCKET;
+	_sock = INVALID_SOCKET;
 	_ptr = _result;
-	_connectSocket = socket(_ptr->ai_family, _ptr->ai_socktype, _ptr->ai_protocol);
-	if (_connectSocket == INVALID_SOCKET)
+	_sock = socket(_ptr->ai_family, _ptr->ai_socktype, _ptr->ai_protocol);
+	if (_sock == INVALID_SOCKET)
 	{
 		std::cerr << "Error at socket(): " << WSAGetLastError() << std::endl;
 		freeaddrinfo(_result);
@@ -59,7 +59,7 @@ bool				SocketClientTCP::init(const std::string &addr, const int port)
 	BOOL optVal = FALSE;
 	_optLen = 1;
 
-	iResult = setsockopt(_connectSocket, SOL_SOCKET, SO_KEEPALIVE, (char *)&optVal, _optLen);
+	iResult = setsockopt(_sock, SOL_SOCKET, SO_KEEPALIVE, (char *)&optVal, _optLen);
 	if (iResult == SOCKET_ERROR)
 	{
 		std::cerr << "setsockopt for SO_KEEPALIVE failed with error : " << WSAGetLastError() << std::endl;
@@ -99,37 +99,30 @@ bool				SocketClientTCP::sendData(const char *data)
 	len[0] = data[0];
 	len[1] = data[1];
 	datasize = *reinterpret_cast<short*>(len);
-#ifdef _WIN32
+
 	const char		*sendbuf = data;
 	int				iResult;
-	iResult = send(_connectSocket, sendbuf, static_cast<int>(datasize), 0);
+
+	iResult = send(_sock, sendbuf, static_cast<int>(datasize), 0);
 	if (iResult == SOCKET_ERROR)
 	{
-		std::cerr << "Send failed: " << WSAGetLastError() << std::endl;
-		closesocket(_connectSocket);
-		WSACleanup();
-		_connected = false;
-		return (false);
-	}
-
-	//iResult = shutdown(_connectSocket, SD_SEND);
-	//if (iResult == SOCKET_ERROR)
-	//{
-	//	std::cerr << "Shutdown failed: " << WSAGetLastError() << std::endl;
-	//	closesocket(_connectSocket);
-	//	WSACleanup();
-	//	return (false);
-	//}
-
+#ifdef _WIN32
+		std::cerr << "Send failed : " << WSAGetLastError() << std::endl;
 #elif __linux__
-	if (send(_sock, data, datasize, 0) < 0)
-	{
-		std::cout << "Send failed" << std::endl;
-		_connected = false;
+		perror("send");
+#endif
 		return (false);
 	}
 
-#endif
+//#elif __linux__
+//	if (send(_sock, data, datasize, 0) < 0)
+//	{
+//		std::cout << "Send failed" << std::endl;
+//		_connected = false;
+//		return (false);
+//	}
+//
+//#endif
 	return (true);
 }
 
@@ -139,24 +132,15 @@ bool				SocketClientTCP::sendData(const char *data, const int datasize)
 	const char		*sendbuf = data;
 	int				iResult;
 
-	iResult = send(_connectSocket, sendbuf, static_cast<int>(datasize), 0);
+	iResult = send(_sock, sendbuf, static_cast<int>(datasize), 0);
 	if (iResult == SOCKET_ERROR)
 	{
 		std::cerr << "Send failed: " << WSAGetLastError() << std::endl;
-		closesocket(_connectSocket);
+		closesocket(_sock);
 		WSACleanup();
 		_connected = false;
 		return (false);
 	}
-
-	//iResult = shutdown(_connectSocket, SD_SEND);
-	//if (iResult == SOCKET_ERROR)
-	//{
-	//	std::cerr << "Shutdown failed: " << WSAGetLastError() << std::endl;
-	//	closesocket(_connectSocket);
-	//	WSACleanup();
-	//	return (false);
-	//}
 
 #elif __linux__
 	if (send(_sock, data, datasize, 0) < 0)
@@ -178,7 +162,7 @@ char				*SocketClientTCP::receiveData()
 #ifdef _WIN32
 	int				iResult;
 
-	iResult = recv(_connectSocket, recvbuf, recvbuflen, 0);
+	iResult = recv(_sock, recvbuf, recvbuflen, 0);
 	if (iResult > 0)
 	{
 		recvbuf[iResult - 1] = '\0';
@@ -203,15 +187,15 @@ bool				SocketClientTCP::connectToServer()
 #ifdef _WIN32
 	int				iResult;
 
-	iResult = connect(_connectSocket, _ptr->ai_addr, static_cast<int>(_ptr->ai_addrlen));
+	iResult = connect(_sock, _ptr->ai_addr, static_cast<int>(_ptr->ai_addrlen));
 	if (iResult == SOCKET_ERROR)
 	{
-		closesocket(_connectSocket);
-		_connectSocket = INVALID_SOCKET;
+		closesocket(_sock);
+		_sock = INVALID_SOCKET;
 	}
 
 	freeaddrinfo(_result);
-	if (_connectSocket == INVALID_SOCKET)
+	if (_sock == INVALID_SOCKET)
 	{
 		std::cerr << "Unable to connect to server!" << std::endl;
 		WSACleanup();
@@ -236,11 +220,11 @@ bool			SocketClientTCP::closure()
 	int			iResult;
 
 	_connected = false;
-	iResult = shutdown(_connectSocket, SD_SEND);
+	iResult = shutdown(_sock, SD_SEND);
 	if (iResult == SOCKET_ERROR)
 	{
 		std::cout << "Shutdown failed: " << WSAGetLastError();
-		closesocket(_connectSocket);
+		closesocket(_sock);
 		WSACleanup();
 		return (false);
 	}

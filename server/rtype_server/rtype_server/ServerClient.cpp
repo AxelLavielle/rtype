@@ -7,7 +7,7 @@ ServerClient::ServerClient(const int socketFd, SocketAddress *addr)
 	_lenDataTCP = 0;
 	_isDisconnectedTCP = false;
 
-	MemTools::set(_sendDataUDP, 0, UDP_PACKET_SIZE);
+	MemTools::set(_sendDataUDP, 0, TCP_PACKET_SIZE);
 	_lenDataUDP = 0;
 	_clientAddr = addr;
 	
@@ -90,7 +90,7 @@ void		ServerClient::addUDPDataToSend(const char *data)
 	len[0] = data[0];
 	len[1] = data[1];
 	size = *reinterpret_cast<short*>(len);
-	while (j < size && i < UDP_PACKET_SIZE)
+	while (j < size && i < TCP_PACKET_SIZE)
 	{
 		_sendDataUDP[i] = data[j];
 		i++;
@@ -106,7 +106,7 @@ const char *ServerClient::getSendDataUDP() const
 
 void ServerClient::resetDataUDP()
 {
-	MemTools::set(_sendDataUDP, 0, UDP_PACKET_SIZE);
+	MemTools::set(_sendDataUDP, 0, TCP_PACKET_SIZE);
 	_lenDataUDP = 0;
 }
 

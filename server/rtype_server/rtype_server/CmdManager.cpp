@@ -36,7 +36,14 @@ void				CmdManager::cmdHandshakeSyn(ServerClient *client, BasicCmd *msgClient,
 	std::cout << "[HandshakeSyn] : " << handshake << std::endl;
 	cmd.setCommandType(HANDSHAKE_SYN_ACK);
 	cmd.addArg(std::to_string(acknowledgementNumber));
-	cmd.addArg(std::to_string(std::stoi(handshake) + 1));
+	try
+	{
+		cmd.addArg(std::to_string(std::stoi(handshake) + 1));
+	}
+	catch (const std::exception &error)
+	{
+		return;
+	}
 	msgSerialized = Serialize::serialize(&cmd);
 	std::cout << "[HandshakeSyn] Sending : " << cmd.getCommandArg() << std::endl;
 

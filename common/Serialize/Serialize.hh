@@ -24,7 +24,7 @@ public:
   ~Serialize();
 
 private:
-  struct	__attribute__((packed)) packet
+  struct	packet
   {
 	short	dataLength;
 	short	dataType;

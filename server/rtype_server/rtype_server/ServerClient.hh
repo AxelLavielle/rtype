@@ -23,7 +23,7 @@ private:
 	int					_lenDataTCP;
 	bool				_isDisconnectedTCP;
 
-	char				_sendDataUDP[UDP_PACKET_SIZE];
+	char				_sendDataUDP[TCP_PACKET_SIZE];
 	int					_lenDataUDP;
 	SocketAddress		*_clientAddr;
 

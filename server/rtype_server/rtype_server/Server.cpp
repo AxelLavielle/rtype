@@ -284,7 +284,7 @@ void											Server::processUDPMessages(const std::vector<ICommand *> &vectMsg
 	{
 		if (*it != NULL)
 		{
-			std::cout << "[Process UDP Msg] cmdType :" << (*it)->getCommandName() << std::endl;
+			//std::cout << "[Process UDP Msg] cmdType :" << (*it)->getCommandName() << std::endl;
 			input = static_cast<InputCmd *>(*it);
 			id = input->getId();
 			_mutex->lock();
@@ -307,12 +307,13 @@ bool									Server::UDPLoop()
 	while (42)
 	{
 		nbMsg = 0;
-		while (_socketServerUDP.selectFds() != -1)
+		if (_socketServerUDP.selectFds() != -1)
+		//while (_socketServerUDP.selectFds() != -1)
 		{
 			//std::cout << "Msg nb" << nbMsg << std::endl;
 			vectMsg = _socketServerUDP.receiveData();
 			processUDPMessages(vectMsg);
-			nbMsg++;
+			//nbMsg++;
 		}
 		_mutex->lock();
 		_socketServerUDP.sendAllData(_clientManager.getClients());

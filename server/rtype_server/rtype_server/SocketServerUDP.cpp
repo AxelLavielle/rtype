@@ -41,6 +41,7 @@ bool SocketServerUDP::init(const std::string &addr, const int port)
 
 bool					SocketServerUDP::launch()
 {
+	std::cout << "UDP Port -> [" << _port << "]" << std::endl;
   MemTools::set(&_addrSocket, 0, sizeof(_addrSocket));
   _addrSocket.sin_family = AF_INET;
   _addrSocket.sin_port = htons(_port);
@@ -76,7 +77,7 @@ bool										SocketServerUDP::sendAllData(std::vector<ServerClient *> &clientLi
 			if (len == -1)
 			{
 			  #ifdef _WIN32
-			  std::cout << "ERROR " << WSAGetLastError() << std::endl;
+			  std::cout << "Sendto failed " << WSAGetLastError() << std::endl;
 			  #elif __linux__
 			  displayError("Sendto failed: ");
 			  #endif
@@ -124,7 +125,7 @@ int										SocketServerUDP::selectFds()
 	struct timeval						tv;
 
 	tv.tv_sec = 0;
-	tv.tv_usec = 100000;
+	tv.tv_usec = 1000;
 	if (setsockopt(_socketServerID, SOL_SOCKET, SO_RCVTIMEO, (char *)&tv, sizeof(tv)) < 0)
 	{
 		perror("Error");

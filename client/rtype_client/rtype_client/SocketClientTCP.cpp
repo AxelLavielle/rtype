@@ -103,6 +103,7 @@ bool				SocketClientTCP::sendData(const char *data)
 	const char		*sendbuf = data;
 	int				iResult;
 
+	std::cout << "SIZE SENT == " << datasize << std::endl;
 	iResult = send(_sock, sendbuf, static_cast<int>(datasize), 0);
 	if (iResult == SOCKET_ERROR)
 	{

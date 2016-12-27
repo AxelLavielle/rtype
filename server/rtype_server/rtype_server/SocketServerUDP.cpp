@@ -107,7 +107,7 @@ std::vector<ICommand *>		SocketServerUDP::receiveData()
 	len = recvfrom(_socketServerID, buf, TCP_PACKET_SIZE, 0, (struct sockaddr *)&clientAddr, (socklen_t *)&clientAddrSize);
 	if (len == -1)
 	{
-		std::cout << "Recvfrom failed : " << WSAGetLastError() << std::endl;
+		// std::cout << "Recvfrom failed : " << WSAGetLastError() << std::endl;
 		//displayError("Recvfrom failed: ");
 	}
 	else

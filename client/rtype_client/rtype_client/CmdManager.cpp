@@ -178,6 +178,8 @@ bool		CmdManager::createRoom(const std::string & rommName, const std::string & p
 		BasicCmd		*tmpCmd;
 
 		tmpCmd = static_cast<BasicCmd* >(cmd);
+		// 45  -  26
+		std::cout << "BATARD ICI == " << tmpCmd->getArg(0) << std::endl;
 		if (static_cast<ReplyCodes>(std::stoi(tmpCmd->getArg(0))) == ROOM_CREATED)
 		{
 			std::cout << "CREATE ROOM OK" << std::endl;

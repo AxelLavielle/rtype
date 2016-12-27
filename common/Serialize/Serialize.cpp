@@ -23,6 +23,7 @@ char		*Serialize::serialize(IEntity *entity)
   ret = new char[sizeof(packet)];
   MemTools::set(ret, 0, sizeof(packet));
   p.dataType = entity->getType();
+  std::cout << "DataType Entity -> " << p.dataType << std::endl;
   p.cmdType = ENTITY;
   j = 0;
   tmpd = entity->getPosX();
@@ -97,12 +98,18 @@ char		*Serialize::serialize(ICommand *cmd)
 	  i++;
   }
   p.data[i] = 0;
-  p.dataLength = tmp.size() + 8;
+  p.dataLength = tmp.size() + 7;
   i = -1;
   while (++i != p.dataLength)
     ret[i] = reinterpret_cast<char *>(&p)[i];
   ret[i] = 0;
   i = 0;
+  std::cout << "----------Serialize----------" << std::endl;
+  std::cout << "len == " << p.dataLength << std::endl;
+  std::cout << "dataType == " << p.dataType << std::endl;
+  std::cout << "cmdType == " << p.cmdType << std::endl;
+  std::cout << "data == " << p.data << std::endl;
+  std::cout << "-----------------------------" << std::endl;
   return (ret);
 }
 
@@ -163,6 +170,12 @@ ICommand	*Serialize::unserializeCommand(char *data)
 
   res = NULL;
   p = reinterpret_cast<packet*>(data);
+  std::cout << "--------unSerialize----------" << std::endl;
+  std::cout << "len == " << p->dataLength << std::endl;
+  std::cout << "dataType == " << p->dataType << std::endl;
+  std::cout << "cmdType == " << p->cmdType << std::endl;
+  std::cout << "data == " << p->data << std::endl;
+  std::cout << "-----------------------------" << std::endl;
   switch (p->dataType)
     {
     case CHAT_INFO:

@@ -46,7 +46,6 @@ bool			CmdManager::sendInput(const int id, const std::string &key)
 	_cmd.push_back(newCmd);
 	if (!sendUDPCmd())
 		return (false);
-	std::cout << "Input sent" << std::endl;
 	return (true);
 }
 

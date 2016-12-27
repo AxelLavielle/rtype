@@ -4,8 +4,14 @@
 
 GUIPage::GUIPage(IGraphManager *graph, IEventManager *event, const PathFileManager &fileManager, ISoundManager *soundManager) : APage(graph, event, fileManager, soundManager)
 {
+	_hp = 4;
+	_def = 4;
+	_nbPlayers = 1;
+	_score = 0;
+	_mode = "Facile";
+	_playerName = "Player 1";
+	_animInc = 0;
 }
-
 
 GUIPage::~GUIPage()
 {
@@ -23,13 +29,6 @@ bool GUIPage::init()
 	initDecor(Rect(440, _windowSize.second - 95, 30, 70), "/res/img/spaceShip10.png", Color(0, 0, 0));
 	_textPosX = 60;
 	_textPosY = 10;
-	_hp = 4;
-	_def = 4;
-	_nbPlayers = 1;
-	_score = 456789;
-	_mode = "Facile";
-	_playerName = "Jean-Kebab";
-	_animInc = 0;
 	return (true);
 }
 
@@ -81,4 +80,34 @@ IPage::PAGE GUIPage::event()
 	hoverEvent(_buttons);
 	page = clickEvent(_buttons);
 	return (page);
+}
+
+void GUIPage::setHp(const int hp)
+{
+	_hp = hp;
+}
+
+void GUIPage::setDef(const int df)
+{
+	_def = df;
+}
+
+void GUIPage::setNbPlayer(const int nbPlayer)
+{
+	_nbPlayers = nbPlayer;
+}
+
+void GUIPage::setScore(const int score)
+{
+	_score = score;
+}
+
+void GUIPage::setMode(const std::string & mode)
+{
+	_mode = mode;
+}
+
+void GUIPage::setPlayerName(const std::string & name)
+{
+	_playerName = name;
 }

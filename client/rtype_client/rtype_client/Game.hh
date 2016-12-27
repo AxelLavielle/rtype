@@ -47,6 +47,9 @@ private:
 	std::string					_ip;
 	int							_port;
 	int							_id;
+	std::string					_playerName;
+	int							_nbPlayer;
+	std::string					_mode;
 
 	bool initSocket();
 	void initGraphElements();

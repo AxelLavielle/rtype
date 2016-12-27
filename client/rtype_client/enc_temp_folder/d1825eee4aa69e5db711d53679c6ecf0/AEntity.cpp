@@ -98,7 +98,6 @@ void			AEntity::setName(const std::string &name)
 
 void			AEntity::setSpriteRepo(const std::string &path)
 {
-	_args += path + _separator;
   _spritePath = path;
 }
 

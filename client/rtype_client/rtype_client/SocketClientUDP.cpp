@@ -56,7 +56,7 @@ bool			SocketClientUDP::sendData(const char *data)
 	int			res;
 
 	struct timeval tv;
-	tv.tv_sec = 2;
+	tv.tv_sec = 0.1;
 	tv.tv_usec = 0;
 
 	fd_set writefds;
@@ -131,7 +131,7 @@ char			*SocketClientUDP::receiveData()
 //#ifdef _WIN32
 	int			ret;
 	struct timeval tv;
-	tv.tv_sec = 2;
+	tv.tv_sec = 0.1;
 	tv.tv_usec = 0;
 
 	fd_set readfds;

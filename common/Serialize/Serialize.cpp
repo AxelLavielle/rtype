@@ -96,7 +96,7 @@ char		*Serialize::serialize(ICommand *cmd)
 	  p.data[i] = tmp[i];
 	  i++;
   }
-  //p.data[i] = 0;
+  p.data[i] = 0;
   p.dataLength = tmp.size() + 6;
   i = -1;
   while (++i != p.dataLength)

@@ -67,7 +67,7 @@ void	Game::manageEntity()
 		{
 			_graph->drawRectangle(_fileManager.getRoot() + entity->getSpriteRepo() + "/spaceShip10.png", Rect(entity->getPosX(), entity->getPosY(), entity->getHeight(), entity->getWidth()), Rect(0, 0, 0, 0), Rect(0, 0, entity->getHeight(), entity->getWidth()));
 			gui = static_cast<GUIPage*>(_guiPage);
-			gui->setHp(entity->getLife() / 100);
+			//			gui->setHp(entity->getLife() / 100);
 			gui->setScore(0);
 		}
 		else if (entity->getType() == rtype::MONSTER)

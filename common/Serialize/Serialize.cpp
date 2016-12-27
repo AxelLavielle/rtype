@@ -29,35 +29,43 @@ char		*Serialize::serialize(IEntity *entity)
   i = -1;
   while (++i != 8)
     p.data[j++] = reinterpret_cast<char*>(&(tmpd))[i];
+
   tmpd = entity->getPosY();
   i = -1;
   while (++i != 8)
     p.data[j++] = reinterpret_cast<char*>(&(tmpd))[i];
+
   tmpd = entity->getSpeedX();
   i = -1;
   while (++i != 8)
     p.data[j++] = reinterpret_cast<char*>(&(tmpd))[i];
+
   tmpd = entity->getSpeedY();
   i = -1;
   while (++i != 8)
     p.data[j++] = reinterpret_cast<char*>(&(tmpd))[i];
+
   tmpi = entity->getLife();
   i = -1;
   while (++i != 4)
 	  p.data[j++] = reinterpret_cast<char*>(&(tmpi))[i];
+
   tmpd = entity->getHeight();
   i = -1;
   while (++i != 8)
 	  p.data[j++] = reinterpret_cast<char*>(&(tmpd))[i];
+
   tmpd = entity->getWidth();
   i = -1;
   while (++i != 8)
 	  p.data[j++] = reinterpret_cast<char*>(&(tmpd))[i];
+
   tmps = entity->getSpriteRepo();
   i = -1;
   while (tmps[++i] != 0)
     p.data[j++] = tmps[i];
   p.data[j++] = ',';
+
   tmps = entity->getName();
   i = -1;
   while (tmps[++i] != 0)
@@ -135,9 +143,9 @@ IEntity		*Serialize::unserializeEntity(char *data)
   res->setSpeedX(*reinterpret_cast<double *>(&p->data[16]));
   res->setSpeedY(*reinterpret_cast<double *>(&p->data[24]));
   res->setLife(*reinterpret_cast<int *>(&p->data[32]));
-  res->setHeight(*reinterpret_cast<double *>(&p->data[40]));
-  res->setWidth(*reinterpret_cast<double *>(&p->data[48]));
-  i = 58;
+  res->setHeight(*reinterpret_cast<double *>(&p->data[36]));
+  res->setWidth(*reinterpret_cast<double *>(&p->data[44]));
+  i = 54;
   while (data[i] != ',')
   {
 	  tmp += data[i];

@@ -24,10 +24,10 @@ void Game::init(std::vector<ServerClient*> &clients)
 		it2 = clients.begin();
 		player = new Player((*it)->getPlayerName());
 		player->setLife(100);
-		player->setPosX(400 + (i * 10));
-		player->setPosY(500);
-		player->setHeight(100);
-		player->setWidth(100);
+		player->setPosX(100 + (i * 10));
+		player->setPosY(100);
+		player->setHeight(30);
+		player->setWidth(70);
 		player->setSpeedX(1);
 		player->setSpeedY(1);
 		player->setSpriteRepo("/res/img/");
@@ -59,11 +59,12 @@ void	Game::manageInput(ServerClient *client)
 	player = client->getPlayer();
 	while (it != vInputs.end())
 	{
+		std::cout << "Player sent key [" << it->getKey() << "]" << std::endl;
 		if (it->getKey() == "UP")
 			player->setPosY(player->getPosY() - 10);
 		else if (it->getKey() == "DOWN")
 			player->setPosY(player->getPosY() + 10);
-		else if (it->getKey() == "RIFHT")
+		else if (it->getKey() == "RIGHT")
 			player->setPosX(player->getPosX() + 10);
 		else if (it->getKey() == "LEFT")
 			player->setPosX(player->getPosX() - 10);
@@ -72,7 +73,7 @@ void	Game::manageInput(ServerClient *client)
 	client->setPlayer(player);
 }
 
-void	Game::updateGame(std::vector<ServerClient *> &clients)
+void										Game::updateGame(std::vector<ServerClient *> &clients)
 {
 	std::vector<ServerClient *>::iterator	it;
 	std::vector<ServerClient *>::iterator	it2;

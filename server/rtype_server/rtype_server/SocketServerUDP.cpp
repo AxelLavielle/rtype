@@ -78,7 +78,7 @@ bool										SocketServerUDP::sendAllData(std::vector<ServerClient *> &clientLi
 				std::cout << "ERROR " << WSAGetLastError() << std::endl;
 				//displayError("Sendto failed: ");
 			}
-
+			//std::cout << "UDP Sent " << len << " characters" << std::endl;
 		}
 		(*it)->resetDataUDP();
 		it++;
@@ -106,7 +106,7 @@ std::vector<ICommand *>		SocketServerUDP::receiveData()
 	}
 	else
 	{
-		std::cout << "Received new Msg of " << len << " characters" << std::endl;
+		//std::cout << "Received new Msg of " << len << " characters" << std::endl;
 
 		vectMsg.push_back(Serialize::unserializeCommand(buf));
 	}

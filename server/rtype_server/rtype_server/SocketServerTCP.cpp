@@ -84,7 +84,7 @@ NewClientInfo		SocketServerTCP::acceptNewClient()
 	int				newClientSocketID;
 	struct sockaddr clientAddr;
 	struct in_addr	nullPtr = {0};
-	int				len = sizeof(struct sockaddr);
+	unsigned int				len = sizeof(struct sockaddr);
 
 	if (!FD_ISSET(_socketServerID, &_readfds))
 		return (std::make_pair(-1, new SocketAddress(nullPtr)));
@@ -103,7 +103,7 @@ NewClientInfo		SocketServerTCP::acceptNewClient()
 
 	if (DEBUG_MSG)
 		std::cout << "NEW CLIENT ------->" << newClientSocketID << std::endl;
-	
+
 	return (std::make_pair(newClientSocketID, new SocketAddress(((struct sockaddr_in *)&clientAddr)->sin_addr)));
 }
 
@@ -153,7 +153,7 @@ std::vector<ClientMsg>						SocketServerTCP::receiveData(std::vector<ServerClien
 			if ((len = recv((*it)->getTCPSocket(), buf, TCP_PACKET_SIZE, 0)) == -1)
 			{
 				displayError("Recv error: ");
-				
+
 				#ifdef  _WIN32
 					closesocket((*it)->getTCPSocket());
 				#elif	__linux__

@@ -46,19 +46,19 @@ void		APage::initButton(const int textPosX, const int textPosY, const int textSi
 								const Rect &pos, const std::string &name, const std::string &sprite,
 								const std::string &spriteHover, const std::string &fontPath, IPage::PAGE page)
 {
-  Button	*button = new Button(_graph, _event, pos, name);
+	Button	*button = new Button(_graph, _event, pos, name);
 
-  button->setTextPos(textPosX, textPosY);
-  button->setTextSize(textSize);
-  button->setBackgroundSprite(_fileManager.getRoot() + sprite);
-  button->setBackgroundOverSprite(_fileManager.getRoot() + spriteHover);
-  button->setFontPath(_fileManager.getRoot() + fontPath);
-  _buttons.insert(std::pair<IPage::PAGE, AGUIElement *>(page, button));
+	button->setTextPos(textPosX, textPosY);
+	button->setTextSize(textSize);
+	button->setBackgroundSprite(_fileManager.getRoot() + sprite);
+	button->setBackgroundOverSprite(_fileManager.getRoot() + spriteHover);
+	button->setFontPath(_fileManager.getRoot() + fontPath);
+	_buttons.insert(std::pair<IPage::PAGE, AGUIElement *>(page, button));
 }
 
 void		APage::initButton(const int textPosX, const int textPosY, const int textSize,
-								const Rect &pos, const std::string &name, const std::string &sprite,
-								const std::string &spriteHover, const std::string &fontPath)
+	const Rect &pos, const std::string &name, const std::string &sprite,
+	const std::string &spriteHover, const std::string &fontPath)
 {
 	Button	*button = new Button(_graph, _event, pos, name);
 

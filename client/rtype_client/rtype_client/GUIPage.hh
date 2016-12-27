@@ -28,5 +28,7 @@ private:
 	int														_animInc;
 	double													_animDuration;
 	std::chrono::high_resolution_clock::time_point			t1;
+	int														_textPosX;
+	int														_textPosY;
 };
 

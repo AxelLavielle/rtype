@@ -5,7 +5,8 @@ Client::Client()
 	_mutex = new Mutex();
 	_socket = new SocketClientTCP();
 	//_ip = "127.0.0.1";
-	_ip = "10.16.252.95";
+//	_ip = "10.16.252.95";
+	_ip = "10.16.253.119";
 }
 
 Client::~Client()

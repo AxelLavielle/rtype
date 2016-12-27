@@ -60,14 +60,10 @@ void	Game::manageInput(ServerClient *client)
 	while (it != vInputs.end())
 	{
 		std::cout << "Player sent key [" << it->getKey() << "]" << std::endl;
-		if (it->getKey() == "UP")
-			player->setPosY(player->getPosY() - 10);
-		else if (it->getKey() == "DOWN")
-			player->setPosY(player->getPosY() + 10);
-		else if (it->getKey() == "RIGHT")
-			player->setPosX(player->getPosX() + 10);
-		else if (it->getKey() == "LEFT")
-			player->setPosX(player->getPosX() - 10);
+		if (it->getKey() == "UP" || it->getKey() == "DOWN")
+			player->setPosY((it->getKey() == "UP") ? (player->getPosY() - 10) : (player->getPosY() + 10));
+		else if (it->getKey() == "RIGHT" || it->getKey() == "LEFT")
+			player->setPosX((it->getKey() == "RIGHT") ? (player->getPosX() + 10) : (player->getPosX() - 10));
 		++it;
 	}
 	client->setPlayer(player);

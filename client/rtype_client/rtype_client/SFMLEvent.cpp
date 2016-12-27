@@ -48,6 +48,8 @@ std::string SFMLEvent::getKeyStroke() const
 			return ("DOWN");
 		case sf::Keyboard::Right:
 			return ("RIGHT");
+		case sf::Keyboard::Space:
+			return ("SPACE");
 		default:
 		  break;
 		}

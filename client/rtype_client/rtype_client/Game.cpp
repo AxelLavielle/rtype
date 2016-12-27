@@ -158,3 +158,8 @@ void Game::setId(const int id)
 {
 	_id = id;
 }
+
+void Game::setNbPlayer(const int nb)
+{
+	_nbPlayer = nb;
+}

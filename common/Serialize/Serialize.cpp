@@ -12,71 +12,30 @@ Serialize::~Serialize()
 
 char		*Serialize::serialize(IEntity *entity)
 {
-  packet	p;
-  std::string	tmps;
-  int		i;
-  char		*ret;
-  int		j;
-  double	tmpd;
-  int		tmpi;
+	packet	p;
+	std::string	tmp;
+	int		i;
+	char		*ret;
 
-  ret = new char[sizeof(packet)];
-  MemTools::set(ret, 0, sizeof(packet));
-  p.dataType = entity->getType();
-  std::cout << "DataType Entity -> " << p.dataType << std::endl;
-  p.cmdType = ENTITY;
-  j = 0;
-  tmpd = entity->getPosX();
-  i = -1;
-  while (++i != 8)
-    p.data[j++] = reinterpret_cast<char*>(&(tmpd))[i];
-
-  tmpd = entity->getPosY();
-  i = -1;
-  while (++i != 8)
-    p.data[j++] = reinterpret_cast<char*>(&(tmpd))[i];
-
-  tmpd = entity->getSpeedX();
-  i = -1;
-  while (++i != 8)
-    p.data[j++] = reinterpret_cast<char*>(&(tmpd))[i];
-
-  tmpd = entity->getSpeedY();
-  i = -1;
-  while (++i != 8)
-    p.data[j++] = reinterpret_cast<char*>(&(tmpd))[i];
-
-  tmpi = entity->getLife();
-  i = -1;
-  while (++i != 4)
-	  p.data[j++] = reinterpret_cast<char*>(&(tmpi))[i];
-
-  tmpd = entity->getHeight();
-  i = -1;
-  while (++i != 8)
-	  p.data[j++] = reinterpret_cast<char*>(&(tmpd))[i];
-
-  tmpd = entity->getWidth();
-  i = -1;
-  while (++i != 8)
-	  p.data[j++] = reinterpret_cast<char*>(&(tmpd))[i];
-
-  tmps = entity->getSpriteRepo();
-  i = -1;
-  while (tmps[++i] != 0)
-    p.data[j++] = tmps[i];
-  p.data[j++] = ',';
-
-  tmps = entity->getName();
-  i = -1;
-  while (tmps[++i] != 0)
-    p.data[j++] = tmps[i];
-  p.dataLength = j + 6;
-  i = -1;
-  while (++i != p.dataLength)
-    ret[i] = reinterpret_cast<char *>(&p)[i];
-  ret[i] = 0;
-  return (ret);
+	ret = new char[sizeof(packet)];
+	MemTools::set(ret, 0, sizeof(packet));
+	p.dataType = entity->getType();
+	p.cmdType = ENTITY;
+	tmp = entity->getArgs();
+	std::cout << "tmp = " << tmp << std::endl;
+	i = 0;
+	while ((unsigned int)i < tmp.size())
+	{
+		p.data[i] = tmp[i];
+		i++;
+	}
+	p.data[i] = 0;
+	p.dataLength = tmp.size() + 7;
+	i = -1;
+	while (++i != p.dataLength)
+		ret[i] = reinterpret_cast<char *>(&p)[i];
+	ret[i] = 0;
+	return (ret);
 }
 
 char		*Serialize::serialize(ICommand *cmd)
@@ -103,20 +62,13 @@ char		*Serialize::serialize(ICommand *cmd)
   while (++i != p.dataLength)
     ret[i] = reinterpret_cast<char *>(&p)[i];
   ret[i] = 0;
-  i = 0;
-  std::cout << "----------Serialize----------" << std::endl;
-  std::cout << "len == " << p.dataLength << std::endl;
-  std::cout << "dataType == " << p.dataType << std::endl;
-  std::cout << "cmdType == " << p.cmdType << std::endl;
-  std::cout << "data == " << p.data << std::endl;
-  std::cout << "-----------------------------" << std::endl;
   return (ret);
 }
 
 IEntity		*Serialize::unserializeEntity(char *data)
 {
   packet	*p;
-  IEntity	*res;
+  Player	*res;
   int		i;
   std::string	tmp;
 
@@ -124,42 +76,9 @@ IEntity		*Serialize::unserializeEntity(char *data)
   p = reinterpret_cast<packet*>(data);
   if (p == NULL)
 	  return (NULL);
-  switch (static_cast<rtype::EntityType>(p->dataType))
-    {
-    case rtype::EntityType::PLAYER:
-      res = new Player();
-      break;
-    case rtype::EntityType::POWER_UP:
-      res = new PowerUp();
-      break;
-    case rtype::EntityType::MONSTER:
-      res = new Monster();
-      break;
-    case rtype::EntityType::BARRIER:
-      res = new Barrier();
-      break;
-    default:
-      res = NULL;
-      break;
-    }
-  if (res == NULL)
-    return (NULL);
+  res = new Player();
   res->setType(static_cast<rtype::EntityType>(p->dataType));
-  res->setPosX(*reinterpret_cast<double *>(&p->data[0]));
-  res->setPosY(*reinterpret_cast<double *>(&p->data[8]));
-  res->setSpeedX(*reinterpret_cast<double *>(&p->data[16]));
-  res->setSpeedY(*reinterpret_cast<double *>(&p->data[24]));
-  res->setLife(*reinterpret_cast<int *>(&p->data[32]));
-  res->setHeight(*reinterpret_cast<double *>(&p->data[36]));
-  res->setWidth(*reinterpret_cast<double *>(&p->data[44]));
-  i = 58;
-  while (data[i] != ',')
-  {
-	  tmp += data[i];
-	  i++;
-  }
-  res->setSpriteRepo(tmp);
-  res->setName(std::string(&data[i + 1]));
+  res->setArgs(std::string(p->data));
   return (res);
 }
 #include <iostream>
@@ -170,12 +89,6 @@ ICommand	*Serialize::unserializeCommand(char *data)
 
   res = NULL;
   p = reinterpret_cast<packet*>(data);
-  std::cout << "--------unSerialize----------" << std::endl;
-  std::cout << "len == " << p->dataLength << std::endl;
-  std::cout << "dataType == " << p->dataType << std::endl;
-  std::cout << "cmdType == " << p->cmdType << std::endl;
-  std::cout << "data == " << p->data << std::endl;
-  std::cout << "-----------------------------" << std::endl;
   switch (p->dataType)
     {
     case CHAT_INFO:

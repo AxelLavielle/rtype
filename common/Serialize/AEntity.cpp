@@ -12,6 +12,7 @@ AEntity::AEntity()
 	_life = -1;
 	_height = -1;
 	_width = -1;
+	_separator = '|';
 }
 
 AEntity::~AEntity()
@@ -20,17 +21,25 @@ AEntity::~AEntity()
 
 void			AEntity::setPosX(const double posX)
 {
-  _posX = posX;
+	std::stringstream	ss;
+
+	ss << posX;
+	_args += ss.str() + _separator;
+	_posX = posX;
 }
 
 double			AEntity::getPosX() const
 {
-  return (_posX);
+	return (_posX);
 }
 
 void			AEntity::setPosY(const double posY)
 {
-  _posY = posY;
+	std::stringstream	ss;
+
+	ss << posY;
+	_args += ss.str() + _separator;
+	_posY = posY;
 }
 
 double AEntity::getHeight() const
@@ -40,6 +49,10 @@ double AEntity::getHeight() const
 
 void AEntity::setHeight(const double height)
 {
+	std::stringstream	ss;
+
+	ss << height;
+	_args += ss.str() + _separator;
 	_height = height;
 }
 
@@ -50,6 +63,10 @@ double AEntity::getWidth() const
 
 void AEntity::setWidth(const double width)
 {
+	std::stringstream	ss;
+
+	ss << width;
+	_args += ss.str() + _separator;
 	_width = width;
 }
 
@@ -75,18 +92,17 @@ std::string		AEntity::getName() const
 
 void			AEntity::setName(const std::string &name)
 {
-  _name = name;
+	_args += name + _separator;
+	_name = name;
 }
-#include <iostream>
+
 void			AEntity::setSpriteRepo(const std::string &path)
 {
   _spritePath = path;
-  //std::cout << "SET = " << _spritePath << std::endl;
 }
 
 std::string		AEntity::getSpriteRepo() const
 {
-//	std::cout << "GET = " << _spritePath << std::endl;
   return (_spritePath);
 }
 
@@ -97,7 +113,11 @@ double			AEntity::getSpeedX() const
 
 void			AEntity::setSpeedX(const double speedX)
 {
-  _speedX = speedX;
+	std::stringstream	ss;
+
+	ss << speedX;
+	_args += ss.str() + _separator;
+	_speedX = speedX;
 }
 
 double			AEntity::getSpeedY() const
@@ -107,7 +127,11 @@ double			AEntity::getSpeedY() const
 
 void			AEntity::setSpeedY(const double speedY)
 {
-  _speedY = speedY;
+	std::stringstream	ss;
+
+	ss << speedY;
+	_args += ss.str() + _separator;
+	_speedY = speedY;
 }
 
 int			AEntity::getLife() const
@@ -117,5 +141,46 @@ int			AEntity::getLife() const
 
 void			AEntity::setLife(const int life)
 {
-  _life = life;
+	std::stringstream	ss;
+
+	ss << life;
+	_args += ss.str() + _separator;
+	_life = life;
+}
+#include <iostream>
+void AEntity::setArgs(const std::string & args)
+{
+	std::vector<std::string>				res;
+
+	res = split(args);
+	std::cout << "len ICIC = " << res.size() << std::endl;
+	_name = res[0];
+	_posX = std::stoi(res[1]);
+	_posY = std::stoi(res[2]);
+	_height = std::stoi(res[3]);
+	_width = std::stoi(res[4]);
+	_speedX = std::stoi(res[5]);
+	_speedY = std::stoi(res[6]);
+	_life = std::stoi(res[7]);
+	_spritePath = res[8];
+	_args = args;
+}
+
+std::string AEntity::getArgs() const
+{
+	return (_args);
+}
+
+std::vector<std::string>		AEntity::split(const std::string &s)
+{
+	std::vector<std::string>	elems;
+	std::stringstream			ss;
+	std::string					item;
+
+	ss.str(s);
+	while (std::getline(ss, item, _separator))
+	{
+		elems.push_back(item);
+	}
+	return (elems);
 }

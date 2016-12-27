@@ -53,6 +53,7 @@ private:
 	bool						_newEvent;
 	std::string					_ip;
 	int							_port;
+	RoomInfoCmd					*_roomInfo;
 
 	std::chrono::high_resolution_clock::time_point        _t1Conn;
 

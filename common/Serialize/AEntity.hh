@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <sstream>
+#include <vector>
 #include "IEntity.hpp"
 
 class AEntity :
@@ -30,6 +32,8 @@ public:
 	virtual		void			setSpeedY(const double);
   	virtual		int			getLife() const;
 	virtual		void			setLife(const int);
+	virtual		void			setArgs(const std::string & args);
+	virtual		std::string		getArgs() const;
 protected:
   double					_posX;
   double					_speedY;
@@ -41,4 +45,8 @@ protected:
   std::string				_spritePath;
   rtype::EntityType			_type;
   std::string				_name;
+  std::string				_args;
+  char						_separator;
+
+  std::vector<std::string> split(const std::string & s);
 };

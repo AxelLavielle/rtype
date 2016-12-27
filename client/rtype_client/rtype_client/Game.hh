@@ -17,6 +17,7 @@
 #include "GUIPage.hh"
 #include "PausePage.hh"
 #include "ASocketClient.hh"
+#include "ThreadPool.hh"
 
 class Game
 {
@@ -29,6 +30,7 @@ public:
 	void setIp(const std::string &ip);
 	void setPort(const int port);
 	void setId(const int id);
+	void setNbPlayer(const int nb);
 
 private:
 	IGraphManager				*_graph;

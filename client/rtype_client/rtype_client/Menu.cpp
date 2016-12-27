@@ -5,10 +5,12 @@ Menu::Menu()
 {
 	_playerName = "Player 1";
 	_newEvent = false;
+	_roomInfo = new RoomInfoCmd();
 }
 
 Menu::~Menu()
 {
+	delete _roomInfo;
 }
 
 bool Menu::init()
@@ -228,6 +230,7 @@ bool Menu::launch()
 
 				std::cout << "wait launch game" << std::endl;
 				_cmdManager.setStatus();
+				//_roomInfo = _cmdManager.getRoomInfo();
 				while ((res = _cmdManager.launchGame()) == -1); //A modifier
 				_newEvent = true;
 				delete (_page);
@@ -238,6 +241,8 @@ bool Menu::launch()
 				_game.setPort(9999);
 				_game.setId(res);
 				_game.setIp(_ip);
+				if (_roomInfo)
+					_game.setNbPlayer(_roomInfo->getPlayersList().size());
 				_pool.joinAll();
 				_socket->closure();
 				_game.launch();

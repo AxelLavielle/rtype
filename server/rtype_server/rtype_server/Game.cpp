@@ -35,7 +35,7 @@ void Game::init(std::vector<ServerClient*> &clients)
 		(*it)->setPlayer(player);
 		while (it2 != clients.end())
 		{
-			if (it != it2 && player)
+			if (player)
 			{
 				msg = Serialize::serialize(player);
 				(*it2)->addUDPDataToSend(msg);
@@ -88,7 +88,7 @@ void	Game::updateGame(std::vector<ServerClient *> &clients)
 		(*it)->clearInput();
 		while (it2 != clients.end())
 		{
-			if (it != it2 && player)
+			if (player)
 			{
 				msg = Serialize::serialize(player);
 				(*it2)->addUDPDataToSend(msg);

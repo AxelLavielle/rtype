@@ -14,7 +14,10 @@ Game::Game()
 	_sock = new SocketClientUDP();
 	_id = -1;
 	_ip = "";
+	_playerName = "";
 	_port = -1;
+	_nbPlayer = 0;
+	_mode = "Easy";
 }
 
 Game::~Game()
@@ -35,29 +38,39 @@ bool Game::initSocket()
 	if (!_sock->init(_ip, _port) || !_sock->connectToServer())
 		return (false);
 	_cmdManager.setUDPSocket(_sock);
-	//if (!_cmdManager.sendLaunchGame(_id))
-	//	return (false);
 	return (true);
 }
 
 void	Game::initGraphElements()
 {
+	GUIPage			*gui;
+
 	_graph->setFullScreen(true);
 	_graph->setMouseCursorVisible(false);
 	_size = _graph->getWindowSize();
-	_guiPage = new GUIPage(_graph, _event, _fileManager, &_soundManager);
+	gui = new GUIPage(_graph, _event, _fileManager, &_soundManager);
+	gui->setPlayerName(_playerName);
+	gui->setNbPlayer(_nbPlayer);
+	gui->setMode(_mode);
+	_guiPage = gui;
 	_guiPage->init();
 }
 
 void	Game::manageEntity()
 {
 	IEntity	*entity;
+	GUIPage		*gui;
 
 	if ((entity = _cmdManager.receiveUDPCmd()) != NULL)
 	{
 		if (entity->getType() == rtype::PLAYER)
+		{
 			_graph->drawRectangle(_fileManager.getRoot() + entity->getSpriteRepo() + "/spaceShip10.png", Rect(entity->getPosX(), entity->getPosY(), entity->getHeight(), entity->getWidth()), Rect(0, 0, 0, 0), Rect(0, 0, entity->getHeight(), entity->getWidth()));
-		else
+			gui = static_cast<GUIPage*>(_guiPage);
+			gui->setHp(entity->getLife() / 100);
+			gui->setScore(0);
+		}
+		else if (entity->getType() == rtype::MONSTER)
 			_graph->drawRectangle(_fileManager.getRoot() + entity->getSpriteRepo() + "/spaceShip10.png", Rect(entity->getPosX(), entity->getPosY(), entity->getHeight(), entity->getWidth()), Rect(0, 0, 0, 0), Rect(0, 0, entity->getHeight(), entity->getWidth()));
 	}
 	delete entity;

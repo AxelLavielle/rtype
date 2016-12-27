@@ -18,10 +18,12 @@ bool			SocketClientUDP::init(const std::string &addr, const int port)
 		std::cerr << "Failed. Error Code : " << WSAGetLastError() << std::endl;
 		return (false);
 	}
+#endif
 
 	if ((_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == SOCKET_ERROR)
 	{
-		std::cerr << "socket() failed with error code : " << WSAGetLastError() << std::endl;
+		std::cerr << "socket() failed with error code : " << std::endl;
+		//std::cerr << "socket() failed with error code : " << WSAGetLastError() << std::endl;
 		return (false);
 	}
 
@@ -33,26 +35,10 @@ bool			SocketClientUDP::init(const std::string &addr, const int port)
 
 	if (bind(_sock, reinterpret_cast<struct sockaddr *>(&_siOther), sizeof(_siOther)) == -1)
 	{
-		std::cerr << "bind() failed with error code : " << WSAGetLastError() << std::endl;
+		std::cerr << "bind() failed with error code : " << std::endl;
+		// std::cerr << "bind() failed with error code : " << WSAGetLastError() << std::endl;
 	}
 
-#elif __linux__
-	if ((_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1)
-	{
-		std::cout << "Error when creating socket" << std::endl;
-		return (false);
-	}
-
-	memset(reinterpret_cast<char *>(&_siOther), 0, sizeof(_siOther));
-	_siOther.sin_family = AF_INET;
-	_siOther.sin_port = htons(port);
-	if (inet_aton(addr.c_str() , &_siOther.sin_addr) == 0)
-	  {
-	    perror("inet_aton");
-	    return (false);
-	  }
-
-#endif
 	_connected = true;
 	return (true);
 }
@@ -66,50 +52,20 @@ bool			SocketClientUDP::sendData(const char *data)
 	len[0] = data[0];
 	len[1] = data[1];
 	datasize = *reinterpret_cast<short*>(len);
-//#ifdef _WIN32
-	int			res;
 
-	struct timeval tv;
-	tv.tv_sec = 2;
-	tv.tv_usec = 0;
-
-	fd_set writefds;
-	FD_ZERO(&writefds);
-	FD_SET(_sock, &writefds);
-
-	int ret = select(_sock + 1, &writefds, NULL, NULL, &tv);
-	if (ret > 0)
+	if (sendto(_sock, data, datasize, 0, reinterpret_cast<struct sockaddr *>(&_siOther), slen) == SOCKET_ERROR)
 	{
-		if (FD_ISSET(_sock, &writefds))
-		{
-			if ((res = sendto(_sock, data, datasize, 0, reinterpret_cast<struct sockaddr *>(&_siOther), slen)) == SOCKET_ERROR)
-			{
 #ifdef _WIN32
-				std::cerr << "sendto() failed with error code : " << WSAGetLastError() << std::endl;
+	  std::cerr << "sendto() failed with error code : " << WSAGetLastError() << std::endl;
 
 #elif __linux__
 
-				perror("sendto");
+	  perror("sendto");
 
 #endif
-				_connected = false;
-				return (false);
-			}
-		}
+	  _connected = false;
+	  return (false);
 	}
-	else if (ret == 0)
-		std::cout << "timed out waiting for ack" << std::endl;
-	else
-		std::cerr << "error selecting" << std::endl;
-
-//#elif __linux__
-//	if (sendto(_sock, data, datasize, 0, reinterpret_cast<struct sockaddr *>(&_siOther), slen) == -1)
-//	{
-//		perror("sendto");
-//		_connected = false;
-//		return (false);
-//	}
-//#endif
 	return (true);
 }
 
@@ -117,36 +73,30 @@ bool			SocketClientUDP::sendData(const char *data, const int datasize)
 {
 	int			slen = sizeof(_siOther);
 
-#ifdef _WIN32
 	int			res;
 
 	if ((res = sendto(_sock, data, datasize, 0, reinterpret_cast<struct sockaddr *>(&_siOther), slen)) == SOCKET_ERROR)
 	{
+	  #ifdef _WIN32
 		std::cerr << "sendto() failed with error code : " << WSAGetLastError() << std::endl;
+	  #elif __linux__
+		perror("sendto: ");
+	  #endif
 		_connected = false;
 		return (false);
 	}
-#elif __linux__
-	if (sendto(_sock, data, datasize, 0, reinterpret_cast<struct sockaddr *>(&_siOther), slen) == -1)
-	{
-		perror("sendto");
-		_connected = false;
-		return (false);
-	}
-#endif
 	return (true);
 }
 
 char			*SocketClientUDP::receiveData()
 {
-	char		*buf = new char[UDP_BUFLEN];
+	char		*buf = new char[TCP_PACKET_SIZE];
 	int			slen = sizeof(struct sockaddr);
 
-//#ifdef _WIN32
 	int			ret;
 	struct timeval tv;
-	tv.tv_sec = 2;
-	tv.tv_usec = 0;
+	tv.tv_sec = 0;
+	tv.tv_usec = 1000;
 
 	fd_set readfds;
 	FD_ZERO(&readfds);
@@ -157,8 +107,8 @@ char			*SocketClientUDP::receiveData()
 	{
 		if (FD_ISSET(_sock, &readfds))
 		{
-			memset(buf, '\0', UDP_BUFLEN);
-			if ((ret = recvfrom(_sock, buf, UDP_BUFLEN, 0, reinterpret_cast<struct sockaddr *>(&_siOther), reinterpret_cast<socklen_t *>(&slen))) == SOCKET_ERROR)
+			memset(buf, '\0', TCP_PACKET_SIZE);
+			if ((ret = recvfrom(_sock, buf, TCP_PACKET_SIZE, 0, reinterpret_cast<struct sockaddr *>(&_siOther), reinterpret_cast<socklen_t *>(&slen))) == SOCKET_ERROR)
 			{
 #ifdef _WIN32
 				std::cout << "recvfrom failed with the error : " << WSAGetLastError() << std::endl;
@@ -177,18 +127,6 @@ char			*SocketClientUDP::receiveData()
 	else
 		std::cerr << "error selecting" << std::endl;
 
-//#elif __linux__
-//	memset(buf, '\0', UDP_BUFLEN);
-//	if (recvfrom(_sock, buf, UDP_BUFLEN, 0, reinterpret_cast<struct sockaddr *>(&_siOther), reinterpret_cast<socklen_t *>(&slen)) == -1)
-//	{
-//		return (NULL);
-//	}
-//#endif
-	//Player *test = static_cast<Player *>(Serialize::unserializeEntity(buf));
-	//if (test == NULL)
-	//	std::cout << "BRAAAAAAAAAAAAAAH" << std::endl;
-	//else
-	//	std::cout << test->getPosX() << " (/^^)/" << test->getPosY() << std::endl;
 	return (buf);
 }
 

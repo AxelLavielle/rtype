@@ -17,7 +17,9 @@ SRC		=	$(DIR)/ASocketServer.cpp	\
 			$(DIR)/ServerClient.cpp		\
 			$(DIR)/Server.cpp		\
 			$(DIR)/Room.cpp			\
+			$(DIR)/Game.cpp			\
 			$(DIR)/RoomManager.cpp		\
+			$(DIR)/SocketAddress.cpp	\
 			$(DIR)/CmdManager.cpp		\
 			$(COMMON)/MemTools.cpp		\
 			$(COMMON)/Thread.cpp		\
@@ -27,6 +29,7 @@ SRC		=	$(DIR)/ASocketServer.cpp	\
 			$(COMMON)/ThreadPool.cpp	\
 			$(SERIALIZE)/AEntity.cpp	\
 			$(SERIALIZE)/Serialize.cpp	\
+			$(SERIALIZE)/InputCmd.cpp	\
 			$(SERIALIZE)/RoomInfoCmd.cpp	\
 			$(SERIALIZE)/BasicCmd.cpp	\
 			$(SERIALIZE)/ListRoomCmd.cpp	\

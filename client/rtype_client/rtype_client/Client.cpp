@@ -5,8 +5,9 @@ Client::Client()
 	_mutex = new Mutex();
 	_socket = new SocketClientTCP();
 	//_ip = "127.0.0.1";
-//	_ip = "10.16.252.95";
-	_ip = "10.16.253.119";
+//	_ip = "10.16.252.95"; // Sarah
+//	_ip = "10.16.253.119"; // Anthony
+	_ip = "10.16.252.135"; // Momo
 }
 
 Client::~Client()
@@ -53,7 +54,7 @@ bool Client::launch()
 	Thread		th;
 	SocketClientUDP		udpSocket;
 	BasicCmd			*cmd = new BasicCmd();
-	
+
 	if (!initGraph())
 		return (false);
 	_menu->setIp(_ip);

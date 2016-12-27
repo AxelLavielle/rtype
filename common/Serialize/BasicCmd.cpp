@@ -26,7 +26,7 @@ void BasicCmd::setCommandArg(const std::string & arg)
 
 std::string BasicCmd::getArg(const int index) const
 {
-	if (index >= _argList.size())
+  if ((unsigned int)index >= _argList.size())
 		return ("");
 	return (_argList[index]);
 }

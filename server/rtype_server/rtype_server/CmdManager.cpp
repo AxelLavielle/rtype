@@ -32,6 +32,7 @@ void				CmdManager::cmdHandshakeSyn(ServerClient *client, BasicCmd *msgClient,
 	std::string		handshake;
 	char			*msgSerialized;
 
+	test = NULL;
 	handshake = msgClient->getArg(0);
 	std::cout << "[HandshakeSyn] : " << handshake << std::endl;
 	cmd.setCommandType(HANDSHAKE_SYN_ACK);
@@ -87,7 +88,7 @@ void								CmdManager::cmdCreateRoom(ServerClient *client, BasicCmd *msgClient)
 		return;
 	roomName = msgClient->getArg(0);
 	playerName = msgClient->getArg(1);
-	
+
 	_mutex->lock();
 	newRoom = _roomManager->addRoom(roomName);
 	_mutex->unlock();
@@ -173,7 +174,7 @@ void							CmdManager::cmdRoomInfo(ServerClient *client, BasicCmd *msgClient)
 			it++;
 		}
 	}
-	
+
 	msgSerialized = Serialize::serialize(&roomInfoMsg);
 	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(roomInfoMsg));
 	_mutex->unlock();
@@ -208,7 +209,7 @@ void			CmdManager::cmdJoinRoom(ServerClient *client, BasicCmd *msgClient)
 		{
 			_mutex->lock();
 			room = _roomManager->getRoomById(idRoom);
-			
+
 			if (room->isReady() == true)
 			{
 				std::cout << "Room ALREADY IN GAME !" << std::endl;
@@ -288,7 +289,7 @@ void			CmdManager::cmdSetStatus(ServerClient *client, BasicCmd *msgClient)
 		std::vector<ServerClient *> vectClients;
 		std::vector<ServerClient *>::iterator it;
 		BasicCmd	infoCmd;
-		
+
 		infoCmd.setCommandType(UPDATE_ROOM);
 		msgSerialized = Serialize::serialize(&infoCmd);
 		vectClients = _roomManager->getRoomById(client->getCurrentRoom())->getClients();

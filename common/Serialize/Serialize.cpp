@@ -91,7 +91,7 @@ char		*Serialize::serialize(ICommand *cmd)
   p.cmdType = cmd->getCommandType();
   tmp = cmd->getCommandArg();
   i = 0;
-  while (i < tmp.size())
+  while ((unsigned int )i < tmp.size())
   {
 	  p.data[i] = tmp[i];
 	  i++;

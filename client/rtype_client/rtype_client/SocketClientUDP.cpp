@@ -18,10 +18,12 @@ bool			SocketClientUDP::init(const std::string &addr, const int port)
 		std::cerr << "Failed. Error Code : " << WSAGetLastError() << std::endl;
 		return (false);
 	}
+#endif
 
 	if ((_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == SOCKET_ERROR)
 	{
-		std::cerr << "socket() failed with error code : " << WSAGetLastError() << std::endl;
+		std::cerr << "socket() failed with error code : " << std::endl;
+		//std::cerr << "socket() failed with error code : " << WSAGetLastError() << std::endl;
 		return (false);
 	}
 
@@ -33,26 +35,10 @@ bool			SocketClientUDP::init(const std::string &addr, const int port)
 
 	if (bind(_sock, reinterpret_cast<struct sockaddr *>(&_siOther), sizeof(_siOther)) == -1)
 	{
-		std::cerr << "bind() failed with error code : " << WSAGetLastError() << std::endl;
+		std::cerr << "bind() failed with error code : " << std::endl;
+		// std::cerr << "bind() failed with error code : " << WSAGetLastError() << std::endl;
 	}
 
-#elif __linux__
-	if ((_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1)
-	{
-		std::cout << "Error when creating socket" << std::endl;
-		return (false);
-	}
-
-	memset(reinterpret_cast<char *>(&_siOther), 0, sizeof(_siOther));
-	_siOther.sin_family = AF_INET;
-	_siOther.sin_port = htons(port);
-	if (inet_aton(addr.c_str() , &_siOther.sin_addr) == 0)
-	  {
-	    perror("inet_aton");
-	    return (false);
-	  }
-
-#endif
 	_connected = true;
 	return (true);
 }

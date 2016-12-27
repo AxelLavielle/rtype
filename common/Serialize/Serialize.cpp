@@ -20,8 +20,8 @@ char		*Serialize::serialize(IEntity *entity)
   double	tmpd;
   int		tmpi;
 
-  ret = new char[65471];
-  MemTools::set(ret, 0, 65471);
+  ret = new char[sizeof(packet)];
+  MemTools::set(ret, 0, sizeof(packet));
   p.dataType = entity->getType();
   p.cmdType = ENTITY;
   j = 0;
@@ -85,8 +85,8 @@ char		*Serialize::serialize(ICommand *cmd)
   int		i;
   char		*ret;
 
-  ret = new char[65471];
-  MemTools::set(ret, 0, 65471);
+  ret = new char[sizeof(packet)];
+  MemTools::set(ret, 0, sizeof(packet));
   p.dataType = cmd->getCommandName();
   p.cmdType = cmd->getCommandType();
   tmp = cmd->getCommandArg();
@@ -97,7 +97,7 @@ char		*Serialize::serialize(ICommand *cmd)
 	  i++;
   }
   p.data[i] = 0;
-  p.dataLength = tmp.size() + 8;
+  p.dataLength = tmp.size() + 6;
   i = -1;
   while (++i != p.dataLength)
     ret[i] = reinterpret_cast<char *>(&p)[i];

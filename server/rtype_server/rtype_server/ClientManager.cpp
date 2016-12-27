@@ -65,6 +65,7 @@ ServerClient *ClientManager::getClientByTCP(const int tcpSocket)
 
 void						ClientManager::addDataToSendTCP(int clientSocket, const char *data, int dataLen)
 {
+  (void)dataLen;
 	std::vector<ServerClient *>::iterator it;
 
 	it = _clientList.begin();
@@ -78,6 +79,7 @@ void						ClientManager::addDataToSendTCP(int clientSocket, const char *data, in
 
 void						ClientManager::addDataToSendUDP(int clientSocket, const char *data, int dataLen)
 {
+  (void)dataLen;
 	std::vector<ServerClient *>::iterator it;
 
 	it = _clientList.begin();

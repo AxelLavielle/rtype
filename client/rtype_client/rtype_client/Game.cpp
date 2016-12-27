@@ -61,7 +61,7 @@ void	Game::manageEntity()
 	IEntity	*entity;
 	GUIPage		*gui;
 
-	if ((entity = _cmdManager.receiveUDPCmd()) != NULL)
+	while ((entity = _cmdManager.receiveUDPCmd()) != NULL)
 	{
 		if (entity->getType() == rtype::PLAYER)
 		{
@@ -72,9 +72,11 @@ void	Game::manageEntity()
 			gui->setScore(0);
 		}
 		else if (entity->getType() == rtype::MONSTER)
+		  {
 			_graph->drawRectangle(_fileManager.getRoot() + entity->getSpriteRepo() + "/spaceShip10.png", Rect(entity->getPosX(), entity->getPosY(), entity->getHeight(), entity->getWidth()), Rect(0, 0, 0, 0), Rect(0, 0, entity->getHeight(), entity->getWidth()));
+		  }
+	   delete entity;
 	}
-	delete entity;
 }
 
 int Game::launch()

@@ -8,7 +8,7 @@ Client::Client()
 	_ip = "10.16.252.95"; // Sarah
 //	_ip = "10.16.253.119"; // Anthony
 	//_ip = "10.16.252.135"; // Momo
-//	_ip = "10.16.253.15";
+//	_ip = "10.16.253.15"; // Alexis
 }
 
 Client::~Client()

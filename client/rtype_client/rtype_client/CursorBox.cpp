@@ -1,7 +1,5 @@
 #include "CursorBox.hh"
 
-
-
 CursorBox::CursorBox(IGraphManager * graph, IEventManager * event, const Rect & rect) : AGUIElement(graph, event, rect)
 {
 	_backgroundColor.setR(255);
@@ -13,6 +11,7 @@ CursorBox::CursorBox(IGraphManager * graph, IEventManager * event, const Rect & 
 	_rectBox.setY(rect.getY() - rect.getHeight() / 3);
 	_rectBox.setWidth(rect.getWidth() / 7);
 	_status = false;
+	_typeName = "CursorBox";
 }
 
 CursorBox::CursorBox() : AGUIElement()
@@ -62,7 +61,12 @@ bool CursorBox::click()
 
 int CursorBox::getValue() const
 {
-  return ((_rectBox.getX() - _rectBox.getWidth() / 2) - _rect.getX());
+  return (((static_cast<float>(_rectBox.getX()) + (static_cast<float>(_rectBox.getWidth()) / 2) - static_cast<float>(_rect.getX())) / static_cast<float>(_rect.getWidth())) * 100);
+}
+
+void CursorBox::setValue(const int value)
+{
+	_rectBox.setX((static_cast<float>(value) / 100) * static_cast<float>(_rect.getWidth()) + static_cast<float>(_rect.getX()) - (static_cast<float>(_rectBox.getWidth()) / 2));
 }
 
 bool CursorBox::over()

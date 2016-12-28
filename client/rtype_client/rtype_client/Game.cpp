@@ -169,6 +169,7 @@ int Game::launch()
 			while (it != _entity.end())
 			{
 				_graph->drawRectangle(_fileManager.getRoot() + (*it)->getSpriteRepo() + "/spaceShip10.png", Rect((*it)->getPosX(), (*it)->getPosY(), (*it)->getHeight(), (*it)->getWidth()), Color(0, 0, 0));
+				_graph->drawRectangle(_fileManager.getRoot() + (*it)->getSpriteRepo() + "/shipMissile.png", Rect((*it)->getPosX() + 100, (*it)->getPosY(), 10, 22), Rect(0, 0, 0, 0), Rect(0, 0, 10, 22));
 				delete *it;
 				++it;
 			}

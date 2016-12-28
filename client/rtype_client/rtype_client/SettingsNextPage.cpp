@@ -1,5 +1,10 @@
 #include "SettingsNextPage.hh"
 
+SettingsNextPage::SettingsNextPage()
+{
+
+}
+
 SettingsNextPage::SettingsNextPage(IGraphManager *graph, IEventManager *event, const PathFileManager &fileManager, ISoundManager *soundManager) : APage(graph, event, fileManager, soundManager)
 {
   _backgroundSprite = _fileManager.getRoot() + "/res/img/background_menu3.jpg";
@@ -23,6 +28,43 @@ bool SettingsNextPage::init()
   initInputKey(Rect(_windowSize.first / 2 - 100, 525, 30, 500), "/res/img/buttonRoom.png", Color(135, 206, 250, 255));
   initInputKey(Rect(_windowSize.first / 2 - 100, 600, 30, 500), "/res/img/buttonRoom.png", Color(135, 206, 250, 255));
   initInputKey(Rect(_windowSize.first / 2 - 100, 675, 30, 500), "/res/img/buttonRoom.png", Color(135, 206, 250, 255));
+
+  std::vector<AGUIElement* >::iterator it = _guiElement.begin();
+  int i = 0;
+  SaveConfig	sv;
+  sv.readFromFile();
+  while (it != _guiElement.end())
+  {
+	  if ((*it)->getTypeName() == "InputBox")
+		  static_cast<InputBox*>(*it)->setText(sv.getPlayerName());
+	  else if ((*it)->getTypeName() == "InputKey" && i == 0)
+	  {
+		  static_cast<InputKey*>(*it)->setText(sv.getUp());
+		  i++;
+	  }
+	  else if ((*it)->getTypeName() == "InputKey" && i == 1)
+	  {
+		  static_cast<InputKey*>(*it)->setText(sv.getLeft());
+		  i++;
+	  }
+	  else if ((*it)->getTypeName() == "InputKey" && i == 2)
+	  {
+		  static_cast<InputKey*>(*it)->setText(sv.getRight());
+		  i++;
+	  }
+	  else if ((*it)->getTypeName() == "InputKey" && i == 3)
+	  {
+		  static_cast<InputKey*>(*it)->setText(sv.getDown());
+		  i++;
+	  }
+	  else if ((*it)->getTypeName() == "InputKey" && i == 4)
+	  {
+		  static_cast<InputKey*>(*it)->setText(sv.getPew());
+		  i++;
+	  }
+	  it++;
+  }
+
   return (true);
 }
 
@@ -35,6 +77,47 @@ void SettingsNextPage::clear()
 bool SettingsNextPage::launch()
 {
   return (true);
+}
+
+void SettingsNextPage::manageConfigs()
+{
+	std::vector<AGUIElement* >::iterator it = _guiElement.begin();
+	int i = 0;
+	SaveConfig	sv;
+
+	sv.readFromFile();
+	while (it != _guiElement.end())
+	{
+		if ((*it)->getTypeName() == "InputBox")
+			sv.setPlayerName(static_cast<InputBox*>(*it)->getText());
+		else if ((*it)->getTypeName() == "InputKey" && i == 0)
+		{
+			sv.setUp(static_cast<InputKey*>(*it)->getText());
+			i++;
+		}
+		else if ((*it)->getTypeName() == "InputKey" && i == 1)
+		{
+			sv.setLeft(static_cast<InputKey*>(*it)->getText());
+			i++;
+		}
+		else if ((*it)->getTypeName() == "InputKey" && i == 2)
+		{
+			sv.setRight(static_cast<InputKey*>(*it)->getText());
+			i++;
+		}
+		else if ((*it)->getTypeName() == "InputKey" && i == 3)
+		{
+			sv.setDown(static_cast<InputKey*>(*it)->getText());
+			i++;
+		}
+		else if ((*it)->getTypeName() == "InputKey" && i == 4)
+		{
+			sv.setPew(static_cast<InputKey*>(*it)->getText());
+			i++;
+		}
+		it++;
+	}
+	sv.writeToFile();
 }
 
 void SettingsNextPage::draw()
@@ -64,6 +147,13 @@ IPage::PAGE SettingsNextPage::event()
   page = clickEvent(_buttons);
   if (page != IPage::NONE)
     _soundManager->play(_clickSound);
+  if (page == IPage::SAVE)
+	  manageConfigs();
+  else if (page == IPage::SETTINGS)
+  {
+	  manageConfigs();
+	  clickEvent(_guiElement);
+  }
   else
     clickEvent(_guiElement);
   return (page);

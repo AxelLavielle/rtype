@@ -1,5 +1,6 @@
 #pragma once
 
+#include "SaveConfig.hh"
 #include "APage.hh"
 
 class SettingsNextPage :
@@ -17,7 +18,8 @@ public:
   std::pair<std::string, std::pair<int, int> > save() const;
 
 private:
-  Sound				_clickSound;
+	void				manageConfigs();
 
+  Sound				_clickSound;
 };
 

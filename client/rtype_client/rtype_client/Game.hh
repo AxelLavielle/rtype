@@ -67,6 +67,7 @@ private:
 	bool						_newEvent;
 	std::pair<int, int>			_windowSize;
 	std::pair<int, int>			_windowGameSize;
+	std::string					_key;
 
 	bool initSocket();
 	void initGraphElements();

@@ -56,8 +56,8 @@ void	Game::initGraphElements()
 	gui->setMode(_mode);
 	_guiPage = gui;
 	_guiPage->init();
-	_windowGameSize.first = _windowSize.first;
-	_windowGameSize.second = _windowSize.second - (gui->getBottomBarHeight() + gui->getTopBarHeight());
+	_windowsGameSize.first = _windowSize.first;
+	_windowsGameSize.second = _windowSize.second - (gui->getBottomBarHeight() + gui->getTopBarHeight());
 }
 
 void	Game::manageEntity()
@@ -136,14 +136,17 @@ int Game::launch()
 				_pool.joinAll();
 				return (1);
 			}
-			if (_event->isPressed("UP"))
-				_cmdManager.sendInput(_id, "UP");
-			if (_event->isPressed("DOWN"))
-				_cmdManager.sendInput(_id, "DOWN");
-			if (_event->isPressed("LEFT"))
-				_cmdManager.sendInput(_id, "LEFT");
-			if (_event->isPressed("RIGHT"))
-				_cmdManager.sendInput(_id, "RIGHT");
+			if (_key != "" && _event->getKeyStroke() == _key)
+			{
+				_key = "";
+				_cmdManager.sendInput(_id, _key);
+			}
+			else if (_event->getKeyStroke() == "UP" || _event->getKeyStroke() == "LEFT"
+				|| _event->getKeyStroke() == "DOWN" || _event->getKeyStroke() == "RIGHT")
+			{
+				_key = _event->getKeyStroke();
+				_cmdManager.sendInput(_id, _event->getKeyStroke());
+			}
 			
 			if (_event->getKeyStroke() == "ECHAP")
 			{
@@ -175,9 +178,8 @@ int Game::launch()
 			it = _entity.begin();
 			while (it != _entity.end())
 			{
-				_graph->drawRectangle(_fileManager.getRoot() + (*it)->getSpriteRepo() + "/spaceShip10.png", Rect((*it)->getPosX() * (_windowGameSize.first / NB_CELL_X),
-					(*it)->getPosY() * (_windowSize.second / NB_CELL_Y) + static_cast<GUIPage *>(_guiPage)->getTopBarHeight(), (*it)->getHeight(), (*it)->getWidth()),
-					Color(0, 0, 0));
+				_graph->drawRectangle(_fileManager.getRoot() + (*it)->getSpriteRepo() + "/spaceShip10.png", Rect((*it)->getPosX(), (*it)->getPosY(), (*it)->getHeight(), (*it)->getWidth()), Color(0, 0, 0));
+				_graph->drawRectangle(_fileManager.getRoot() + (*it)->getSpriteRepo() + "/shipMissile.png", Rect((*it)->getPosX() + 100, (*it)->getPosY(), 10, 22), Rect(0, 0, 0, 0), Rect(0, 0, 10, 22));
 				delete *it;
 				++it;
 			}

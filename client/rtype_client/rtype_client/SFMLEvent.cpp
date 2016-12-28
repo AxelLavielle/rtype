@@ -73,6 +73,44 @@ std::string SFMLEvent::getKeyStroke() const
 	return ("");
 }
 
+std::string SFMLEvent::getKeyReleased() const
+{
+	if (_event.type == sf::Event::KeyReleased)
+	{
+		switch (_event.key.code)
+		{
+		case sf::Keyboard::Escape:
+			return ("ECHAP");
+		case sf::Keyboard::Up:
+			return ("UP");
+		case sf::Keyboard::Left:
+			return ("LEFT");
+		case sf::Keyboard::Down:
+			return ("DOWN");
+		case sf::Keyboard::Right:
+			return ("RIGHT");
+		case sf::Keyboard::Space:
+			return ("SPACE");
+		default:
+			break;
+		}
+	}
+	else if (_event.type == sf::Event::MouseButtonPressed)
+	{
+		switch (_event.mouseButton.button)
+		{
+		case sf::Mouse::Right:
+			return ("MR");
+		case sf::Mouse::Left:
+			return ("ML");
+		default:
+			break;
+		}
+	}
+	return ("");
+}
+
+
 bool SFMLEvent::isPressed(const std::string & key)
 {
 	std::map<sf::Keyboard::Key, std::string>::iterator	it;

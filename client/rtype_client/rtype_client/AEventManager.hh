@@ -14,5 +14,6 @@ public:
 	virtual std::pair<int, int> getClickMousePos() const = 0;
 	virtual std::string getTextEntered() = 0;
 	virtual bool isPressed(const std::string & key) = 0;
+	virtual std::string getKeyReleased() const = 0;
 };
 

@@ -13,6 +13,7 @@ public:
 	virtual bool click();
 	virtual bool over();
 	int getValue() const;
+	void setValue(const int);
 
 private:
 	Rect		_rectLine;

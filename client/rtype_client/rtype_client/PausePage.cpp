@@ -14,9 +14,9 @@ PausePage::~PausePage()
 
 bool PausePage::init()
 {
-  initButton(70, 10, 60, Rect(380, 200, 90, 310), "PLAY", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::PAUSE);
-  initButton(20, 10, 60, Rect(380, 380, 90, 310), "OPTION", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::SETTINGS);
-  initButton(70, 10, 60, Rect(380, 550, 90, 310), "QUIT", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::QUIT);
+  initButton(25, 5, 60, Rect(_windowSize.first / 2 - 155, 300, 90, 310), "RESUME", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::PAUSE);
+  initButton(65, 5, 40, Rect(_windowSize.first / 2 - 155, 480, 90, 310), "RETURN\nTO MENU", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::HOME);
+  initButton(70, 5, 60, Rect(_windowSize.first / 2 - 155, 650, 90, 310), "QUIT", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::QUIT);
   _graph->setMouseCursorVisible(true);
   return (true);
 }

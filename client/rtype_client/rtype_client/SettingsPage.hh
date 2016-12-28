@@ -1,6 +1,7 @@
 #pragma once
 
 #include "APage.hh"
+#include "SaveConfig.hh"
 
 class SettingsPage :
 	public APage
@@ -19,6 +20,8 @@ public:
   std::pair<std::string, std::pair<int, int> > save() const;
 
 private:
+  void				manageConfigs();
+
   Sound				_clickSound;
   std::string		_ip;
   std::string		_port;

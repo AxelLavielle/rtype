@@ -19,16 +19,57 @@ CmdManager::~CmdManager()
 {
 }
 
+ICommand		*CmdManager::searchReceivedCommand(const CmdName &type, const CmdType &name)
+{
+	std::vector<ICommand* >::iterator			it;
+
+	it = _cmdReceive.begin();
+	while (it != _cmdReceive.end())
+	{
+		if ((*it)->getCommandType() == type && (*it)->getCommandName() == name)
+		{
+			_cmdReceive.erase(it);
+			return (*it);
+		}
+		++it;
+	}
+	return (NULL);
+}
+
+ICommand		*CmdManager::searchReceivedCommand(const CmdName &type)
+{
+	std::vector<ICommand* >::iterator			it;
+
+	it = _cmdReceive.begin();
+	while (it != _cmdReceive.end())
+	{
+		if ((*it)->getCommandType() == type)
+		{
+			_cmdReceive.erase(it);
+			return (*it);
+		}
+		++it;
+	}
+	return (NULL);
+}
+
 bool			CmdManager::updateRoom()
 {
 	ICommand	*cmd;
 
-	if ((cmd = receiveCmd()) && cmd->getCommandType() == BASIC_CMD
+	if ((cmd = searchReceivedCommand(BASIC_CMD, UPDATE_ROOM)))
+	{
+		delete (cmd);
+		return (true);
+	}
+	else if ((cmd = receiveCmd()) && cmd->getCommandType() == BASIC_CMD
 		&& cmd->getCommandName() == UPDATE_ROOM)
 	{
 		delete (cmd);
 		return (true);
 	}
+	else if (cmd)
+		_cmdReceive.push_back(cmd);
 	if (cmd)
 		delete (cmd);
 	return (false);
@@ -69,16 +110,19 @@ int			CmdManager::launchGame()
 	ICommand	*cmd;
 	int			res;
 
-	cmd = receiveCmd();
+	if ((cmd = searchReceivedCommand(BASIC_CMD, LAUNCH_GAME)) == NULL)
+		cmd = receiveCmd();
 	if (cmd && cmd->getCommandName() == BASIC_CMD && cmd->getCommandType() == LAUNCH_GAME)
 	{
 		BasicCmd		*basicCmd;
 
-		basicCmd = static_cast<BasicCmd* >(cmd);
+		basicCmd = static_cast<BasicCmd*>(cmd);
 		res = std::stod(basicCmd->getArg(1));
 		std::cout << "LAUNCH GAME received " << basicCmd->getArg(1) << std::endl;
 		return (res);
 	}
+	else if (cmd)
+		_cmdReceive.push_back(cmd);
 	return (-1);
 }
 
@@ -92,13 +136,16 @@ RoomInfoCmd		*CmdManager::getRoomInfo()
 	_cmd.push_back(newCmd);
 	if (!sendCmd())
 		return (NULL);
-	cmd = receiveCmd();
+	if (!(cmd = searchReceivedCommand(ROOM_INFO)))
+		cmd = receiveCmd();
 	if (cmd && cmd->getCommandName() == ROOM_INFO)
 	{
 		RoomInfoCmd		*tmpCmd;
-		tmpCmd = static_cast<RoomInfoCmd* >(cmd);
+		tmpCmd = static_cast<RoomInfoCmd*>(cmd);
 		return (tmpCmd);
 	}
+	else if (cmd)
+		_cmdReceive.push_back(cmd);
 	return (NULL);
 }
 
@@ -112,12 +159,13 @@ bool	CmdManager::setStatus()
 	_cmd.push_back(newCmd);
 	if (!sendCmd())
 		return (false);
-	cmd = receiveCmd();
+	if (!(cmd = searchReceivedCommand(BASIC_CMD, REPLY_CODE)))
+		cmd = receiveCmd();
 	if (cmd && cmd->getCommandName() == BASIC_CMD && cmd->getCommandType() == REPLY_CODE)
 	{
 		BasicCmd		*tmpCmd;
 
-		tmpCmd = static_cast<BasicCmd* >(cmd);
+		tmpCmd = static_cast<BasicCmd*>(cmd);
 		if (static_cast<ReplyCodes>(std::stoi(tmpCmd->getArg(0))) == STATUS_CHANGED)
 		{
 			std::cout << "Status set" << std::endl;
@@ -125,6 +173,8 @@ bool	CmdManager::setStatus()
 			return (true);
 		}
 	}
+	else if (cmd)
+		_cmd.push_back(cmd);
 	delete cmd;
 	return (false);
 }
@@ -139,12 +189,13 @@ bool	CmdManager::leaveRoom()
 	_cmd.push_back(newCmd);
 	if (!sendCmd())
 		return (false);
-	cmd = receiveCmd();
+	if (!(cmd = searchReceivedCommand(BASIC_CMD, REPLY_CODE)))
+		cmd = receiveCmd();
 	if (cmd && cmd->getCommandName() == BASIC_CMD && cmd->getCommandType() == REPLY_CODE)
 	{
 		BasicCmd		*tmpCmd;
 
-		tmpCmd = static_cast<BasicCmd* >(cmd);
+		tmpCmd = static_cast<BasicCmd*>(cmd);
 		if (static_cast<ReplyCodes>(std::stoi(tmpCmd->getArg(0))) == LEFT_ROOM)
 		{
 			std::cout << "Room left" << std::endl;
@@ -152,6 +203,8 @@ bool	CmdManager::leaveRoom()
 			return (true);
 		}
 	}
+	else if (cmd)
+		_cmdReceive.push_back(cmd);
 	delete cmd;
 	return (false);
 }
@@ -187,12 +240,13 @@ bool		CmdManager::createRoom(const std::string & rommName, const std::string & p
 	_cmd.push_back(newCmd);
 	if (!sendCmd())
 		return (false);
-	cmd = receiveCmd();
+	if (!(cmd = searchReceivedCommand(BASIC_CMD, REPLY_CODE)))
+		cmd = receiveCmd();
 	if (cmd && cmd->getCommandName() == BASIC_CMD && cmd->getCommandType() == REPLY_CODE)
 	{
 		BasicCmd		*tmpCmd;
 
-		tmpCmd = static_cast<BasicCmd* >(cmd);
+		tmpCmd = static_cast<BasicCmd*>(cmd);
 		if (static_cast<ReplyCodes>(std::stoi(tmpCmd->getArg(0))) == ROOM_CREATED)
 		{
 			std::cout << "CREATE ROOM OK" << std::endl;
@@ -200,6 +254,8 @@ bool		CmdManager::createRoom(const std::string & rommName, const std::string & p
 			return (true);
 		}
 	}
+	else if (cmd)
+		_cmdReceive.push_back(cmd);
 	delete cmd;
 	return (false);
 }
@@ -218,12 +274,13 @@ bool	CmdManager::joinRoom(const int id, std::string & playerName)
 	_cmd.push_back(basicCmd);
 	if (!sendCmd())
 		return (false);
-	cmd = receiveCmd();
+	if (!(cmd = searchReceivedCommand(BASIC_CMD, REPLY_CODE)))
+		cmd = receiveCmd();
 	if (cmd && cmd->getCommandName() == BASIC_CMD && cmd->getCommandType() == REPLY_CODE)
 	{
 		BasicCmd		*tmpCmd;
 
-		tmpCmd = static_cast<BasicCmd* >(cmd);
+		tmpCmd = static_cast<BasicCmd*>(cmd);
 		if (static_cast<ReplyCodes>(std::stoi(tmpCmd->getArg(0))) == ROOM_JOINED)
 		{
 			std::cout << "JOIN ROOM OK" << std::endl;
@@ -231,6 +288,8 @@ bool	CmdManager::joinRoom(const int id, std::string & playerName)
 			return (true);
 		}
 	}
+	else if (cmd)
+		_cmdReceive.push_back(cmd);
 	delete cmd;
 	return (false);
 }

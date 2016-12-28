@@ -37,12 +37,14 @@ public:
 	IEntity * receiveUDPCmd();
 
 private:
-	ASocketClient		*_socketClient;
-	ASocketClient		*_socketClientUDP;
-	Serialize			_serialize;
-	int					_handKey;
+	ASocketClient			*_socketClient;
+	ASocketClient			*_socketClientUDP;
+	Serialize				_serialize;
+	int						_handKey;
 	std::vector<ICommand*>	_cmd;
-
+	std::vector<ICommand *>	_cmdReceive;
+	ICommand * searchReceivedCommand(const CmdName & type, const CmdType & name);
+	ICommand * searchReceivedCommand(const CmdName & type);
 	bool confirmHandshake(ICommand * cmd);
 };
 

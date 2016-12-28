@@ -6,6 +6,10 @@ Menu::Menu()
 	_playerName = "Player 1";
 	_newEvent = false;
 	_roomInfo = new RoomInfoCmd();
+	_run = true;
+	_id = -1;
+	_th = NULL;
+	_checkGameReady = false;
 }
 
 Menu::~Menu()
@@ -118,19 +122,145 @@ void	Menu::setRoomInfo(RoomInfoCmd *roomInfo, InsideRoomPage *page)
 	}
 }
 
+void	Menu::receiveData()
+{
+	ICommand		*cmd;
+	RoomInfoCmd		*roomInfo;
+
+	while (1)
+	{
+		_mutexRun.lock();
+		if (!_run)
+		{
+			_mutexRun.unlock();
+			return;
+		}
+		_mutexRun.unlock();
+		//if (_roomInfo)
+			//delete (_roomInfo);
+		std::cout << "LISTEN" << std::endl;
+		if (_cmdManager.updateRoom())
+		{
+			std::cout << "UPDATE ROOM RECEIVE" << std::endl;
+			roomInfo = _cmdManager.getRoomInfo();
+			if (roomInfo)
+			{
+				_mutexReceive.lock();
+				_roomInfo = roomInfo;
+				_mutexReceive.unlock();
+			}
+		}
+	}
+}
+
+void	Menu::checkGameReady()
+{
+	int				res;
+	RoomInfoCmd		*roomInfo;
+
+	while (1)
+	{
+		_mutexRun.lock();
+		if (!_run || !_checkGameReady)
+		{
+			_mutexRun.unlock();
+			return;
+		}
+		_mutexRun.unlock();
+		if ((res = _cmdManager.launchGame()) != -1)
+		{
+			_mutexReceive.lock();
+			std::cout << "SET ID = " << _id << std::endl;
+			_id = res;
+			_mutexReceive.unlock();
+			return;
+		}
+	}
+}
+
+void	Menu::manageLaunchGame()
+{
+	_th = new Thread();
+	_newEvent = true;
+	if (_checkGameReady)
+		return;
+	_checkGameReady = true;
+	_cmdManager.setStatus();
+	_th->createThread(std::bind(&Menu::checkGameReady, this));
+	_pool.addThread(_th);
+	_mutexReceive.lock();
+	if (_id == -1)
+	{
+		_mutexReceive.unlock();
+		return;
+	}
+	delete (_page);
+	std::cout << "Game" << std::endl;
+	_soundManager.stopAll();
+	_game.setGraph(_graph);
+	_game.setEvent(_event);
+	_game.setPort(9999);
+	_game.setId(_id);
+	_game.setIp(_ip);
+	if (_roomInfo)
+		_game.setNbPlayer(_roomInfo->getPlayersList().size());
+	_mutexReceive.unlock();
+	_mutexRun.lock();
+	_run = false;
+	_mutexRun.unlock();
+	_pool.joinAll();
+	_socket->closure();
+	_game.launch();
+}
+
 bool Menu::launch()
 {
-  IPage::PAGE	curr_event;
+  IPage::PAGE									curr_event;
   _page = new HomePage(_graph, _event, _fileManager, &_soundManager);
-  bool		_newEvent;
-  Thread		*th = NULL;
-  std::pair<std::string, std::pair<int, int> > tmp;
+  bool											_newEvent;
+  Thread										*th = NULL;
+  std::pair<std::string, std::pair<int, int> >	tmp;
 
   _newEvent = false;
   _page->init();
   while (_graph->isWindowOpen())
     {
 	  manageReco(th);
+
+	  if (_page->getPageType() == IPage::INSIDEROOM)
+	  {
+		  _mutexReceive.lock();
+		  //_page->clear();
+		  if (_roomInfo)
+			  setRoomInfo(_roomInfo, (static_cast<InsideRoomPage*>(_page)));
+		  _page->init();
+		  _mutexReceive.unlock();
+	  }
+
+	  _mutexReceive.lock();
+	  if (_id != -1)
+	  {
+		  delete (_page);
+		  std::cout << "Game" << std::endl;
+		  _soundManager.stopAll();
+		  _game.setGraph(_graph);
+		  _game.setEvent(_event);
+		  _game.setPort(9999);
+		  _game.setId(_id);
+		  _game.setIp(_ip);
+		  if (_roomInfo)
+			  _game.setNbPlayer(_roomInfo->getPlayersList().size());
+		  _mutexRun.lock();
+		  _run = false;
+		  _mutexRun.unlock();
+		  _pool.joinAll();
+		  _game.launch();
+		  _mutexReceive.unlock();
+		  std::cout << "Je QUIT LA" << std::endl;
+		  return (1);
+	  }
+	  _mutexReceive.unlock();
+
 	  while (_event->refresh())
 		{
 		  curr_event = _page->event();
@@ -149,6 +279,7 @@ bool Menu::launch()
 				  else
 				  {
 					  RoomInfoCmd			*roomInfo1;
+					  Thread				*th2;
 
 					  delete _page;
 					  _newEvent = true;
@@ -158,6 +289,9 @@ bool Menu::launch()
 					  setRoomInfo(roomInfo1, (static_cast<InsideRoomPage*>(_page)));
 					  _page->clear();
 					  _page->init();
+					  th2 = new Thread();
+					  th2->createThread(std::bind(&Menu::receiveData, this));
+					  _pool.addThread(th2);
 				  }
 			  }
 		  }
@@ -172,7 +306,9 @@ bool Menu::launch()
 		      break;
 		    case IPage::PLAY:
 				if (_page->getPageType() == IPage::INSIDEROOM)
+				{
 					_cmdManager.leaveRoom();
+				}
 		      delete (_page);
 			  _newEvent = true;
 			  initLobby();
@@ -199,7 +335,7 @@ bool Menu::launch()
 		      std::cout << "RoomList" << std::endl;
 		      break;
 		    case IPage::INSIDEROOM:
-		      delete (_page);
+				delete (_page);
 			  _newEvent = true;
 		      _page = new InsideRoomPage(_graph, _event, _fileManager, &_soundManager);
 			  std::cout << "InsideRoom" << std::endl;
@@ -226,28 +362,20 @@ bool Menu::launch()
 		      std::cout << "SettingsNext" << std::endl;
 		      break;
 			case IPage::GAME:
-				int res;
-
 				std::cout << "wait launch game" << std::endl;
-				_cmdManager.setStatus();
-				//_roomInfo = _cmdManager.getRoomInfo();
-				while ((res = _cmdManager.launchGame()) == -1); //A modifier
-				_newEvent = true;
-				delete (_page);
-				std::cout << "Game" << std::endl;
-				_soundManager.stopAll();
-				_game.setGraph(_graph);
-				_game.setEvent(_event);
-				_game.setPort(9999);
-				_game.setId(res);
-				_game.setIp(_ip);
-				if (_roomInfo)
-					_game.setNbPlayer(_roomInfo->getPlayersList().size());
-				_pool.joinAll();
-				_socket->closure();
-				_game.launch();
+				manageLaunchGame();
+				_mutexReceive.lock();
+				if (_id != -1)
+				{
+					_mutexReceive.unlock();
+					_mutexRun.lock();
+					_run = false;
+					_mutexRun.unlock();
+					_pool.joinAll();
+					return (true);
+				}
+				_mutexReceive.unlock();
 				std::cout << "QUIT LA" << std::endl;
-				return (true);
 				break;
 			case IPage::ENDGAME:
 				delete (_page);
@@ -265,8 +393,8 @@ bool Menu::launch()
 				_graph->close();
 				break;
 			case IPage::CREATEROOMACTION:
+				std::cout << "CreateRoomAction1" << std::endl;
 				_newEvent = true;
-				std::cout << "CreateRoomAction" << std::endl;
 				CreateRoomPage		*tmpPage;
 				tmpPage = static_cast<CreateRoomPage* >(_page);
 				if (!_cmdManager.createRoom(tmpPage->getRoomName(), "Player 1"))
@@ -274,6 +402,7 @@ bool Menu::launch()
 					std::cerr << "Cannot create room" << std::endl;
 					break;
 				}
+				std::cout << "CreateRoomAction2" << std::endl;
 				delete (_page);
 				RoomInfoCmd			*roomInfo1;
 
@@ -281,7 +410,8 @@ bool Menu::launch()
 				roomInfo1 = _cmdManager.getRoomInfo();
 				setRoomInfo(roomInfo1, (static_cast<InsideRoomPage*>(_page)));
 				_page->clear();
-				_page->init();				break;
+				_page->init();
+				break;
 			default:
 			   break;
 	    }

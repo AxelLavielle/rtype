@@ -21,6 +21,9 @@
 #include "Thread.hh"
 #include "Mutex.hh"
 
+#define GAME_LOOP_DURATION (1)
+#define RECEIVE_DURATION (1)
+
 class Game
 {
 public:
@@ -63,7 +66,6 @@ private:
 
 	bool initSocket();
 	void initGraphElements();
-	void clearEntity();
 	void manageEntity();
 };
 

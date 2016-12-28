@@ -54,6 +54,12 @@ private:
 	std::string					_ip;
 	int							_port;
 	RoomInfoCmd					*_roomInfo;
+	Mutex						_mutexReceive;
+	Mutex						_mutexRun;
+	bool						_run;
+	bool						_checkGameReady;
+	int							_id;
+	Thread						*_th;
 
 	std::chrono::high_resolution_clock::time_point        _t1Conn;
 
@@ -61,5 +67,8 @@ private:
 	bool tryToConnect();
 	void manageReco(Thread * th);
 	void setRoomInfo(RoomInfoCmd * roomInfo, InsideRoomPage * page);
+	void receiveData();
+	void checkGameReady();
+	void manageLaunchGame();
 };
 

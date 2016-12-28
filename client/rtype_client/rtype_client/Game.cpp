@@ -60,10 +60,20 @@ void	Game::initGraphElements()
 
 void	Game::manageEntity()
 {
-	IEntity	*entity;
+	std::chrono::high_resolution_clock::time_point		tGame;
+	std::chrono::high_resolution_clock::time_point	    tGame2;
+	IEntity												*entity;
+	double												duration;
 
+	tGame = std::chrono::high_resolution_clock::now();
 	while (1)
 	{
+		tGame2 = std::chrono::high_resolution_clock::now();
+		duration = std::chrono::duration_cast<std::chrono::milliseconds>(tGame2 - tGame).count();
+		if (duration >= RECEIVE_DURATION)
+			tGame = std::chrono::high_resolution_clock::now();
+		else
+			std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<unsigned long>((GAME_LOOP_DURATION - duration))));
 		_mutexRun.lock();
 		if (!_run)
 		{
@@ -83,9 +93,11 @@ void	Game::manageEntity()
 
 int Game::launch()
 {
- 	 std::chrono::high_resolution_clock::time_point     t1;
- 	 std::chrono::high_resolution_clock::time_point	    t2;
-	 double												duration;
+	std::chrono::high_resolution_clock::time_point		t1;
+	std::chrono::high_resolution_clock::time_point	    t2;
+	std::chrono::high_resolution_clock::time_point		tGame;
+	std::chrono::high_resolution_clock::time_point	    tGame2;
+	double												duration;
 	 int												i;
 	 bool												first = true;
 	 Thread												*th;
@@ -98,12 +110,20 @@ int Game::launch()
 	 }
 	 initGraphElements();
 	 t1 = std::chrono::high_resolution_clock::now();
+	 tGame = std::chrono::high_resolution_clock::now();
 	 _soundManager.play(_musicStage1);
 	 th = new Thread();
 	 th->createThread(std::bind(&Game::manageEntity, this));
 	 _pool.addThread(th);
 	while (_graph->isWindowOpen())
 	{
+		tGame2 = std::chrono::high_resolution_clock::now();
+		duration = std::chrono::duration_cast<std::chrono::milliseconds>(tGame2 - tGame).count();
+		if (duration >= GAME_LOOP_DURATION)
+			tGame = std::chrono::high_resolution_clock::now();
+		else
+			std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<unsigned long>((GAME_LOOP_DURATION - duration))));
+
 		while (_event->refresh())
 		{
 			if (_event->getCloseEvent() || _guiPage->event() == IPage::QUIT)
@@ -125,16 +145,18 @@ int Game::launch()
 				_guiPage->init();
 			}
 		}
+
 		t2 = std::chrono::high_resolution_clock::now();
 		duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
-		if (first || duration >= 10000)
-		{
-			i += 10;
-			if (i >= 1000)
-				i = 0;
-			first = false;
-			t1 = std::chrono::high_resolution_clock::now();
-		}
+//		if (first || duration >= 10000)
+//		{
+//			i += 10;
+////			_newEvent = true;
+//			if (i >= 1000)
+//				i = 0;
+//			first = false;
+//			t1 = std::chrono::high_resolution_clock::now();
+//		}
 		if (_newEvent)
 		{
 			_graph->clearWindow();
@@ -146,7 +168,7 @@ int Game::launch()
 			it = _entity.begin();
 			while (it != _entity.end())
 			{
-				_graph->drawRectangle(_fileManager.getRoot() + (*it)->getSpriteRepo() + "/spaceShip10.png", Rect((*it)->getPosX(), (*it)->getPosY(), (*it)->getHeight(), (*it)->getWidth()), Rect(0, 0, 0, 0), Rect(0, 0, (*it)->getHeight(), (*it)->getWidth()));
+				_graph->drawRectangle(_fileManager.getRoot() + (*it)->getSpriteRepo() + "/spaceShip10.png", Rect((*it)->getPosX(), (*it)->getPosY(), (*it)->getHeight(), (*it)->getWidth()), Color(0, 0, 0));
 				delete *it;
 				++it;
 			}

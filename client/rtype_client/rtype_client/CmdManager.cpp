@@ -19,6 +19,20 @@ CmdManager::~CmdManager()
 {
 }
 
+bool			CmdManager::updateRoom()
+{
+	ICommand	*cmd;
+
+	if ((cmd = receiveCmd()) && cmd->getCommandType() == BASIC_CMD
+		&& cmd->getCommandName() == UPDATE_ROOM)
+	{
+		delete (cmd);
+		return (true);
+	}
+	delete (cmd);
+	return (false);
+}
+
 bool			CmdManager::sendLaunchGame(const int id)
 {
 	BasicCmd	*cmd;
@@ -333,8 +347,7 @@ ICommand	*CmdManager::receiveCmd()
 	ICommand			*cmd;
 	char				*res;
 
-	//Select a faire
-	if (!(res = _socketClient->receiveData()))
+	if (!_socketClient || !(res = _socketClient->receiveData()))
 		return (NULL);
 	cmd = _serialize.unserializeCommand(res);
 	switch (cmd->getCommandName())

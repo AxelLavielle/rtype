@@ -32,6 +32,7 @@ public:
 	void setUDPSocket(ASocketClient *socket);
 	bool sendCmd();
 	bool sendUDPCmd();
+	bool updateRoom();
 
 	IEntity * receiveUDPCmd();
 

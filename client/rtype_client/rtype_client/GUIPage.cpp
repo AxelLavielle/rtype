@@ -27,6 +27,8 @@ bool GUIPage::init()
 	initDecor(Rect(_windowSize.first - 250, _windowSize.second - 130, 100, 200), "/res/img/fondCadre.png");
 	initDecor(Rect(400, _windowSize.second - 140, 130, 20), "/res/img/splitBar.png");
 	initDecor(Rect(440, _windowSize.second - 95, 30, 70), "/res/img/spaceShip10.png", Color(0, 0, 0));
+	initDecor(Rect(80, _windowSize.second - 130, 50, 300), "/res/img/barreDefense" + std::to_string(_def) + ".png");
+	initDecor(Rect(80, _windowSize.second - 75, 50, 300), "/res/img/barreVie" + std::to_string(_hp) + ".png");
 	_textPosX = 60;
 	_textPosY = 10;
 	return (true);
@@ -62,8 +64,6 @@ void	GUIPage::titleAnimation()
 
 void GUIPage::draw()
 {
-	initDecor(Rect(80, _windowSize.second - 130, 50, 300), "/res/img/barreDefense" + std::to_string(_def) + ".png");
-	initDecor(Rect(80, _windowSize.second - 75, 50, 300), "/res/img/barreVie" + std::to_string(_hp) + ".png");
 	drawGUIElement(_guiElement);
 	_graph->drawText("Nb joueur : " + std::to_string(_nbPlayers), _windowSize.first - 230, _windowSize.second - 110, 19, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
 	_graph->drawText("Mode : " + _mode, _windowSize.first - 230, _windowSize.second - 70, 19, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");

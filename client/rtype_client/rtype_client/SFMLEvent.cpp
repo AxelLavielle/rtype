@@ -95,7 +95,7 @@ std::string SFMLEvent::getKeyReleased() const
 			break;
 		}
 	}
-	else if (_event.type == sf::Event::MouseButtonPressed)
+	else if (_event.type == sf::Event::MouseButtonReleased)
 	{
 		switch (_event.mouseButton.button)
 		{

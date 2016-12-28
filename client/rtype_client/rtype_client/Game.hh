@@ -25,6 +25,7 @@
 #define NB_CELL_Y (150)
 #define GAME_LOOP_DURATION (1)
 #define RECEIVE_DURATION (1)
+#define INPUT_DURATION (100)
 
 class Game
 {

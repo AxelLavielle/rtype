@@ -19,6 +19,7 @@ Game::Game()
 	_nbPlayer = 0;
 	_run = true;
 	_mode = "Easy";
+	_key = "";
 	_newEvent = true;
 }
 
@@ -56,8 +57,8 @@ void	Game::initGraphElements()
 	gui->setMode(_mode);
 	_guiPage = gui;
 	_guiPage->init();
-	_windowsGameSize.first = _windowSize.first;
-	_windowsGameSize.second = _windowSize.second - (gui->getBottomBarHeight() + gui->getTopBarHeight());
+	_windowGameSize.first = _windowSize.first;
+	_windowGameSize.second = _windowSize.second - (gui->getBottomBarHeight() + gui->getTopBarHeight());
 }
 
 void	Game::manageEntity()
@@ -95,10 +96,10 @@ void	Game::manageEntity()
 
 int Game::launch()
 {
-	std::chrono::high_resolution_clock::time_point		t1;
-	std::chrono::high_resolution_clock::time_point	    t2;
 	std::chrono::high_resolution_clock::time_point		tGame;
 	std::chrono::high_resolution_clock::time_point	    tGame2;
+	std::chrono::high_resolution_clock::time_point		t1;
+	std::chrono::high_resolution_clock::time_point	    t2;
 	double												duration;
 	 int												i;
 	 bool												first = true;
@@ -111,8 +112,8 @@ int Game::launch()
 		 return (0);
 	 }
 	 initGraphElements();
-	 t1 = std::chrono::high_resolution_clock::now();
 	 tGame = std::chrono::high_resolution_clock::now();
+	 t1 = std::chrono::high_resolution_clock::now();
 	 _soundManager.play(_musicStage1);
 	 th = new Thread();
 	 th->createThread(std::bind(&Game::manageEntity, this));
@@ -126,6 +127,15 @@ int Game::launch()
 		else
 			std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<unsigned long>((GAME_LOOP_DURATION - duration))));
 
+		t2 = std::chrono::high_resolution_clock::now();
+		duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+		if (_key != "" && duration >= INPUT_DURATION)
+		{
+			t1 = std::chrono::high_resolution_clock::now();
+			std::cout << "duration = " << duration << std::endl;
+			_cmdManager.sendInput(_id, _key);
+		}
+
 		while (_event->refresh())
 		{
 			if (_event->getCloseEvent() || _guiPage->event() == IPage::QUIT)
@@ -136,18 +146,14 @@ int Game::launch()
 				_pool.joinAll();
 				return (1);
 			}
-			if (_key != "" && _event->getKeyStroke() == _key)
-			{
+			if (_event->getKeyReleased() == _key)
 				_key = "";
-				_cmdManager.sendInput(_id, _key);
-			}
-			else if (_event->getKeyStroke() == "UP" || _event->getKeyStroke() == "LEFT"
-				|| _event->getKeyStroke() == "DOWN" || _event->getKeyStroke() == "RIGHT")
+			if (_key == "" && (_event->getKeyStroke() == "UP" || _event->getKeyStroke() == "LEFT"
+				|| _event->getKeyStroke() == "DOWN" || _event->getKeyStroke() == "RIGHT"))
 			{
 				_key = _event->getKeyStroke();
 				_cmdManager.sendInput(_id, _event->getKeyStroke());
 			}
-			
 			if (_event->getKeyStroke() == "ECHAP")
 			{
 				delete _guiPage;
@@ -156,17 +162,6 @@ int Game::launch()
 			}
 		}
 
-		t2 = std::chrono::high_resolution_clock::now();
-		duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
-//		if (first || duration >= 10000)
-//		{
-//			i += 10;
-////			_newEvent = true;
-//			if (i >= 1000)
-//				i = 0;
-//			first = false;
-//			t1 = std::chrono::high_resolution_clock::now();
-//		}
 		if (_newEvent)
 		{
 			_graph->clearWindow();
@@ -176,7 +171,7 @@ int Game::launch()
 
 			_mutex.lock();
 			it = _entity.begin();
-			std::cout << _entity.size() << std::endl;
+			//std::cout << _entity.size() << std::endl;
 			while (it != _entity.end())
 			{
 				_graph->drawRectangle(_fileManager.getRoot() + (*it)->getSpriteRepo(), Rect((*it)->getPosX() * (_windowGameSize.first / NB_CELL_X),

@@ -59,6 +59,7 @@ bool					SocketServerUDP::launch()
 bool										SocketServerUDP::sendAllData(std::vector<ServerClient *> &clientList)
 {
 	std::vector<ServerClient *>::iterator	it;
+	std::vector<char *>::iterator			itMsg;
 	int										len;
 
 	if (FD_ISSET(_socketServerID, &_writefds) == false)
@@ -66,25 +67,38 @@ bool										SocketServerUDP::sendAllData(std::vector<ServerClient *> &clientLi
 	it = clientList.begin();
 	while (it != clientList.end())
 	{
-		if ((*it)->getDataLenUDP() > 0)
-		{
-			struct sockaddr_in newAddr;
+		struct sockaddr_in newAddr;
 
-			MemTools::copy(&newAddr, &_addrSocket, sizeof(_addrSocket));
-			newAddr.sin_addr = (*it)->getAddr().getAddr();
-			len = sendto(_socketServerID, (*it)->getSendDataUDP(), (*it)->getDataLenUDP(),
-						0, (struct sockaddr *)&newAddr, sizeof(struct sockaddr));
+		MemTools::copy(&newAddr, &_addrSocket, sizeof(_addrSocket));
+		newAddr.sin_addr = (*it)->getAddr().getAddr();
+
+		std::vector<char *>			udpDatas;
+		udpDatas = (*it)->getUDPDatas();
+		itMsg = udpDatas.begin();
+		
+		while (itMsg != udpDatas.end())
+		{
+			char	dataLen[2];
+			short	dataSize;
+
+			dataLen[0] = (*itMsg)[0];
+			dataLen[1] = (*itMsg)[1];
+			dataSize = *reinterpret_cast<short*>(dataLen);
+			len = sendto(_socketServerID, (*itMsg), dataSize, 0, (struct sockaddr *)&newAddr, sizeof(struct sockaddr));
 			if (len == -1)
 			{
-			  #ifdef _WIN32
-			  std::cout << "Sendto failed " << WSAGetLastError() << std::endl;
-			  #elif __linux__
-			  displayError("Sendto failed: ");
-			  #endif
+				#ifdef _WIN32
+					std::cout << "Sendto failed " << WSAGetLastError() << std::endl;
+				#elif __linux__
+					displayError("Sendto failed: ");
+				#endif
 			}
-			//std::cout << "UDP Sent " << len << " characters" << std::endl;
+			//std::cout << "UDP Sent " << len << " characters to client [" << (*it)->getTCPSocket() << "]" << std::endl;
+			itMsg++;
 		}
 		(*it)->resetDataUDP();
+
+
 		it++;
 	}
 	return (true);

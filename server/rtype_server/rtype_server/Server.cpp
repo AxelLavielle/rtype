@@ -228,7 +228,7 @@ bool							Server::launch()
 #ifdef __linux__
 	  usleep(10);
 #elif _WIN32
-	  Sleep(10);
+	  Sleep(100);
 	  #endif
 	  processGames();
 	}
@@ -252,7 +252,7 @@ bool							Server::TCPLoop()
 		if ((newClientInfo = _socketServerTCP.acceptNewClient()).first != -1)
 		{
 			_mutex->lock();
-			_clientManager.addClient(newClientInfo.first, newClientInfo.second);
+			_clientManager.addClient(newClientInfo.first, newClientInfo.second, _roomManager);
 			_mutex->unlock();
 		}
 		else

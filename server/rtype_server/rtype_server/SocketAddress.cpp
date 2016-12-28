@@ -14,3 +14,10 @@ in_addr		SocketAddress::getAddr() const
 {
 	return (_addr);
 }
+
+bool		SocketAddress::operator==(const SocketAddress &other)
+{
+	if (memcmp(&_addr, &other, sizeof(struct in_addr)) == 0)
+		return (true);
+	return (false);
+}

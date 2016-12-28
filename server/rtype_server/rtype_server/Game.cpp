@@ -15,6 +15,7 @@ void Game::init(std::vector<ServerClient*> &clients)
 	std::vector<ServerClient *>::iterator	it2;
 	char									*msg;
 
+	//std::cout << "################################# INIT GAME FOR " << clients.size() << " PLAYERS" << std::endl;
 	it = clients.begin();
 	i = 0;
 	while (it != clients.end())
@@ -98,6 +99,7 @@ void										Game::updateGame(std::vector<ServerClient *> &clients)
 	//	it++;
 	//}
 	//return;
+	//std::cout << "################################# UPDATE GAME FOR " << clients.size() << " PLAYERS" << std::endl;
 	it = clients.begin();
 	while (it != clients.end())
 	{

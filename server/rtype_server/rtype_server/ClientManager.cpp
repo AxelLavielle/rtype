@@ -9,8 +9,17 @@ ClientManager::~ClientManager()
 {
 }
 
-void				ClientManager::addClient(const int clientSocketId, SocketAddress *addr)
+void				ClientManager::addClient(const int clientSocketId, SocketAddress *addr, RoomManager &roomManager)
 {
+	ServerClient	*client;
+
+	std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ADDING CLIENT " << clientSocketId << std::endl;
+	if ((client = getClientByTCP(clientSocketId)) != NULL || (client = getClientByAddr(addr)) != NULL)
+	{
+		std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CLIENT ALREADY EXISTS !!!" << std::endl;
+		roomManager.getRoomById(client->getCurrentRoom())->removeClient(client);
+		removeClient(client);
+	}
 	_clientList.push_back(new ServerClient(clientSocketId, addr));
 }
 
@@ -57,6 +66,20 @@ ServerClient *ClientManager::getClientByTCP(const int tcpSocket)
 	while (it != _clientList.end())
 	{
 		if ((*it)->getTCPSocket() == tcpSocket)
+			return (*it);
+		it++;
+	}
+	return (NULL);
+}
+
+ServerClient *ClientManager::getClientByAddr(SocketAddress *addr)
+{
+	std::vector<ServerClient *>::iterator it;
+
+	it = _clientList.begin();
+	while (it != _clientList.end())
+	{
+		if ((*it)->getAddr() == *addr)
 			return (*it);
 		it++;
 	}

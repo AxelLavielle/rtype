@@ -13,6 +13,7 @@ int								RoomManager::addRoom(const std::string &roomName)
 {
 	static int					idRoom = 0;
 
+	std::cout << "@@@@@@@@@@@@@@ ADD ROOM" << std::endl;
 	_roomList.push_back(Room(idRoom, roomName));
 	idRoom++;
 	return (idRoom - 1);
@@ -22,6 +23,7 @@ bool							RoomManager::removeRoom(const int roomId)
 {
 	std::vector<Room>::iterator	it;
 
+	std::cout << "@@@@@@@@@@@@@@ REMOVE ROOM" << std::endl;
 	it = _roomList.begin();
 	while (it != _roomList.end())
 	{
@@ -103,6 +105,7 @@ bool		RoomManager::addClientToRoom(ServerClient *client, const std::string &name
 
 bool		RoomManager::addClientToRoom(ServerClient *client, const int id)
 {
+	std::cout << "@@@@@@@@@@@@@@ ADD CLIENT TO ROOM" << std::endl;
 	try
 	{
 		getRoomById(id);

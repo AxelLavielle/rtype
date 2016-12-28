@@ -34,6 +34,7 @@ private:
 	IEntity				*_player;
 
 	std::vector<InputCmd>	_inputs;
+	std::vector<char *>		_udpDatas;
 
 public:
 	ServerClient(const int, SocketAddress *);
@@ -52,6 +53,8 @@ public:
 	const char			*getSendDataUDP() const;
 	void				resetDataUDP();
 	int					getDataLenUDP() const;
+	std::vector<char *> getUDPDatas() const;
+
 	
 	void				setCurrentRoom(const int);
 	int					getCurrentRoom() const;

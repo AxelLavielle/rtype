@@ -27,6 +27,8 @@ public:
 	SocketAddress(struct in_addr);
 	~SocketAddress();
 
-	struct in_addr getAddr() const;
+	struct in_addr	getAddr() const;
+	bool			operator==(const SocketAddress &);
+
 };
 

@@ -80,23 +80,23 @@ SocketAddress	ServerClient::getAddr() const
 
 void		ServerClient::addUDPDataToSend(const char *data)
 {
-	int		i;
-	int		j;
-	char	len[2];
-	short	size;
+	char	dataLen[2];
+	short	dataSize;
 
-	i = _lenDataUDP;
-	j = 0;
-	len[0] = data[0];
-	len[1] = data[1];
-	size = *reinterpret_cast<short*>(len);
-	while (j < size && i < TCP_PACKET_SIZE)
+	dataLen[0] = data[0];
+	dataLen[1] = data[1];
+	dataSize = *reinterpret_cast<short*>(dataLen);
+
+	char *dataCpy = new char[dataSize];
+	int i;
+	i = 0;
+	while (i < dataSize && i < TCP_PACKET_SIZE)
 	{
-		_sendDataUDP[i] = data[j];
+		dataCpy[i] = data[i];
 		i++;
-		j++;
 	}
-	_lenDataUDP += size;
+
+	_udpDatas.push_back(dataCpy);
 }
 
 const char *ServerClient::getSendDataUDP() const
@@ -104,10 +104,16 @@ const char *ServerClient::getSendDataUDP() const
 	return (&(_sendDataUDP[0]));
 }
 
+std::vector<char *> ServerClient::getUDPDatas() const
+{
+	return (_udpDatas);
+}
+
 void ServerClient::resetDataUDP()
 {
-	MemTools::set(_sendDataUDP, 0, TCP_PACKET_SIZE);
-	_lenDataUDP = 0;
+	//MemTools::set(_sendDataUDP, 0, TCP_PACKET_SIZE);
+	//_lenDataUDP = 0;
+	_udpDatas.clear();
 }
 
 int ServerClient::getDataLenUDP() const

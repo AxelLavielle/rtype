@@ -116,13 +116,14 @@ bool										SocketServerTCP::sendAllData(std::vector<ServerClient *> &clientLi
 	{
 		if (FD_ISSET((*it)->getTCPSocket(), &_writefds) && (*it)->getDataLenTCP() > 0)
 		{
-			if (DEBUG_MSG)
-				std::cout << "Sending to Client " << (*it)->getTCPSocket()
-					<< " : " << (*it)->getSendDataTCP() << std::endl;
-			if (send((*it)->getTCPSocket(), (*it)->getSendDataTCP(), (*it)->getDataLenTCP(), 0) == SOCKET_ERROR)
+			int len;
+			if ((len = send((*it)->getTCPSocket(), (*it)->getSendDataTCP(), (*it)->getDataLenTCP(), 0)) == SOCKET_ERROR)
 			{
 				displayError("Send error");
 			}
+			if (DEBUG_MSG)
+				std::cout << "Sending to Client " << (*it)->getTCPSocket()
+				<< " : " << (*it)->getSendDataTCP() << " ---> len [" << len << "]" << std::endl;
 			(*it)->resetDataTCP();
 		}
 		it++;

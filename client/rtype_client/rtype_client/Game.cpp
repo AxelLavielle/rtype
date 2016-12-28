@@ -171,11 +171,12 @@ int Game::launch()
 			std::cout << _entity.size() << std::endl;
 			while (it != _entity.end())
 			{
-				_graph->drawRectangle(_fileManager.getRoot() + (*it)->getSpriteRepo(), Rect((*it)->getPosX() * (_windowGameSize.first / NB_CELL_X),
-					(*it)->getPosY() * (_windowSize.second / NB_CELL_Y) + static_cast<GUIPage *>(_guiPage)->getTopBarHeight(), (*it)->getHeight(), (*it)->getWidth()),
+				_graph->drawRectangle(_fileManager.getRoot() + (*it)->getSpriteRepo(),
+					Rect((*it)->getPosX() * (_windowGameSize.first / NB_CELL_X),
+					(*it)->getPosY() * (_windowGameSize.second / NB_CELL_Y) + static_cast<GUIPage *>(_guiPage)->getTopBarHeight(),
+					(*it)->getHeight() * (_windowGameSize.second / NB_CELL_Y),
+					(*it)->getWidth() * (_windowGameSize.first / NB_CELL_X)),
 					Color(0, 0, 0));
-				if ((*it)->getType() != rtype::PLAYER)
-					std::cout << "JKLJQLKJQZDLKNKLZDQKLQZDJKLZJKLJLKZJQDKLJZDQKLJZQDLKJLZQKJLKZJDLKQZJDLKJZDKLJZQDLKJQZDLKJZDLKQZDJLQKZJKLQZDJ" << std::endl;
 				delete *it;
 				++it;
 			}

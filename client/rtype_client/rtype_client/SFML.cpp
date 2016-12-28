@@ -154,7 +154,7 @@ bool SFML::drawRectangle(const std::string & spritePath, const Rect &rect, const
 	_window->draw(rec);
 	return (true);
 }
-
+#include <iostream>
 bool SFML::drawRectangle(const std::string & spritePath, const Rect &rect, const Rect &rect2, const Rect &rect3)
 {
 	sf::Texture			*img;

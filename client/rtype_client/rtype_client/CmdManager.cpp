@@ -178,8 +178,6 @@ bool		CmdManager::createRoom(const std::string & rommName, const std::string & p
 		BasicCmd		*tmpCmd;
 
 		tmpCmd = static_cast<BasicCmd* >(cmd);
-		// 45  -  26
-		std::cout << "BATARD ICI == " << tmpCmd->getArg(0) << std::endl;
 		if (static_cast<ReplyCodes>(std::stoi(tmpCmd->getArg(0))) == ROOM_CREATED)
 		{
 			std::cout << "CREATE ROOM OK" << std::endl;
@@ -296,17 +294,20 @@ bool		CmdManager::sendCmd()
 bool		CmdManager::sendUDPCmd()
 {
 	std::vector<ICommand*>::iterator	it;
+	char								*res;
 
 	if (!_socketClientUDP || !_socketClientUDP->isConnected())
 		return (false);
 	it = _cmd.begin();
 	while (it != _cmd.end())
 	{
-		if (!_socketClientUDP->sendData(_serialize.serialize(*it)))
+		res = _serialize.serialize(*it);
+		if (!_socketClientUDP->sendData(res))
 		{
 			std::cerr << "ERROR: cant not send data" << std::endl;
 			return (false);
 		}
+		delete (res);
 		delete (*it);
 		it = _cmd.erase(it);
 	}

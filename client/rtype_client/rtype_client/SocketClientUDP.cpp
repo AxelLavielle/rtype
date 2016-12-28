@@ -122,11 +122,10 @@ char			*SocketClientUDP::receiveData()
 				return (NULL);
 			}
 		}
-		std::cout << "LEN RECV == " << ret << std::endl;
 	}
 	else if (ret == 0)
 	  {
-		std::cout << "timed out waiting for ack" << std::endl;
+//		std::cout << "timed out waiting for ack" << std::endl;
 		delete buf;
 		return (NULL);
 	  }

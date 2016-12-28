@@ -58,23 +58,9 @@ void	Game::initGraphElements()
 	_guiPage->init();
 }
 
-void	Game::clearEntity()
-{
-	std::vector<IEntity* >::iterator		it;
-
-	it = _entity.begin();
-	while (it != _entity.end())
-	{
-		delete (*it);
-		++it;
-	}
-	_entity.clear();
-}
-
 void	Game::manageEntity()
 {
 	IEntity	*entity;
-	GUIPage		*gui;
 
 	while (1)
 	{
@@ -149,7 +135,6 @@ int Game::launch()
 			first = false;
 			t1 = std::chrono::high_resolution_clock::now();
 		}
-
 		if (_newEvent)
 		{
 			_graph->clearWindow();
@@ -162,11 +147,11 @@ int Game::launch()
 			while (it != _entity.end())
 			{
 				_graph->drawRectangle(_fileManager.getRoot() + (*it)->getSpriteRepo() + "/spaceShip10.png", Rect((*it)->getPosX(), (*it)->getPosY(), (*it)->getHeight(), (*it)->getWidth()), Rect(0, 0, 0, 0), Rect(0, 0, (*it)->getHeight(), (*it)->getWidth()));
+				delete *it;
 				++it;
 			}
-			clearEntity();
+			_entity.clear();
 			_mutex.unlock();
-
 			_guiPage->draw();
 			_graph->refresh();
 			_newEvent = false;

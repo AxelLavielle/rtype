@@ -161,11 +161,11 @@ char				*SocketClientTCP::receiveData()
 	FD_ZERO(&readfds);
 	FD_SET(_sock, &readfds);
 
-	ret = select(_sock + 1, &readfds, NULL, NULL, &tv);
-	if (ret > 0)
-	{
-		if (FD_ISSET(_sock, &readfds))
-		{
+	//ret = select(_sock + 1, &readfds, NULL, NULL, &tv);
+	//if (ret > 0)
+	//{
+	//	if (FD_ISSET(_sock, &readfds))
+	//	{
 			iResult = recv(_sock, recvbuf, recvbuflen, 0);
 			if (iResult > 0)
 			{
@@ -174,19 +174,19 @@ char				*SocketClientTCP::receiveData()
 			}
 			delete recvbuf;
 			return (NULL);
-		}
-	}
-	else if (ret == 0)
-	{
-		delete recvbuf;
-		return (NULL);
-	}
-	else
-	{
-		std::cerr << "error selecting" << std::endl;
-		delete recvbuf;
-		return (NULL);
-	}
+	//	}
+	//}
+	//else if (ret == 0)
+	//{
+	//	delete recvbuf;
+	//	return (NULL);
+	//}
+	//else
+	//{
+	//	std::cerr << "error selecting" << std::endl;
+	//	delete recvbuf;
+	//	return (NULL);
+	//}
 }
 
 bool				SocketClientTCP::connectToServer()

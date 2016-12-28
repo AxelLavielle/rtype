@@ -21,8 +21,8 @@
 #include "Thread.hh"
 #include "Mutex.hh"
 
-#define NB_CELL_X (80)
-#define NB_CELL_Y (150)
+#define NB_CELL_X (150)
+#define NB_CELL_Y (80)
 #define GAME_LOOP_DURATION (1)
 #define RECEIVE_DURATION (1)
 #define INPUT_DURATION (100)

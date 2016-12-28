@@ -2,6 +2,10 @@
 
 SFMLEvent::SFMLEvent()
 {
+	_keys.insert(std::make_pair(sf::Keyboard::Up, "UP"));
+	_keys.insert(std::make_pair(sf::Keyboard::Down, "DOWN"));
+	_keys.insert(std::make_pair(sf::Keyboard::Right, "RIGHT"));
+	_keys.insert(std::make_pair(sf::Keyboard::Left, "LEFT"));
 }
 
 
@@ -71,9 +75,18 @@ std::string SFMLEvent::getKeyStroke() const
 
 bool SFMLEvent::isPressed(const std::string & key)
 {
+	std::map<sf::Keyboard::Key, std::string>::iterator	it;
+
 	if (key == "ML")
 	{
 		return (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left));
+	}
+	it = _keys.begin();
+	while (it != _keys.end())
+	{
+		if (it->second == key)
+			return (sf::Keyboard::isKeyPressed(it->first));
+		++it;
 	}
 	return (false);
 }

@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <map>
 #include "AEventManager.hh"
 #include "SFML.hh"
 
@@ -20,7 +21,8 @@ public:
 	virtual std::pair<int, int> getMousePos() const;
 	virtual std::pair<int, int> getClickMousePos() const;
 private:
-	SFML					*_graph;
-	sf::Event				_event;
+	SFML										*_graph;
+	sf::Event									_event;
+	std::map<sf::Keyboard::Key, std::string>	_keys;
 };
 

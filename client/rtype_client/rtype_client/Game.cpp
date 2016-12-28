@@ -136,9 +136,14 @@ int Game::launch()
 				_pool.joinAll();
 				return (1);
 			}
-			if (_event->getKeyStroke() == "UP" || _event->getKeyStroke() == "LEFT"
-				|| _event->getKeyStroke() == "DOWN" || _event->getKeyStroke() == "RIGHT")
-				_cmdManager.sendInput(_id, _event->getKeyStroke());
+			if (_event->isPressed("UP"))
+				_cmdManager.sendInput(_id, "UP");
+			if (_event->isPressed("DOWN"))
+				_cmdManager.sendInput(_id, "DOWN");
+			if (_event->isPressed("LEFT"))
+				_cmdManager.sendInput(_id, "LEFT");
+			if (_event->isPressed("RIGHT"))
+				_cmdManager.sendInput(_id, "RIGHT");
 			
 			if (_event->getKeyStroke() == "ECHAP")
 			{

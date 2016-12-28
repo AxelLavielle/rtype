@@ -29,7 +29,8 @@ bool			CmdManager::updateRoom()
 		delete (cmd);
 		return (true);
 	}
-	delete (cmd);
+	if (cmd)
+		delete (cmd);
 	return (false);
 }
 

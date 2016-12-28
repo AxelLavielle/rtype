@@ -9,3 +9,8 @@ void MemTools::set(void *s, int c, size_t n)
 {
   memset(s, c, n);
 }
+
+void MemTools::cmp(const void *s1, const void *s2, size_t n)
+{
+	memcmp(s1, s2, n);
+}

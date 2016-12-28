@@ -33,7 +33,6 @@ void Game::init(std::vector<ServerClient*> &clients)
 		player->setLife(100);
 		player->setSpriteRepo("/res/img/");
 		player->setType(rtype::PLAYER);
-		player->refresh();
 		(*it)->setPlayer(player);
 		while (it2 != clients.end())
 		{
@@ -67,6 +66,7 @@ void	Game::manageInput(ServerClient *client)
 			player->setPosY((it->getKey() == "UP") ? (player->getPosY() - 10) : (player->getPosY() + 10));
 		else if (it->getKey() == "RIGHT" || it->getKey() == "LEFT")
 			player->setPosX((it->getKey() == "RIGHT") ? (player->getPosX() + 10) : (player->getPosX() - 10));
+		player->refresh();
 		++it;
 	}
 	client->setPlayer(player);

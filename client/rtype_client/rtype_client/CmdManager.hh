@@ -43,8 +43,6 @@ private:
 	int						_handKey;
 	std::vector<ICommand*>	_cmd;
 	std::vector<ICommand *>	_cmdReceive;
-	ICommand * searchReceivedCommand(const CmdName & type, const CmdType & name);
-	ICommand * searchReceivedCommand(const CmdName & type);
 	bool confirmHandshake(ICommand * cmd);
 };
 

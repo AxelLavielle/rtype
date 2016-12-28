@@ -132,7 +132,6 @@ int Game::launch()
 		if (_key != "" && duration >= INPUT_DURATION)
 		{
 			t1 = std::chrono::high_resolution_clock::now();
-			std::cout << "duration = " << duration << std::endl;
 			_cmdManager.sendInput(_id, _key);
 		}
 

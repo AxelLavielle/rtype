@@ -50,7 +50,7 @@ void	Menu::initLobby()
 	_cmdManager.setSocket(_socket);
 	if (!(cmd = _cmdManager.getRoomList()))
 		return;
-	std::cout << "Got rooom list" << std::endl;
+	std::cout << "Got rooom list" << static_cast<int>(cmd->getCommandName()) << std::endl;
 	rooms = cmd->getAllRooms();
 	it = rooms.begin();
 	while (it != rooms.end())

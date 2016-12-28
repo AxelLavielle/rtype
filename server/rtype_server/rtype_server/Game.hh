@@ -4,6 +4,7 @@
 #include "Serialize.hh"
 #include "ServerClient.hh"
 #include "InputCmd.hh"
+#include "Map.hh"
 
 class Game
 {
@@ -15,5 +16,12 @@ public:
 	void updateGame(std::vector<ServerClient *> &);
 
 private:
-	void manageInput(ServerClient *client);
+	int		_currentXMin;
+	int		_currentXMax;
+	Map		_map;
+
+	void	manageInput(ServerClient *client);
+	void	updateEntities();
+	void	sendEntitiesToClients(std::vector<ServerClient *> &);
+	void	updatePlayers(std::vector<ServerClient *> &);
 };

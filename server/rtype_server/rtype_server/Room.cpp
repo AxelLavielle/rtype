@@ -98,14 +98,14 @@ bool			Room::isReady() const
 	return (_ready);
 }
 
-bool Room::updateGame()
-{
-	_gameManager.updateGame(_clients);
-	return (true);
-}
-
 bool Room::initGame()
 {
 	_gameManager.init(_clients);
+	return (true);
+}
+
+bool Room::updateGame()
+{
+	_gameManager.updateGame(_clients);
 	return (true);
 }

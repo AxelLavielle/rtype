@@ -213,6 +213,8 @@ void							Server::processGames()
 	}
 }
 
+# define GAME_LOOP_TIME (100)
+
 bool							Server::launch()
 {
 	Thread						threadTCP;
@@ -223,14 +225,28 @@ bool							Server::launch()
 	_pool.addThread(&threadTCP);
 	_pool.addThread(&threadUDP);
 
+	std::chrono::high_resolution_clock::time_point		t1;
+	std::chrono::high_resolution_clock::time_point		t2;
+	double												duration;
+
+	t1 = std::chrono::high_resolution_clock::now();
+
 	while (42)
 	{
-#ifdef __linux__
-	  usleep(10);
-#elif _WIN32
-	  Sleep(100);
-	  #endif
-	  processGames();
+		t2 = std::chrono::high_resolution_clock::now();
+		duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+		if (duration >= GAME_LOOP_TIME)
+		{
+			//#ifdef __linux__
+			//	  usleep(10);
+			//#elif _WIN32
+			//	  Sleep(100);
+			//	  #endif
+			processGames();
+			t1 = std::chrono::high_resolution_clock::now();
+		}
+		else
+			Sleep(GAME_LOOP_TIME - duration);
 	}
 
 	_pool.joinAll();

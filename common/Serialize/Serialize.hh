@@ -12,6 +12,7 @@
 #include	"RoomInfoCmd.hh"
 #include	"InputCmd.hh"
 #include	"MemTools.hh"
+#include	"Missile.hh"
 
 class		Serialize
 {

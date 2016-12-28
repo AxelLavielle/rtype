@@ -144,6 +144,8 @@
     <ClInclude Include="ClientManager.hh" />
     <ClInclude Include="CmdManager.hh" />
     <ClInclude Include="Game.hh" />
+    <ClInclude Include="Map.hh" />
+    <ClInclude Include="Missile.hh" />
     <ClInclude Include="Room.hh" />
     <ClInclude Include="RoomManager.hh" />
     <ClInclude Include="Server.hh" />
@@ -175,6 +177,8 @@
     <ClCompile Include="CmdManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Missile.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="RoomManager.cpp" />
     <ClCompile Include="Server.cpp" />

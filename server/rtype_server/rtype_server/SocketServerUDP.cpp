@@ -97,8 +97,7 @@ bool										SocketServerUDP::sendAllData(std::vector<ServerClient *> &clientLi
 			itMsg++;
 		}
 		(*it)->resetDataUDP();
-
-
+		
 		it++;
 	}
 	return (true);

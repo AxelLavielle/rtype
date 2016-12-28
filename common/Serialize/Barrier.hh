@@ -2,11 +2,10 @@
 
 #include "AEntity.hh"
 
-class Barrier :
-  public AEntity
+class Barrier : public AEntity
 {
 public:
-  Barrier();
+  Barrier(const int, const int);
   virtual ~Barrier();
 
   virtual void		update();

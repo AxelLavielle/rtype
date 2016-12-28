@@ -1,10 +1,18 @@
 #include "Player.hh"
 #include "EntityType.hh"
 
-Player::Player()
+Player::Player(const int x, const int y)
 {
   this->setType(rtype::PLAYER);
-  _name = "Player1";
+  this->setName("");
+  this->setPosX(x);
+  this->setPosY(y);
+  this->setHeight(3);
+  this->setWidth(5);
+  this->setSpeedX(1);
+  this->setSpeedY(1);
+  this->setLife(100);
+  this->setSpriteRepo("/res/img/spaceShip10.png");
 }
 
 Player::Player(const std::string &name)

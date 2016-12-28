@@ -17,7 +17,8 @@ void				ClientManager::addClient(const int clientSocketId, SocketAddress *addr, 
 	if ((client = getClientByTCP(clientSocketId)) != NULL || (client = getClientByAddr(addr)) != NULL)
 	{
 		std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CLIENT ALREADY EXISTS !!!" << std::endl;
-		roomManager.getRoomById(client->getCurrentRoom())->removeClient(client);
+		if (client->getCurrentRoom() != -1)
+			roomManager.getRoomById(client->getCurrentRoom())->removeClient(client);
 		removeClient(client);
 	}
 	_clientList.push_back(new ServerClient(clientSocketId, addr));

@@ -218,6 +218,7 @@ void			CmdManager::cmdJoinRoom(ServerClient *client, BasicCmd *msgClient)
 			else if (_roomManager->addClientToRoom(client, idRoom) == true)
 			{
 				client->setPlayerName(playerName);
+				sendUpdateRoom(client);
 				std::cout << "Room JOINED !" << std::endl;
 				reply.setCommandArg(std::to_string(ROOM_JOINED));
 			}
@@ -258,6 +259,7 @@ void			CmdManager::cmdLeaveRoom(ServerClient *client, BasicCmd *msgClient)
 		_mutex->unlock();
 		client->setCurrentRoom(-1);
 		reply.setCommandArg(std::to_string(LEFT_ROOM));
+		sendUpdateRoom(client);
 	}
 	else
 		reply.setCommandArg(std::to_string(NOT_IN_ROOM));
@@ -286,20 +288,7 @@ void			CmdManager::cmdSetStatus(ServerClient *client, BasicCmd *msgClient)
 			client->setStatus(true);
 		reply.setCommandArg(std::to_string(STATUS_CHANGED));
 
-		std::vector<ServerClient *> vectClients;
-		std::vector<ServerClient *>::iterator it;
-		BasicCmd	infoCmd;
-
-		infoCmd.setCommandType(UPDATE_ROOM);
-		msgSerialized = Serialize::serialize(&infoCmd);
-		vectClients = _roomManager->getRoomById(client->getCurrentRoom())->getClients();
-		it = vectClients.begin();
-		while (it != vectClients.end())
-		{
-			if ((*it)->getTCPSocket() != client->getTCPSocket())
-				_clientManager->addDataToSendTCP((*it)->getTCPSocket(), msgSerialized, sizeof(infoCmd));
-			it++;
-		}
+		sendUpdateRoom(client);
 	}
 	msgSerialized = Serialize::serialize(&reply);
 	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(reply));
@@ -334,4 +323,25 @@ void											CmdManager::cmdLaunchGame(const std::vector<ServerClient *> &clie
 	_roomManager->getRoomById(idRoom)->initGame();
 	_mutex->unlock();
 	std::cout << std::endl;
+}
+
+void										CmdManager::sendUpdateRoom(ServerClient *client)
+{
+	std::vector<ServerClient *>				vectClients;
+	std::vector<ServerClient *>::iterator	it;
+	BasicCmd								infoCmd;
+	char									*msgSerialized;
+
+	if (client->getCurrentRoom() == -1)
+		return;
+	infoCmd.setCommandType(UPDATE_ROOM);
+	msgSerialized = Serialize::serialize(&infoCmd);
+	vectClients = _roomManager->getRoomById(client->getCurrentRoom())->getClients();
+	it = vectClients.begin();
+	while (it != vectClients.end())
+	{
+		if ((*it)->getTCPSocket() != client->getTCPSocket())
+			_clientManager->addDataToSendTCP((*it)->getTCPSocket(), msgSerialized, sizeof(infoCmd));
+		it++;
+	}
 }

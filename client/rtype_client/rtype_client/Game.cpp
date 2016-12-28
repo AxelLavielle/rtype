@@ -56,6 +56,8 @@ void	Game::initGraphElements()
 	gui->setMode(_mode);
 	_guiPage = gui;
 	_guiPage->init();
+	_windowsGameSize.first = _windowSize.first;
+	_windowsGameSize.second = _windowSize.second - (gui->getBottomBarHeight() + gui->getTopBarHeight());
 }
 
 void	Game::manageEntity()
@@ -190,6 +192,7 @@ int Game::launch()
 void Game::setGraph(IGraphManager * graph)
 {
 	_graph = graph;
+	_windowSize = _graph->getWindowSize();
 }
 
 void Game::setEvent(IEventManager * event)

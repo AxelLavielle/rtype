@@ -11,6 +11,8 @@ GUIPage::GUIPage(IGraphManager *graph, IEventManager *event, const PathFileManag
 	_mode = "Facile";
 	_playerName = "Player 1";
 	_animInc = 0;
+	_topBarHeight = 0;
+	_bottompBarHeight = 0;
 }
 
 GUIPage::~GUIPage()
@@ -20,8 +22,10 @@ GUIPage::~GUIPage()
 
 bool GUIPage::init()
 {
-	initDecor(Rect(0, 0, 100, _windowSize.first), "/res/img/barreJeu.png");
-	initDecor(Rect(0, _windowSize.second - 150, 150, _windowSize.first), "/res/img/barreJeu.png");
+	_topBarHeight = 100;
+	_bottompBarHeight = 150;
+	initDecor(Rect(0, 0, _topBarHeight, _windowSize.first), "/res/img/barreJeu.png");
+	initDecor(Rect(0, _windowSize.second - 150, _bottompBarHeight, _windowSize.first), "/res/img/barreJeu.png");
 	initDecor(Rect(20, _windowSize.second - 130, 50, 50), "/res/img/iconeDefense.png");
 	initDecor(Rect(20, _windowSize.second - 75, 50, 50), "/res/img/iconeVie.png");
 	initDecor(Rect(_windowSize.first - 250, _windowSize.second - 130, 100, 200), "/res/img/fondCadre.png");
@@ -110,4 +114,14 @@ void GUIPage::setMode(const std::string & mode)
 void GUIPage::setPlayerName(const std::string & name)
 {
 	_playerName = name;
+}
+
+int GUIPage::getTopBarHeight() const
+{
+	return (_topBarHeight);
+}
+
+int GUIPage::getBottomBarHeight() const
+{
+	return (_bottompBarHeight);
 }

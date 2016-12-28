@@ -21,6 +21,8 @@ public:
 	void													setScore(const int score);
 	void													setMode(const std::string & mode);
 	void													setPlayerName(const std::string & name);
+	int														getTopBarHeight() const;
+	int														getBottomBarHeight() const;
 
 private:
 	void													titleAnimation();
@@ -36,5 +38,7 @@ private:
 	std::chrono::high_resolution_clock::time_point			t1;
 	int														_textPosX;
 	int														_textPosY;
+	int														_topBarHeight;
+	int														_bottompBarHeight;
 };
 

@@ -63,6 +63,8 @@ private:
 	Mutex						_mutexRun;
 	bool						_run;
 	bool						_newEvent;
+	std::pair<int, int>			_windowSize;
+	std::pair<int, int>			_windowsGameSize;
 
 	bool initSocket();
 	void initGraphElements();

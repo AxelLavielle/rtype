@@ -19,6 +19,7 @@ Game::Game()
 	_nbPlayer = 0;
 	_run = true;
 	_mode = "Easy";
+	_newEvent = true;
 }
 
 Game::~Game()
@@ -87,6 +88,7 @@ void	Game::manageEntity()
 		if ((entity = _cmdManager.receiveUDPCmd()) != NULL)
 		{
 			_mutex.lock();
+			_newEvent = true;
 			_entity.push_back(entity);
 			_mutex.unlock();
 		}
@@ -147,23 +149,28 @@ int Game::launch()
 			first = false;
 			t1 = std::chrono::high_resolution_clock::now();
 		}
-		_graph->clearWindow();
-		_graph->setBackground(_fileManager.getRoot() + "/res/img/stars_background.jpg", -1, -1);
 
-		std::vector<IEntity* >::iterator		it;
-
-		_mutex.lock();
-		it = _entity.begin();
-		while (it != _entity.end())
+		if (_newEvent)
 		{
-			_graph->drawRectangle(_fileManager.getRoot() + (*it)->getSpriteRepo() + "/spaceShip10.png", Rect((*it)->getPosX(), (*it)->getPosY(), (*it)->getHeight(), (*it)->getWidth()), Rect(0, 0, 0, 0), Rect(0, 0, (*it)->getHeight(), (*it)->getWidth()));
-			++it;
-		}
-		clearEntity();
-		_mutex.unlock();
+			_graph->clearWindow();
+			_graph->setBackground(_fileManager.getRoot() + "/res/img/stars_background.jpg", -1, -1);
 
-		_guiPage->draw();
-		_graph->refresh();
+			std::vector<IEntity* >::iterator		it;
+
+			_mutex.lock();
+			it = _entity.begin();
+			while (it != _entity.end())
+			{
+				_graph->drawRectangle(_fileManager.getRoot() + (*it)->getSpriteRepo() + "/spaceShip10.png", Rect((*it)->getPosX(), (*it)->getPosY(), (*it)->getHeight(), (*it)->getWidth()), Rect(0, 0, 0, 0), Rect(0, 0, (*it)->getHeight(), (*it)->getWidth()));
+				++it;
+			}
+			clearEntity();
+			_mutex.unlock();
+
+			_guiPage->draw();
+			_graph->refresh();
+			_newEvent = false;
+		}
 	}
 	_mutexRun.lock();
 	_run = false;

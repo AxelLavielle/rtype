@@ -59,6 +59,7 @@ private:
 	Mutex						_mutex;
 	Mutex						_mutexRun;
 	bool						_run;
+	bool						_newEvent;
 
 	bool initSocket();
 	void initGraphElements();

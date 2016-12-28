@@ -25,7 +25,7 @@ void Game::init(std::vector<ServerClient*> &clients)
 		player = new Player();
 		player->setName((*it)->getPlayerName());
 		player->setPosX(100 + (i * 100));
-		player->setPosY(100);
+		player->setPosY(200 + (i * 50));
 		player->setHeight(30);
 		player->setWidth(70);
 		player->setSpeedX(1);
@@ -78,24 +78,25 @@ void										Game::updateGame(std::vector<ServerClient *> &clients)
 	char									*msg;
 	IEntity									*player;
 
-	it = clients.begin();
-	while (it != clients.end())
-	{
-		it2 = clients.begin();
-		while (it2 != clients.end())
-		{
-			if ((*it)->getPlayer())
-			{
-				std::cout << "Sending player (" << (*it)->getPlayer()->getPosX() << ", " << (*it)->getPlayer()->getPosY() << ")" << std::endl;
-				msg = Serialize::serialize((*it)->getPlayer());
-				(*it2)->addUDPDataToSend(msg);
-				delete (msg);
-			}
-			it2++;
-		}
-		it++;
-	}
-	return;
+	//it = clients.begin();
+	//while (it != clients.end())
+	//{
+	//	it2 = clients.begin();
+	//	while (it2 != clients.end())
+	//	{
+	//		if ((*it)->getPlayer())
+	//		{
+	//			std::cout << "Sending player (" << (*it)->getPlayer()->getPosX() << ", " << (*it)->getPlayer()->getPosY() << ") to ["
+	//						<< (*it2)->getTCPSocket() << "]" << std::endl;
+	//			msg = Serialize::serialize((*it)->getPlayer());
+	//			(*it2)->addUDPDataToSend(msg);
+	//			delete (msg);
+	//		}
+	//		it2++;
+	//	}
+	//	it++;
+	//}
+	//return;
 	it = clients.begin();
 	while (it != clients.end())
 	{

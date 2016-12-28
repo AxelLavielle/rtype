@@ -33,6 +33,7 @@ void Game::init(std::vector<ServerClient*> &clients)
 		player->setLife(100);
 		player->setSpriteRepo("/res/img/");
 		player->setType(rtype::PLAYER);
+		player->refresh();
 		(*it)->setPlayer(player);
 		while (it2 != clients.end())
 		{

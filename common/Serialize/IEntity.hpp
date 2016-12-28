@@ -30,4 +30,5 @@ public:
 	virtual void			setSpriteRepo(const std::string &) = 0;
 	virtual		bool			setArgs(const std::string & args) = 0;
 	virtual		std::string		getArgs() const = 0;
+	virtual void			refresh() = 0;
 };

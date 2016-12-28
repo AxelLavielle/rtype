@@ -57,6 +57,8 @@ private:
 	ThreadPool					_pool;
 	std::vector<IEntity* >		_entity;
 	Mutex						_mutex;
+	Mutex						_mutexRun;
+	bool						_run;
 
 	bool initSocket();
 	void initGraphElements();

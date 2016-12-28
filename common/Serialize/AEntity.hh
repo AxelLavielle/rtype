@@ -34,6 +34,7 @@ public:
 	virtual		void			setLife(const int);
 	virtual		bool			setArgs(const std::string & args);
 	virtual		std::string		getArgs() const;
+	virtual void			refresh();
 protected:
   double					_posX;
   double					_speedY;

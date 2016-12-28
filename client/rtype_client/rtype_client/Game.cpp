@@ -17,6 +17,7 @@ Game::Game()
 	_playerName = "";
 	_port = -1;
 	_nbPlayer = 0;
+	_run = true;
 	_mode = "Easy";
 }
 
@@ -76,11 +77,17 @@ void	Game::manageEntity()
 
 	while (1)
 	{
+		_mutexRun.lock();
+		if (!_run)
+		{
+			_mutexRun.unlock();
+			return;
+		}
+		_mutexRun.unlock();
 		if ((entity = _cmdManager.receiveUDPCmd()) != NULL)
 		{
 			_mutex.lock();
 			_entity.push_back(entity);
-//				_graph->drawRectangle(_fileManager.getRoot() + entity->getSpriteRepo() + "/spaceShip10.png", Rect(entity->getPosX(), entity->getPosY(), entity->getHeight(), entity->getWidth()), Rect(0, 0, 0, 0), Rect(0, 0, entity->getHeight(), entity->getWidth()));
 			_mutex.unlock();
 		}
 	}
@@ -111,10 +118,14 @@ int Game::launch()
 	{
 		while (_event->refresh())
 		{
-			if (_event->getCloseEvent())
+			if (_event->getCloseEvent() || _guiPage->event() == IPage::QUIT)
+			{
+				_mutexRun.lock();
+				_run = false;
+				_mutexRun.unlock();
+				_pool.joinAll();
 				return (1);
-			if (_guiPage->event() == IPage::QUIT)
-				return (0);
+			}
 			if (_event->getKeyStroke() == "UP" || _event->getKeyStroke() == "LEFT"
 				|| _event->getKeyStroke() == "DOWN" || _event->getKeyStroke() == "RIGHT")
 				_cmdManager.sendInput(_id, _event->getKeyStroke());
@@ -154,6 +165,10 @@ int Game::launch()
 		_guiPage->draw();
 		_graph->refresh();
 	}
+	_mutexRun.lock();
+	_run = false;
+	_mutexRun.unlock();
+	_pool.joinAll();
 	return (0);
 }
 

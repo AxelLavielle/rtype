@@ -176,10 +176,12 @@ int Game::launch()
 
 			_mutex.lock();
 			it = _entity.begin();
+			std::cout << _entity.size() << std::endl;
 			while (it != _entity.end())
 			{
-				_graph->drawRectangle(_fileManager.getRoot() + (*it)->getSpriteRepo() + "/spaceShip10.png", Rect((*it)->getPosX(), (*it)->getPosY(), (*it)->getHeight(), (*it)->getWidth()), Color(0, 0, 0));
-				_graph->drawRectangle(_fileManager.getRoot() + (*it)->getSpriteRepo() + "/shipMissile.png", Rect((*it)->getPosX() + 100, (*it)->getPosY(), 10, 22), Rect(0, 0, 0, 0), Rect(0, 0, 10, 22));
+				_graph->drawRectangle(_fileManager.getRoot() + (*it)->getSpriteRepo(), Rect((*it)->getPosX() * (_windowGameSize.first / NB_CELL_X),
+				(*it)->getPosY() * (_windowSize.second / NB_CELL_Y) + static_cast<GUIPage *>(_guiPage)->getTopBarHeight(), (*it)->getHeight(), (*it)->getWidth()),
+				Color(0, 0, 0));
 				delete *it;
 				++it;
 			}

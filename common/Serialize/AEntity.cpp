@@ -183,25 +183,30 @@ void AEntity::refresh()
 	_args += _name + _separator;
 	ss << _posX;
 	_args += ss.str() + _separator; 
+	ss.str("");
 	ss.clear();
 	ss << _posY;
 	_args += ss.str() + _separator;
+	ss.str("");
 	ss.clear();
 	ss << _height;
 	_args += ss.str() + _separator;
+	ss.str("");
 	ss.clear();
 	ss << _width;
 	_args += ss.str() + _separator;
+	ss.str("");
 	ss.clear();
 	ss << _speedX;
 	_args += ss.str() + _separator;
+	ss.str("");
 	ss.clear();
 	ss << _speedY;
 	_args += ss.str() + _separator;
+	ss.str("");
 	ss.clear();
 	ss << _life;
 	_args += ss.str() + _separator;
-	ss.clear();
 	_args += _spritePath + _separator;
 }
 

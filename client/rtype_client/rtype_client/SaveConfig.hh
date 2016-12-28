@@ -13,7 +13,6 @@ public:
 	~SaveConfig();
 	void	writeToFile();
 	void	readFromFile();
-	void    needleInHaystack(const std::string &);
 
 	std::string	getPlayerName() const;
 	void		setPlayerName(const std::string &);
@@ -44,4 +43,5 @@ private:
 	int			_music;
 	int			_sfx;
 	std::string _iport;
+	void    needleInHaystack(const std::string &);
 };

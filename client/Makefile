@@ -43,6 +43,7 @@ SRC	=	$(SER)/ACommand.cpp	 	\
 		$(DIR)/ListBox.cpp 		\
 		$(DIR)/LobbyPage.cpp 		\
 		$(DIR)/main.cpp 		\
+		$(DIR)/SaveConfig.cpp 		\
 		$(DIR)/Menu.cpp 		\
 		$(COM)/Mutex.cpp 		\
 		$(SER)/Monster.cpp 		\

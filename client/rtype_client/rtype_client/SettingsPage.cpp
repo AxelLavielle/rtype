@@ -1,5 +1,10 @@
 #include "SettingsPage.hh"
 
+SettingsPage::SettingsPage()
+{
+
+}
+
 SettingsPage::SettingsPage(IGraphManager *graph, IEventManager *event, const PathFileManager &fileManager, ISoundManager *soundManager) : APage(graph, event, fileManager, soundManager)
 {
   _backgroundSprite = _fileManager.getRoot() + "/res/img/background_menu3.jpg";
@@ -100,7 +105,6 @@ void SettingsPage::draw()
   _graph->drawText("ADRESSEIP PORT", _windowSize.first / 2 - 150, 600, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
   drawGUIElement(_buttons);
   drawGUIElement(_guiElement);
-  //manageConfigs();
 }
 
 std::pair<std::string, int>		SettingsPage::getServerInfo() const

@@ -115,15 +115,6 @@ bool				SocketClientTCP::sendData(const char *data)
 		return (false);
 	}
 
-//#elif __linux__
-//	if (send(_sock, data, datasize, 0) < 0)
-//	{
-//		std::cout << "Send failed" << std::endl;
-//		_connected = false;
-//		return (false);
-//	}
-//
-//#endif
 	return (true);
 }
 
@@ -157,32 +148,45 @@ bool				SocketClientTCP::sendData(const char *data, const int datasize)
 
 char				*SocketClientTCP::receiveData()
 {
-	int			recvbuflen = TCP_BUFLEN;
+	int				recvbuflen = TCP_BUFLEN;
 	char			*recvbuf = new char[TCP_BUFLEN];
-
-#ifdef _WIN32
 	int				iResult;
 
-	iResult = recv(_sock, recvbuf, recvbuflen, 0);
-	if (iResult > 0)
+	int			ret;
+	struct timeval tv;
+	tv.tv_sec = 0;
+	tv.tv_usec = 1000;
+
+	fd_set readfds;
+	FD_ZERO(&readfds);
+	FD_SET(_sock, &readfds);
+
+	ret = select(_sock + 1, &readfds, NULL, NULL, &tv);
+	if (ret > 0)
 	{
-		recvbuf[iResult - 1] = '\0';
-		return (recvbuf);
+		if (FD_ISSET(_sock, &readfds))
+		{
+			iResult = recv(_sock, recvbuf, recvbuflen, 0);
+			if (iResult > 0)
+			{
+				recvbuf[iResult - 1] = '\0';
+				return (recvbuf);
+			}
+			delete recvbuf;
+			return (NULL);
+		}
 	}
-	delete recvbuf;
-	return (NULL);
-
-#elif __linux__
-	int				ret;
-
-	if ((ret = recv(_sock, recvbuf, recvbuflen, 0)) < 0)
+	else if (ret == 0)
 	{
 		delete recvbuf;
 		return (NULL);
 	}
-	recvbuf[ret - 1] = '\0';
-	return (recvbuf);
-#endif
+	else
+	{
+		std::cerr << "error selecting" << std::endl;
+		delete recvbuf;
+		return (NULL);
+	}
 }
 
 bool				SocketClientTCP::connectToServer()

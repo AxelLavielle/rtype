@@ -22,21 +22,27 @@ bool			SocketClientUDP::init(const std::string &addr, const int port)
 
 	if ((_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == SOCKET_ERROR)
 	{
-		std::cerr << "socket() failed with error code : " << std::endl;
-		//std::cerr << "socket() failed with error code : " << WSAGetLastError() << std::endl;
+#ifdef _WIN32
+		std::cerr << "socket() failed with error code : " << WSAGetLastError() << std::endl;
+#elif __linux__
+		perror("socket");
+#endif
 		return (false);
 	}
 
-	memset(reinterpret_cast<char *>(&_siOther), 0, sizeof(_siOther));
+	MemTools::set(reinterpret_cast<char *>(&_siOther), 0, sizeof(_siOther));
 	_siOther.sin_family = AF_INET;
 	_siOther.sin_port = htons(port);
 	_siOther.sin_addr.s_addr = htonl(INADDR_ANY);
-//	inet_pton(AF_INET, addr.c_str(), &_siOther.sin_addr.S_un.S_addr);
 
 	if (bind(_sock, reinterpret_cast<struct sockaddr *>(&_siOther), sizeof(_siOther)) == -1)
 	{
-		std::cerr << "bind() failed with error code : " << std::endl;
-		// std::cerr << "bind() failed with error code : " << WSAGetLastError() << std::endl;
+#ifdef _WIN32
+		std::cerr << "bind() failed with error code : " << WSAGetLastError() << std::endl;
+#elif __linux__
+		perror("bind");
+#endif
+return (false);
 	}
 
 	_connected = true;
@@ -107,7 +113,7 @@ char			*SocketClientUDP::receiveData()
 	{
 		if (FD_ISSET(_sock, &readfds))
 		{
-			memset(buf, '\0', TCP_PACKET_SIZE);
+			MemTools::set(buf, '\0', TCP_PACKET_SIZE);
 			if ((ret = recvfrom(_sock, buf, TCP_PACKET_SIZE, 0, reinterpret_cast<struct sockaddr *>(&_siOther), reinterpret_cast<socklen_t *>(&slen))) == SOCKET_ERROR)
 			{
 #ifdef _WIN32
@@ -125,7 +131,6 @@ char			*SocketClientUDP::receiveData()
 	}
 	else if (ret == 0)
 	  {
-//		std::cout << "timed out waiting for ack" << std::endl;
 		delete buf;
 		return (NULL);
 	  }

@@ -21,6 +21,8 @@
 #include "Thread.hh"
 #include "Mutex.hh"
 
+#define NB_CELL_X (80)
+#define NB_CELL_Y (150)
 #define GAME_LOOP_DURATION (1)
 #define RECEIVE_DURATION (1)
 
@@ -64,7 +66,7 @@ private:
 	bool						_run;
 	bool						_newEvent;
 	std::pair<int, int>			_windowSize;
-	std::pair<int, int>			_windowsGameSize;
+	std::pair<int, int>			_windowGameSize;
 
 	bool initSocket();
 	void initGraphElements();

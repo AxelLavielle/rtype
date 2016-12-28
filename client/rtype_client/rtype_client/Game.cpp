@@ -56,8 +56,8 @@ void	Game::initGraphElements()
 	gui->setMode(_mode);
 	_guiPage = gui;
 	_guiPage->init();
-	_windowsGameSize.first = _windowSize.first;
-	_windowsGameSize.second = _windowSize.second - (gui->getBottomBarHeight() + gui->getTopBarHeight());
+	_windowGameSize.first = _windowSize.first;
+	_windowGameSize.second = _windowSize.second - (gui->getBottomBarHeight() + gui->getTopBarHeight());
 }
 
 void	Game::manageEntity()
@@ -170,8 +170,9 @@ int Game::launch()
 			it = _entity.begin();
 			while (it != _entity.end())
 			{
-				_graph->drawRectangle(_fileManager.getRoot() + (*it)->getSpriteRepo() + "/spaceShip10.png", Rect((*it)->getPosX(), (*it)->getPosY(), (*it)->getHeight(), (*it)->getWidth()), Color(0, 0, 0));
-				_graph->drawRectangle(_fileManager.getRoot() + (*it)->getSpriteRepo() + "/shipMissile.png", Rect((*it)->getPosX() + 100, (*it)->getPosY(), 10, 22), Rect(0, 0, 0, 0), Rect(0, 0, 10, 22));
+				_graph->drawRectangle(_fileManager.getRoot() + (*it)->getSpriteRepo() + "/spaceShip10.png", Rect((*it)->getPosX() * (_windowGameSize.first / NB_CELL_X),
+					(*it)->getPosY() * (_windowSize.second / NB_CELL_Y) + static_cast<GUIPage *>(_guiPage)->getTopBarHeight(), (*it)->getHeight(), (*it)->getWidth()),
+					Color(0, 0, 0));
 				delete *it;
 				++it;
 			}

@@ -34,7 +34,7 @@ void			SaveConfig::writeToFile()
 {
 	std::fstream		fileStream;
 
-	fileStream.open("menuConfig.xml",
+	fileStream.open(".menuConfig.xml",
 		std::fstream::in |
 		std::fstream::out |
 		std::fstream::trunc);
@@ -114,7 +114,7 @@ void				SaveConfig::readFromFile()
 {
 	std::fstream			fileStream;
 
-	fileStream.open("menuConfig.xml", std::fstream::in | std::fstream::binary | std::fstream::out);
+	fileStream.open(".menuConfig.xml", std::fstream::in | std::fstream::binary | std::fstream::out);
 	if (fileStream.is_open())
 	{
 		std::string line;

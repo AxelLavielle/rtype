@@ -153,6 +153,11 @@ int Game::launch()
 				_key = _event->getKeyStroke();
 				_cmdManager.sendInput(_id, _event->getKeyStroke());
 			}
+			if (_key == "" && _event->getKeyStroke() == "SHOOT")
+			{
+				_key = _event->getKeyStroke();
+				_cmdManager.sendInput(_id, _event->getKeyStroke());
+			}
 			if (_event->getKeyStroke() == "ECHAP")
 			{
 				delete _guiPage;

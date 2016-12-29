@@ -124,20 +124,20 @@ char			*SocketClientUDP::receiveData()
 				perror("recvfrom");
 
 #endif
-				delete buf;
+				delete[] buf;
 				return (NULL);
 			}
 		}
 	}
 	else if (ret == 0)
 	  {
-		delete buf;
+		delete[] buf;
 		return (NULL);
 	  }
 	else
 	  {
 		std::cerr << "error selecting" << std::endl;
-		delete buf;
+		delete[] buf;
 		return (NULL);
 	  }
 

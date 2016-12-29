@@ -340,7 +340,8 @@ IEntity		*CmdManager::receiveUDPCmd()
 		return (NULL);
 	res = _socketClientUDP->receiveData();
 	entity = Serialize::unserializeEntity(res);
-	delete res;
+	if (res != NULL)
+		delete[] res;
 	return (entity);
 }
 

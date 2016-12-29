@@ -120,7 +120,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\common\AMutex.hh" />
     <ClInclude Include="..\..\..\common\AThread.hh" />
-    <ClInclude Include="..\..\..\common\IEntity.hpp" />
     <ClInclude Include="..\..\..\common\ISocket.hpp" />
     <ClInclude Include="..\..\..\common\MemTools.hh" />
     <ClInclude Include="..\..\..\common\Mutex.hh" />
@@ -131,8 +130,10 @@
     <ClInclude Include="..\..\..\common\Serialize\CmdEnum.hh" />
     <ClInclude Include="..\..\..\common\Serialize\EntityType.hh" />
     <ClInclude Include="..\..\..\common\Serialize\ICommand.hpp" />
+    <ClInclude Include="..\..\..\common\Serialize\IEntity.hpp" />
     <ClInclude Include="..\..\..\common\Serialize\InputCmd.hh" />
     <ClInclude Include="..\..\..\common\Serialize\ListRoomCmd.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\Missile.hh" />
     <ClInclude Include="..\..\..\common\Serialize\Monster.hh" />
     <ClInclude Include="..\..\..\common\Serialize\Player.hh" />
     <ClInclude Include="..\..\..\common\Serialize\PowerUp.hh" />
@@ -145,7 +146,6 @@
     <ClInclude Include="CmdManager.hh" />
     <ClInclude Include="Game.hh" />
     <ClInclude Include="Map.hh" />
-    <ClInclude Include="Missile.hh" />
     <ClInclude Include="Room.hh" />
     <ClInclude Include="RoomManager.hh" />
     <ClInclude Include="Server.hh" />
@@ -165,6 +165,7 @@
     <ClCompile Include="..\..\..\common\Serialize\BasicCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\InputCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\ListRoomCmd.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\Missile.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\Monster.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\Player.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\PowerUp.cpp" />
@@ -178,7 +179,6 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
-    <ClCompile Include="Missile.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="RoomManager.cpp" />
     <ClCompile Include="Server.cpp" />

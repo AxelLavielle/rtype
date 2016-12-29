@@ -24,4 +24,6 @@ private:
 	void	updateEntities();
 	void	sendEntitiesToClients(std::vector<ServerClient *> &);
 	void	updatePlayers(std::vector<ServerClient *> &);
+	void	shootMissile(const int, const int);
+
 };

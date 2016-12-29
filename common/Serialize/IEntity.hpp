@@ -2,11 +2,16 @@
 
 #include <string>
 #include "EntityType.hh"
+#include <iostream>
 
 class IEntity
 {
 public:
-	virtual					~IEntity(){}
+	virtual					~IEntity()
+	{
+		std::cout << "IEntity DESTROYED !!!!!!!!!" << std::endl;
+	}
+
 	virtual void			update() = 0;
 	virtual double			getPosX() const = 0;
 	virtual void			setPosX(const double) = 0;

@@ -105,7 +105,7 @@
     <ClCompile Include="Map.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Missile.cpp">
+    <ClCompile Include="..\..\..\common\Serialize\Missile.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -164,9 +164,6 @@
     <ClInclude Include="..\..\..\common\Serialize\Barrier.hh">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\common\IEntity.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\common\Serialize\Monster.hh">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
@@ -212,7 +209,10 @@
     <ClInclude Include="Map.hh">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Missile.hh">
+    <ClInclude Include="..\..\..\common\Serialize\Missile.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\common\Serialize\IEntity.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

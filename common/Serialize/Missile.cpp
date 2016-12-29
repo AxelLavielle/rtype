@@ -1,5 +1,7 @@
 #include "Missile.hh"
 
+#include <iostream>
+
 Missile::Missile(const int x, const int y)
 {
 	this->setType(rtype::MISSILE);
@@ -16,10 +18,12 @@ Missile::Missile(const int x, const int y)
 
 Missile::~Missile()
 {
+	std::cout << "MISSILE DESTROYED" << std::endl;
 }
 
 void	Missile::update()
 {
-	setPosX(_posX + 1);
-	refresh();
+	std::cout << "Moving missile : " << _posX << " to " << _posX + _speedX << std::endl;
+	setPosX(_posX + _speedX);
+	//refresh();
 }

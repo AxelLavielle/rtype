@@ -23,6 +23,7 @@ Server::Server() : _cmdManager(&_clientManager, &_roomManager)
 	_acknowledgementNumber = 103;
 	_mutex = new Mutex();
 	_cmdManager.setMutex(_mutex);
+	std::srand(std::time(NULL));
 }
 
 Server::~Server()
@@ -237,11 +238,6 @@ bool							Server::launch()
 		duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
 		if (duration >= GAME_LOOP_TIME)
 		{
-			//#ifdef __linux__
-			//	  usleep(10);
-			//#elif _WIN32
-			//	  Sleep(100);
-			//	  #endif
 			processGames();
 			t1 = std::chrono::high_resolution_clock::now();
 		}

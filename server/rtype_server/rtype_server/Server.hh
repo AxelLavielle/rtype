@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ctime>
+
 #include "SocketServerTCP.hh"
 #include "SocketServerUDP.hh"
 #include "ClientManager.hh"

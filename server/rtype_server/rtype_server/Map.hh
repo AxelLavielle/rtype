@@ -2,6 +2,7 @@
 
 # include <vector>
 # include "AEntity.hh"
+#include "Serialize.hh"
 
 #include <iostream>
 
@@ -20,6 +21,8 @@ public:
 	std::vector<IEntity *>		getEntities(const int, const int) const;
 	void						setEntity(IEntity *);
 	void						refresh();
+	void						generate();
+	int							getNbEntities() const;
 
 private:
 	std::vector<IEntity *>		_entityList;

@@ -23,7 +23,8 @@ Missile::~Missile()
 
 void	Missile::update()
 {
-	std::cout << "Moving missile : " << _posX << " to " << _posX + _speedX << std::endl;
-	setPosX(_posX + _speedX);
+	std::cout << "Moving missile : " << std::endl;
+		//<< _posX << " to " << _posX + _speedX << std::endl;
+	//setPosX(_posX + _speedX);
 	//refresh();
 }

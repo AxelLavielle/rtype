@@ -8,9 +8,7 @@ class IEntity
 {
 public:
 	virtual					~IEntity()
-	{
-		std::cout << "IEntity DESTROYED !!!!!!!!!" << std::endl;
-	}
+	{}
 
 	virtual void			update() = 0;
 	virtual double			getPosX() const = 0;

@@ -1,9 +1,10 @@
 #include "Game.hh"
 
-Game::Game() : _map(150)
+Game::Game()
 {
 	_currentXMin = 0;
 	_currentXMax = 150;
+	_entityList = new std::vector<IEntity *> ();
 }
 
 Game::~Game()
@@ -27,7 +28,7 @@ void Game::init(std::vector<ServerClient*> &clients)
 		it2 = clients.begin();
 		player = new Player(10 + (i * 10), 10 + (i * 20));
 		(*it)->setPlayer(player);
-		_map.setEntity(player);
+		addEntity(player);
 		while (it2 != clients.end())
 		{
 			if (player)
@@ -43,8 +44,10 @@ void Game::init(std::vector<ServerClient*> &clients)
 		++it;
 	}
 
-	_map.generate();
-	//IEntity *wall = new Barrier(0, NB_CELLS_Y);
+	IEntity *wall = new Barrier(50, 50);
+	addEntity(wall);
+	IEntity *wall2 = new Barrier(80, 50);
+	addEntity(wall2);
 	//_map.setEntity(wall);
 
 }
@@ -52,7 +55,12 @@ void Game::init(std::vector<ServerClient*> &clients)
 void								Game::shootMissile(const int x, const int y)
 {
 	IEntity *missile = new Missile(x, y);
-	_map.setEntity(missile);
+	addEntity(missile);
+}
+
+void								Game::addEntity(IEntity *newEntity)
+{
+	_entityList->push_back(newEntity);
 }
 
 void								Game::manageInput(ServerClient *client)
@@ -80,7 +88,7 @@ void								Game::manageInput(ServerClient *client)
 		{
 			shootMissile(newX + player->getWidth(), newY);
 		}
-		if (newX > _currentXMin && newX < _currentXMax && newY > 0 && newY < NB_CELLS_Y && _map(newX, newY) == NULL)
+		if (newX > _currentXMin && newX < _currentXMax && newY > 0 && newY < NB_CELLS_Y)
 		{
 			player->setPosX(newX);
 			player->setPosY(newY);
@@ -94,15 +102,17 @@ void								Game::manageInput(ServerClient *client)
 
 void										Game::updateGame(std::vector<ServerClient *> &clients)
 {
-	std::cout << "NB 1 entities [" << _map.getNbEntities() << "]" << std::endl;
+	//std::cout << "NB 1 entities [" << _entityList->size() << "]" << std::endl;
 	updatePlayers(clients);
-	std::cout << "NB 2 entities [" << _map.getNbEntities() << "]" << std::endl;
-	updateEntities();
-	std::cout << "NB 3 entities [" << _map.getNbEntities() << "]" << std::endl;
-	_map.refresh();
-	sendEntitiesToClients(clients);
-	std::cout << "NB 4 entities [" << _map.getNbEntities() << "]" << std::endl;
 
+	//std::cout << "NB 2 entities [" << _entityList->size() << "]" << std::endl;
+	updateEntities();
+
+	//std::cout << "NB 3 entities [" << _entityList->size() << "]" << std::endl;
+	sendEntitiesToClients(clients);
+
+	//std::cout << "NB 4 entities [" << _entityList->size() << "]" << std::endl;
+	
 	std::cout << std::endl << std::endl;
 	/*_currentXMin++;
 	_currentXMax++;*/
@@ -124,62 +134,35 @@ void										Game::updatePlayers(std::vector<ServerClient *> &clients)
 
 void										Game::sendEntitiesToClients(std::vector<ServerClient *> &clients)
 {
-	std::vector<IEntity *>					entitiesToSend;
 	std::vector<IEntity *>::iterator		itMap;
 	std::vector<ServerClient *>::iterator	itClients;
 	char									*msg;
 
-	entitiesToSend = _map.getEntities(_currentXMin, _currentXMax);
 	//std::cout << "[Game] : Sending [" << entitiesToSend.size() << "] Entities" << std::endl;
-	itMap = entitiesToSend.begin();
-	while (itMap != entitiesToSend.end())
+	itMap = _entityList->begin();
+	while (itMap != _entityList->end())
 	{
+		msg = Serialize::serialize(*itMap);
 		itClients = clients.begin();
 		while (itClients != clients.end())
 		{
-			msg = Serialize::serialize(*itMap);
 			(*itClients)->addUDPDataToSend(msg);
-			delete[] msg;
 			itClients++;
 		}
+		delete[] msg;
 		itMap++;
 	}
-
 }
 
 void		Game::updateEntities()
 {
-	//int		x;
-	//int		y;
 	IEntity *currentEntity;
 	int n = 0;
-	////std::cout << "[Game] : Updating Entities" << std::endl;
-	//x = _currentXMin;
-	//y = 0;
-	//while (y < NB_CELLS_Y)
-	//{
-	//	while (x < _currentXMax)
-	//	{
-	//		if ((currentEntity = _map(x, y)) != NULL && currentEntity->getType() != rtype::PLAYER)
-	//		{
-	//			n++;
-	//			currentEntity->update();
-	//		}
-	//		x++;
-	//	}
-	//	x = _currentXMin;
-	//	y++;
-	//}
-	//
-	(void)currentEntity;
-
-	std::vector<IEntity *>				entitiesToSend;
 	std::vector<IEntity *>::iterator	it;
 
-	entitiesToSend = _map.getEntities(_currentXMin, _currentXMax);
 	//std::cout << "[Game] : Sending [" << entitiesToSend.size() << "] Entities" << std::endl;
-	it = entitiesToSend.begin();
-	while (it != entitiesToSend.end())
+	it = _entityList->begin();
+	while (it != _entityList->end())
 	{
 		if ((*it)->getType() != rtype::PLAYER)
 		{
@@ -188,15 +171,6 @@ void		Game::updateEntities()
 		}
 		it++;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	if (n > 0)
 		std::cout << "[Game] : Updated " << n << " Entities" << std::endl;

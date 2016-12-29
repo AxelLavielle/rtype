@@ -4,7 +4,8 @@
 #include "Serialize.hh"
 #include "ServerClient.hh"
 #include "InputCmd.hh"
-#include "Map.hh"
+
+#define NB_CELLS_Y	(80)
 
 class Game
 {
@@ -12,18 +13,20 @@ public:
 	Game();
 	~Game();
 
-	void init(std::vector<ServerClient *> &);
-	void updateGame(std::vector<ServerClient *> &);
+	void	init(std::vector<ServerClient *> &);
+	void	updateGame(std::vector<ServerClient *> &);
 
 private:
-	int		_currentXMin;
-	int		_currentXMax;
-	Map		_map;
+	int						_currentXMin;
+	int						_currentXMax;
+	std::vector<IEntity *>	*_entityList;
 
 	void	manageInput(ServerClient *client);
 	void	updateEntities();
 	void	sendEntitiesToClients(std::vector<ServerClient *> &);
 	void	updatePlayers(std::vector<ServerClient *> &);
 	void	shootMissile(const int, const int);
+	void	addEntity(IEntity *);
+
 
 };

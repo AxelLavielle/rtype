@@ -8,11 +8,12 @@ class Monster :
 private:
   int		_id;
 public:
-  Monster();
-  virtual ~Monster();
+	Monster();
+	Monster(const int, const int);
+	virtual ~Monster();
 
-  virtual void	update();
+	virtual void	update();
 
-  void		setId(const int);
-  int		getId() const;
+	void		setId(const int);
+	int		getId() const;
 };

@@ -18,6 +18,8 @@
 
 #endif
 
+# include "MemTools.hh"
+
 class SocketAddress
 {
 private:

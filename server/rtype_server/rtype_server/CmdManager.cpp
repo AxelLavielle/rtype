@@ -274,12 +274,16 @@ void			CmdManager::cmdSetStatus(ServerClient *client, BasicCmd *msgClient)
 	BasicCmd	reply;
 	char		*msgSerialized;
 
+	std::cout << "HELLO CMD SET STATUS !" << std::endl;
 	if (client->isLogged() == false)
 		return;
 	(void)msgClient;
 	reply.setCommandType(REPLY_CODE);
 	if (client->getCurrentRoom() == -1)
+	  {
 		reply.setCommandArg(std::to_string(NOT_IN_ROOM));
+		std::cout << "NOT IN ROOM !" << std::endl;
+	  }
 	else
 	{
 		if (client->isReady())
@@ -287,8 +291,9 @@ void			CmdManager::cmdSetStatus(ServerClient *client, BasicCmd *msgClient)
 		else
 			client->setStatus(true);
 		reply.setCommandArg(std::to_string(STATUS_CHANGED));
-
+		std::cout << "Status changed !" << std::endl;
 		sendUpdateRoom(client);
+		std::cout << "Sent Update Room !" << std::endl;
 	}
 	msgSerialized = Serialize::serialize(&reply);
 	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(reply));

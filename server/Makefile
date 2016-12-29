@@ -21,6 +21,7 @@ SRC		=	$(DIR)/ASocketServer.cpp	\
 			$(DIR)/RoomManager.cpp		\
 			$(DIR)/SocketAddress.cpp	\
 			$(DIR)/CmdManager.cpp		\
+			$(DIR)/Map.cpp			\
 			$(COMMON)/MemTools.cpp		\
 			$(COMMON)/Thread.cpp		\
 			$(COMMON)/Mutex.cpp		\
@@ -38,6 +39,7 @@ SRC		=	$(DIR)/ASocketServer.cpp	\
 			$(SERIALIZE)/PowerUp.cpp	\
 			$(SERIALIZE)/Monster.cpp	\
 			$(SERIALIZE)/Barrier.cpp	\
+			$(SERIALIZE)/Missile.cpp	\
 
 OBJ		=	$(SRC:.cpp=.o)
 

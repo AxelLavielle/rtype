@@ -66,6 +66,7 @@ void										Server::processBasicCmd(ServerClient *client, BasicCmd *cmd)
 #endif
 	  _cmdManager.cmdHandshakeSyn(client, cmd, _acknowledgementNumber);
 	  break;
+
 	case HANDSHAKE_ACK:
 #ifdef _WIN32
 	  SetConsoleTextAttribute(gHConsole, COLOR_CYAN);
@@ -125,11 +126,11 @@ void										Server::processBasicCmd(ServerClient *client, BasicCmd *cmd)
 	  #ifdef _WIN32
 	  SetConsoleTextAttribute(gHConsole, COLOR_CYAN);
 	  std::cout << "---------> SET STATUS [" << client->getTCPSocket() << "]" << std::endl;
-	  _cmdManager.cmdSetStatus(client, cmd);
 	  SetConsoleTextAttribute(gHConsole, COLOR_RESET);
 #elif __linux__
 	  std::cout << COLOR_CYAN_L<< "---------> SET STATUS [" << client->getTCPSocket() << "]" << COLOR_RESET_L << std::endl;
 	  #endif
+	  _cmdManager.cmdSetStatus(client, cmd);
 	  break;
 
 	case GET_ROOM:
@@ -242,7 +243,13 @@ bool							Server::launch()
 			t1 = std::chrono::high_resolution_clock::now();
 		}
 		else
-			Sleep(GAME_LOOP_TIME - duration);
+		  {
+#ifdef _WIN32
+		    Sleep(GAME_LOOP_TIME - duration);
+#elif __linux__
+		    usleep(GAME_LOOP_TIME - duration);
+#endif
+		  }
 	}
 
 	_pool.joinAll();
@@ -315,18 +322,14 @@ void											Server::processUDPMessages(const std::vector<ICommand *> &vectMsg
 bool									Server::UDPLoop()
 {
 	std::vector<ICommand *>			vectMsg;
-	int nbMsg;
 
 	while (42)
 	{
-		nbMsg = 0;
 		if (_socketServerUDP.selectFds() != -1)
 		//while (_socketServerUDP.selectFds() != -1)
 		{
-			//std::cout << "Msg nb" << nbMsg << std::endl;
 			vectMsg = _socketServerUDP.receiveData();
 			processUDPMessages(vectMsg);
-			//nbMsg++;
 		}
 		_mutex->lock();
 		_socketServerUDP.sendAllData(_clientManager.getClients());

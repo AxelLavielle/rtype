@@ -23,7 +23,7 @@ void Game::init(std::vector<ServerClient*> &clients)
 	while (it != clients.end())
 	{
 		IEntity		*player;
-	
+
 		it2 = clients.begin();
 		player = new Player(10 + (i * 10), 10 + (i * 20));
 		(*it)->setPlayer(player);
@@ -35,7 +35,7 @@ void Game::init(std::vector<ServerClient*> &clients)
 				std::cout << "Send initial info to " << (*it)->getTCPSocket() << std::endl;
 				msg = Serialize::serialize(player);
 				(*it2)->addUDPDataToSend(msg);
-				delete (msg);
+				delete[] msg;
 			}
 			++it2;
 		}
@@ -71,11 +71,11 @@ void								Game::manageInput(ServerClient *client)
 
 		newX = player->getPosX();
 		newY = player->getPosY();
-		
+
 		if (it->getKey() == "UP" || it->getKey() == "DOWN")
 			newY = (it->getKey() == "UP") ? (newY - 1) : (newY + 1);
 		else if (it->getKey() == "RIGHT" || it->getKey() == "LEFT")
-			newX = (it->getKey() == "RIGHT") ? (newX + 1) : (newX - 1);*/
+			newX = (it->getKey() == "RIGHT") ? (newX + 1) : (newX - 1);
 		else if (it->getKey() == "SHOOT")
 		{
 			shootMissile(newX + player->getWidth(), newY);
@@ -85,7 +85,7 @@ void								Game::manageInput(ServerClient *client)
 			player->setPosX(newX);
 			player->setPosY(newY);
 		}
-		
+
 		player->refresh();
 		++it;
 	}
@@ -139,12 +139,12 @@ void										Game::sendEntitiesToClients(std::vector<ServerClient *> &clients)
 		{
 			msg = Serialize::serialize(*itMap);
 			(*itClients)->addUDPDataToSend(msg);
-			delete (msg);
+			delete[] msg;
 			itClients++;
 		}
 		itMap++;
 	}
-	
+
 }
 
 void		Game::updateEntities()
@@ -171,8 +171,8 @@ void		Game::updateEntities()
 	//	y++;
 	//}
 	//
-	
-	
+	(void)currentEntity;
+
 	std::vector<IEntity *>				entitiesToSend;
 	std::vector<IEntity *>::iterator	it;
 

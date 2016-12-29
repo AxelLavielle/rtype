@@ -323,7 +323,7 @@ bool		CmdManager::sendUDPCmd()
 			std::cerr << "ERROR: cant not send data" << std::endl;
 			return (false);
 		}
-		delete (res);
+		delete[] res;
 		delete (*it);
 		it = _cmd.erase(it);
 	}

@@ -105,7 +105,7 @@
     <ClCompile Include="..\..\..\common\Serialize\Missile.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionBox.cpp">
+    <ClCompile Include="..\..\..\common\Serialize\CollisionBox.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -212,7 +212,7 @@
     <ClInclude Include="..\..\..\common\Serialize\IEntity.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionBox.hh">
+    <ClInclude Include="..\..\..\common\Serialize\CollisionBox.hh">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

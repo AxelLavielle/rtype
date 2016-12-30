@@ -1,8 +1,12 @@
 #pragma once
 
-#include <string>
 #include "EntityType.hh"
+#include "CollisionBox.hh"
+
+#include <string>
 #include <iostream>
+
+class CollisionBox;
 
 class IEntity
 {
@@ -37,5 +41,7 @@ public:
 	virtual void			setDead(const bool) = 0;
 	virtual		bool			setArgs(const std::string & args) = 0;
 	virtual		std::string		getArgs() const = 0;
+	virtual CollisionBox		*getCollisionBox() const = 0;
+	virtual bool			isColliding(CollisionBox *) const = 0;
 	virtual void			refresh() = 0;
 };

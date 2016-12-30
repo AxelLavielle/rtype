@@ -21,6 +21,8 @@ Game::Game()
 	_mode = "Easy";
 	_key = "";
 	_newEvent = true;
+	_pew.setDuration(-1);
+	_pew.setFilePath(_fileManager.getRoot() + "/res/sounds/buttonClick.wav");
 }
 
 Game::~Game()
@@ -72,21 +74,6 @@ void	Game::updateEntities(IEntity *entity)
 		if ((*it)->getId() == entity->getId())
 		{
 			(*it2) = 0;
-			//if ((*it)->isDead() == entity->isDead() && (*it)->getPosX() == entity->getPosX() && (*it)->getPosY() == entity->getPosY() &&
-			//	(*it)->getHeight() == entity->getHeight() && (*it)->getWidth() == entity->getWidth() && (*it)->getSpeedX() == entity->getSpeedX() &&
-			//	(*it)->getSpeedY() == entity->getSpeedY() && (*it)->getType() == entity->getType() && (*it)->getName() == entity->getName() &&
-			//	(*it)->getLife() == entity->getLife() && (*it)->getSpriteRepo() == entity->getSpriteRepo() && (*it)->getArgs() == entity->getArgs() &&
-			//	(*it)->getType() != rtype::PLAYER)
-			//	(*it2)++;
-			//else
-			//	(*it2) = 0;
-			//if ((*it2) >= 10)
-			//{
-			//	delete (*it);
-			//	it = _entity.erase(it);
-			//	it2 = _refreshed.erase(it2);
-			//	deleted = true;
-			//}
 			if (entity->isDead() == true)
 			{
 				delete (*it);
@@ -113,7 +100,7 @@ void	Game::updateEntities(IEntity *entity)
 		else
 		{
 			(*it2)++;
-			if ((*it2) >= 50)
+			if ((*it2) >= 10)
 			{
 				delete (*it);
 				it = _entity.erase(it);
@@ -130,6 +117,8 @@ void	Game::updateEntities(IEntity *entity)
 	}
 	if (it == _entity.end())
 	{
+		if (entity->getType() == rtype::MISSILE)
+			_soundManager.play(_pew);
 		_entity.push_back(entity);
 		_refreshed.push_back(0);
 	}

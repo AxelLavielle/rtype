@@ -70,6 +70,7 @@ private:
 	std::pair<int, int>			_windowSize;
 	std::pair<int, int>			_windowGameSize;
 	std::string					_key;
+	Sound						_pew;
 
 	bool initSocket();
 	void initGraphElements();

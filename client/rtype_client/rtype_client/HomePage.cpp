@@ -18,7 +18,7 @@ bool HomePage::init()
 {
 	initButton(70, 10, 60, Rect(_windowSize.first / 2 - 155, 400, 90, 310), "PLAY", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::PLAY);
 	initButton(20, 10, 60, Rect(_windowSize.first / 2 - 155, 580, 90, 310), "OPTION", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::SETTINGS);
-	initButton(70, 10, 60, Rect(_windowSize.first / 2 - 155, 750, 90, 310), "QUIT", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::ENDGAME);
+	initButton(70, 10, 60, Rect(_windowSize.first / 2 - 155, 750, 90, 310), "QUIT", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::QUIT);
 	initDecor(Rect(_windowSize.first / 2 - 250, 350, 50, 500), "/res/img/bordureHaut.png");
 	initDecor(Rect(_windowSize.first / 2 - 250, 850, 50, 500), "/res/img/bordureBas.png");
 	t1 = std::chrono::high_resolution_clock::now();

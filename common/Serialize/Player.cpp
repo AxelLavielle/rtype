@@ -1,7 +1,6 @@
 #include "Player.hh"
-#include "EntityType.hh"
 
-Player::Player(const int x, const int y)
+Player::Player(const int x, const int y, const int idPlayer)
 {
   this->setType(rtype::PLAYER);
   this->setName("");
@@ -13,15 +12,10 @@ Player::Player(const int x, const int y)
   this->setSpeedY(1);
   this->setLife(100);
   this->setSpriteRepo("/res/img/spaceShip10.png");
+  _collisionBox = new CollisionBox(this);
   refresh();
   _missileCooldown = 0;
-}
-
-Player::Player(const std::string &name)
-{
-	this->setType(rtype::PLAYER);
-	this->setName(name);
-	refresh();
+  _idPlayer = idPlayer;
 }
 
 Player::~Player()
@@ -36,6 +30,11 @@ int			Player::getMissileCooldown() const
 void		Player::setMissileCooldown(const int mC)
 {
 	_missileCooldown = mC;
+}
+
+int			Player::getIdPlayer() const
+{
+	return (_idPlayer);
 }
 
 void		Player::update()

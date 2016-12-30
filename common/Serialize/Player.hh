@@ -7,14 +7,15 @@ class Player :
 {
 private:
   int			_missileCooldown;
+  int			_idPlayer;
 
 public:
-  Player(const int, const int);
-  Player(const std::string &);
+  Player(const int, const int, const int);
   virtual ~Player();
 
   virtual void		update();
 
   int			getMissileCooldown() const;
   void			setMissileCooldown(const int);
+  int			getIdPlayer() const;
 };

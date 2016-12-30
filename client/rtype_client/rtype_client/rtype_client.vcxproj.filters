@@ -59,6 +59,7 @@
     <ClCompile Include="LoadingPage.cpp" />
     <ClCompile Include="InputKey.cpp" />
     <ClCompile Include="SaveConfig.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\CollisionBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />
@@ -132,5 +133,6 @@
     <ClInclude Include="LoadingPage.hh" />
     <ClInclude Include="InputKey.hh" />
     <ClInclude Include="SaveConfig.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\CollisionBox.hh" />
   </ItemGroup>
 </Project>

@@ -22,7 +22,7 @@ char		*Serialize::serialize(IEntity *entity)
 	p.dataType = entity->getType();
 	p.cmdType = ENTITY;
 	tmp = entity->getArgs();
-	std::cout << "tmp = " << tmp << std::endl;
+	//std::cout << "tmp = " << tmp << std::endl;
 	i = 0;
 	while ((unsigned int)i < tmp.size())
 	{
@@ -75,7 +75,7 @@ IEntity		*Serialize::unserializeEntity(char *data)
   p = reinterpret_cast<packet*>(data);
   if (p == NULL)
 	  return (NULL);
-  res = new Player(0, 0);
+  res = new Player(0, 0, 1);
   res->setType(static_cast<rtype::EntityType>(p->dataType));
   if (!res->setArgs(std::string(p->data)))
   {

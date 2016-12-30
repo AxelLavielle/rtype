@@ -38,6 +38,7 @@ SRC	=	$(SER)/ACommand.cpp	 	\
 		$(DIR)/InputBox.cpp 		\
 		$(DIR)/InputKey.cpp 		\
 		$(SER)/InputCmd.cpp 		\
+		$(SER)/CollisionBox.cpp	 	\
 		$(DIR)/InsideRoomPage.cpp	\
 		$(SER)/ListRoomCmd.cpp 		\
 		$(DIR)/ListBox.cpp 		\

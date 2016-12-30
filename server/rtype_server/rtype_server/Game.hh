@@ -20,14 +20,16 @@ public:
 private:
 	int						_currentXMin;
 	int						_currentXMax;
+	int						*_currentWall;
 	std::vector<IEntity *>	*_entityList;
 
 	void	manageInput(ServerClient *client);
 	void	updateEntities();
 	void	sendEntitiesToClients(std::vector<ServerClient *> &);
 	void	updatePlayers(std::vector<ServerClient *> &);
-	void	shootMissile(const int, const int);
+	void	shootMissile(const int, const int, const int);
 	void	addEntity(IEntity *);
 	void	deleteEntities();
-
+	void	addWalls(const int);
+	void	checkCollisions();
 };

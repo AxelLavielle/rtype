@@ -144,6 +144,7 @@
     <ClInclude Include="ASocketServer.hh" />
     <ClInclude Include="ClientManager.hh" />
     <ClInclude Include="CmdManager.hh" />
+    <ClInclude Include="CollisionBox.hh" />
     <ClInclude Include="Game.hh" />
     <ClInclude Include="Room.hh" />
     <ClInclude Include="RoomManager.hh" />
@@ -175,6 +176,7 @@
     <ClCompile Include="ASocketServer.cpp" />
     <ClCompile Include="ClientManager.cpp" />
     <ClCompile Include="CmdManager.cpp" />
+    <ClCompile Include="CollisionBox.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Room.cpp" />

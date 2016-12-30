@@ -3,8 +3,9 @@
 Game::Game()
 {
 	_currentXMin = 0;
-	_currentXMax = 150;
+	_currentXMax = 160;
 	_entityList = new std::vector<IEntity *> ();
+	_currentWall = new int(0);
 }
 
 Game::~Game()
@@ -17,7 +18,7 @@ void Game::init(std::vector<ServerClient*> &clients)
 	std::vector<ServerClient *>::iterator	it;
 	std::vector<ServerClient *>::iterator	it2;
 	char									*msg;
-
+	
 	std::cout << "INITIALIZATION GAME" << std::endl;
 	it = clients.begin();
 	i = 0;
@@ -26,7 +27,7 @@ void Game::init(std::vector<ServerClient*> &clients)
 		IEntity		*player;
 
 		it2 = clients.begin();
-		player = new Player(10 + (i * 10), 10 + (i * 20));
+		player = new Player(10 + (i * 10), 10 + (i * 20), i + 1);
 		(*it)->setPlayer(player);
 		addEntity(player);
 		while (it2 != clients.end())
@@ -38,23 +39,18 @@ void Game::init(std::vector<ServerClient*> &clients)
 				(*it2)->addUDPDataToSend(msg);
 				delete[] msg;
 			}
-			++it2;
+			it2++;
 		}
 		i++;
-		++it;
+		it++;
 	}
 
-	IEntity *wall = new Barrier(50, 50);
-	addEntity(wall);
-	IEntity *wall2 = new Barrier(80, 50);
-	addEntity(wall2);
-	//_map.setEntity(wall);
-
+	addWalls(0);
 }
 
-void								Game::shootMissile(const int x, const int y)
+void								Game::shootMissile(const int x, const int y, const int idPlayer)
 {
-	IEntity *missile = new Missile(x, y);
+	IEntity *missile = new Missile(x, y, idPlayer);
 	addEntity(missile);
 }
 
@@ -86,7 +82,7 @@ void								Game::manageInput(ServerClient *client)
 			newX = (it->getKey() == "RIGHT") ? (newX + 1) : (newX - 1);
 		else if (it->getKey() == "SHOOT" && player->getMissileCooldown() <= 0)
 		{
-			shootMissile(newX + player->getWidth(), newY);
+			shootMissile(newX + player->getWidth(), newY, player->getIdPlayer());
 			player->setMissileCooldown(MISSILE_COOLDOWN);
 		}
 		if (newX > _currentXMin && newX < _currentXMax && newY > 0 && newY < NB_CELLS_Y)
@@ -96,7 +92,7 @@ void								Game::manageInput(ServerClient *client)
 		}
 		player->setMissileCooldown(player->getMissileCooldown() - 1);
 		player->refresh();
-		++it;
+		it++;
 	}
 	client->setPlayer(player);
 }
@@ -107,10 +103,15 @@ void										Game::updateGame(std::vector<ServerClient *> &clients)
 
 	updateEntities();
 
+	checkCollisions();
+	if (*_currentWall < _currentXMax - 1)
+		addWalls(*_currentWall);
+
 	sendEntitiesToClients(clients);
 
 	deleteEntities();
-	
+
+	*_currentWall = *_currentWall - 1;
 	/*_currentXMin++;
 	_currentXMax++;*/
 }
@@ -164,9 +165,9 @@ void		Game::updateEntities()
 		if ((*it)->getType() != rtype::PLAYER)
 		{
 			n++;
-			std::cout << "[Game] : Updating Entity [" << (*it)->getId() << "]" << std::endl;
+			//std::cout << "[Game] : Updating Entity [" << (*it)->getId() << "]" << std::endl;
 			(*it)->update();
-			if ((*it)->getPosX() > _currentXMax)
+			if ((*it)->getPosX() > _currentXMax || (*it)->getPosX() + (*it)->getWidth() < 0)
 			{
 				(*it)->setDead(true);
 				(*it)->refresh();
@@ -175,8 +176,8 @@ void		Game::updateEntities()
 		it++;
 	}
 	
-	if (n > 0)
-		std::cout << "[Game] : Updated " << n << " Entities" << std::endl << std::endl;
+	//if (n > 0)
+		//std::cout << "[Game] : Updated " << n << " Entities" << std::endl << std::endl;
 }
 
 void	Game::deleteEntities()
@@ -193,5 +194,62 @@ void	Game::deleteEntities()
 		}
 		else
 			it++;
+	}
+}
+
+void	Game::addWalls(const int startX)
+{
+	int x;
+
+	x = startX;
+	while (x < _currentXMax)
+	{
+		IEntity *wall = new Barrier(x, 0);
+		addEntity(wall);
+
+		IEntity *wall2 = new Barrier(x, NB_CELLS_Y - 3);
+		addEntity(wall2);
+
+		*_currentWall = wall->getPosX() + wall->getWidth();
+		x += wall->getWidth();
+	}
+}
+
+void									Game::checkCollisions()
+{
+	std::vector<IEntity *>::iterator	it;
+	std::vector<IEntity *>::iterator	itOther;
+
+	it = _entityList->begin();
+	while (it != _entityList->end())
+	{
+		if ((*it)->getType() != rtype::BARRIER)
+		{
+			itOther = _entityList->begin();
+			while (itOther != _entityList->end())
+			{
+				if ((*it) != (*itOther))
+				{
+					if ((*it)->getType() == rtype::MISSILE && (*itOther)->getType() == rtype::BARRIER)
+					{
+						/*std::cout << "IT = (" << (*it)->getPosX() << ", " << (*it)->getPosY() << ") && "
+							<< "IT = (" << (*itOther)->getPosX() << ", " << (*itOther)->getPosY() << ")" << std::endl;*/
+					}
+					if ((*it)->isColliding((*itOther)->getCollisionBox()))
+					{
+//						std::cout << "COLLISION BETWEEN " << (*it)->getType() << " AND " << (*itOther)->getType() << std::endl;
+						if ((*it)->getType() == rtype::MISSILE && (*itOther)->getType() == rtype::BARRIER)
+						{
+							(*it)->setDead(true);
+							(*it)->refresh();
+							(*itOther)->setDead(true);
+							(*itOther)->refresh();
+						}
+					}
+				}
+				itOther++;
+			}
+		}
+		it++;
 	}
 }

@@ -281,3 +281,13 @@ std::vector<std::string>		AEntity::split(const std::string &s)
 	}
 	return (elems);
 }
+
+CollisionBox	*AEntity::getCollisionBox() const
+{
+	return (_collisionBox);
+}
+
+bool		AEntity::isColliding(CollisionBox *other) const
+{
+	return (_collisionBox->isColliding(other));
+}

@@ -4,6 +4,7 @@
 #include <sstream>
 #include <vector>
 #include "IEntity.hpp"
+#include "CollisionBox.hh"
 
 class AEntity :
 	public IEntity
@@ -38,6 +39,8 @@ public:
 	virtual void			setDead(const bool);
 	virtual		bool			setArgs(const std::string & args);
 	virtual		std::string		getArgs() const;
+	virtual CollisionBox		*getCollisionBox() const;
+	virtual bool			isColliding(CollisionBox *) const;
 	virtual void			refresh();
 
 protected:
@@ -55,6 +58,7 @@ protected:
 	std::string				_name;
 	std::string				_args;
 	char					_separator;
+	CollisionBox			*_collisionBox;
 
-  std::vector<std::string> split(const std::string & s);
+	std::vector<std::string>	split(const std::string & s);
 };

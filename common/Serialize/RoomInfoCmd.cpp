@@ -3,6 +3,7 @@
 RoomInfoCmd::RoomInfoCmd()
 {
 	_cmdName = ROOM_INFO;
+	_name = "";
 }
 
 RoomInfoCmd::~RoomInfoCmd()
@@ -28,7 +29,6 @@ CmdName			RoomInfoCmd::getCommandName() const
 
 const std::string	RoomInfoCmd::getCommandArg() const
 {
-	std::cout << "[RoomInfo] : ARG = {" << _arg << "}" << std::endl;
 	return (_arg);
 }
 

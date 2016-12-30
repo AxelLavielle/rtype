@@ -44,5 +44,7 @@ private:
 	std::vector<ICommand*>	_cmd;
 	std::vector<ICommand *>	_cmdReceive;
 	bool confirmHandshake(ICommand * cmd);
+	RoomInfoCmd				*_roomInfo;
+	int						_id;
 };
 

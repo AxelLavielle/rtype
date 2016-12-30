@@ -3,6 +3,8 @@
 CmdManager::CmdManager()
 {
 	_handKey = 42;
+	_id = -1;
+	_roomInfo = NULL;
 }
 
 void CmdManager::setSocket(ASocketClient * socketClient)
@@ -68,6 +70,8 @@ int			CmdManager::launchGame()
 	ICommand	*cmd;
 	int			res;
 
+	if (_id != -1)
+		return (_id);
 	cmd = receiveCmd();
 	if (cmd && cmd->getCommandName() == BASIC_CMD && cmd->getCommandType() == LAUNCH_GAME)
 	{
@@ -78,28 +82,50 @@ int			CmdManager::launchGame()
 		std::cout << "LAUNCH GAME received " << basicCmd->getArg(1) << std::endl;
 		return (res);
 	}
+	else if (cmd && cmd->getCommandName() == BASIC_CMD
+		&& cmd->getCommandType() == UPDATE_ROOM)
+	{
+		BasicCmd		*newCmd;
+		ICommand		*cmd;
+		
+		newCmd = new BasicCmd();
+		newCmd->setCommandType(GET_ROOM);
+		_cmd.push_back(newCmd);
+		if (!sendCmd())
+			return (NULL);
+		std::cout << "UPDATE ROOM RECEIVED" << std::endl;
+	}
+	else if (cmd && cmd->getCommandName() == ROOM_INFO)
+	{
+		_roomInfo = static_cast<RoomInfoCmd*>(cmd);
+	}
 	return (-1);
 }
 
 RoomInfoCmd		*CmdManager::getRoomInfo()
 {
-	BasicCmd		*newCmd;
-	ICommand		*cmd;
-
-	newCmd = new BasicCmd();
-	newCmd->setCommandType(GET_ROOM);
-	_cmd.push_back(newCmd);
-	if (!sendCmd())
-		return (NULL);
-	cmd = receiveCmd();
-	if (cmd && cmd->getCommandName() == ROOM_INFO)
-	{
-		RoomInfoCmd		*tmpCmd;
-		tmpCmd = static_cast<RoomInfoCmd* >(cmd);
-		return (tmpCmd);
-	}
-	return (NULL);
+	return (_roomInfo);
 }
+
+//RoomInfoCmd		*CmdManager::getRoomInfo()
+//{
+//	BasicCmd		*newCmd;
+//	ICommand		*cmd;
+//
+//	newCmd = new BasicCmd();
+//	newCmd->setCommandType(GET_ROOM);
+//	_cmd.push_back(newCmd);
+//	if (!sendCmd())
+//		return (NULL);
+//	cmd = receiveCmd();
+//	if (cmd && cmd->getCommandName() == ROOM_INFO)
+//	{
+//		RoomInfoCmd		*tmpCmd;
+//		tmpCmd = static_cast<RoomInfoCmd* >(cmd);
+//		return (tmpCmd);
+//	}
+//	return (NULL);
+//}
 
 bool	CmdManager::setStatus()
 {
@@ -123,6 +149,14 @@ bool	CmdManager::setStatus()
 			delete cmd;
 			return (true);
 		}
+	}
+	else if (cmd && cmd->getCommandName() == BASIC_CMD && cmd->getCommandType() == LAUNCH_GAME)
+	{
+		BasicCmd		*basicCmd;
+
+		basicCmd = static_cast<BasicCmd* >(cmd);
+		_id = std::stoi(basicCmd->getArg(1));
+		std::cout << "LAUNCH GAME received " << _id << std::endl;
 	}
 	delete cmd;
 	return (false);

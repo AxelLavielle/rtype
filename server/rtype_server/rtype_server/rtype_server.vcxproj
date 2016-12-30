@@ -128,6 +128,7 @@
     <ClInclude Include="..\..\..\common\Serialize\Barrier.hh" />
     <ClInclude Include="..\..\..\common\Serialize\BasicCmd.hh" />
     <ClInclude Include="..\..\..\common\Serialize\CmdEnum.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\CollisionBox.hh" />
     <ClInclude Include="..\..\..\common\Serialize\EntityType.hh" />
     <ClInclude Include="..\..\..\common\Serialize\ICommand.hpp" />
     <ClInclude Include="..\..\..\common\Serialize\IEntity.hpp" />
@@ -144,7 +145,6 @@
     <ClInclude Include="ASocketServer.hh" />
     <ClInclude Include="ClientManager.hh" />
     <ClInclude Include="CmdManager.hh" />
-    <ClInclude Include="CollisionBox.hh" />
     <ClInclude Include="Game.hh" />
     <ClInclude Include="Room.hh" />
     <ClInclude Include="RoomManager.hh" />
@@ -163,6 +163,7 @@
     <ClCompile Include="..\..\..\common\Serialize\AEntity.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\Barrier.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\BasicCmd.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\CollisionBox.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\InputCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\ListRoomCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\Missile.cpp" />
@@ -176,7 +177,6 @@
     <ClCompile Include="ASocketServer.cpp" />
     <ClCompile Include="ClientManager.cpp" />
     <ClCompile Include="CmdManager.cpp" />
-    <ClCompile Include="CollisionBox.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Room.cpp" />

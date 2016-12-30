@@ -3,6 +3,7 @@
 #include "EntityType.hh"
 #include "CollisionBox.hh"
 
+#include <vector>
 #include <string>
 #include <iostream>
 

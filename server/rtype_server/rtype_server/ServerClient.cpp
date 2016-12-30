@@ -28,7 +28,7 @@ int			ServerClient::getTCPSocket() const
 
 void		ServerClient::addTCPDataToSend(const char *data)
 {
-	int		i;
+	/*int		i;
 	int		j;
 	short	size;
 	char	len[2];
@@ -44,7 +44,24 @@ void		ServerClient::addTCPDataToSend(const char *data)
 		i++;
 		j++;
 	}
-	_lenDataTCP += size;
+	_lenDataTCP += size;*/
+
+	char	dataLen[2];
+	short	dataSize;
+
+	dataLen[0] = data[0];
+	dataLen[1] = data[1];
+	dataSize = *reinterpret_cast<short*>(dataLen);
+
+	char *dataCpy = new char[dataSize];
+	int i;
+	i = 0;
+	while (i < dataSize && i < TCP_PACKET_SIZE)
+	{
+		dataCpy[i] = data[i];
+		i++;
+	}
+	_tcpDatas.push_back(dataCpy);
 }
 
 const char	*ServerClient::getSendDataTCP() const
@@ -54,8 +71,7 @@ const char	*ServerClient::getSendDataTCP() const
 
 void		ServerClient::resetDataTCP()
 {
-	MemTools::set(_sendDataTCP, 0, TCP_PACKET_SIZE);
-	_lenDataTCP = 0;
+	_tcpDatas.clear();
 }
 
 int			ServerClient::getDataLenTCP() const
@@ -107,6 +123,11 @@ const char *ServerClient::getSendDataUDP() const
 std::vector<char *> ServerClient::getUDPDatas() const
 {
 	return (_udpDatas);
+}
+
+std::vector<char*> ServerClient::getTCPDatas() const
+{
+	return (_tcpDatas);
 }
 
 void ServerClient::resetDataUDP()

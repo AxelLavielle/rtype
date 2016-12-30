@@ -4,6 +4,8 @@
 
 class Monster : public AEntity
 {
+private:
+	int		_currentSprite;
 public:
 	Monster();
 	Monster(const int, const int);

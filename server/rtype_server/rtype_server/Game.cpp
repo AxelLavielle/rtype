@@ -2,8 +2,6 @@
 
 Game::Game()
 {
-	_currentXMin = 0;
-	_currentXMax = 160;
 	_entityList = new std::vector<IEntity *> ();
 	_currentWall = new int(0);
 }
@@ -85,7 +83,7 @@ void								Game::manageInput(ServerClient *client)
 			shootMissile(newX + player->getWidth(), newY, player->getIdPlayer());
 			player->setMissileCooldown(MISSILE_COOLDOWN);
 		}
-		if (newX > _currentXMin && newX < _currentXMax && newY > 0 && newY < NB_CELLS_Y)
+		if (newX > 0 && newX < NB_CELLS_X && newY > 0 && newY < NB_CELLS_Y)
 		{
 			player->setPosX(newX);
 			player->setPosY(newY);
@@ -101,19 +99,21 @@ void										Game::updateGame(std::vector<ServerClient *> &clients)
 {
 	updatePlayers(clients);
 
-	updateEntities();
-
-	checkCollisions();
-	if (*_currentWall < _currentXMax - 1)
+	if (*_currentWall < NB_CELLS_X - 1)
 		addWalls(*_currentWall);
 
+	addMonsters();
+	updateEntities();
+
+	
+	checkCollisions();
+
+	
 	sendEntitiesToClients(clients);
 
 	deleteEntities();
 
 	*_currentWall = *_currentWall - 1;
-	/*_currentXMin++;
-	_currentXMax++;*/
 }
 
 void										Game::updatePlayers(std::vector<ServerClient *> &clients)
@@ -145,6 +145,11 @@ void										Game::sendEntitiesToClients(std::vector<ServerClient *> &clients)
 		while (itClients != clients.end())
 		{
 			(*itClients)->addUDPDataToSend(msg);
+			if ((*itMap)->isDead())
+			{
+				(*itClients)->addUDPDataToSend(msg);
+				(*itClients)->addUDPDataToSend(msg);
+			}
 			itClients++;
 		}
 		delete[] msg;
@@ -167,7 +172,8 @@ void		Game::updateEntities()
 			n++;
 			//std::cout << "[Game] : Updating Entity [" << (*it)->getId() << "]" << std::endl;
 			(*it)->update();
-			if ((*it)->getPosX() > _currentXMax || (*it)->getPosX() + (*it)->getWidth() < 0)
+			if (((*it)->getPosX() > NB_CELLS_X && (*it)->getType() == rtype::MISSILE)
+				|| (*it)->getPosX() + (*it)->getWidth() < 0)
 			{
 				(*it)->setDead(true);
 				(*it)->refresh();
@@ -202,7 +208,7 @@ void	Game::addWalls(const int startX)
 	int x;
 
 	x = startX;
-	while (x < _currentXMax)
+	while (x < NB_CELLS_X)
 	{
 		IEntity *wall = new Barrier(x, 0);
 		addEntity(wall);
@@ -228,23 +234,25 @@ void									Game::checkCollisions()
 			itOther = _entityList->begin();
 			while (itOther != _entityList->end())
 			{
-				if ((*it) != (*itOther))
+				if ((*it) != (*itOther) &&
+					((*it)->getType() != (*itOther)->getType()
+						|| ((*it)->getType() == rtype::MISSILE && (*itOther)->getType() == rtype::MISSILE)))
 				{
-					if ((*it)->getType() == rtype::MISSILE && (*itOther)->getType() == rtype::BARRIER)
-					{
-						/*std::cout << "IT = (" << (*it)->getPosX() << ", " << (*it)->getPosY() << ") && "
-							<< "IT = (" << (*itOther)->getPosX() << ", " << (*itOther)->getPosY() << ")" << std::endl;*/
-					}
 					if ((*it)->isColliding((*itOther)->getCollisionBox()))
 					{
 //						std::cout << "COLLISION BETWEEN " << (*it)->getType() << " AND " << (*itOther)->getType() << std::endl;
-						if ((*it)->getType() == rtype::MISSILE && (*itOther)->getType() == rtype::BARRIER)
+						
+						if ((*it)->getType() != rtype::PLAYER)
 						{
 							(*it)->setDead(true);
 							(*it)->refresh();
+						}
+						if ((*itOther)->getType() != rtype::PLAYER)
+						{
 							(*itOther)->setDead(true);
 							(*itOther)->refresh();
 						}
+						
 					}
 				}
 				itOther++;
@@ -253,3 +261,38 @@ void									Game::checkCollisions()
 		it++;
 	}
 }
+
+void		Game::addMonsters()
+{
+	if (std::rand() % 200 == 0)
+	{
+		addRedWave();
+	}
+}
+
+void		Game::addRedWave()
+{
+	int		x;
+	int		y;
+	int		nbMonsters;
+
+	nbMonsters = 5;
+	while (nbMonsters > 0)
+	{
+		x = NB_CELLS_X - nbMonsters;
+		y = (NB_CELLS_Y / 2) - (nbMonsters * 3);
+
+		IEntity *newMonster = new Monster(x, y);
+		addEntity(newMonster);
+		nbMonsters--;
+	}
+}
+
+//new Monster(x, y);
+//make_pair(2, monster);
+//std::pair<time, IEntity> listEntities;
+//
+//
+//if (time == time)
+//push_back(listEntities.first())
+//

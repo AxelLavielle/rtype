@@ -12,10 +12,10 @@ Player::Player(const int x, const int y, const int idPlayer)
   this->setSpeedY(1);
   this->setLife(100);
   this->setSpriteRepo("/res/img/spaceShip10.png");
-  _collisionBox = new CollisionBox(this);
+  this->_collisionBox = new CollisionBox(this);
   refresh();
-  _missileCooldown = 0;
-  _idPlayer = idPlayer;
+  this->_missileCooldown = 0;
+  this->_idPlayer = idPlayer;
 }
 
 Player::~Player()

@@ -110,20 +110,36 @@ NewClientInfo		SocketServerTCP::acceptNewClient()
 bool										SocketServerTCP::sendAllData(std::vector<ServerClient *> &clientList)
 {
 	std::vector<ServerClient *>::iterator	it;
+	std::vector<char *>::iterator			itMsg;
+	std::vector<char *>						tcpDatas;
 
 	it = clientList.begin();
 	while (it != clientList.end())
 	{
-		if (FD_ISSET((*it)->getTCPSocket(), &_writefds) && (*it)->getDataLenTCP() > 0)
+		if (FD_ISSET((*it)->getTCPSocket(), &_writefds))
 		{
-			int len;
-			if ((len = send((*it)->getTCPSocket(), (*it)->getSendDataTCP(), (*it)->getDataLenTCP(), 0)) == SOCKET_ERROR)
+			tcpDatas = (*it)->getTCPDatas();
+			itMsg = tcpDatas.begin();
+
+			while (itMsg != tcpDatas.end())
 			{
-				displayError("Send error");
+
+				char	dataLen[2];
+				short	dataSize;
+
+				dataLen[0] = (*itMsg)[0];
+				dataLen[1] = (*itMsg)[1];
+				dataSize = *reinterpret_cast<short*>(dataLen);
+
+				int len;
+				if ((len = send((*it)->getTCPSocket(), (*itMsg), dataSize, 0)) == SOCKET_ERROR)
+				{
+					displayError("Send error");
+				}
+				if (DEBUG_MSG)
+					std::cout << "Sending to Client " << (*it)->getTCPSocket() << " :  ---> len [" << len << "]" << std::endl;
+				itMsg++;
 			}
-			if (DEBUG_MSG)
-				std::cout << "Sending to Client " << (*it)->getTCPSocket()
-				<< " : " << (*it)->getSendDataTCP() << " ---> len [" << len << "]" << std::endl;
 			(*it)->resetDataTCP();
 		}
 		it++;

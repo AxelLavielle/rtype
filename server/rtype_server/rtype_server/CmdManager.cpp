@@ -50,7 +50,9 @@ void				CmdManager::cmdHandshakeSyn(ServerClient *client, BasicCmd *msgClient,
 
 	test = static_cast<BasicCmd *>(Serialize::unserializeCommand(msgSerialized));
 	//std::cout << "______________________ TEST ARG = " << test->getArg(0) << std::endl;
+	_mutex->lock();
 	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(cmd));
+	_mutex->unlock();
 	std::cout << std::endl;
 }
 
@@ -70,7 +72,9 @@ void			CmdManager::cmdHandshakeAck(ServerClient *client, BasicCmd *msgClient,
 	{
 		std::cout << std::endl << "Client [" << client->getTCPSocket() << "] is DELETED" << std::endl << std::endl;
 		closeSocket(client->getTCPSocket());
+		_mutex->lock();
 		_clientManager->removeClient(client);
+		_mutex->unlock();
 	}
 	std::cout << std::endl;
 }
@@ -108,8 +112,32 @@ void								CmdManager::cmdCreateRoom(ServerClient *client, BasicCmd *msgClient)
 		_mutex->unlock();
 	}
 	msgSerialized = serializer.serialize(&reply);
+	_mutex->lock();
 	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(reply));
+	sendUpdateRoom(client);
+	_mutex->unlock();
 	std::cout << std::endl;
+}
+
+void							CmdManager::removeEmptyRooms()
+{
+	std::vector<Room>			roomList;
+	std::vector<Room>::iterator	it;
+
+	_mutex->lock();
+	roomList = _roomManager->getRoomList();
+	_mutex->unlock();
+	it = roomList.begin();
+	while (it != roomList.end())
+	{
+		if ((*it).getNbClients() == 0)
+		{
+			_mutex->lock();
+			_roomManager->removeRoom((*it).getId());
+			_mutex->unlock();
+		}
+		it++;
+	}
 }
 
 void							CmdManager::cmdListRoom(ServerClient *client, BasicCmd *msgClient)
@@ -121,6 +149,9 @@ void							CmdManager::cmdListRoom(ServerClient *client, BasicCmd *msgClient)
 
 	if (client->isLogged() == false)
 		return;
+
+	removeEmptyRooms();
+
 	(void)msgClient;
 	_mutex->lock();
 	roomList = _roomManager->getRoomList();
@@ -133,7 +164,9 @@ void							CmdManager::cmdListRoom(ServerClient *client, BasicCmd *msgClient)
 		it++;
 	}
 	msgSerialized = Serialize::serialize(&roomListMsg);
+	_mutex->lock();
 	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(roomListMsg));
+	_mutex->unlock();
 	std::cout << std::endl;
 }
 
@@ -153,12 +186,15 @@ void							CmdManager::cmdRoomInfo(ServerClient *client, BasicCmd *msgClient)
 		reply.setCommandType(REPLY_CODE);
 		reply.setCommandArg(std::to_string(NOT_IN_ROOM));
 		msgSerialized = Serialize::serialize(&reply);
+		_mutex->lock();
 		_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(reply));
+		_mutex->unlock();
 		return;
 	}
-	_mutex->lock();
 	room = NULL;
+	_mutex->lock();
 	room = _roomManager->getRoomById(client->getCurrentRoom());
+	_mutex->unlock();
 
 	std::cout << "NAME = " << room->getName() << std::endl;
 	roomInfoMsg.setName(room->getName());
@@ -176,6 +212,7 @@ void							CmdManager::cmdRoomInfo(ServerClient *client, BasicCmd *msgClient)
 	}
 
 	msgSerialized = Serialize::serialize(&roomInfoMsg);
+	_mutex->lock();
 	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(roomInfoMsg));
 	_mutex->unlock();
 	std::cout << std::endl;
@@ -205,11 +242,11 @@ void			CmdManager::cmdJoinRoom(ServerClient *client, BasicCmd *msgClient)
 	}
 	else
 	{
+		_mutex->lock();
 		try
 		{
-			_mutex->lock();
 			room = _roomManager->getRoomById(idRoom);
-
+			
 			if (room->isReady() == true)
 			{
 				std::cout << "Room ALREADY IN GAME !" << std::endl;
@@ -218,7 +255,6 @@ void			CmdManager::cmdJoinRoom(ServerClient *client, BasicCmd *msgClient)
 			else if (_roomManager->addClientToRoom(client, idRoom) == true)
 			{
 				client->setPlayerName(playerName);
-				sendUpdateRoom(client);
 				std::cout << "Room JOINED !" << std::endl;
 				reply.setCommandArg(std::to_string(ROOM_JOINED));
 			}
@@ -228,17 +264,20 @@ void			CmdManager::cmdJoinRoom(ServerClient *client, BasicCmd *msgClient)
 				reply.setCommandArg(std::to_string(ROOM_FULL));
 			}
 
-			_mutex->unlock();
 		}
 		catch (const std::exception &error)
 		{
 			std::cerr << "############ " << error.what() << std::endl;
 			reply.setCommandArg(std::to_string(ROOM_NOT_EXIST));
 		}
+		_mutex->unlock();
 	}
 
 	msgSerialized = serializer.serialize(&reply);
+	_mutex->lock();
 	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(reply));
+	sendUpdateRoom(client);
+	_mutex->unlock();
 	std::cout << std::endl;
 }
 
@@ -259,13 +298,17 @@ void			CmdManager::cmdLeaveRoom(ServerClient *client, BasicCmd *msgClient)
 		_mutex->unlock();
 		client->setCurrentRoom(-1);
 		reply.setCommandArg(std::to_string(LEFT_ROOM));
+		_mutex->lock();
 		sendUpdateRoom(client);
+		_mutex->unlock();
 	}
 	else
 		reply.setCommandArg(std::to_string(NOT_IN_ROOM));
 
 	msgSerialized = Serialize::serialize(&reply);
+	_mutex->lock();
 	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(reply));
+	_mutex->unlock();
 	std::cout << std::endl;
 }
 
@@ -292,11 +335,15 @@ void			CmdManager::cmdSetStatus(ServerClient *client, BasicCmd *msgClient)
 			client->setStatus(true);
 		reply.setCommandArg(std::to_string(STATUS_CHANGED));
 		std::cout << "Status changed !" << std::endl;
+		_mutex->lock();
 		sendUpdateRoom(client);
+		_mutex->unlock();
 		std::cout << "Sent Update Room !" << std::endl;
 	}
 	msgSerialized = Serialize::serialize(&reply);
+	_mutex->lock();
 	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(reply));
+	_mutex->unlock();
 	std::cout << std::endl;
 }
 
@@ -342,11 +389,15 @@ void										CmdManager::sendUpdateRoom(ServerClient *client)
 	infoCmd.setCommandType(UPDATE_ROOM);
 	msgSerialized = Serialize::serialize(&infoCmd);
 	vectClients = _roomManager->getRoomById(client->getCurrentRoom())->getClients();
+	
 	it = vectClients.begin();
 	while (it != vectClients.end())
 	{
-		if ((*it)->getTCPSocket() != client->getTCPSocket())
-			_clientManager->addDataToSendTCP((*it)->getTCPSocket(), msgSerialized, sizeof(infoCmd));
+		//if ((*it)->getTCPSocket() != client->getTCPSocket())
+		//{
+		std::cout << "Sending UPDATE ROOM to [" << (*it)->getTCPSocket() << "]" << std::endl;
+		_clientManager->addDataToSendTCP((*it)->getTCPSocket(), msgSerialized, sizeof(infoCmd));
+		//}
 		it++;
 	}
 }

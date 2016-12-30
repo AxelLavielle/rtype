@@ -34,6 +34,7 @@ private:
 	IEntity				*_player;
 
 	std::vector<InputCmd>	_inputs;
+	std::vector<char *>		_tcpDatas;
 	std::vector<char *>		_udpDatas;
 
 public:
@@ -54,7 +55,7 @@ public:
 	void				resetDataUDP();
 	int					getDataLenUDP() const;
 	std::vector<char *> getUDPDatas() const;
-
+	std::vector<char *> getTCPDatas() const;
 	
 	void				setCurrentRoom(const int);
 	int					getCurrentRoom() const;

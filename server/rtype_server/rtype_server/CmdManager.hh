@@ -33,4 +33,6 @@ public:
 
 	void			cmdLaunchGame(const std::vector<ServerClient *> &, const int);
 	void			sendUpdateRoom(ServerClient *);
+	void			removeEmptyRooms();
+
 };

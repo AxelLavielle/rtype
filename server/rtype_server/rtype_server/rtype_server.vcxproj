@@ -153,6 +153,7 @@
     <ClInclude Include="SocketAddress.hh" />
     <ClInclude Include="SocketServerTCP.hh" />
     <ClInclude Include="SocketServerUDP.hh" />
+    <ClInclude Include="Wave.hh" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\common\AMutex.cpp" />
@@ -186,6 +187,7 @@
     <ClCompile Include="SocketAddress.cpp" />
     <ClCompile Include="SocketServerTCP.cpp" />
     <ClCompile Include="SocketServerUDP.cpp" />
+    <ClCompile Include="Wave.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

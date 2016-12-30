@@ -6,6 +6,7 @@
 #include "InputCmd.hh"
 
 #define NB_CELLS_Y			(80)
+#define NB_CELLS_X			(160)
 #define MISSILE_COOLDOWN	(10)
 
 class Game
@@ -18,8 +19,6 @@ public:
 	void	updateGame(std::vector<ServerClient *> &);
 
 private:
-	int						_currentXMin;
-	int						_currentXMax;
 	int						*_currentWall;
 	std::vector<IEntity *>	*_entityList;
 
@@ -32,4 +31,8 @@ private:
 	void	deleteEntities();
 	void	addWalls(const int);
 	void	checkCollisions();
+	void	addMonsters();
+	void	addRedWave();
+
+
 };

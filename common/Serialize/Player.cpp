@@ -13,6 +13,7 @@ Player::Player(const int x, const int y)
   this->setSpeedY(1);
   this->setLife(100);
   this->setSpriteRepo("/res/img/spaceShip10.png");
+  refresh();
   _missileCooldown = 0;
 }
 
@@ -20,6 +21,7 @@ Player::Player(const std::string &name)
 {
 	this->setType(rtype::PLAYER);
 	this->setName(name);
+	refresh();
 }
 
 Player::~Player()

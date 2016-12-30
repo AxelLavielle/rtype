@@ -14,6 +14,7 @@ Missile::Missile(const int x, const int y)
 	this->setSpeedY(1);
 	this->setLife(100);
 	this->setSpriteRepo("/res/img/shipMissileBlue.png");
+	refresh();
 }
 
 Missile::Missile(const int x, const int y, const int nbPlayer)
@@ -28,6 +29,7 @@ Missile::Missile(const int x, const int y, const int nbPlayer)
 	this->setSpeedY(1);
 	this->setLife(100);
 	this->setSpriteRepo("/res/img/shipMissile" + std::to_string(nbPlayer) + ".png");
+	refresh();
 }
 
 Missile::~Missile()

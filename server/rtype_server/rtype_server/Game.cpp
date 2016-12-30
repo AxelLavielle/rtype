@@ -103,18 +103,14 @@ void								Game::manageInput(ServerClient *client)
 
 void										Game::updateGame(std::vector<ServerClient *> &clients)
 {
-	//std::cout << "NB 1 entities [" << _entityList->size() << "]" << std::endl;
 	updatePlayers(clients);
 
-	//std::cout << "NB 2 entities [" << _entityList->size() << "]" << std::endl;
 	updateEntities();
 
-	//std::cout << "NB 3 entities [" << _entityList->size() << "]" << std::endl;
 	sendEntitiesToClients(clients);
 
-	//std::cout << "NB 4 entities [" << _entityList->size() << "]" << std::endl;
+	deleteEntities();
 	
-	std::cout << std::endl << std::endl;
 	/*_currentXMin++;
 	_currentXMax++;*/
 }
@@ -157,9 +153,9 @@ void										Game::sendEntitiesToClients(std::vector<ServerClient *> &clients)
 
 void		Game::updateEntities()
 {
-	IEntity *currentEntity;
-	int n = 0;
+	IEntity								*currentEntity;
 	std::vector<IEntity *>::iterator	it;
+	int	n = 0;
 
 	//std::cout << "[Game] : Sending [" << entitiesToSend.size() << "] Entities" << std::endl;
 	it = _entityList->begin();
@@ -168,11 +164,34 @@ void		Game::updateEntities()
 		if ((*it)->getType() != rtype::PLAYER)
 		{
 			n++;
+			std::cout << "[Game] : Updating Entity [" << (*it)->getId() << "]" << std::endl;
 			(*it)->update();
+			if ((*it)->getPosX() > _currentXMax)
+			{
+				(*it)->setDead(true);
+				(*it)->refresh();
+			}
 		}
 		it++;
 	}
 	
 	if (n > 0)
-		std::cout << "[Game] : Updated " << n << " Entities" << std::endl;
+		std::cout << "[Game] : Updated " << n << " Entities" << std::endl << std::endl;
+}
+
+void	Game::deleteEntities()
+{
+	std::vector<IEntity *>::iterator	it;
+
+	it = _entityList->begin();
+	while (it != _entityList->end())
+	{
+		if ((*it)->isDead())
+		{
+			delete (*it);
+			it = _entityList->erase(it);
+		}
+		else
+			it++;
+	}
 }

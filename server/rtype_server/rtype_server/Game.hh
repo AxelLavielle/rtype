@@ -28,6 +28,6 @@ private:
 	void	updatePlayers(std::vector<ServerClient *> &);
 	void	shootMissile(const int, const int);
 	void	addEntity(IEntity *);
-
+	void	deleteEntities();
 
 };

@@ -12,6 +12,7 @@ Barrier::Barrier(const int x, const int y)
   this->setSpeedY(1);
   this->setLife(100);
   this->setSpriteRepo("/res/img/spikyWall.png");
+  refresh();
 }
 
 Barrier::~Barrier()

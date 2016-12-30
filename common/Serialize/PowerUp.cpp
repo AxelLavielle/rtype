@@ -3,6 +3,7 @@
 PowerUp::PowerUp()
 {
   this->setType(rtype::POWER_UP);
+  refresh();
 }
 
 PowerUp::~PowerUp()

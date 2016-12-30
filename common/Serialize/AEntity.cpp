@@ -4,19 +4,20 @@ AEntity::AEntity()
 {
 	static unsigned int	id = 0;
 
-	_posX = -1;
-	_posY = -1;
-	_type = rtype::ABSTRACT;
-	_speedX = -1;
-	_speedY = -1;
-	_name = "ABSTRACT";
-	_spritePath = "";
-	_life = -1;
-	_height = -1;
-	_width = -1;
+	setType(rtype::ABSTRACT);
+	setName("ABSTRACT");
+	setPosX(-1);
+	setPosY(-1);
+	setHeight(-1);
+	setWidth(-1);
+	setSpeedX(-1);
+	setSpeedY(-1);
+	setLife(-1);
+	setSpriteRepo("");
+	setId(id);
+	setDead(false);
+
 	_separator = '|';
-	_id = id;
-	_isDead = false;
 	id++;
 }
 

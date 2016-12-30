@@ -22,7 +22,7 @@ char		*Serialize::serialize(IEntity *entity)
 	p.dataType = entity->getType();
 	p.cmdType = ENTITY;
 	tmp = entity->getArgs();
-	//std::cout << "tmp = " << tmp << std::endl;
+	std::cout << "tmp = " << tmp << std::endl;
 	i = 0;
 	while ((unsigned int)i < tmp.size())
 	{

@@ -16,6 +16,7 @@ Monster::Monster(const int x, const int y)
   this->setSpeedY(1);
   this->setLife(100);
   this->setSpriteRepo("/res/img/monster.png");
+  refresh();
 }
 
 Monster::~Monster()

@@ -54,7 +54,6 @@ bool Client::launch()
 {
 	Thread		th;
 	SocketClientUDP		udpSocket;
-	BasicCmd			*cmd = new BasicCmd();
 
 	if (!initGraph())
 		return (false);

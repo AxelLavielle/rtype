@@ -172,7 +172,7 @@ char				*SocketClientTCP::receiveData()
 				recvbuf[iResult - 1] = '\0';
 				return (recvbuf);
 			}
-			delete recvbuf;
+			delete[] recvbuf;
 			return (NULL);
 	//	}
 	//}

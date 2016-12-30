@@ -46,6 +46,7 @@ void InsideRoomPage::clear()
 {
 	clearGUIElement(_buttons);
 	clearGUIElement(_guiElement);
+	_playerList.clear();
 }
 
 bool InsideRoomPage::launch()

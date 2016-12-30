@@ -182,7 +182,7 @@ void		APage::drawGUIElement(std::vector<AGUIElement *> guiElements)
     }
 }
 
-void APage::clearGUIElement(std::vector<AGUIElement*> guiElements)
+void APage::clearGUIElement(std::vector<AGUIElement*> &guiElements)
 {
 	std::vector<AGUIElement * >::iterator			it;
 
@@ -219,7 +219,7 @@ void APage::drawGUIElement(std::map<IPage::PAGE, AGUIElement* > guiElements)
 	}
 }
 
-void APage::clearGUIElement(std::map<IPage::PAGE, AGUIElement*> guiElements)
+void APage::clearGUIElement(std::map<IPage::PAGE, AGUIElement*> &guiElements)
 {
 	std::map<IPage::PAGE, AGUIElement* >::iterator			it;
 

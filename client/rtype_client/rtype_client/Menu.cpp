@@ -9,7 +9,7 @@ Menu::Menu()
 	_roomInfo = new RoomInfoCmd();
 	_id = -1;
 	_th = NULL;
-	_checkGameReady = false;
+	_run = true;
 }
 
 Menu::~Menu()
@@ -130,7 +130,7 @@ void	Menu::checkGameReady()
 	while (1)
 	{
 		_mutexReceive.lock();
-		if (_id != -1)
+		if (_id != -1 || !_run)
 		{
 			std::cout << "JE QUIT = " << _id << std::endl;
 			_mutexReceive.unlock();
@@ -154,11 +154,6 @@ void	Menu::checkGameReady()
 void	Menu::manageLaunchGame()
 {
 	_newEvent = true;
-	if (_checkGameReady)
-		return;
-	_checkGameReady = true;
-
-
 	_mutexReceive.lock();
 
 	//Réseau
@@ -193,7 +188,7 @@ bool Menu::launch()
   std::pair<std::string, std::pair<int, int> >	tmp;
 
   _newEvent = false;
-  //_page->init();
+  _page->init();
   while (_graph->isWindowOpen())
     {
 	  manageReco(th);
@@ -282,7 +277,12 @@ bool Menu::launch()
 		    case IPage::PLAY:
 				if (_page->getPageType() == IPage::INSIDEROOM)
 				{
+					_mutexReceive.lock();
+					_run = false;
+					_mutexReceive.unlock();
+					_th->join();
 					_cmdManager.leaveRoom();
+					_run = true;
 				}
 		      delete (_page);
 			  _newEvent = true;

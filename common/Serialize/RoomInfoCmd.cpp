@@ -65,12 +65,12 @@ void RoomInfoCmd::setCommandArg(const std::string &arg)
 		else
 		{
 			if (i == 0)
-			{
 				pl.first = item;
+			else if (i == 1)
+			{
+				pl.second = std::stoi(item);
 				_playersList.push_back(pl);
 			}
-			else if (i == 1)
-				pl.second = std::stoi(item);
 			i++;
 		}
 		if (i >= 2)

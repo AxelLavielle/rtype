@@ -20,7 +20,7 @@ InsideRoomPage::~InsideRoomPage()
 bool InsideRoomPage::init()
 {
 	std::vector<std::pair<std::string, bool> >::iterator			it;
-	int												i;
+	int																i;
 
 	i = 1;
 	it = _playerList.begin();
@@ -31,7 +31,6 @@ bool InsideRoomPage::init()
 	while (it != _playerList.end())
 	{
 		initButton(20, 5, 30, Rect(_windowSize.first / 2 - 150, 130 + 80 * i, 50, 280), it->first, "/res/img/buttonRoom.png", "/res/img/buttonRoom.png", "/res/fonts/Space.ttf");
-		std::cout << "status = " <<  static_cast<int>(it->second) << std::endl;
 		if (!it->second)
 			initDecor(Rect(_windowSize.first / 2 + 150, 130 + 80 * i, 50, 50), "/res/img/coche.png", Color(-1, -1, -1));
 		else

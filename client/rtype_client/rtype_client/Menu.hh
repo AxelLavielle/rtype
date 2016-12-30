@@ -55,12 +55,10 @@ private:
 	int							_port;
 	RoomInfoCmd					*_roomInfo;
 	Mutex						_mutexReceive;
-	Mutex						_mutexRun;
-	bool						_run;
-	bool						_checkGameReady;
 	int							_id;
 	Thread						*_th;
 	SaveConfig					_sv;
+	bool						_run;
 
 	std::chrono::high_resolution_clock::time_point        _t1Conn;
 

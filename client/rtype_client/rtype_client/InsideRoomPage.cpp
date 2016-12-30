@@ -20,7 +20,7 @@ InsideRoomPage::~InsideRoomPage()
 bool InsideRoomPage::init()
 {
 	std::vector<std::pair<std::string, bool> >::iterator			it;
-	int												i;
+	int																i;
 
 	i = 1;
 	it = _playerList.begin();
@@ -46,6 +46,7 @@ void InsideRoomPage::clear()
 {
 	clearGUIElement(_buttons);
 	clearGUIElement(_guiElement);
+	_playerList.clear();
 }
 
 bool InsideRoomPage::launch()

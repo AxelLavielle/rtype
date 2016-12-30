@@ -43,10 +43,10 @@ protected:
   void			initCheckBox(const Rect & pos, const std::string & spriteEmpty, const std::string & spriteFill);
   void			initListBox(const Rect & pos, const std::string & font, const std::string & button, const std::string & hover, const std::vector<std::string>& elements);
   void			drawGUIElement(std::vector<AGUIElement *> guiElements);
-  void			clearGUIElement(std::vector<AGUIElement *> guiElements);
+  void			clearGUIElement(std::vector<AGUIElement *> &guiElements);
   void			hoverEvent(std::vector<AGUIElement *> guiElements);
   void			drawGUIElement(std::map<IPage::PAGE, AGUIElement *> guiElements);
-  void			clearGUIElement(std::map<IPage::PAGE, AGUIElement *> guiElements);
+  void			clearGUIElement(std::map<IPage::PAGE, AGUIElement *> &guiElements);
   void			hoverEvent(std::map<IPage::PAGE, AGUIElement *> guiElements);
   void			clickEvent(std::vector<AGUIElement*> guiElements);
   IPage::PAGE		clickEvent(std::map<IPage::PAGE, AGUIElement *> guiElements);

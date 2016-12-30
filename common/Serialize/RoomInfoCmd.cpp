@@ -3,6 +3,7 @@
 RoomInfoCmd::RoomInfoCmd()
 {
 	_cmdName = ROOM_INFO;
+	_name = "";
 }
 
 RoomInfoCmd::~RoomInfoCmd()
@@ -28,7 +29,6 @@ CmdName			RoomInfoCmd::getCommandName() const
 
 const std::string	RoomInfoCmd::getCommandArg() const
 {
-	std::cout << "[RoomInfo] : ARG = {" << _arg << "}" << std::endl;
 	return (_arg);
 }
 
@@ -65,12 +65,12 @@ void RoomInfoCmd::setCommandArg(const std::string &arg)
 		else
 		{
 			if (i == 0)
-			{
 				pl.first = item;
+			else if (i == 1)
+			{
+				pl.second = std::stoi(item);
 				_playersList.push_back(pl);
 			}
-			else if (i == 1)
-				pl.second = std::stoi(item);
 			i++;
 		}
 		if (i >= 2)

@@ -215,8 +215,6 @@ void							Server::processGames()
 	}
 }
 
-# define GAME_LOOP_TIME (100)
-
 bool							Server::launch()
 {
 	Thread						threadTCP;
@@ -244,11 +242,11 @@ bool							Server::launch()
 		}
 		else
 		  {
-#ifdef _WIN32
-		    Sleep(GAME_LOOP_TIME - duration);
-#elif __linux__
-		    usleep(GAME_LOOP_TIME - duration);
-#endif
+			#ifdef _WIN32
+				Sleep(GAME_LOOP_TIME - duration);
+			#elif __linux__
+				usleep(GAME_LOOP_TIME - duration);
+			#endif
 		  }
 	}
 

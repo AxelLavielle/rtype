@@ -2,6 +2,8 @@
 
 AEntity::AEntity()
 {
+	static unsigned int	id = 0;
+
 	_posX = -1;
 	_posY = -1;
 	_type = rtype::ABSTRACT;
@@ -13,6 +15,9 @@ AEntity::AEntity()
 	_height = -1;
 	_width = -1;
 	_separator = '|';
+	_id = id;
+	_isDead = false;
+	id++;
 }
 
 AEntity::~AEntity()
@@ -68,6 +73,34 @@ void AEntity::setWidth(const double width)
 	ss << width;
 	_args += ss.str() + _separator;
 	_width = width;
+}
+
+void AEntity::setId(const unsigned int id)
+{
+	std::stringstream	ss;
+
+	ss << id;
+	_args += ss.str() + _separator;
+	_id = id;
+}
+
+unsigned int AEntity::getId() const
+{
+	return (_id);
+}
+
+bool AEntity::isDead() const
+{
+	return (_isDead);
+}
+
+void AEntity::setDead(const bool status)
+{
+	std::stringstream	ss;
+
+	ss << status;
+	_args += ss.str() + _separator;
+	_isDead = status;
 }
 
 double			AEntity::getPosY() const

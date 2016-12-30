@@ -6,6 +6,7 @@ class Missile : public AEntity
 {
 public:
 	Missile(const int, const int);
+	Missile(const int, const int, const int);
 	virtual	~Missile();
 
 	virtual void	update();

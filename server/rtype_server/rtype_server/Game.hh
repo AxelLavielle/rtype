@@ -5,7 +5,8 @@
 #include "ServerClient.hh"
 #include "InputCmd.hh"
 
-#define NB_CELLS_Y	(80)
+#define NB_CELLS_Y			(80)
+#define MISSILE_COOLDOWN	(10)
 
 class Game
 {

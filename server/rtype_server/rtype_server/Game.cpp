@@ -67,12 +67,12 @@ void								Game::manageInput(ServerClient *client)
 {
 	std::vector<InputCmd>			vInputs;
 	std::vector<InputCmd>::iterator	it;
-	IEntity							*player;
+	Player							*player;
 	int								newX;
 	int								newY;
 	vInputs = client->getInputs();
 	it = vInputs.begin();
-	player = client->getPlayer();
+	player = static_cast<Player *>(client->getPlayer());
 	while (it != vInputs.end())
 	{
 //		std::cout << "Player sent key [" << it->getKey() << "]" << std::endl;
@@ -84,16 +84,17 @@ void								Game::manageInput(ServerClient *client)
 			newY = (it->getKey() == "UP") ? (newY - 1) : (newY + 1);
 		else if (it->getKey() == "RIGHT" || it->getKey() == "LEFT")
 			newX = (it->getKey() == "RIGHT") ? (newX + 1) : (newX - 1);
-		else if (it->getKey() == "SHOOT")
+		else if (it->getKey() == "SHOOT" && player->getMissileCooldown() <= 0)
 		{
 			shootMissile(newX + player->getWidth(), newY);
+			player->setMissileCooldown(MISSILE_COOLDOWN);
 		}
 		if (newX > _currentXMin && newX < _currentXMax && newY > 0 && newY < NB_CELLS_Y)
 		{
 			player->setPosX(newX);
 			player->setPosY(newY);
 		}
-
+		player->setMissileCooldown(player->getMissileCooldown() - 1);
 		player->refresh();
 		++it;
 	}

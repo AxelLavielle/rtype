@@ -13,6 +13,9 @@
 #include "ThreadPool.hh"
 #include "Mutex.hh"
 
+# define GAME_LOOP_TIME (100)
+
+
 class CmdManager;
 
 class Server

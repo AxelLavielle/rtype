@@ -13,6 +13,7 @@ Player::Player(const int x, const int y)
   this->setSpeedY(1);
   this->setLife(100);
   this->setSpriteRepo("/res/img/spaceShip10.png");
+  _missileCooldown = 0;
 }
 
 Player::Player(const std::string &name)
@@ -33,6 +34,16 @@ int		Player::getId() const
 void		Player::setId(const int id)
 {
   _id = id;
+}
+
+int			Player::getMissileCooldown() const
+{
+	return (_missileCooldown);
+}
+
+void		Player::setMissileCooldown(const int mC)
+{
+	_missileCooldown = mC;
 }
 
 void		Player::update()

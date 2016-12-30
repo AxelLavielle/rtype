@@ -32,22 +32,29 @@ public:
 	virtual		void			setSpeedY(const double);
   	virtual		int			getLife() const;
 	virtual		void			setLife(const int);
+	virtual void			setId(const unsigned int);
+	virtual unsigned int	getId() const;
+	virtual bool			isDead() const;
+	virtual void			setDead(const bool);
 	virtual		bool			setArgs(const std::string & args);
 	virtual		std::string		getArgs() const;
 	virtual void			refresh();
+
 protected:
-  double					_posX;
-  double					_speedY;
- double						_speedX;
-  double					_posY;
-  double					_height;
-  double					_width;
-  int						_life;
-  std::string				_spritePath;
-  rtype::EntityType			_type;
-  std::string				_name;
-  std::string				_args;
-  char						_separator;
+	int						_id;
+	bool					_isDead;
+	double					_posX;
+	double					_speedY;
+	double					_speedX;
+	double					_posY;
+	double					_height;
+	double					_width;
+	int						_life;
+	std::string				_spritePath;
+	rtype::EntityType		_type;
+	std::string				_name;
+	std::string				_args;
+	char					_separator;
 
   std::vector<std::string> split(const std::string & s);
 };

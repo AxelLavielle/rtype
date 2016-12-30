@@ -7,6 +7,7 @@ class Player :
 {
 private:
   int			_id;
+  int			_missileCooldown;
 
 public:
   Player(const int, const int);
@@ -17,4 +18,6 @@ public:
 
   int			getId() const;
   void			setId(const int);
+  int			getMissileCooldown() const;
+  void			setMissileCooldown(const int);
 };

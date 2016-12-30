@@ -62,6 +62,7 @@ private:
 	std::string					_mode;
 	ThreadPool					_pool;
 	std::vector<IEntity* >		_entity;
+	std::vector<char>			_refreshed;
 	Mutex						_mutex;
 	Mutex						_mutexRun;
 	bool						_run;
@@ -69,9 +70,11 @@ private:
 	std::pair<int, int>			_windowSize;
 	std::pair<int, int>			_windowGameSize;
 	std::string					_key;
+	Sound						_pew;
 
 	bool initSocket();
 	void initGraphElements();
 	void manageEntity();
+	void updateEntities(IEntity *);
 };
 

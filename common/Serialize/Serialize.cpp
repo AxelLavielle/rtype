@@ -69,7 +69,6 @@ IEntity		*Serialize::unserializeEntity(char *data)
 {
   packet	*p;
   Player	*res;
-  int		i;
   std::string	tmp;
 
   tmp = "";

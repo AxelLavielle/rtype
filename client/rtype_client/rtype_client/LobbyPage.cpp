@@ -1,6 +1,5 @@
 #include "LobbyPage.hh"
 
-
 LobbyPage::LobbyPage(IGraphManager *graph, IEventManager *event, const PathFileManager &fileManager, ISoundManager *soundManager) : APage(graph, event, fileManager, soundManager)
 {
 	_backgroundSprite = _fileManager.getRoot() + "/res/img/background_menu2.jpg";

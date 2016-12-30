@@ -60,6 +60,7 @@ private:
 	bool						_checkGameReady;
 	int							_id;
 	Thread						*_th;
+	SaveConfig					_sv;
 
 	std::chrono::high_resolution_clock::time_point        _t1Conn;
 

@@ -23,8 +23,8 @@ bool			CmdManager::updateRoom()
 {
 	ICommand	*cmd;
 
-	if ((cmd = receiveCmd()) && cmd->getCommandType() == BASIC_CMD
-		&& cmd->getCommandName() == UPDATE_ROOM)
+	if ((cmd = receiveCmd()) && cmd->getCommandName() == BASIC_CMD
+		&& cmd->getCommandType() == UPDATE_ROOM)
 	{
 		delete (cmd);
 		return (true);

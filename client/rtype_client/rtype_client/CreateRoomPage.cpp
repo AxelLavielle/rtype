@@ -61,9 +61,19 @@ std::string CreateRoomPage::getRoomName() const
 		if ((*it)->getTypeName() == "InputBox")
 		{
 			InputBox	*box;
-	
+			std::string roomName;
+			unsigned int i = 0;
+
 			box = static_cast<InputBox* >((*it));
-			return (box->getText());
+			while (i < box->getText().size())
+			{
+				if (box->getText()[i] != '|')
+					roomName += box->getText()[i];
+				i++;
+			}
+			if (roomName.size() == 0)
+				roomName = "room";
+			return (roomName);
 		}
 		++it;
 	}

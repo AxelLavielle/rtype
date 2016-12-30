@@ -3,7 +3,8 @@
 
 Menu::Menu()
 {
-	_playerName = "Player 1";
+	_sv.readFromFile();
+	_playerName = _sv.getPlayerName();
 	_newEvent = false;
 	_roomInfo = new RoomInfoCmd();
 	_run = true;
@@ -28,8 +29,8 @@ bool Menu::init()
 	_music.setLoop(true);
 	_clickSound.setDuration(-1);
 	_clickSound.setFilePath(_fileManager.getRoot() + "/res/sounds/buttonClick.wav");
-    _soundManager.setMusicVolume(100);
-    _soundManager.setSoundVolume(100);
+    _soundManager.setMusicVolume(_sv.getMusic());
+    _soundManager.setSoundVolume(_sv.getSfx());
 	_soundManager.play(_music);
 	_t1Conn = std::chrono::high_resolution_clock::now();
 	_cmdManager.setSocket(_socket);
@@ -69,7 +70,7 @@ bool Menu::tryToConnect()
 	if (_socket && !_socket->isConnected())
 	{
 		std::cout << "TRY TO CONNECT" << std::endl;
-		_socket->init(_ip, 42000);
+		_socket->init(_ip, _port);
 		_socket->connectToServer();
 		if (_socket->isConnected())
 		{
@@ -124,7 +125,6 @@ void	Menu::setRoomInfo(RoomInfoCmd *roomInfo, InsideRoomPage *page)
 
 void	Menu::receiveData()
 {
-	ICommand		*cmd;
 	RoomInfoCmd		*roomInfo;
 
 	while (1)
@@ -156,7 +156,6 @@ void	Menu::receiveData()
 void	Menu::checkGameReady()
 {
 	int				res;
-	RoomInfoCmd		*roomInfo;
 
 	while (1)
 	{
@@ -315,11 +314,14 @@ bool Menu::launch()
 		      std::cout << "Lobby" << std::endl;
 		      break;
 		    case IPage::SAVE:
-				SettingsPage	*tmpPageSettings;
-				tmpPageSettings = static_cast<SettingsPage *>(_page);
+				//SettingsPage	*tmpPageSettings;
+				//tmpPageSettings = static_cast<SettingsPage *>(_page);
 				tmp = static_cast<SettingsPage *>(_page)->save();
-				//_soundManager.setMusicVolume(tmp.second.first);
-				//_soundManager.setSoundVolume(tmp.second.second);
+				_sv.readFromFile();
+				_ip = _sv.getIport().substr(0, _sv.getIport().find(":"));
+				_port = std::stoi(_sv.getIport().substr(_sv.getIport().find(":") + 1));
+				_soundManager.setMusicVolume(_sv.getMusic());
+				_soundManager.setSoundVolume(_sv.getSfx());
 				//_mutex->lock();
 				//if (_socket)
 				//{
@@ -397,7 +399,7 @@ bool Menu::launch()
 				_newEvent = true;
 				CreateRoomPage		*tmpPage;
 				tmpPage = static_cast<CreateRoomPage* >(_page);
-				if (!_cmdManager.createRoom(tmpPage->getRoomName(), "Player 1"))
+				if (!_cmdManager.createRoom(tmpPage->getRoomName(), _playerName))
 				{
 					std::cerr << "Cannot create room" << std::endl;
 					break;

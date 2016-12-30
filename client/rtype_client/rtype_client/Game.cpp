@@ -61,6 +61,80 @@ void	Game::initGraphElements()
 	_windowGameSize.second = _windowSize.second - (gui->getBottomBarHeight() + gui->getTopBarHeight());
 }
 
+void	Game::updateEntities(IEntity *entity)
+{
+	std::vector<IEntity* >::iterator		it = _entity.begin();
+	std::vector<char>::iterator				it2 = _refreshed.begin();
+	bool deleted = false;
+
+	while (it != _entity.end())
+	{
+		if ((*it)->getId() == entity->getId())
+		{
+			(*it2) = 0;
+			//if ((*it)->isDead() == entity->isDead() && (*it)->getPosX() == entity->getPosX() && (*it)->getPosY() == entity->getPosY() &&
+			//	(*it)->getHeight() == entity->getHeight() && (*it)->getWidth() == entity->getWidth() && (*it)->getSpeedX() == entity->getSpeedX() &&
+			//	(*it)->getSpeedY() == entity->getSpeedY() && (*it)->getType() == entity->getType() && (*it)->getName() == entity->getName() &&
+			//	(*it)->getLife() == entity->getLife() && (*it)->getSpriteRepo() == entity->getSpriteRepo() && (*it)->getArgs() == entity->getArgs() &&
+			//	(*it)->getType() != rtype::PLAYER)
+			//	(*it2)++;
+			//else
+			//	(*it2) = 0;
+			//if ((*it2) >= 10)
+			//{
+			//	delete (*it);
+			//	it = _entity.erase(it);
+			//	it2 = _refreshed.erase(it2);
+			//	deleted = true;
+			//}
+			if (entity->isDead() == true)
+			{
+				delete (*it);
+				it = _entity.erase(it);
+				it2 = _refreshed.erase(it2);
+				deleted = true;
+			}
+			else
+			{
+				(*it)->setPosX(entity->getPosX());
+				(*it)->setPosY(entity->getPosY());
+				(*it)->setHeight(entity->getHeight());
+				(*it)->setWidth(entity->getWidth());
+				(*it)->setSpeedX(entity->getSpeedX());
+				(*it)->setSpeedY(entity->getSpeedY());
+				(*it)->setType(entity->getType());
+				(*it)->setName(entity->getName());
+				(*it)->setLife(entity->getLife());
+				(*it)->setSpriteRepo(entity->getSpriteRepo());
+				(*it)->setArgs(entity->getArgs());
+			}
+			break;
+		}
+		else
+		{
+			(*it2)++;
+			if ((*it2) >= 50)
+			{
+				delete (*it);
+				it = _entity.erase(it);
+				it2 = _refreshed.erase(it2);
+				deleted = true;
+			}
+		}
+		if (deleted == false)
+		{
+			it++;
+			it2++;
+		}
+		deleted = false;
+	}
+	if (it == _entity.end())
+	{
+		_entity.push_back(entity);
+		_refreshed.push_back(0);
+	}
+}
+
 void	Game::manageEntity()
 {
 	std::chrono::high_resolution_clock::time_point		tGame;
@@ -88,7 +162,7 @@ void	Game::manageEntity()
 		{
 			_mutex.lock();
 			_newEvent = true;
-			_entity.push_back(entity);
+			updateEntities(entity);
 			_mutex.unlock();
 		}
 	}
@@ -175,7 +249,6 @@ int Game::launch()
 
 			_mutex.lock();
 			it = _entity.begin();
-			//std::cout << _entity.size() << std::endl;
 			while (it != _entity.end())
 			{
 				_graph->drawRectangle(_fileManager.getRoot() + (*it)->getSpriteRepo(),
@@ -184,10 +257,8 @@ int Game::launch()
 					(*it)->getHeight() * (_windowGameSize.second / NB_CELL_Y),
 					(*it)->getWidth() * (_windowGameSize.first / NB_CELL_X)),
 					Color(0, 0, 0));
-				delete *it;
 				++it;
 			}
-			_entity.clear();
 			_mutex.unlock();
 			_guiPage->draw();
 			_graph->refresh();

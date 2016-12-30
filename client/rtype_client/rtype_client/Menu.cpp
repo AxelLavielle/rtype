@@ -3,6 +3,8 @@
 
 Menu::Menu()
 {
+	SaveConfig		sv;
+
 	_playerName = "Player 1";
 	_newEvent = false;
 	_roomInfo = new RoomInfoCmd();

@@ -134,7 +134,18 @@ std::string		SaveConfig::getPlayerName() const
 
 void			SaveConfig::setPlayerName(const std::string &playerName)
 {
-	_playerName = playerName;
+	std::string pn;
+	unsigned int i = 0;
+
+	while (i != playerName.size())
+	{
+		if (playerName[i] != '|')
+			pn += playerName[i];
+		i++;
+	}
+	if (pn.size() == 0)
+		pn = "player";
+	_playerName = pn;
 }
 
 std::string		SaveConfig::getUp() const
@@ -144,7 +155,10 @@ std::string		SaveConfig::getUp() const
 
 void			SaveConfig::setUp(const std::string &up)
 {
-	_up = up;
+	if (up == "|")
+		_up = "z";
+	else
+		_up = up;
 }
 
 std::string		SaveConfig::getDown() const
@@ -154,7 +168,10 @@ std::string		SaveConfig::getDown() const
 
 void			SaveConfig::setDown(const std::string &down)
 {
-	_down = down;
+	if (down == "|")
+		_down = "s";
+	else
+		_down = down;
 }
 
 std::string		SaveConfig::getRight() const
@@ -164,7 +181,10 @@ std::string		SaveConfig::getRight() const
 
 void			SaveConfig::setRight(const std::string &right)
 {
-	_right = right;
+	if (right == "|")
+		_right = "d";
+	else
+		_right = right;
 }
 
 std::string		SaveConfig::getLeft() const
@@ -174,7 +194,10 @@ std::string		SaveConfig::getLeft() const
 
 void			SaveConfig::setLeft(const std::string &left)
 {
-	_left = left;
+	if (left == "|")
+		_left = "q";
+	else
+		_left = left;
 }
 
 std::string		SaveConfig::getPew() const
@@ -184,7 +207,10 @@ std::string		SaveConfig::getPew() const
 
 void			SaveConfig::setPew(const std::string &pew)
 {
-	_pew = pew;
+	if (pew == "|")
+		_pew = "k";
+	else
+		_pew = pew;
 }
 
 int				SaveConfig::getMusic() const

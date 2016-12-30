@@ -187,7 +187,7 @@ bool AEntity::setArgs(const std::string & args)
 	std::vector<std::string>				res;
 
 	res = split(args);
-	if (res.size() < 8)
+	if (res.size() < 10)
 		return (false);
 	_name = res[0];
 	_posX = std::stoi(res[1]);
@@ -198,6 +198,9 @@ bool AEntity::setArgs(const std::string & args)
 	_speedY = std::stoi(res[6]);
 	_life = std::stoi(res[7]);
 	_spritePath = res[8];
+	_id = std::stoi(res[9]);
+	_isDead = std::stoi(res[10]);
+
 	_args = args;
 	return (true);
 }
@@ -212,34 +215,56 @@ void AEntity::refresh()
 	std::stringstream	ss;
 
 	_args = "";
+	
 	_args += _name + _separator;
+	
 	ss << _posX;
 	_args += ss.str() + _separator; 
 	ss.str("");
 	ss.clear();
+	
 	ss << _posY;
 	_args += ss.str() + _separator;
 	ss.str("");
 	ss.clear();
+	
 	ss << _height;
 	_args += ss.str() + _separator;
 	ss.str("");
 	ss.clear();
+	
 	ss << _width;
 	_args += ss.str() + _separator;
 	ss.str("");
 	ss.clear();
+	
 	ss << _speedX;
 	_args += ss.str() + _separator;
 	ss.str("");
 	ss.clear();
+	
 	ss << _speedY;
 	_args += ss.str() + _separator;
 	ss.str("");
 	ss.clear();
+	
 	ss << _life;
 	_args += ss.str() + _separator;
+	ss.str("");
+	ss.clear();
+
 	_args += _spritePath + _separator;
+
+	ss << _id;
+	_args += ss.str() + _separator;
+	ss.str("");
+	ss.clear();
+
+	ss << _isDead;
+	_args += ss.str() + _separator;
+	ss.str("");
+	ss.clear();
+
 }
 
 std::vector<std::string>		AEntity::split(const std::string &s)

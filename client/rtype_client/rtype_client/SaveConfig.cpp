@@ -137,7 +137,7 @@ void			SaveConfig::setPlayerName(const std::string &playerName)
 	std::string pn;
 	unsigned int i = 0;
 
-	while (i != playerName.size())
+	while (i < playerName.size())
 	{
 		if (playerName[i] != '|')
 			pn += playerName[i];

@@ -2,13 +2,18 @@
 
 Client::Client()
 {
+	SaveConfig sv;
+
+	sv.readFromFile();
 	_mutex = new Mutex();
 	_socket = new SocketClientTCP();
 	//_ip = "127.0.0.1";
-	_ip = "10.16.252.95"; // Sarah
+//	_ip = "10.16.252.95"; // Sarah
 //	_ip = "10.16.253.119"; // Anthony
 	//_ip = "10.16.252.135"; // Momo
 //	_ip = "10.16.253.15"; // Alexis
+	_ip = sv.getIport().substr(0, sv.getIport().find(":"));
+	_port = std::stoi(sv.getIport().substr(sv.getIport().find(":") + 1));
 }
 
 Client::~Client()
@@ -24,7 +29,7 @@ Client::~Client()
 bool Client::initSocket()
 {
 	_mutex->lock();
-	if (!_socket->init(_ip, 42000)
+	if (!_socket->init(_ip, _port)
 		|| !_socket->connectToServer())
 	{
 		_menu->setSocketTCPSocket(_socket);
@@ -58,7 +63,7 @@ bool Client::launch()
 	if (!initGraph())
 		return (false);
 	_menu->setIp(_ip);
-	_menu->setPort(42000);
+	_menu->setPort(_port);
 	_menu->setEventManager(_event);
 	_menu->setGraphManager(_graph);
 	_menu->setMutex(_mutex);

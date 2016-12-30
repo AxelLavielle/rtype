@@ -26,6 +26,7 @@ private:
 	ThreadPool			_pool;
 	AMutex				*_mutex;
 	std::string			_ip;
+	int					_port;
 
 	bool initSocket();
 	bool initGraph();

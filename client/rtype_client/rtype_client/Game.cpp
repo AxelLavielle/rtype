@@ -100,7 +100,7 @@ void	Game::updateEntities(IEntity *entity)
 		else
 		{
 			(*it2)++;
-			if ((*it2) >= 50)
+			if ((*it2) >= 10)
 			{
 				delete (*it);
 				it = _entity.erase(it);

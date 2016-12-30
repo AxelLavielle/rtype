@@ -220,7 +220,10 @@ int				SaveConfig::getMusic() const
 
 void			SaveConfig::setMusic(const int music)
 {
-  _music = music;
+	if (music < 10)
+		_music = 0;
+	else
+	  _music = music;
 }
 
 int				SaveConfig::getSfx() const
@@ -230,7 +233,10 @@ int				SaveConfig::getSfx() const
 
 void			SaveConfig::setSfx(const int sfx)
 {
-  _sfx = sfx;
+	if (sfx < 10)
+		_sfx = 0;
+	else
+	  _sfx = sfx;
 }
 
 std::string		SaveConfig::getIport() const

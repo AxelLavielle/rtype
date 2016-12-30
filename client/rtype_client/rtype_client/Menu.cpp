@@ -5,6 +5,7 @@ Menu::Menu()
 {
 	SaveConfig		sv;
 
+	sv.readFromFile();
 	_playerName = "Player 1";
 	_newEvent = false;
 	_roomInfo = new RoomInfoCmd();

@@ -21,7 +21,6 @@ SRC		=	$(DIR)/ASocketServer.cpp	\
 			$(DIR)/RoomManager.cpp		\
 			$(DIR)/SocketAddress.cpp	\
 			$(DIR)/CmdManager.cpp		\
-			$(DIR)/Map.cpp			\
 			$(COMMON)/MemTools.cpp		\
 			$(COMMON)/Thread.cpp		\
 			$(COMMON)/Mutex.cpp		\

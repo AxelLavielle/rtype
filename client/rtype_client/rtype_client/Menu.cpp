@@ -126,7 +126,6 @@ void	Menu::setRoomInfo(RoomInfoCmd *roomInfo, InsideRoomPage *page)
 
 void	Menu::receiveData()
 {
-	ICommand		*cmd;
 	RoomInfoCmd		*roomInfo;
 
 	while (1)
@@ -158,7 +157,6 @@ void	Menu::receiveData()
 void	Menu::checkGameReady()
 {
 	int				res;
-	RoomInfoCmd		*roomInfo;
 
 	while (1)
 	{
@@ -317,8 +315,8 @@ bool Menu::launch()
 		      std::cout << "Lobby" << std::endl;
 		      break;
 		    case IPage::SAVE:
-				SettingsPage	*tmpPageSettings;
-				tmpPageSettings = static_cast<SettingsPage *>(_page);
+				//SettingsPage	*tmpPageSettings;
+				//tmpPageSettings = static_cast<SettingsPage *>(_page);
 				tmp = static_cast<SettingsPage *>(_page)->save();
 				//_soundManager.setMusicVolume(tmp.second.first);
 				//_soundManager.setSoundVolume(tmp.second.second);

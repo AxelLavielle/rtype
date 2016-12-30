@@ -152,14 +152,14 @@ char				*SocketClientTCP::receiveData()
 	char			*recvbuf = new char[TCP_BUFLEN];
 	int				iResult;
 
-	int			ret;
-	struct timeval tv;
-	tv.tv_sec = 0;
-	tv.tv_usec = 1000;
+	//int			ret;
+	//struct timeval tv;
+	//tv.tv_sec = 0;
+	//tv.tv_usec = 1000;
 
-	fd_set readfds;
-	FD_ZERO(&readfds);
-	FD_SET(_sock, &readfds);
+	//fd_set readfds;
+	//FD_ZERO(&readfds);
+	//FD_SET(_sock, &readfds);
 
 	//ret = select(_sock + 1, &readfds, NULL, NULL, &tv);
 	//if (ret > 0)

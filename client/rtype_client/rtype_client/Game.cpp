@@ -175,11 +175,8 @@ int Game::launch()
 	std::chrono::high_resolution_clock::time_point		t1;
 	std::chrono::high_resolution_clock::time_point	    t2;
 	double												duration;
-	 int												i;
-	 bool												first = true;
 	 Thread												*th;
 
-	 i = 100;
 	 if (!initSocket())
 	 {
 		 std::cerr << "ERROR: connexion udp socket" << std::endl;

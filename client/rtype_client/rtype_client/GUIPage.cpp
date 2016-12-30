@@ -57,7 +57,7 @@ void	GUIPage::titleAnimation()
 		{
 			t2 = std::chrono::high_resolution_clock::now();
 			_animDuration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
-			if (_animDuration > ANIMDURATION)
+			if (_animDuration > ANIMDURATION_G)
 			{
 				t1 = std::chrono::high_resolution_clock::now();
 				_animInc+=5;

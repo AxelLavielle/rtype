@@ -1,6 +1,6 @@
 #pragma once
 
-#define ANIMDURATION 5000
+#define ANIMDURATION_L 5000
 
 #include "APage.hh"
 #include <chrono>

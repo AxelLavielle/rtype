@@ -3,7 +3,7 @@
 #include <chrono>
 #include "APage.hh"
 
-#define ANIMDURATION 100
+#define ANIMDURATION_H 100
 
 class HomePage :
 	public APage

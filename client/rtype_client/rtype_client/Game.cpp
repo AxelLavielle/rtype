@@ -224,6 +224,12 @@ int Game::launch()
 				_guiPage = new PausePage(_graph, _event, _fileManager, &_soundManager);
 				_guiPage->init();
 			}
+			if (_guiPage->event() == IPage::PAUSE)
+			{
+				delete _guiPage;
+				_guiPage = new GUIPage(_graph, _event, _fileManager, &_soundManager);
+				_guiPage->init();
+			}
 		}
 
 		if (_newEvent)

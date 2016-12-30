@@ -28,7 +28,8 @@ bool LobbyPage::init()
 
   initButton(70, 10, 60, Rect(_windowSize.first / 2 - 155 - _windowSize.first / 4, 900, 90, 310), "BACK", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::HOME);
   initButton(20, 10, 60, Rect(_windowSize.first / 2 - 155 + _windowSize.first / 4, 900, 90, 310), "CREATE", "/res/img/button.png", "/res/img/buttonOver.png", "/res/fonts/Aerospace.ttf", IPage::CREATEROOM);
-  initDecor(Rect(_windowSize.first / 2 + 245, 753, 40, 200), "/res/img/buttonRoom.png");
+	if (_room.size())
+	  initDecor(Rect(_windowSize.first / 2 + 245, 753, 40, 200), "/res/img/buttonRoom.png");
   initListBox(Rect(_windowSize.first / 2 - 450, 450, 300, 900), "/res/fonts/Space.ttf", "/res/img/buttonRoom.png", "/res/img/buttonRoomOver.png", _roomName);
   return (true);
 }

@@ -22,16 +22,6 @@ Monster::~Monster()
 {
 }
 
-void		Monster::setId(const int id)
-{
-  _id = id;
-}
-
-int		Monster::getId() const
-{
-  return (_id);
-}
-
 void		Monster::update()
 {
 }

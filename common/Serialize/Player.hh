@@ -6,7 +6,6 @@ class Player :
 	public AEntity
 {
 private:
-  int			_id;
   int			_missileCooldown;
 
 public:
@@ -16,8 +15,6 @@ public:
 
   virtual void		update();
 
-  int			getId() const;
-  void			setId(const int);
   int			getMissileCooldown() const;
   void			setMissileCooldown(const int);
 };

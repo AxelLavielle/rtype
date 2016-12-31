@@ -74,7 +74,6 @@ void	Game::updateEntities(IEntity *entity)
 	{
 		if ((*it)->getId() == entity->getId())
 		{
-			(*it2) = 0;
 			if (entity->isDead() == true)
 			{
 				delete (*it);
@@ -84,30 +83,36 @@ void	Game::updateEntities(IEntity *entity)
 			}
 			else
 			{
-				(*it)->setPosX(entity->getPosX());
-				(*it)->setPosY(entity->getPosY());
-				(*it)->setHeight(entity->getHeight());
-				(*it)->setWidth(entity->getWidth());
-				(*it)->setSpeedX(entity->getSpeedX());
-				(*it)->setSpeedY(entity->getSpeedY());
-				(*it)->setType(entity->getType());
-				(*it)->setName(entity->getName());
-				(*it)->setLife(entity->getLife());
-				(*it)->setSpriteRepo(entity->getSpriteRepo());
-				(*it)->setArgs(entity->getArgs());
+				if ((*it)->getPosX() == entity->getPosX() && (*it)->getPosY() == entity->getPosY() && (*it)->getHeight() == entity->getHeight() &&
+					(*it)->getWidth() == entity->getWidth() && (*it)->getSpeedX() == entity->getSpeedX() && (*it)->getSpeedY() == entity->getSpeedY() &&
+					(*it)->getType() == entity->getType() && (*it)->getName() == entity->getName() && (*it)->getLife() == entity->getLife() &&
+					(*it)->getSpriteRepo() == entity->getSpriteRepo())
+				{
+					(*it2)++;
+					if ((*it2) >= 10)
+					{
+						delete (*it);
+						it = _entity.erase(it);
+						it2 = _refreshed.erase(it2);
+						deleted = true;
+					}
+				}
+				else
+				{
+					(*it2) = 0;
+					(*it)->setPosX(entity->getPosX());
+					(*it)->setPosY(entity->getPosY());
+					(*it)->setHeight(entity->getHeight());
+					(*it)->setWidth(entity->getWidth());
+					(*it)->setSpeedX(entity->getSpeedX());
+					(*it)->setSpeedY(entity->getSpeedY());
+					(*it)->setType(entity->getType());
+					(*it)->setName(entity->getName());
+					(*it)->setLife(entity->getLife());
+					(*it)->setSpriteRepo(entity->getSpriteRepo());
+				}
 			}
 			break;
-		}
-		else
-		{
-			(*it2)++;
-			if ((*it2) >= 10)
-			{
-				delete (*it);
-				it = _entity.erase(it);
-				it2 = _refreshed.erase(it2);
-				deleted = true;
-			}
 		}
 		if (deleted == false)
 		{

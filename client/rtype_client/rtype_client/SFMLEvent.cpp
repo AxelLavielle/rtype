@@ -89,6 +89,14 @@ std::string SFMLEvent::getKeyStroke()
 		std::transform(key.begin(), key.end(), key.begin(), ::toupper);
 		if (_event.key.code == static_cast<sf::Keyboard::Key>(key.c_str()[0] - 65))
 			return ("SUPERSHOOT");
+		if (_sv.getUp().size() == 0 && _event.key.code == sf::Keyboard::Key::Up)
+			return ("UP");
+		if (_sv.getDown().size() == 0 && _event.key.code == sf::Keyboard::Key::Down)
+			return ("DOWN");
+		if (_sv.getRight().size() == 0 && _event.key.code == sf::Keyboard::Key::Right)
+			return ("RIGHT");
+		if (_sv.getLeft().size() == 0 && _event.key.code == sf::Keyboard::Key::Left)
+			return ("LEFT");
 		if (_event.key.code == sf::Keyboard::Escape)
 			return ("ECHAP");
 		//switch (_event.key.code)
@@ -157,6 +165,14 @@ std::string SFMLEvent::getKeyReleased()
 		std::transform(key.begin(), key.end(), key.begin(), ::toupper);
 		if (_event.key.code == static_cast<sf::Keyboard::Key>(key.c_str()[0] - 65))
 			return ("SUPERSHOOT");
+		if (_sv.getUp().size() == 0 && _event.key.code == sf::Keyboard::Key::Up)
+			return ("UP");
+		if (_sv.getDown().size() == 0 && _event.key.code == sf::Keyboard::Key::Down)
+			return ("DOWN");
+		if (_sv.getRight().size() == 0 && _event.key.code == sf::Keyboard::Key::Right)
+			return ("RIGHT");
+		if (_sv.getLeft().size() == 0 && _event.key.code == sf::Keyboard::Key::Left)
+			return ("LEFT");
 		if (_event.key.code == sf::Keyboard::Escape)
 			return ("ECHAP");
 		//switch (_event.key.code)

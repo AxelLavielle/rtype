@@ -146,7 +146,7 @@ bool				SocketClientTCP::sendData(const char *data, const int datasize)
 	return (true);
 }
 
-char				*SocketClientTCP::receiveData(const int secTimeOut, const int usecTimeOut)
+char				*SocketClientTCP::receiveData()
 {
 	int				recvbuflen = TCP_BUFLEN;
 	char			*recvbuf = new char[TCP_BUFLEN];
@@ -154,8 +154,8 @@ char				*SocketClientTCP::receiveData(const int secTimeOut, const int usecTimeOu
 
 	int			ret;
 	struct timeval tv;
-	tv.tv_sec = secTimeOut;
-	tv.tv_usec = usecTimeOut;
+	tv.tv_sec = 0;
+	tv.tv_usec = 100;
 
 	fd_set readfds;
 	FD_ZERO(&readfds);
@@ -168,9 +168,11 @@ char				*SocketClientTCP::receiveData(const int secTimeOut, const int usecTimeOu
 			iResult = recv(_sock, recvbuf, recvbuflen, 0);
 			if (iResult > 0)
 			{
+				_connected = true;
 				recvbuf[iResult - 1] = '\0';
 				return (recvbuf);
 			}
+			_connected = false;
 			delete[] recvbuf;
 			return (NULL);
 		}
@@ -182,28 +184,12 @@ char				*SocketClientTCP::receiveData(const int secTimeOut, const int usecTimeOu
 	}
 	else
 	{
+		_connected = false;
 		std::cerr << "error selecting" << std::endl;
 		delete[] recvbuf;
 		return (NULL);
 	}
 }
-
-char				*SocketClientTCP::receiveData()
-{
-	int				recvbuflen = TCP_BUFLEN;
-	char			*recvbuf = new char[TCP_BUFLEN];
-	int				iResult;
-
-	iResult = recv(_sock, recvbuf, recvbuflen, 0);
-	if (iResult > 0)
-	{
-		recvbuf[iResult - 1] = '\0';
-		return (recvbuf);
-	}
-	delete[] recvbuf;
-	return (NULL);
-}
-
 
 bool				SocketClientTCP::connectToServer()
 {

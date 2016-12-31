@@ -8,6 +8,7 @@ CmdManager::CmdManager()
 	_roomList = NULL;
 	_wait = UNDERSTOOD;
 	_error = -1;
+	_mutexSocket = NULL;
 }
 
 void CmdManager::setSocket(ASocketClient * socketClient)
@@ -47,18 +48,14 @@ bool			CmdManager::isWaiting()
 	return (false);
 }
 
-bool			CmdManager::updateRoom()
+int				CmdManager::getId()
 {
-	ICommand	*cmd;
+	int res;
 
-	if ((cmd = receiveCmd()) && cmd->getCommandName() == BASIC_CMD
-		&& cmd->getCommandType() == UPDATE_ROOM)
-	{
-		delete (cmd);
-		return (true);
-	}
-	delete (cmd);
-	return (false);
+	_mutex.lock();
+	res = _id;
+	_mutex.unlock();
+	return (res);
 }
 
 bool			CmdManager::sendLaunchGame(const int id)
@@ -66,15 +63,11 @@ bool			CmdManager::sendLaunchGame(const int id)
 	BasicCmd	*cmd;
 	std::stringstream	ss;
 
-	std::cout << "launch game sending == " << id << std::endl;
 	ss << id;
 	cmd = new BasicCmd();
 	cmd->setCommandType(REPLY_CODE);
 	cmd->addArg(ss.str());
 	_cmd.push_back(cmd);
-	if (!sendUDPCmd())
-		return (false);
-	std::cout << "launch game sent" << std::endl;
 	return (true);
 }
 
@@ -117,20 +110,19 @@ int			CmdManager::launchGame()
 		newCmd = new BasicCmd();
 		newCmd->setCommandType(GET_ROOM);
 		_cmd.push_back(newCmd);
-		if (!sendCmd())
-			return (NULL);
 		std::cout << "UPDATE ROOM RECEIVED" << std::endl;
-	}
-	else if (cmd && cmd->getCommandName() == ROOM_INFO)
-	{
-		_roomInfo = static_cast<RoomInfoCmd*>(cmd);
 	}
 	return (-1);
 }
 
 RoomInfoCmd		*CmdManager::getRoomInfo()
 {
-	return (_roomInfo);
+	RoomInfoCmd		*res;
+
+	_mutex.lock();
+	res = _roomInfo;
+	_mutex.unlock();
+	return (res);
 }
 
 bool	CmdManager::setStatus()
@@ -141,10 +133,7 @@ bool	CmdManager::setStatus()
 	newCmd = new BasicCmd();
 	newCmd->setCommandType(SET_STATUS);
 	_cmd.push_back(newCmd);
-	if (!sendCmd())
-		return (false);
 	_wait = STATUS_CHANGED;
-	receiveCmd();
 	return (false);
 }
 
@@ -156,8 +145,6 @@ bool	CmdManager::leaveRoom()
 	newCmd = new BasicCmd();
 	newCmd->setCommandType(LEAVE_ROOM);
 	_cmd.push_back(newCmd);
-	if (!sendCmd())
-		return (false);
 	_wait = LEFT_ROOM;
 	return (false);
 }
@@ -172,8 +159,6 @@ bool	CmdManager::handshake()
 	cmd->setCommandArg(ss.str());
 	cmd->setCommandType(CmdType::HANDSHAKE_SYN);
 	_cmd.push_back(cmd);
-	if (!sendCmd())
-		return (false);
 	return (true);
 }
 
@@ -189,8 +174,6 @@ bool		CmdManager::createRoom(const std::string & rommName, const std::string & p
 	newCmd->addArg(rommName);
 	newCmd->addArg(playerName);
 	_cmd.push_back(newCmd);
-	if (!sendCmd())
-		return (false);
 	_wait = ROOM_CREATED;
 	return (true);
 }
@@ -207,23 +190,27 @@ bool	CmdManager::joinRoom(const int id, std::string & playerName)
 	basicCmd->addArg(playerName);
 	std::cout << "Player name = " << basicCmd->getArg(1) << std::endl;
 	_cmd.push_back(basicCmd);
-	if (!sendCmd())
-		return (false);
 	_wait = ROOM_JOINED;
 	return (false);
 }
 
-ListRoomCmd	*CmdManager::getRoomList()
+void	CmdManager::sendRoomList()
 {
 	ListRoomCmd			*resCmd;
-	ICommand			*cmd;
 	BasicCmd			*basicCmd = new BasicCmd();
-	char				*res;
 
 	basicCmd->setCommandType(GET_ROOM_LIST);
 	_cmd.push_back(basicCmd);
-	sendCmd();
-	return (_roomList);
+}
+
+ListRoomCmd * CmdManager::getRoomList()
+{
+	ListRoomCmd			*res;
+
+	_mutex.lock();
+	res = _roomList;
+	_mutex.unlock();
+	return (res);
 }
 
 bool		CmdManager::confirmHandshake(ICommand *cmd)
@@ -246,8 +233,6 @@ bool		CmdManager::confirmHandshake(ICommand *cmd)
 		newCmd->setCommandArg(ss.str());
 		newCmd->setCommandType(CmdType::HANDSHAKE_ACK);
 		_cmd.push_back(newCmd);
-		if (!sendCmd())
-			return (false);
 	}
 	else
 	{
@@ -260,8 +245,14 @@ bool		CmdManager::confirmHandshake(ICommand *cmd)
 bool		CmdManager::sendCmd()
 {
 	std::vector<ICommand*>::iterator	it;
+
+//	_mutexSocket->lock();
 	if (!_socketClient || !_socketClient->isConnected())
+	{
+	//	_mutexSocket->unlock();
 		return (false);
+	}
+//	_mutexSocket->unlock();
 	it = _cmd.begin();
 	while (it != _cmd.end())
 	{
@@ -319,10 +310,11 @@ ICommand	*CmdManager::receiveCmd(const int sec, const int usec)
 	ICommand			*cmd;
 	char				*res;
 
-	if (!_socketClient || !(res = _socketClient->receiveData(0, 100)))
+	if (!_socketClient || !(res = _socketClient->receiveData()))
 		return (NULL);
 	cmd = _serialize.unserializeCommand(res);
-	std::cout << "COMMAND RECEIVED : " << cmd->getCommandName() << "COMMAND TYPE : " << cmd->getCommandType() << std::endl;
+	delete[] res;
+	//std::cout << "COMMAND RECEIVED : " << cmd->getCommandName() << "COMMAND TYPE : " << cmd->getCommandType() << std::endl;
 	switch (cmd->getCommandName())
 	{
 
@@ -336,7 +328,6 @@ ICommand	*CmdManager::receiveCmd(const int sec, const int usec)
 			tmpCmd = static_cast<BasicCmd*>(cmd);
 			if (static_cast<ReplyCodes>(std::stoi(tmpCmd->getArg(0))) == _wait)
 			{
-				std::cout << "REPLY RECEIVED AND NOT ERROR" << std::endl;
 				_mutex.lock();
 				_error = 0;
 				_wait = UNDERSTOOD;
@@ -356,23 +347,36 @@ ICommand	*CmdManager::receiveCmd(const int sec, const int usec)
 			BasicCmd		*basicCmd;
 
 			basicCmd = static_cast<BasicCmd*>(cmd);
+			_mutex.lock();
 			_id = std::stoi(basicCmd->getArg(1));
+			_mutex.unlock();
 		}
-		delete res;
-		return (NULL);
+		else if (cmd->getCommandType() == UPDATE_ROOM)
+		{
+			BasicCmd		*newCmd;
+			ICommand		*cmd;
 
-	case (ROOM_LIST):
-		_roomList = static_cast<ListRoomCmd* >(cmd);
+			newCmd = new BasicCmd();
+			newCmd->setCommandType(GET_ROOM);
+			_cmd.push_back(newCmd);
+		}
 		break;
-	case (REPLY_CODE):
-		BasicCmd	*newCmd;
-
-		newCmd = static_cast<BasicCmd* >(cmd);
-		return (newCmd);
+	case (ROOM_LIST):
+		_mutex.lock();
+		_roomList = static_cast<ListRoomCmd* >(cmd);
+		_mutex.unlock();
+		return (NULL);
+		break;
+	case (ROOM_INFO):
+		_mutex.lock();
+		_roomInfo = static_cast<RoomInfoCmd*>(cmd);
+		_mutex.unlock();
+		return (NULL);
 		break;
 	default:
 	  break;
 	}
+//	delete cmd;
 	return (cmd);
 }
 
@@ -380,4 +384,9 @@ bool CmdManager::newCmd(ICommand *cmd)
 {
 	_cmd.push_back(cmd);
 	return (true);
+}
+
+void CmdManager::setMutexSocket(AMutex *mutex)
+{
+	_mutexSocket = mutex;
 }

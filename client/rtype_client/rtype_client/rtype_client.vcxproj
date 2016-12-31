@@ -149,7 +149,6 @@
     <ClInclude Include="..\..\..\common\Serialize\IEntity.hpp" />
     <ClInclude Include="..\..\..\common\Serialize\InputCmd.hh" />
     <ClInclude Include="..\..\..\common\Serialize\ListRoomCmd.hh" />
-    <ClInclude Include="..\..\..\common\Serialize\Monster.hh" />
     <ClInclude Include="..\..\..\common\Serialize\Player.hh" />
     <ClInclude Include="..\..\..\common\Serialize\PowerUp.hh" />
     <ClInclude Include="..\..\..\common\Serialize\RoomInfoCmd.hh" />
@@ -215,7 +214,6 @@
     <ClCompile Include="..\..\..\common\Serialize\EntityCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\InputCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\ListRoomCmd.cpp" />
-    <ClCompile Include="..\..\..\common\Serialize\Monster.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\Player.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\PowerUp.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\RoomInfoCmd.cpp" />

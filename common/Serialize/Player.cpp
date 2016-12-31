@@ -6,8 +6,8 @@ Player::Player(const int x, const int y, const int idPlayer)
   this->setName("");
   this->setPosX(x);
   this->setPosY(y);
-  this->setHeight(3);
-  this->setWidth(5);
+  this->setHeight(6);
+  this->setWidth(10);
   this->setSpeedX(1);
   this->setSpeedY(1);
   this->setLife(100);

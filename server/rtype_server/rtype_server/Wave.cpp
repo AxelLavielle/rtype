@@ -80,7 +80,7 @@ void	Wave::generate()
 	i = 0;
 	while (i < _nbEntities)
 	{
-		nb = std::rand() % (_nbEntities / 3) + 3;
+		nb = std::rand() % _nbEntities + 2;
 		redWave(nb);
 		_time += TIME_BETWEEN_WAVE;
 		i += nb;
@@ -89,13 +89,18 @@ void	Wave::generate()
 
 void Wave::generateBoss()
 {
+	static bool boss = false;
+
+	if (boss)
+		return;
 	int	x = NB_CELLS_X;
-	int y = (NB_CELLS_Y / 2);
+	int y = (NB_CELLS_Y / 3);
 	std::cout << "BOSS IS COMING !" << std::endl;
 	_time += TIME_BETWEEN_WAVE;
 
-	IEntity *newBoss = new BossMonster(x, y);
+	IEntity *newBoss = new BossMonster(x - 10, y);
 	_waveEntities.push(std::make_pair(_time, newBoss));
+	boss = true;
 }
 
 std::vector<IEntity*>		Wave::getEntities(const int time)

@@ -20,6 +20,9 @@ SFMLEvent::SFMLEvent()
 	key = _sv.getPew();
 	std::transform(key.begin(), key.end(), key.begin(), ::toupper);
 	_keys.insert(std::make_pair(static_cast<sf::Keyboard::Key>(key.c_str()[0] - 65), "SHOOT"));
+	key = _sv.getSuperPew();
+	std::transform(key.begin(), key.end(), key.begin(), ::toupper);
+	_keys.insert(std::make_pair(static_cast<sf::Keyboard::Key>(key.c_str()[0] - 65), "SUPERSHOOT"));
 	//_keys.insert(std::make_pair(sf::Keyboard::Up, "UP"));
 	//_keys.insert(std::make_pair(sf::Keyboard::Down, "DOWN"));
 	//_keys.insert(std::make_pair(sf::Keyboard::Right, "RIGHT"));
@@ -82,6 +85,10 @@ std::string SFMLEvent::getKeyStroke()
 		std::transform(key.begin(), key.end(), key.begin(), ::toupper);
 		if (_event.key.code == static_cast<sf::Keyboard::Key>(key.c_str()[0] - 65))
 			return ("SHOOT");
+		key = _sv.getSuperPew();
+		std::transform(key.begin(), key.end(), key.begin(), ::toupper);
+		if (_event.key.code == static_cast<sf::Keyboard::Key>(key.c_str()[0] - 65))
+			return ("SUPERSHOOT");
 		if (_event.key.code == sf::Keyboard::Escape)
 			return ("ECHAP");
 		//switch (_event.key.code)
@@ -146,6 +153,10 @@ std::string SFMLEvent::getKeyReleased()
 		std::transform(key.begin(), key.end(), key.begin(), ::toupper);
 		if (_event.key.code == static_cast<sf::Keyboard::Key>(key.c_str()[0] - 65))
 			return ("SHOOT");
+		key = _sv.getSuperPew();
+		std::transform(key.begin(), key.end(), key.begin(), ::toupper);
+		if (_event.key.code == static_cast<sf::Keyboard::Key>(key.c_str()[0] - 65))
+			return ("SUPERSHOOT");
 		if (_event.key.code == sf::Keyboard::Escape)
 			return ("ECHAP");
 		//switch (_event.key.code)

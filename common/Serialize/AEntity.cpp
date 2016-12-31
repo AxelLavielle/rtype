@@ -289,5 +289,7 @@ CollisionBox	*AEntity::getCollisionBox() const
 
 bool		AEntity::isColliding(CollisionBox *other) const
 {
+	if (!other)
+		return (false);
 	return (_collisionBox->isColliding(other));
 }

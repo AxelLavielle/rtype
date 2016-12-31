@@ -52,6 +52,7 @@ void		BossMonster::update()
 
 	if (moveX > 20)
 		setSpeedX(0);
+	moveX++;
 	refresh();
 }
 

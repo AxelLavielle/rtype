@@ -89,9 +89,12 @@ void	Wave::generate()
 
 void Wave::generateBoss()
 {
+	int	x = NB_CELLS_X;
+	int y = (NB_CELLS_Y / 2);
+	std::cout << "BOSS IS COMING !" << std::endl;
 	_time += TIME_BETWEEN_WAVE;
 
-	IEntity *newBoss = new BossMonster();
+	IEntity *newBoss = new BossMonster(x, y);
 	_waveEntities.push(std::make_pair(_time, newBoss));
 }
 

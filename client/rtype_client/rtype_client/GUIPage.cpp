@@ -56,10 +56,10 @@ void	GUIPage::titleAnimation()
 		if (_animInc < 700)
 		{
 			t2 = std::chrono::high_resolution_clock::now();
-			_animDuration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+			_animDuration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - _t1).count();
 			if (_animDuration > ANIMDURATION_G)
 			{
-				t1 = std::chrono::high_resolution_clock::now();
+				_t1 = std::chrono::high_resolution_clock::now();
 				_animInc+=5;
 			}
 			_textPosX = _animInc;

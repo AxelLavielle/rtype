@@ -30,6 +30,7 @@ public:
 	void			cmdJoinRoom(ServerClient *, BasicCmd *);
 	void			cmdLeaveRoom(ServerClient *, BasicCmd *);
 	void			cmdSetStatus(ServerClient *, BasicCmd *);
+	void			cmdQuitGame(ServerClient *, BasicCmd *);
 
 	void			cmdLaunchGame(const std::vector<ServerClient *> &, const int);
 	void			sendUpdateRoom(ServerClient *);

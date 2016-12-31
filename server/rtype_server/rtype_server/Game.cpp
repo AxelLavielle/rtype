@@ -273,4 +273,6 @@ void									Game::refreshWave()
 		addEntity(*it);
 		it++;
 	}
+	if (_currentWave->isOver())
+		_currentWave->generateBoss();
 }

@@ -334,7 +334,7 @@ void			CmdManager::cmdSetStatus(ServerClient *client, BasicCmd *msgClient)
 		else
 			client->setStatus(true);
 		reply.setCommandArg(std::to_string(STATUS_CHANGED));
-		std::cout << "Status changed !" << std::endl;
+		std::cout << "Status changed : " << client->isReady() << std::endl;
 		_mutex->lock();
 		sendUpdateRoom(client);
 		_mutex->unlock();
@@ -347,6 +347,38 @@ void			CmdManager::cmdSetStatus(ServerClient *client, BasicCmd *msgClient)
 	std::cout << std::endl;
 }
 
+
+void			CmdManager::cmdQuitGame(ServerClient *client, BasicCmd *msgClient)
+{
+	BasicCmd	reply;
+	char		*msgSerialized;
+
+	if (client->isLogged() == false)
+		return;
+	(void)msgClient;
+	reply.setCommandType(REPLY_CODE);
+	_mutex->lock();
+	if (client->getCurrentRoom() == -1 || _roomManager->getRoomById(client->getCurrentRoom())->isReady() == false)
+	{
+		_mutex->unlock();
+		reply.setCommandArg(std::to_string(NOT_IN_ROOM));
+		std::cout << "NOT IN GAME !" << std::endl;
+	}
+	else
+	{
+		_roomManager->removeClientFromRoom(client, client->getCurrentRoom());
+		_mutex->unlock();
+		client->setCurrentRoom(-1);
+		reply.setCommandArg(std::to_string(UNDERSTOOD));
+	}
+	msgSerialized = Serialize::serialize(&reply);
+	_mutex->lock();
+	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(reply));
+	_mutex->unlock();
+	std::cout << std::endl;
+}
+
+
 void											CmdManager::cmdLaunchGame(const std::vector<ServerClient *> &clients, const int idRoom)
 {
 	char										*msgSerialized;
@@ -356,7 +388,7 @@ void											CmdManager::cmdLaunchGame(const std::vector<ServerClient *> &clie
 	it = clients.begin();
 	while (it != clients.end())
 	{
-		BasicCmd									cmd;
+		BasicCmd					cmd;
 
 		cmd.setCommandType(LAUNCH_GAME);
 		cmd.addArg(std::to_string(idRoom));

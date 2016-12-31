@@ -49,6 +49,18 @@ bool	Server::init()
 	return (true);
 }
 
+void	displayColorMsg(const std::string &str, ServerClient *client)
+{
+	if (!DEBUG_MSG)
+		return;
+#ifdef _WIN32
+	SetConsoleTextAttribute(gHConsole, COLOR_CYAN);
+	std::cout << str << "[" << client->getTCPSocket() << "]" << std::endl;
+	SetConsoleTextAttribute(gHConsole, COLOR_RESET);
+#elif __linux__
+	std::cout << COLOR_CYAN_L << msg << "[" << client->getTCPSocket() << "]" << COLOR_RESET_L << std::endl;
+#endif
+}
 void										Server::processBasicCmd(ServerClient *client, BasicCmd *cmd)
 {
 	  std::cout << "BASIC CMD" << std::endl;
@@ -56,95 +68,53 @@ void										Server::processBasicCmd(ServerClient *client, BasicCmd *cmd)
 	  std::cout << "Command TYPE = " << cmd->getCommandType() << std::endl;
 	  switch (cmd->getCommandType())
 	    {
-	case HANDSHAKE_SYN:
-#ifdef _WIN32
-	  SetConsoleTextAttribute(gHConsole, COLOR_CYAN);
-	  std::cout << "---------> HANDSHAKE SYN [" << client->getTCPSocket() << "]" << std::endl;
-	  SetConsoleTextAttribute(gHConsole, COLOR_RESET);
-#elif __linux__
-	  std::cout << COLOR_CYAN_L << "---------> HANDSHAKE SYN [" << client->getTCPSocket() << "]" << COLOR_RESET_L << std::endl;
-#endif
-	  _cmdManager.cmdHandshakeSyn(client, cmd, _acknowledgementNumber);
-	  break;
+		case HANDSHAKE_SYN:
+			displayColorMsg("---------> HANDSHAKE SYN ", client);
+			_cmdManager.cmdHandshakeSyn(client, cmd, _acknowledgementNumber);
+		break;
 
-	case HANDSHAKE_ACK:
-#ifdef _WIN32
-	  SetConsoleTextAttribute(gHConsole, COLOR_CYAN);
-	  std::cout << "---------> HANDSHAKE ACK [" << client->getTCPSocket() << "]" << std::endl;
-	  SetConsoleTextAttribute(gHConsole, COLOR_RESET);
-#elif __linux__
-	  std::cout << COLOR_CYAN_L << "---------> HANDSHAKE ACK [" << client->getTCPSocket() << "]" << COLOR_RESET_L << std::endl;
-#endif
-	  _cmdManager.cmdHandshakeAck(client, cmd, _acknowledgementNumber);
-	  break;
+		case HANDSHAKE_ACK:
+			displayColorMsg("---------> HANDSHAKE ACK ", client);
+			_cmdManager.cmdHandshakeAck(client, cmd, _acknowledgementNumber);
+		break;
 
-	case GET_ROOM_LIST:
-#ifdef _WIN32
-	  SetConsoleTextAttribute(gHConsole, COLOR_CYAN);
-	  std::cout << "---------> GET ROOM LIST [" << client->getTCPSocket() << "]" << std::endl;
-	  SetConsoleTextAttribute(gHConsole, COLOR_RESET);
-	  #elif __linux__
-	  std::cout << COLOR_CYAN_L << "---------> GET ROOM LIST [" << client->getTCPSocket() << "]" << COLOR_RESET_L << std::endl;
-#endif
-	  _cmdManager.cmdListRoom(client, cmd);
-	  break;
+		case GET_ROOM_LIST:
+			displayColorMsg("---------> GET ROOM LIST ", client);
+			_cmdManager.cmdListRoom(client, cmd);
+		break;
 
-	case JOIN_ROOM:
-#ifdef _WIN32
-	  SetConsoleTextAttribute(gHConsole, COLOR_CYAN);
-	  std::cout << "---------> JOIN ROOM [" << client->getTCPSocket() << "]" << std::endl;
-	  SetConsoleTextAttribute(gHConsole, COLOR_RESET);
-#elif __linux__
-	  std::cout << COLOR_CYAN_L << "---------> JOIN ROOM [" << client->getTCPSocket() << "]" << COLOR_RESET_L << std::endl;
-#endif
-	  _cmdManager.cmdJoinRoom(client, cmd);
-	  break;
+		case JOIN_ROOM:
+			displayColorMsg("---------> JOIN ROOM ", client);
+			_cmdManager.cmdJoinRoom(client, cmd);
+		break;
 
-	case LEAVE_ROOM:
-	  #ifdef _WIN32
-	  SetConsoleTextAttribute(gHConsole, COLOR_CYAN);
-	  std::cout << "---------> LEAVE ROOM [" << client->getTCPSocket() << "]" << std::endl;
-	  SetConsoleTextAttribute(gHConsole, COLOR_RESET);
-#elif __linux__
-	  std::cout << COLOR_CYAN_L << "---------> LEAVE ROOM [" << client->getTCPSocket() << "]" << COLOR_RESET_L << std::endl;
-#endif
-	  _cmdManager.cmdLeaveRoom(client, cmd);
-	  break;
+		case LEAVE_ROOM:
+			displayColorMsg("---------> LEAVE ROOM ", client);
+			_cmdManager.cmdLeaveRoom(client, cmd);
+		break;
 
-	case CREATE_ROOM:
-	  #ifdef _WIN32
-	  SetConsoleTextAttribute(gHConsole, COLOR_CYAN);
-	  std::cout << "---------> CREATE ROOM [" << client->getTCPSocket() << "]" << std::endl;
-	  SetConsoleTextAttribute(gHConsole, COLOR_RESET);
-	  #elif __linux__
-	  std::cout << COLOR_CYAN_L << "---------> CREATE ROOM [" << client->getTCPSocket() << "]" << COLOR_RESET_L << std::endl;
-	  #endif
-	  _cmdManager.cmdCreateRoom(client, cmd);
-	  break;
+		case CREATE_ROOM:
+			displayColorMsg("---------> CREATE ROOM ", client);
+			_cmdManager.cmdCreateRoom(client, cmd);
+		break;
 
-	case SET_STATUS:
-	  #ifdef _WIN32
-	  SetConsoleTextAttribute(gHConsole, COLOR_CYAN);
-	  std::cout << "---------> SET STATUS [" << client->getTCPSocket() << "]" << std::endl;
-	  SetConsoleTextAttribute(gHConsole, COLOR_RESET);
-#elif __linux__
-	  std::cout << COLOR_CYAN_L<< "---------> SET STATUS [" << client->getTCPSocket() << "]" << COLOR_RESET_L << std::endl;
-	  #endif
-	  _cmdManager.cmdSetStatus(client, cmd);
-	  break;
+		case SET_STATUS:
+			displayColorMsg("---------> SET STATUS ", client);
+			_cmdManager.cmdSetStatus(client, cmd);
+		break;
 
-	case GET_ROOM:
-	  #ifdef _WIN32
-	  SetConsoleTextAttribute(gHConsole, COLOR_CYAN);
-	  std::cout << "---------> GET ROOM [" << client->getTCPSocket() << "]" << std::endl;
-	  SetConsoleTextAttribute(gHConsole, COLOR_RESET);
-	  #elif __linux__
-	  std::cout << COLOR_CYAN_L << "---------> GET ROOM [" << client->getTCPSocket() << "]" << COLOR_RESET_L << std::endl;
-#endif
-	  _cmdManager.cmdRoomInfo(client, cmd);
-	  break;
-	default:
-	  break;
+		case GET_ROOM:
+			displayColorMsg("---------> GET ROOM ", client);
+			_cmdManager.cmdRoomInfo(client, cmd);
+		break;
+
+		case QUIT_GAME:
+			displayColorMsg("---------> QUIT GAME", client);
+			_cmdManager.cmdQuitGame(client, cmd);
+		break;
+
+		default:
+		break;
 	}
 }
 

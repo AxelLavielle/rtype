@@ -13,6 +13,7 @@ enum		CmdType
     GET_ROOM,
     SET_STATUS,
     RENAME_ROOM,
+	QUIT_GAME,
     ALIVE,
     UPDATE_ROOM,
     LAUNCH_GAME,

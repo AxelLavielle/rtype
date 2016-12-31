@@ -47,7 +47,6 @@ SRC	=	$(SER)/ACommand.cpp	 	\
 		$(DIR)/SaveConfig.cpp 		\
 		$(DIR)/Menu.cpp 		\
 		$(COM)/Mutex.cpp 		\
-		$(SER)/Monster.cpp 		\
 		$(DIR)/PausePage.cpp 		\
 		$(SER)/Player.cpp 		\
 		$(SER)/PowerUp.cpp 		\

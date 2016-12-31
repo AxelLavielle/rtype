@@ -28,11 +28,9 @@ void				CmdManager::cmdHandshakeSyn(ServerClient *client, BasicCmd *msgClient,
 												const int acknowledgementNumber)
 {
 	BasicCmd		cmd;
-	BasicCmd		*test;
 	std::string		handshake;
 	char			*msgSerialized;
 
-	test = NULL;
 	handshake = msgClient->getArg(0);
 	std::cout << "[HandshakeSyn] : " << handshake << std::endl;
 	cmd.setCommandType(HANDSHAKE_SYN_ACK);
@@ -48,8 +46,6 @@ void				CmdManager::cmdHandshakeSyn(ServerClient *client, BasicCmd *msgClient,
 	msgSerialized = Serialize::serialize(&cmd);
 	std::cout << "[HandshakeSyn] Sending : " << cmd.getCommandArg() << std::endl;
 
-	test = static_cast<BasicCmd *>(Serialize::unserializeCommand(msgSerialized));
-	//std::cout << "______________________ TEST ARG = " << test->getArg(0) << std::endl;
 	_mutex->lock();
 	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(cmd));
 	_mutex->unlock();

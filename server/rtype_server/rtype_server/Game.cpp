@@ -43,7 +43,7 @@ void Game::init(std::vector<ServerClient*> &clients)
 	}
 
 	addWalls(0);
-	_currentWave = new Wave(20);
+	_currentWave = new Wave(5);
 	_currentWave->generate();
 	_currentTime = 0;
 }
@@ -82,7 +82,7 @@ void								Game::manageInput(ServerClient *client)
 			newX = (it->getKey() == "RIGHT") ? (newX + 1) : (newX - 1);
 		else if (it->getKey() == "SHOOT" && player->getMissileCooldown() <= 0)
 		{
-			shootMissile(newX + player->getWidth(), newY, player->getIdPlayer());
+			shootMissile(newX + player->getWidth(), newY + player->getHeight() / 2, player->getIdPlayer());
 			player->setMissileCooldown(MISSILE_COOLDOWN);
 		}
 		if (newX > 0 && newX < NB_CELLS_X && newY > 0 && newY < NB_CELLS_Y)
@@ -103,13 +103,12 @@ void										Game::updateGame(std::vector<ServerClient *> &clients)
 
 	if (_currentWall < NB_CELLS_X - 1)
 		addWalls(_currentWall);
-
 	refreshWave();
 
 	updateEntities();
 
 	
-	checkCollisions();
+	//checkCollisions();
 
 	
 	sendEntitiesToClients(clients);

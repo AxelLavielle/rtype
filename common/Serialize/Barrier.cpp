@@ -6,7 +6,7 @@ Barrier::Barrier(const int x, const int y)
   this->setName("");
   this->setPosX(x);
   this->setPosY(y);
-  this->setHeight(5);
+  this->setHeight(10);
   this->setWidth(5 * 55);
   this->setSpeedX(-1);
   this->setSpeedY(0);

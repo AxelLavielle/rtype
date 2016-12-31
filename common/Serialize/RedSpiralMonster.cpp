@@ -10,8 +10,8 @@ RedSpiralMonster::RedSpiralMonster(const int x, const int y)
   this->setName("");
   this->setPosX(x);
   this->setPosY(y);
-  this->setHeight(4);
-  this->setWidth(4);
+  this->setHeight(8);
+  this->setWidth(8);
   this->setSpeedX(-1);
   this->setSpeedY(1);
   this->setLife(100);

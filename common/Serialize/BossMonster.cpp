@@ -10,10 +10,10 @@ BossMonster::BossMonster(const int x, const int y)
   this->setName("");
   this->setPosX(x);
   this->setPosY(y);
-  this->setHeight(4);
-  this->setWidth(4);
+  this->setHeight(50);
+  this->setWidth(35);
   this->setSpeedX(-1);
-  this->setSpeedY(1);
+  this->setSpeedY(0);
   this->setLife(100);
   _currentSprite = 0;
   this->setSpriteRepo("/res/img/boss/boss" + std::to_string(_currentSprite) + ".png");
@@ -27,32 +27,33 @@ BossMonster::~BossMonster()
 
 void		BossMonster::update()
 {
-	static bool goingUp = true;
 	static int	moveX = 0;
-
+	static int	goingUp = true;
+	
 	if (_currentSprite > 5)
-	{
 		_currentSprite = 0;
-		if (goingUp)
-		{
-			goingUp = false;
-			setSpeedY(_speedY * (-1));
-		}
-		else
-		{
-			goingUp = true;
-			setSpeedY(_speedY * (-1));
-		}
-
-	}
+	
 	setSpriteRepo("/res/img/boss/boss" + std::to_string(_currentSprite) + ".png");
 	setPosX(_posX + _speedX);
 	setPosY(_posY + _speedY);
 	_currentSprite++;
 
-	if (moveX > 20)
-		setSpeedX(0);
 	moveX++;
+	if (_speedX != 0 && moveX > 50)
+	{
+		setSpeedX(0);
+		setSpeedY(-1);
+	}
+	if (goingUp && _posY < 10)
+	{
+		setSpeedY(_speedY * (-1));
+		goingUp = false;
+	}
+	else if (!goingUp && _posY + _height > 75)
+	{
+		setSpeedY(_speedY * (-1));
+		goingUp = true;
+	}
 	refresh();
 }
 

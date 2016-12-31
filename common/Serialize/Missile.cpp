@@ -6,9 +6,9 @@ Missile::Missile(const int x, const int y, const int idPlayer)
 	this->setName("");
 	this->setPosX(x);
 	this->setPosY(y);
-	this->setHeight(2);
-	this->setWidth(3);
-	this->setSpeedX(3);
+	this->setHeight(3);
+	this->setWidth(4);
+	this->setSpeedX(2);
 	this->setSpeedY(0);
 	this->setLife(100);
 	this->setSpriteRepo("/res/img/missile" + std::to_string(idPlayer) + ".png");

@@ -28,6 +28,7 @@ bool SettingsNextPage::init()
   initInputKey(Rect(_windowSize.first / 2 - 100, 525, 30, 500), "/res/img/buttonRoom.png", Color(135, 206, 250, 255));
   initInputKey(Rect(_windowSize.first / 2 - 100, 600, 30, 500), "/res/img/buttonRoom.png", Color(135, 206, 250, 255));
   initInputKey(Rect(_windowSize.first / 2 - 100, 675, 30, 500), "/res/img/buttonRoom.png", Color(135, 206, 250, 255));
+  initInputKey(Rect(_windowSize.first / 2 - 100, 750, 30, 500), "/res/img/buttonRoom.png", Color(135, 206, 250, 255));
 
   std::vector<AGUIElement* >::iterator it = _guiElement.begin();
   int i = 0;
@@ -60,6 +61,11 @@ bool SettingsNextPage::init()
 	  else if ((*it)->getTypeName() == "InputKey" && i == 4)
 	  {
 		  static_cast<InputKey*>(*it)->setText(sv.getPew());
+		  i++;
+	  }
+	  else if ((*it)->getTypeName() == "InputKey" && i == 5)
+	  {
+		  static_cast<InputKey*>(*it)->setText(sv.getSuperPew());
 		  i++;
 	  }
 	  it++;
@@ -115,6 +121,11 @@ void SettingsNextPage::manageConfigs()
 			sv.setPew(static_cast<InputKey*>(*it)->getText());
 			i++;
 		}
+		else if ((*it)->getTypeName() == "InputKey" && i == 5)
+		{
+			sv.setSuperPew(static_cast<InputKey*>(*it)->getText());
+			i++;
+		}
 		it++;
 	}
 	sv.writeToFile();
@@ -124,12 +135,13 @@ void SettingsNextPage::draw()
 {
   _graph->setBackground(_backgroundSprite, 1.0f, 1.1f);
   _graph->drawText("Hen Type", _windowSize.first / 2 - 250, 100, 90, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
-  _graph->drawText("Nom du Joueur", _windowSize.first / 2 - 400, 300, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
-  _graph->drawText("Haut", _windowSize.first / 2 - 400, 375, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
-  _graph->drawText("Gauche", _windowSize.first / 2 - 400, 450, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
-  _graph->drawText("Droite", _windowSize.first / 2 - 400, 525, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
-  _graph->drawText("Bas", _windowSize.first / 2 - 400, 600, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
-  _graph->drawText("Tirer", _windowSize.first / 2 - 400, 675, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+  _graph->drawText("Nom du Joueur", _windowSize.first / 2 - 450, 300, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+  _graph->drawText("Haut", _windowSize.first / 2 - 450, 375, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+  _graph->drawText("Gauche", _windowSize.first / 2 - 450, 450, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+  _graph->drawText("Droite", _windowSize.first / 2 - 450, 525, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+  _graph->drawText("Bas", _windowSize.first / 2 - 450, 600, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+  _graph->drawText("Tirer", _windowSize.first / 2 - 450, 675, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+  _graph->drawText("Tirer plus fort", _windowSize.first / 2 - 450, 750, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
   drawGUIElement(_buttons);
   drawGUIElement(_guiElement);
 }

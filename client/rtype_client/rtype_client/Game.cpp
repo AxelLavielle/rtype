@@ -23,6 +23,7 @@ Game::Game()
 	_newEvent = true;
 	_pew.setDuration(-1);
 	_pew.setFilePath(_fileManager.getRoot() + "/res/sounds/buttonClick.wav");
+	_bgX = 0;
 }
 
 Game::~Game()
@@ -218,6 +219,11 @@ int Game::launch()
 				_key = _event->getKeyStroke();
 				_cmdManager.sendInput(_id, _event->getKeyStroke());
 			}
+			if (_key == "" && _event->getKeyStroke() == "SUPERSHOOT")
+			{
+				_key = _event->getKeyStroke();
+				_cmdManager.sendInput(_id, _event->getKeyStroke());
+			}
 			if (_event->getKeyStroke() == "ECHAP")
 			{
 				delete _guiPage;
@@ -235,8 +241,11 @@ int Game::launch()
 		if (_newEvent)
 		{
 			_graph->clearWindow();
-			_graph->setBackground(_fileManager.getRoot() + "/res/img/stars_background.jpg", -1, -1);
-
+			_graph->drawRectangle(_fileManager.getRoot() + "/res/img/stars_background.jpg", Rect(_bgX, 0, _windowSize.second, _windowSize.first), Color(0, 0, 0));
+			_graph->drawRectangle(_fileManager.getRoot() + "/res/img/stars_background.jpg", Rect(_windowSize.first + _bgX, 0, _windowSize.second, _windowSize.first), Color(0, 0, 0));
+			_bgX -= 5;
+			if (_bgX < -_windowSize.first)
+				_bgX = 0;
 			std::vector<IEntity* >::iterator		it;
 
 			_mutex.lock();

@@ -8,12 +8,13 @@ SaveConfig::SaveConfig()
 	_right = "d";
 	_left = "q";
 	_pew = "k";
+	_superPew = "l";
 	_music = 50;
 	_sfx = 50;
 	_iport = "10.16.252.95:42000";
 }
 
-SaveConfig::SaveConfig(const std::string &playerName, const std::string &up, const std::string &down, const std::string &right, const std::string &left, const std::string &pew, const int music, const int sfx, const std::string &iport)
+SaveConfig::SaveConfig(const std::string &playerName, const std::string &up, const std::string &down, const std::string &right, const std::string &left, const std::string &pew, const std::string &superPew, int music, const int sfx, const std::string &iport)
 {
 	_playerName = playerName;
 	_up = up;
@@ -21,6 +22,7 @@ SaveConfig::SaveConfig(const std::string &playerName, const std::string &up, con
 	_right = right;
 	_left = left;
 	_pew = pew;
+	_superPew = superPew;
 	_music = music;
 	_sfx = sfx;
 	_iport = iport;
@@ -48,6 +50,7 @@ void			SaveConfig::writeToFile()
 		fileStream << "<Right>" << _right << "</Right>" << std::endl;
 		fileStream << "<Left>" << _left << "</Left>" << std::endl;
 		fileStream << "<Pew>" << _pew << "</Pew>" << std::endl;
+		fileStream << "<SuperPew>" << _superPew << "</SuperPew>" << std::endl;
 		fileStream << "<Music>" << _music << "</Music>" << std::endl;
 		fileStream << "<SFX>" << _sfx << "</SFX>" << std::endl;
 		fileStream << "<Iport>" << _iport << "</Iport>" << std::endl;
@@ -92,6 +95,11 @@ void				SaveConfig::needleInHaystack(const std::string &haystack)
 	{
 		std::istringstream ss(haystack.substr(haystack.find("<Pew>") + 5, haystack.find("</Pew>") - 5));
 		ss >> _pew;
+	}
+	if (haystack.find("<SuperPew>") != std::string::npos && haystack.find("</SuperPew>") != std::string::npos)
+	{
+		std::istringstream ss(haystack.substr(haystack.find("<SuperPew>") + 10, haystack.find("</SuperPew>") - 10));
+		ss >> _superPew;
 	}
 	if (haystack.find("<Music>") != std::string::npos && haystack.find("</Music>") != std::string::npos)
 	{
@@ -211,6 +219,19 @@ void			SaveConfig::setPew(const std::string &pew)
 		_pew = "k";
 	else
 		_pew = pew;
+}
+
+std::string		SaveConfig::getSuperPew() const
+{
+	return (_superPew);
+}
+
+void			SaveConfig::setSuperPew(const std::string &superPew)
+{
+	if (superPew == "|")
+		_superPew = "l";
+	else
+		_superPew = superPew;
 }
 
 int				SaveConfig::getMusic() const

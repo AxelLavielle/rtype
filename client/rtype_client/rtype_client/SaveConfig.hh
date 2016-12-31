@@ -9,7 +9,7 @@ class SaveConfig
 {
 public:
 	SaveConfig();
-	SaveConfig(const std::string &, const std::string &, const std::string &, const std::string &, const std::string &, const std::string &, const int, const int, const std::string &);
+	SaveConfig(const std::string &, const std::string &, const std::string &, const std::string &, const std::string &, const std::string &, const std::string &, const int, const int, const std::string &);
 	~SaveConfig();
 	void	writeToFile();
 	void	readFromFile();
@@ -26,6 +26,8 @@ public:
 	void		setLeft(const std::string &);
 	std::string	getPew() const;
 	void		setPew(const std::string &);
+	std::string	getSuperPew() const;
+	void		setSuperPew(const std::string &);
 	int			getMusic() const;
 	void		setMusic(const int);
 	int			getSfx() const;
@@ -40,6 +42,7 @@ private:
 	std::string _right;
 	std::string _left;
 	std::string _pew;
+	std::string _superPew;
 	int			_music;
 	int			_sfx;
 	std::string _iport;

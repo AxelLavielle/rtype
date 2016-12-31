@@ -5,6 +5,7 @@ Client::Client()
 	SaveConfig sv;
 
 	sv.readFromFile();
+	sv.writeToFile();
 	_mutex = new Mutex();
 	_socket = new SocketClientTCP();
 	//_ip = "127.0.0.1";

@@ -13,6 +13,7 @@ GUIPage::GUIPage(IGraphManager *graph, IEventManager *event, const PathFileManag
 	_animInc = 0;
 	_topBarHeight = 0;
 	_bottompBarHeight = 0;
+	_superPews = 0;
 }
 
 GUIPage::~GUIPage()
@@ -29,10 +30,11 @@ bool GUIPage::init()
 	initDecor(Rect(20, _windowSize.second - 130, 50, 50), "/res/img/iconeDefense.png");
 	initDecor(Rect(20, _windowSize.second - 75, 50, 50), "/res/img/iconeVie.png");
 	initDecor(Rect(_windowSize.first - 250, _windowSize.second - 130, 100, 200), "/res/img/fondCadre.png");
-	initDecor(Rect(400, _windowSize.second - 140, 130, 20), "/res/img/splitBar.png");
-	initDecor(Rect(440, _windowSize.second - 95, 30, 70), "/res/img/spaceShip10.png", Color(0, 0, 0));
+	initDecor(Rect(600, _windowSize.second - 140, 130, 20), "/res/img/splitBar.png");
+	initDecor(Rect(640, _windowSize.second - 95, 30, 70), "/res/img/spaceShip10.png", Color(0, 0, 0));
 	initDecor(Rect(80, _windowSize.second - 130, 50, 300), "/res/img/barreDefense" + std::to_string(_def) + ".png");
 	initDecor(Rect(80, _windowSize.second - 75, 50, 300), "/res/img/barreVie" + std::to_string(_hp) + ".png");
+	initDecor(Rect(420, _windowSize.second - 125, 100, 100), "/res/img/superMissile1.png");
 	_textPosX = 60;
 	_textPosY = 10;
 	return (true);
@@ -50,7 +52,7 @@ bool GUIPage::launch()
 
 void	GUIPage::titleAnimation()
 {
-	Rect								tmp;
+	Rect												tmp;
 	std::chrono::high_resolution_clock::time_point        t2;
 
 		if (_animInc < 700)
@@ -72,7 +74,8 @@ void GUIPage::draw()
 	_graph->drawText("Nb joueur : " + std::to_string(_nbPlayers), _windowSize.first - 230, _windowSize.second - 110, 19, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
 	_graph->drawText("Mode : " + _mode, _windowSize.first - 230, _windowSize.second - 70, 19, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
 	_graph->drawText("Score : " + std::to_string(_score), _windowSize.first - 600, _windowSize.second - 100, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
-	_graph->drawText(_playerName, 530, _windowSize.second - 100, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
+	_graph->drawText(std::to_string(_superPews), 540, _windowSize.second - 95, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
+	_graph->drawText(_playerName, 580, _windowSize.second - 100, 40, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
 	titleAnimation();
 	_graph->drawText("HEN TYPE", _textPosX, _textPosY, 60, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
 }
@@ -124,4 +127,9 @@ int GUIPage::getTopBarHeight() const
 int GUIPage::getBottomBarHeight() const
 {
 	return (_bottompBarHeight);
+}
+
+void GUIPage::setSuperPews(const int superPews)
+{
+	_superPews = superPews;
 }

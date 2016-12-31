@@ -24,6 +24,7 @@ public:
 	void													setPlayerName(const std::string & name);
 	int														getTopBarHeight() const;
 	int														getBottomBarHeight() const;
+	void													setSuperPews(const int);
 
 private:
 	void													titleAnimation();
@@ -41,5 +42,6 @@ private:
 	int														_textPosY;
 	int														_topBarHeight;
 	int														_bottompBarHeight;
+	int														_superPews;
 };
 

@@ -18,6 +18,7 @@ public:
 	virtual bool sendData(const char * data, const int datasize) = 0;
 	virtual bool	sendData(const char *) = 0;
 	virtual char	*receiveData() = 0;
+	virtual char * receiveData(const int secTimeOut, const int usecTimeOut) = 0;
 	virtual bool	connectToServer() = 0;
 	virtual bool	isConnected() const;
 	virtual void	setIp(const std::string &ip);

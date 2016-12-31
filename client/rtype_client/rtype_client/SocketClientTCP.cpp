@@ -146,26 +146,25 @@ bool				SocketClientTCP::sendData(const char *data, const int datasize)
 	return (true);
 }
 
-char				*SocketClientTCP::receiveData()
+char				*SocketClientTCP::receiveData(const int secTimeOut, const int usecTimeOut)
 {
 	int				recvbuflen = TCP_BUFLEN;
 	char			*recvbuf = new char[TCP_BUFLEN];
 	int				iResult;
 
-	//int			ret;
-	//struct timeval tv;
-	//tv.tv_sec = 0;
-	//tv.tv_usec = 1000;
+	int			ret;
+	struct timeval tv;
+	tv.tv_sec = secTimeOut;
+	tv.tv_usec = usecTimeOut;
 
-	//fd_set readfds;
-	//FD_ZERO(&readfds);
-	//FD_SET(_sock, &readfds);
-
-	//ret = select(_sock + 1, &readfds, NULL, NULL, &tv);
-	//if (ret > 0)
-	//{
-	//	if (FD_ISSET(_sock, &readfds))
-	//	{
+	fd_set readfds;
+	FD_ZERO(&readfds);
+	FD_SET(_sock, &readfds);
+	ret = select(_sock + 1, &readfds, NULL, NULL, &tv);
+	if (ret > 0)
+	{
+		if (FD_ISSET(_sock, &readfds))
+		{
 			iResult = recv(_sock, recvbuf, recvbuflen, 0);
 			if (iResult > 0)
 			{
@@ -174,20 +173,37 @@ char				*SocketClientTCP::receiveData()
 			}
 			delete[] recvbuf;
 			return (NULL);
-	//	}
-	//}
-	//else if (ret == 0)
-	//{
-	//	delete recvbuf;
-	//	return (NULL);
-	//}
-	//else
-	//{
-	//	std::cerr << "error selecting" << std::endl;
-	//	delete recvbuf;
-	//	return (NULL);
-	//}
+		}
+	}
+	else if (ret == 0)
+	{
+		delete[] recvbuf;
+		return (NULL);
+	}
+	else
+	{
+		std::cerr << "error selecting" << std::endl;
+		delete[] recvbuf;
+		return (NULL);
+	}
 }
+
+char				*SocketClientTCP::receiveData()
+{
+	int				recvbuflen = TCP_BUFLEN;
+	char			*recvbuf = new char[TCP_BUFLEN];
+	int				iResult;
+
+	iResult = recv(_sock, recvbuf, recvbuflen, 0);
+	if (iResult > 0)
+	{
+		recvbuf[iResult - 1] = '\0';
+		return (recvbuf);
+	}
+	delete[] recvbuf;
+	return (NULL);
+}
+
 
 bool				SocketClientTCP::connectToServer()
 {

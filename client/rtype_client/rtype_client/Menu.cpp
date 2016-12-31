@@ -10,6 +10,8 @@ Menu::Menu()
 	_id = -1;
 	_th = NULL;
 	_run = true;
+	_successEvent = IPage::NONE;
+	_errorEvent = IPage::NONE;
 }
 
 Menu::~Menu()
@@ -32,7 +34,9 @@ bool Menu::init()
     _soundManager.setSoundVolume(_sv.getSfx());
 	_soundManager.play(_music);
 	_t1Conn = std::chrono::high_resolution_clock::now();
+	//_mutex->lock();
 	_cmdManager.setSocket(_socket);
+	//_mutex->unlock();
 	return (true);
 }
 
@@ -45,9 +49,6 @@ void	Menu::initLobby()
 
 	page = new LobbyPage(_graph, _event, _fileManager, &_soundManager);
 	_page = page;
-	if (!_socket)
-		return;
-	_cmdManager.setSocket(_socket);
 	if (!(cmd = _cmdManager.getRoomList()))
 		return;
 	std::cout << "Got rooom list" << static_cast<int>(cmd->getCommandName()) << std::endl;
@@ -65,7 +66,8 @@ bool Menu::tryToConnect()
 	bool	res;
 
 	res = false;
-	_mutex->lock();
+	//_mutex->lock();
+	//_mutexReceive.lock();
 	if (_socket && !_socket->isConnected())
 	{
 		std::cout << "TRY TO CONNECT" << std::endl;
@@ -79,7 +81,8 @@ bool Menu::tryToConnect()
 	}
 	if (_socket)
 		res = _socket->isConnected();
-	_mutex->unlock();
+	//_mutexReceive.unlock();
+	//_mutex->unlock();
 	return (res);
 }
 
@@ -92,6 +95,7 @@ void	Menu::manageReco(Thread *th)
 	duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2Conn - _t1Conn).count();
 	if (duration >= RECO_DURATION)
 	{
+		//_mutex->lock();
 		if (_socket && !_socket->isConnected())
 		{
 			if (th)
@@ -103,6 +107,7 @@ void	Menu::manageReco(Thread *th)
 			th->createThread(std::bind(&Menu::tryToConnect, this));
 			_pool.addThread(th);
 		}
+		//_mutex->unlock();
 		_t1Conn = std::chrono::high_resolution_clock::now();
 	}
 }
@@ -126,17 +131,15 @@ void	Menu::checkGameReady()
 {
 	int				res;
 
-	std::cout << "THREAD LAUNCH" << std::endl;
 	while (1)
 	{
-		_mutexReceive.lock();
 		if (_id != -1 || !_run)
 		{
 			std::cout << "JE QUIT = " << _id << std::endl;
-			_mutexReceive.unlock();
 			return;
 		}
-		_mutexReceive.unlock();
+//		std::cout << "THREAD LAUNCH" << std::endl;
+		_cmdManager.receiveCmd();
 		if ((res = _cmdManager.launchGame()) != -1)
 		{
 			_mutexReceive.lock();
@@ -145,25 +148,12 @@ void	Menu::checkGameReady()
 			_mutexReceive.unlock();
 			return;
 		}
-		_mutexReceive.lock();
 		_roomInfo = _cmdManager.getRoomInfo();
-		_mutexReceive.unlock();
 	}
 }
 
-void	Menu::manageLaunchGame()
+void	Menu::startGame()
 {
-	_newEvent = true;
-	_mutexReceive.lock();
-
-	//Réseau
-	_cmdManager.setStatus();
-	if (_id == -1)
-	{
-		_mutexReceive.unlock();
-		return;
-	}
-	delete (_page);
 	std::cout << "Game" << std::endl;
 	_soundManager.stopAll();
 	_game.setGraph(_graph);
@@ -173,10 +163,60 @@ void	Menu::manageLaunchGame()
 	_game.setIp(_ip);
 	if (_roomInfo)
 		_game.setNbPlayer(_roomInfo->getPlayersList().size());
-	_mutexReceive.unlock();
 	_pool.joinAll();
-	_socket->closure();
 	_game.launch();
+
+}
+
+void	Menu::manageLaunchGame()
+{
+	_newEvent = true;
+	_cmdManager.setStatus();
+	startGame();
+}
+
+void	Menu::refreshRoomInside()
+{
+	if (_page->getPageType() == IPage::INSIDEROOM && _th)
+	{
+		_page->clear();
+		if (_roomInfo)
+			setRoomInfo(_roomInfo, (static_cast<InsideRoomPage*>(_page)));
+		_page->init();
+	}
+}
+
+void	Menu::manageEvent()
+{
+	if (_page->getPageType() == IPage::PLAY)
+	{
+		LobbyPage		*lobbyPage;
+
+		lobbyPage = static_cast<LobbyPage* >(_page);
+		if (lobbyPage->getSelectedRoom().first != -84)
+		{
+			std::cout << lobbyPage->getSelectedRoom().first << std::endl;
+			if (!_cmdManager.joinRoom(lobbyPage->getSelectedRoom().first, _playerName))
+				std::cerr << "Can not join room" << std::endl;
+			else
+			{
+				RoomInfoCmd			*roomInfo1;
+				Thread				*th2;
+
+				delete _page;
+				_newEvent = true;
+				_page = new InsideRoomPage(_graph, _event, _fileManager, &_soundManager);
+				_page->clear();
+				_page->init();
+				if (_th == NULL)
+				{
+					_th = new Thread();
+					_th->createThread(std::bind(&Menu::checkGameReady, this));
+					_pool.addThread(_th);
+				}
+			}
+		}
+	}
 }
 
 bool Menu::launch()
@@ -189,35 +229,18 @@ bool Menu::launch()
 
   _newEvent = false;
   _page->init();
+	_th = new Thread();
+	_th->createThread(std::bind(&Menu::checkGameReady, this));
+	_pool.addThread(_th);
   while (_graph->isWindowOpen())
     {
-	  manageReco(th);
-
-	  if (_page->getPageType() == IPage::INSIDEROOM && _th)
-	  {
-		  _mutexReceive.lock();
-		  _page->clear();
-		  if (_roomInfo)
-			  setRoomInfo(_roomInfo, (static_cast<InsideRoomPage*>(_page)));
-		  _page->init();
-		  _mutexReceive.unlock();
-	  }
-
+	  //manageReco(th);
+	  refreshRoomInside();
 	  _mutexReceive.lock();
 	  if (_id != -1)
 	  {
 		  delete (_page);
-		  std::cout << "Game" << std::endl;
-		  _soundManager.stopAll();
-		  _game.setGraph(_graph);
-		  _game.setEvent(_event);
-		  _game.setPort(9999);
-		  _game.setId(_id);
-		  _game.setIp(_ip);
-		  if (_roomInfo)
-			  _game.setNbPlayer(_roomInfo->getPlayersList().size());
-		  _pool.joinAll();
-		  _game.launch();
+		  startGame();
 		  _mutexReceive.unlock();
 		  return (1);
 	  }
@@ -225,48 +248,26 @@ bool Menu::launch()
 
 	  while (_event->refresh())
 		{
-		  curr_event = _page->event();
-
-
-		  if (_page->getPageType() == IPage::PLAY)
-		  {
-			  LobbyPage		*lobbyPage;
-
-			  lobbyPage = static_cast<LobbyPage* >(_page);
-			  if (lobbyPage->getSelectedRoom().first != -84)
+		  int			res;
+		  if (!_cmdManager.isWaiting())
+			{
+			  _newEvent = true;
+			  if ((res = _cmdManager.getLatsReply()) == -1)
+				  curr_event = _page->event();
+			  else if (res == 0)
 			  {
-				  std::cout << lobbyPage->getSelectedRoom().first << std::endl;
-				  if (!_cmdManager.joinRoom(lobbyPage->getSelectedRoom().first, _playerName))
-					  std::cerr << "Can not join room" << std::endl;
-				  else
-				  {
-					  RoomInfoCmd			*roomInfo1;
-					  Thread				*th2;
-
-					  delete _page;
-					  _newEvent = true;
-					  _page = new InsideRoomPage(_graph, _event, _fileManager, &_soundManager);
-
-					  //Réseau
-//					  roomInfo1 = _cmdManager.getRoomInfo();
-//					  setRoomInfo(roomInfo1, (static_cast<InsideRoomPage*>(_page)));
-
-					  _page->clear();
-					  _page->init();
-					  if (_th == NULL)
-					  {
-						  _th = new Thread();
-						  _th->createThread(std::bind(&Menu::checkGameReady, this));
-						  _pool.addThread(_th);
-					  }
-					  //th2 = new Thread();
-					  //th2->createThread(std::bind(&Menu::receiveData, this));
-					  //_pool.addThread(th2);
-				  }
+				  std::cout << "NOT ERROR = " << _successEvent  << std::endl;
+				  curr_event = _successEvent;
 			  }
+			  else
+				  curr_event = _errorEvent;
 		  }
+		  else if (_page->getPageType() != IPage::LOADING)
+			  curr_event = IPage::LOADING;
 
-		  switch (curr_event)
+			  manageEvent();
+
+		 switch (curr_event)
 		    {
 		    case IPage::HOME:
 		      delete (_page);
@@ -275,36 +276,28 @@ bool Menu::launch()
 		      std::cout << "Home" << std::endl;
 		      break;
 		    case IPage::PLAY:
+
+				_successEvent = IPage::GAME;
+				_errorEvent = IPage::PLAY;
+
 				if (_page->getPageType() == IPage::INSIDEROOM)
 				{
-					_mutexReceive.lock();
-					_run = false;
-					_mutexReceive.unlock();
-					_th->join();
-					_cmdManager.leaveRoom();
-					_run = true;
+					if (!_cmdManager.leaveRoom())
+						break;
 				}
-		      delete (_page);
+//		      delete (_page);
 			  _newEvent = true;
 			  initLobby();
+
 		      std::cout << "Lobby" << std::endl;
 		      break;
 		    case IPage::SAVE:
-				//SettingsPage	*tmpPageSettings;
-				//tmpPageSettings = static_cast<SettingsPage *>(_page);
 				tmp = static_cast<SettingsPage *>(_page)->save();
 				_sv.readFromFile();
 				_ip = _sv.getIport().substr(0, _sv.getIport().find(":"));
 				_port = std::stoi(_sv.getIport().substr(_sv.getIport().find(":") + 1));
 				_soundManager.setMusicVolume(_sv.getMusic());
 				_soundManager.setSoundVolume(_sv.getSfx());
-				//_mutex->lock();
-				//if (_socket)
-				//{
-				//	  _socket->setIp(tmpPageSettings->getServerInfo().first);
-				//	  _socket->setPort(tmpPageSettings->getServerInfo().second);
-				//}
-				//_mutex->unlock();
 				 break;
 		    case IPage::CREATEROOM:
 		      delete (_page);
@@ -342,17 +335,12 @@ bool Menu::launch()
 			case IPage::GAME:
 				std::cout << "wait launch game" << std::endl;
 
-				//A voir
+				_successEvent = IPage::GAME;
+				_errorEvent = _page->getPageType();
+
+//				_mutexReceive.lock();
 				manageLaunchGame();
-				
-				_mutexReceive.lock();
-				if (_id != -1)
-				{
-					_mutexReceive.unlock();
-					_pool.joinAll();
-					return (true);
-				}
-				_mutexReceive.unlock();
+//				_mutexReceive.unlock();
 				break;
 			case IPage::ENDGAME:
 				delete (_page);
@@ -370,46 +358,33 @@ bool Menu::launch()
 				_graph->close();
 				break;
 			case IPage::CREATEROOMACTION:
-				std::cout << "CreateRoomAction1" << std::endl;
+				std::cout << "CreateRoomAction" << std::endl;
 				_newEvent = true;
 				CreateRoomPage		*tmpPage;
 				tmpPage = static_cast<CreateRoomPage* >(_page);
+
+				_successEvent = IPage::INSIDEROOM;
+				_errorEvent = _page->getPageType();
+
 				if (!_cmdManager.createRoom(tmpPage->getRoomName(), _playerName))
 				{
-					std::cerr << "Cannot create room" << std::endl;
+					std::cerr << "Waiting for create room" << std::endl;
 					break;
 				}
-				std::cout << "CreateRoomAction2" << std::endl;
-				delete (_page);
-				RoomInfoCmd			*roomInfo1;
-
-				_page = new InsideRoomPage(_graph, _event, _fileManager, &_soundManager);
-
-				//Réseau
-				//roomInfo1 = _cmdManager.getRoomInfo();
-				//setRoomInfo(roomInfo1, (static_cast<InsideRoomPage*>(_page)));
-
-//				_page->clear();
-//				_page->init();
-
-				if (_th == NULL)
-				{
-					_th = new Thread();
-					_th->createThread(std::bind(&Menu::checkGameReady, this));
-					_pool.addThread(_th);
-				}
+				//				delete (_page);
 				break;
 			default:
 			   break;
 	    }
-	  if (_event->getCloseEvent())
+
+		if (_event->getCloseEvent() || _event->getKeyStroke() == "ECHAP")
 	    _graph->close();
-	  if (_newEvent)
+	  if (_newEvent && _page)
 	    {
 	      _page->init();
-	      _graph->clearWindow();
-	      _page->draw();
-	      _graph->refresh();
+//	      _graph->clearWindow();
+	      //_page->draw();
+//	      _graph->refresh();
 	      _newEvent = false;
 	    }
 	}
@@ -417,7 +392,6 @@ bool Menu::launch()
       _page->draw();
 	  _graph->refresh();
     }
-	std::cout << "QUIT LA2" << std::endl;
 	_pool.joinAll();
   return (false);
 }

@@ -26,6 +26,7 @@ void AMenu::setEventManager(IEventManager * event)
 void AMenu::setSocketTCPSocket(ASocketClient * socket)
 {
 	_socket = socket;
+	_cmdManager.setSocket(_socket);
 }
 
 void AMenu::setMutex(AMutex * mutex)

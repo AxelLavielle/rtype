@@ -48,7 +48,6 @@ private:
 	SFMLSound					_soundManager;
 	PathFileManager				_fileManager;
 	APage						*_page;
-	CmdManager					_cmdManager;
 	std::string					_playerName;
 	bool						_newEvent;
 	std::string					_ip;
@@ -59,6 +58,8 @@ private:
 	Thread						*_th;
 	SaveConfig					_sv;
 	bool						_run;
+	IPage::PAGE					_successEvent;
+	IPage::PAGE					_errorEvent;
 
 	std::chrono::high_resolution_clock::time_point        _t1Conn;
 
@@ -68,6 +69,10 @@ private:
 	void setRoomInfo(RoomInfoCmd * roomInfo, InsideRoomPage * page);
 	void receiveData();
 	void checkGameReady();
+	void startGame();
 	void manageLaunchGame();
+	void refreshRoomInside();
+	void manageEvent();
+	void managePageEvent(IPage::PAGE curr_event);
 };
 

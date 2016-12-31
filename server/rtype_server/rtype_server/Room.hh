@@ -34,6 +34,6 @@ private:
 	int							_id;
 	std::vector<ServerClient *>	_clients;
 	bool						_ready;
-	Game						_gameManager;
+	Game						*_gameManager;
 };
 

@@ -4,9 +4,8 @@
 #include "Serialize.hh"
 #include "ServerClient.hh"
 #include "InputCmd.hh"
+#include "Wave.hh"
 
-#define NB_CELLS_Y			(80)
-#define NB_CELLS_X			(160)
 #define MISSILE_COOLDOWN	(10)
 
 class Game
@@ -19,8 +18,10 @@ public:
 	void	updateGame(std::vector<ServerClient *> &);
 
 private:
-	int						*_currentWall;
-	std::vector<IEntity *>	*_entityList;
+	int						_currentWall;
+	std::vector<IEntity *>	_entityList;
+	Wave					*_currentWave;
+	int						_currentTime;
 
 	void	manageInput(ServerClient *client);
 	void	updateEntities();
@@ -31,8 +32,7 @@ private:
 	void	deleteEntities();
 	void	addWalls(const int);
 	void	checkCollisions();
-	void	addMonsters();
-	void	addRedWave();
+	void	refreshWave();
 
 
 };

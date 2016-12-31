@@ -4,6 +4,7 @@ Room::Room(const int id)
 {
 	_id = id;
 	_ready = false;
+	_gameManager = new Game();
 }
 
 Room::Room(const int id, const std::string &name)
@@ -11,6 +12,7 @@ Room::Room(const int id, const std::string &name)
 	_id = id;
 	_name = name;
 	_ready = false;
+	_gameManager = new Game();
 }
 
 Room::~Room()
@@ -100,12 +102,12 @@ bool			Room::isReady() const
 
 bool Room::initGame()
 {
-	_gameManager.init(_clients);
+	_gameManager->init(_clients);
 	return (true);
 }
 
 bool Room::updateGame()
 {
-	_gameManager.updateGame(_clients);
+	_gameManager->updateGame(_clients);
 	return (true);
 }

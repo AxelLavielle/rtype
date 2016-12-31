@@ -2,8 +2,7 @@
 
 Game::Game()
 {
-	_entityList = new std::vector<IEntity *> ();
-	_currentWall = new int(0);
+	_currentWall = 0;
 }
 
 Game::~Game()
@@ -44,6 +43,9 @@ void Game::init(std::vector<ServerClient*> &clients)
 	}
 
 	addWalls(0);
+	_currentWave = new Wave(20);
+	_currentWave->generate();
+	_currentTime = 0;
 }
 
 void								Game::shootMissile(const int x, const int y, const int idPlayer)
@@ -54,7 +56,7 @@ void								Game::shootMissile(const int x, const int y, const int idPlayer)
 
 void								Game::addEntity(IEntity *newEntity)
 {
-	_entityList->push_back(newEntity);
+	_entityList.push_back(newEntity);
 }
 
 void								Game::manageInput(ServerClient *client)
@@ -99,10 +101,11 @@ void										Game::updateGame(std::vector<ServerClient *> &clients)
 {
 	updatePlayers(clients);
 
-	if (*_currentWall < NB_CELLS_X - 1)
-		addWalls(*_currentWall);
+	if (_currentWall < NB_CELLS_X - 1)
+		addWalls(_currentWall);
 
-	addMonsters();
+	refreshWave();
+
 	updateEntities();
 
 	
@@ -113,7 +116,8 @@ void										Game::updateGame(std::vector<ServerClient *> &clients)
 
 	deleteEntities();
 
-	*_currentWall = *_currentWall - 1;
+	_currentTime++;
+	_currentWall--;
 }
 
 void										Game::updatePlayers(std::vector<ServerClient *> &clients)
@@ -137,19 +141,14 @@ void										Game::sendEntitiesToClients(std::vector<ServerClient *> &clients)
 	char									*msg;
 
 	//std::cout << "[Game] : Sending [" << entitiesToSend.size() << "] Entities" << std::endl;
-	itMap = _entityList->begin();
-	while (itMap != _entityList->end())
+	itMap = _entityList.begin();
+	while (itMap != _entityList.end())
 	{
 		msg = Serialize::serialize(*itMap);
 		itClients = clients.begin();
 		while (itClients != clients.end())
 		{
 			(*itClients)->addUDPDataToSend(msg);
-			if ((*itMap)->isDead())
-			{
-				(*itClients)->addUDPDataToSend(msg);
-				(*itClients)->addUDPDataToSend(msg);
-			}
 			itClients++;
 		}
 		delete[] msg;
@@ -164,8 +163,8 @@ void		Game::updateEntities()
 	int	n = 0;
 
 	//std::cout << "[Game] : Sending [" << entitiesToSend.size() << "] Entities" << std::endl;
-	it = _entityList->begin();
-	while (it != _entityList->end())
+	it = _entityList.begin();
+	while (it != _entityList.end())
 	{
 		if ((*it)->getType() != rtype::PLAYER)
 		{
@@ -190,13 +189,13 @@ void	Game::deleteEntities()
 {
 	std::vector<IEntity *>::iterator	it;
 
-	it = _entityList->begin();
-	while (it != _entityList->end())
+	it = _entityList.begin();
+	while (it != _entityList.end())
 	{
 		if ((*it)->isDead())
 		{
 			delete (*it);
-			it = _entityList->erase(it);
+			it = _entityList.erase(it);
 		}
 		else
 			it++;
@@ -216,7 +215,7 @@ void	Game::addWalls(const int startX)
 		IEntity *wall2 = new Barrier(x, NB_CELLS_Y - 3);
 		addEntity(wall2);
 
-		*_currentWall = wall->getPosX() + wall->getWidth();
+		_currentWall = wall->getPosX() + wall->getWidth();
 		x += wall->getWidth();
 	}
 }
@@ -226,13 +225,13 @@ void									Game::checkCollisions()
 	std::vector<IEntity *>::iterator	it;
 	std::vector<IEntity *>::iterator	itOther;
 
-	it = _entityList->begin();
-	while (it != _entityList->end())
+	it = _entityList.begin();
+	while (it != _entityList.end())
 	{
 		if ((*it)->getType() != rtype::BARRIER)
 		{
-			itOther = _entityList->begin();
-			while (itOther != _entityList->end())
+			itOther = _entityList.begin();
+			while (itOther != _entityList.end())
 			{
 				if ((*it) != (*itOther) &&
 					((*it)->getType() != (*itOther)->getType()
@@ -262,37 +261,16 @@ void									Game::checkCollisions()
 	}
 }
 
-void		Game::addMonsters()
+void									Game::refreshWave()
 {
-	if (std::rand() % 200 == 0)
+	std::vector<IEntity *>				entities;
+	std::vector<IEntity *>::iterator	it;
+
+	entities = _currentWave->getEntities(_currentTime);
+	it = entities.begin();
+	while (it != entities.end())
 	{
-		addRedWave();
+		addEntity(*it);
+		it++;
 	}
 }
-
-void		Game::addRedWave()
-{
-	int		x;
-	int		y;
-	int		nbMonsters;
-
-	nbMonsters = 5;
-	while (nbMonsters > 0)
-	{
-		x = NB_CELLS_X - nbMonsters;
-		y = (NB_CELLS_Y / 2) - (nbMonsters * 3);
-
-		IEntity *newMonster = new Monster(x, y);
-		addEntity(newMonster);
-		nbMonsters--;
-	}
-}
-
-//new Monster(x, y);
-//make_pair(2, monster);
-//std::pair<time, IEntity> listEntities;
-//
-//
-//if (time == time)
-//push_back(listEntities.first())
-//

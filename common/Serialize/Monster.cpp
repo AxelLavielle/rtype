@@ -10,7 +10,7 @@ Monster::Monster(const int x, const int y)
   this->setName("");
   this->setPosX(x);
   this->setPosY(y);
-  this->setHeight(2);
+  this->setHeight(4);
   this->setWidth(4);
   this->setSpeedX(-1);
   this->setSpeedY(1);

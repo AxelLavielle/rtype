@@ -1,0 +1,13 @@
+<Menu Config>
+<PlayerName>player</PlayerName>
+<Up>z</Up>
+<Down>s</Down>
+<Right>d</Right>
+<Left>q</Left>
+<Pew>k</Pew>
+<SuperPew>l</SuperPew>
+<Music>46</Music>
+<SFX>46</SFX>
+<Iport>10.16.252.95:42000</Iport>
+</Menu Config>
+

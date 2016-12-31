@@ -13,6 +13,7 @@ public:
 	virtual void setFontPath(const std::string & path);
 	virtual bool draw();
 	virtual bool over();
+	void clearEleements();
 	virtual bool click();
 	void setElements(const std::vector<std::string> &elements);
 	void setButtonSprite(const std::string & sprite);

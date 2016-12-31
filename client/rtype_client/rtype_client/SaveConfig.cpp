@@ -57,8 +57,8 @@ void			SaveConfig::writeToFile()
 
 		fileStream << "</Menu Config>\n" << std::endl;
 	}
-	else
-		std::cerr << "Error: Menu File Failed to Open!" << std::endl;
+	//else
+	//	std::cerr << "Error: Menu File Failed to Open!" << std::endl;
 
 	fileStream.close();
 }
@@ -130,8 +130,8 @@ void				SaveConfig::readFromFile()
 		while (getline(fileStream, line))
 			needleInHaystack(line);
 	}
-	else
-		std::cerr << "Error: Menu File Failed to Open!1" << std::endl;
+	//else
+	//	std::cerr << "Error: Menu File Failed to Open!1" << std::endl;
 	fileStream.close();
 }
 

@@ -6,6 +6,7 @@
 #include "Serialize.hh"
 #include "AMutex.hh"
 #include "ThreadPool.hh"
+#include "CmdManager.hh"
 
 class AMenu :
 	public IMenu
@@ -28,4 +29,5 @@ protected:
 	ASocketClient		*_socket;
 	AMutex				*_mutex;
 	ThreadPool			_pool;
+	CmdManager			_cmdManager;
 };

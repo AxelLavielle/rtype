@@ -29,6 +29,7 @@ public:
 	virtual bool		init(const std::string &, const int);
 	virtual bool		sendData(const char *);
 	virtual bool sendData(const char * data, const int datasize);
+	virtual char * receiveData(const int secTimeOut, const int usecTimeOut);
 	virtual char		*receiveData();
 	virtual bool		closure();
 	virtual bool		connectToServer();

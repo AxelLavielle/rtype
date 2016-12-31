@@ -149,6 +149,11 @@ bool ListBox::over()
 	return (false);
 }
 
+void	ListBox::clearEleements()
+{
+	_elements.clear();
+}
+
 void ListBox::setElements(const std::vector<std::string>& elements)
 {
 	std::vector<std::string>::const_iterator	it;

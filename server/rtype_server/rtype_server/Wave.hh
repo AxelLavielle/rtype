@@ -1,7 +1,9 @@
 #pragma once
 
 #include "IEntity.hpp"
-#include "Monster.hh"
+#include "RedSpiralMonster.hh"
+#include "FireTacleMonster.hh"
+#include "BolidFighterMonster.hh"
 #include <queue>
 
 #define MAX_ENTITIES	(50)
@@ -16,7 +18,9 @@ class Wave
 private:
 	std::queue<WaveElement>	_waveEntities;
 	int						_nbEntities;
+
 	void					redWave(int &, const int);
+	IEntity					*getRandomMonster(const int, const int);
 
 public:
 	Wave();

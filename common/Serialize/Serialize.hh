@@ -6,7 +6,6 @@
 #include	"BasicCmd.hh"
 #include	"Player.hh"
 #include	"PowerUp.hh"
-#include	"Monster.hh"
 #include	"Barrier.hh"
 #include	"ListRoomCmd.hh"
 #include	"RoomInfoCmd.hh"

@@ -63,9 +63,6 @@
     <ClCompile Include="..\..\..\common\Serialize\Barrier.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\common\Serialize\Monster.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\common\Serialize\Player.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -109,6 +106,15 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Wave.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\Serialize\FireTacleMonster.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\Serialize\BolidFighterMonster.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\Serialize\RedSpiralMonster.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -167,9 +173,6 @@
     <ClInclude Include="..\..\..\common\Serialize\Barrier.hh">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\common\Serialize\Monster.hh">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\common\Serialize\Player.hh">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
@@ -219,6 +222,15 @@
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Wave.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\common\Serialize\BolidFighterMonster.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\common\Serialize\FireTacleMonster.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\common\Serialize\RedSpiralMonster.hh">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

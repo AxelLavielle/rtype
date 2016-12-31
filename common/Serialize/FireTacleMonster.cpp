@@ -1,12 +1,12 @@
-#include "Monster.hh"
+#include "FireTacleMonster.hh"
 
-Monster::Monster()
+FireTacleMonster::FireTacleMonster()
 {}
 
-Monster::Monster(const int x, const int y)
+FireTacleMonster::FireTacleMonster(const int x, const int y)
 {
   this->setType(rtype::MONSTER);
-  _name = "Monster1";
+  _name = "FireTacleMonster1";
   this->setName("");
   this->setPosX(x);
   this->setPosY(y);
@@ -16,20 +16,20 @@ Monster::Monster(const int x, const int y)
   this->setSpeedY(1);
   this->setLife(100);
   _currentSprite = 0;
-  this->setSpriteRepo("/res/img/redspiral/redspiral" + std::to_string(_currentSprite) + ".png");
+  this->setSpriteRepo("/res/img/firetacle/firetacle" + std::to_string(_currentSprite) + ".png");
   refresh();
   this->_collisionBox = new CollisionBox(this);
 }
 
-Monster::~Monster()
+FireTacleMonster::~FireTacleMonster()
 {
 }
 
-void		Monster::update()
+void		FireTacleMonster::update()
 {
 	static bool goingUp = true;
 
-	if (_currentSprite > 7)
+	if (_currentSprite > 11)
 	{
 		_currentSprite = 0;
 		if (goingUp)
@@ -44,7 +44,7 @@ void		Monster::update()
 		}
 
 	}
-	setSpriteRepo("/res/img/redspiral/redspiral" + std::to_string(_currentSprite) + ".png");
+	setSpriteRepo("/res/img/firetacle/firetacle" + std::to_string(_currentSprite) + ".png");
 	setPosX(_posX + _speedX);
 	setPosY(_posY + _speedY);
 	_currentSprite++;
@@ -53,7 +53,7 @@ void		Monster::update()
 
 }
 
-extern "C" IEntity	*createEntity()
-{
-  return (new Monster);
-}
+//extern "C" IEntity	*createEntity()
+//{
+//  return (new FireTacleMonster);
+//}

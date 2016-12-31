@@ -157,7 +157,7 @@ void										Game::sendEntitiesToClients(std::vector<ServerClient *> &clients)
 
 void		Game::updateEntities()
 {
-	IEntity								*currentEntity;
+	// IEntity								*currentEntity;
 	std::vector<IEntity *>::iterator	it;
 	int	n = 0;
 

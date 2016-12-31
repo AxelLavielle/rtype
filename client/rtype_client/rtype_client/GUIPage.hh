@@ -1,6 +1,7 @@
 #pragma once
 
 #define ANIMDURATION_G 500
+#define ANIMDURATION_B 500
 
 #include "APage.hh"
 #include <chrono>
@@ -35,7 +36,7 @@ private:
 	std::string												_playerName;
 	int														_animInc;
 	double													_animDuration;
-	std::chrono::high_resolution_clock::time_point			t1;
+	std::chrono::high_resolution_clock::time_point			_t1;
 	int														_textPosX;
 	int														_textPosY;
 	int														_topBarHeight;

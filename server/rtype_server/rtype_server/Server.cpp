@@ -58,7 +58,7 @@ void	displayColorMsg(const std::string &str, ServerClient *client)
 	std::cout << str << "[" << client->getTCPSocket() << "]" << std::endl;
 	SetConsoleTextAttribute(gHConsole, COLOR_RESET);
 #elif __linux__
-	std::cout << COLOR_CYAN_L << msg << "[" << client->getTCPSocket() << "]" << COLOR_RESET_L << std::endl;
+	std::cout << COLOR_CYAN_L << str << "[" << client->getTCPSocket() << "]" << COLOR_RESET_L << std::endl;
 #endif
 }
 void										Server::processBasicCmd(ServerClient *client, BasicCmd *cmd)

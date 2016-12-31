@@ -9,36 +9,42 @@ SERIALIZE	=	../common/Serialize
 
 NAME		=	server
 
-SRC		=	$(DIR)/ASocketServer.cpp	\
-			$(DIR)/main.cpp			\
-			$(DIR)/SocketServerTCP.cpp	\
-			$(DIR)/SocketServerUDP.cpp	\
-			$(DIR)/ClientManager.cpp	\
-			$(DIR)/ServerClient.cpp		\
-			$(DIR)/Server.cpp		\
-			$(DIR)/Room.cpp			\
-			$(DIR)/Game.cpp			\
-			$(DIR)/RoomManager.cpp		\
-			$(DIR)/SocketAddress.cpp	\
-			$(DIR)/CmdManager.cpp		\
-			$(COMMON)/MemTools.cpp		\
-			$(COMMON)/Thread.cpp		\
-			$(COMMON)/Mutex.cpp		\
-			$(COMMON)/AThread.cpp		\
-			$(COMMON)/AMutex.cpp		\
-			$(COMMON)/ThreadPool.cpp	\
-			$(SERIALIZE)/AEntity.cpp	\
-			$(SERIALIZE)/Serialize.cpp	\
-			$(SERIALIZE)/InputCmd.cpp	\
-			$(SERIALIZE)/RoomInfoCmd.cpp	\
-			$(SERIALIZE)/BasicCmd.cpp	\
-			$(SERIALIZE)/ListRoomCmd.cpp	\
-			$(SERIALIZE)/ACommand.cpp	\
-			$(SERIALIZE)/Player.cpp		\
-			$(SERIALIZE)/PowerUp.cpp	\
-			$(SERIALIZE)/Monster.cpp	\
-			$(SERIALIZE)/Barrier.cpp	\
-			$(SERIALIZE)/Missile.cpp	\
+SRC		=	$(DIR)/ASocketServer.cpp		\
+			$(DIR)/main.cpp				\
+			$(DIR)/SocketServerTCP.cpp		\
+			$(DIR)/SocketServerUDP.cpp		\
+			$(DIR)/ClientManager.cpp		\
+			$(DIR)/ServerClient.cpp			\
+			$(DIR)/Server.cpp			\
+			$(DIR)/Room.cpp				\
+			$(DIR)/Game.cpp				\
+			$(DIR)/RoomManager.cpp			\
+			$(DIR)/SocketAddress.cpp		\
+			$(DIR)/CmdManager.cpp			\
+			$(DIR)/Wave.cpp				\
+			$(COMMON)/MemTools.cpp			\
+			$(COMMON)/Thread.cpp			\
+			$(COMMON)/Mutex.cpp			\
+			$(COMMON)/AThread.cpp			\
+			$(COMMON)/AMutex.cpp			\
+			$(COMMON)/ThreadPool.cpp		\
+			$(SERIALIZE)/AEntity.cpp		\
+			$(SERIALIZE)/Serialize.cpp		\
+			$(SERIALIZE)/InputCmd.cpp		\
+			$(SERIALIZE)/RoomInfoCmd.cpp		\
+			$(SERIALIZE)/BasicCmd.cpp		\
+			$(SERIALIZE)/ListRoomCmd.cpp		\
+			$(SERIALIZE)/ACommand.cpp		\
+			$(SERIALIZE)/Player.cpp			\
+			$(SERIALIZE)/PowerUp.cpp		\
+			$(SERIALIZE)/Barrier.cpp		\
+			$(SERIALIZE)/Missile.cpp		\
+			$(SERIALIZE)/BolidFighterMonster.cpp	\
+			$(SERIALIZE)/BossMonster.cpp		\
+			$(SERIALIZE)/CollisionBox.cpp		\
+			$(SERIALIZE)/FireTacleMonster.cpp	\
+			$(SERIALIZE)/RedSpiralMonster.cpp
+
 
 OBJ		=	$(SRC:.cpp=.o)
 

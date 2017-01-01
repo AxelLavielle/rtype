@@ -1,16 +1,17 @@
 #include "Player.hh"
 
-Player::Player(const int x, const int y, const int idPlayer)
+Player::Player(const int x, const int y, const int idPlayer, const std::string &name)
 {
   this->setType(rtype::PLAYER);
-  this->setName("");
+  this->setName(name);
   this->setPosX(x);
   this->setPosY(y);
   this->setHeight(6);
   this->setWidth(10);
   this->setSpeedX(1);
   this->setSpeedY(1);
-  this->setLife(100);
+  this->setLife(8);
+  this->setAttack(1);
   this->setSpriteRepo("/res/img/ship/spaceShip" + std::to_string(idPlayer) + "0.png");
   this->_collisionBox = new CollisionBox(this);
   refresh();

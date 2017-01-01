@@ -192,6 +192,9 @@ void			AEntity::setLife(const int life)
 	ss << life;
 	_args += ss.str() + _separator;
 	_life = life;
+
+	if (life <= 0)
+		setDead(true);
 }
 
 bool AEntity::setArgs(const std::string & args)

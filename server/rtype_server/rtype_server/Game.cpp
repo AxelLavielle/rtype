@@ -26,7 +26,7 @@ void Game::init(std::vector<ServerClient*> &clients, const int id)
 		IEntity		*player;
 
 		it2 = clients.begin();
-		player = new Player(10 + (i * 10), 10 + (i * 20), i + 1);
+		player = new Player(10 + (i * 10), 10 + (i * 20), i + 1, (*it)->getPlayerName());
 		(*it)->setPlayer(player);
 		addEntity(player);
 		while (it2 != clients.end())
@@ -77,8 +77,6 @@ void								Game::manageInput(ServerClient *client)
 	player = static_cast<Player *>(client->getPlayer());
 	while (it != vInputs.end())
 	{
-//		std::cout << "Player sent key [" << it->getKey() << "]" << std::endl;
-
 		newX = player->getPosX();
 		newY = player->getPosY();
 
@@ -130,7 +128,6 @@ void										Game::updatePlayers(std::vector<ServerClient *> &clients)
 {
 	std::vector<ServerClient *>::iterator	it;
 
-	//std::cout << "[Game] : Updating Players" << std::endl;
 	it = clients.begin();
 	while (it != clients.end())
 	{
@@ -146,7 +143,6 @@ void										Game::sendEntitiesToClients(std::vector<ServerClient *> &clients)
 	std::vector<ServerClient *>::iterator	itClients;
 	char									*msg;
 
-	//std::cout << "[Game] : Sending [" << entitiesToSend.size() << "] Entities" << std::endl;
 	itMap = _entityList.begin();
 	while (itMap != _entityList.end())
 	{
@@ -164,18 +160,13 @@ void										Game::sendEntitiesToClients(std::vector<ServerClient *> &clients)
 
 void		Game::updateEntities()
 {
-	// IEntity								*currentEntity;
 	std::vector<IEntity *>::iterator	it;
-	int	n = 0;
 
-	//std::cout << "[Game] : Sending [" << entitiesToSend.size() << "] Entities" << std::endl;
 	it = _entityList.begin();
 	while (it != _entityList.end())
 	{
 		if ((*it)->getType() != rtype::PLAYER)
 		{
-			n++;
-			//std::cout << "[Game] : Updating Entity [" << (*it)->getId() << "]" << std::endl;
 			(*it)->update();
 			if (((*it)->getPosX() > NB_CELLS_X && (*it)->getType() == rtype::MISSILE)
 				|| (*it)->getPosX() + (*it)->getWidth() < 0)
@@ -186,9 +177,6 @@ void		Game::updateEntities()
 		}
 		it++;
 	}
-
-	//if (n > 0)
-		//std::cout << "[Game] : Updated " << n << " Entities" << std::endl << std::endl;
 }
 
 void	Game::deleteEntities()
@@ -228,6 +216,116 @@ void	Game::addWalls(const int startX)
 	}
 }
 
+void	playerCollisions(IEntity *it, IEntity *itOther)
+{
+	if (IS_PLAYER(itOther))
+		return;
+
+	if (IS_WALL(itOther))
+	{
+		it->setLife(itOther->getAttack());
+		return;
+	}
+
+	if (IS_MISSILE(itOther) && IS_PLAYER_MISSILE(static_cast<Missile *>(itOther)))
+		return;
+
+	if (IS_MISSILE(itOther) && IS_MONSTER_MISSILE(static_cast<Missile *>(itOther)))
+	{
+		it->setLife(itOther->getAttack());
+		itOther->setDead(true);
+		itOther->refresh();
+	}
+	if (IS_MONSTER(itOther))
+	{
+		it->setLife(itOther->getAttack());
+		itOther->setLife(it->getAttack());
+	}
+}
+
+void	monsterCollisions(IEntity *it, IEntity *itOther)
+{
+	if (IS_PLAYER(itOther))
+	{
+		it->setLife(itOther->getAttack());
+		itOther->setLife(it->getAttack());
+	}
+
+	if (IS_WALL(itOther))
+		return;
+
+	if (IS_MISSILE(itOther) && IS_PLAYER_MISSILE(static_cast<Missile *>(itOther)))
+	{
+		it->setLife(itOther->getAttack());
+		itOther->setDead(true);
+		itOther->refresh();
+	}
+
+	if (IS_MISSILE(itOther) && IS_MONSTER_MISSILE(static_cast<Missile *>(itOther)))
+		return;
+
+	if (IS_MONSTER(itOther))
+		return;
+}
+
+void	playerMissileCollisions(IEntity *it, IEntity *itOther)
+{
+	if (IS_PLAYER(itOther))
+		return;
+
+	if (IS_WALL(itOther))
+	{
+		it->setDead(true);
+		it->refresh();
+	}
+	
+	if (IS_MISSILE(itOther) && IS_PLAYER_MISSILE(static_cast<Missile *>(itOther)))
+		return;
+
+	if (IS_MISSILE(itOther) && IS_MONSTER_MISSILE(static_cast<Missile *>(itOther)))
+	{
+		it->setDead(true);
+		it->refresh();
+		itOther->setDead(true);
+		itOther->refresh();
+	}
+	if (IS_MONSTER(itOther))
+	{
+		itOther->setLife(itOther->getAttack());
+		it->setDead(true);
+		it->refresh();
+	}
+
+}
+
+void	monsterMissileCollisions(IEntity *it, IEntity *itOther)
+{
+	if (IS_PLAYER(itOther))
+	{
+		itOther->setLife(itOther->getAttack());
+		it->setDead(true);
+		it->refresh();
+	}
+	if (IS_WALL(itOther))
+	{
+		it->setDead(true);
+		it->refresh();
+	}
+
+	if (IS_MISSILE(itOther) && IS_PLAYER_MISSILE(static_cast<Missile *>(itOther)))
+	{
+		it->setDead(true);
+		it->refresh();
+		itOther->setDead(true);
+		itOther->refresh();
+	}
+	if (IS_MISSILE(itOther) && IS_MONSTER_MISSILE(static_cast<Missile *>(itOther)))
+		return;
+	if (IS_MONSTER(itOther))
+		return;
+}
+
+
 void									Game::checkCollisions()
 {
 	std::vector<IEntity *>::iterator	it;
@@ -236,32 +334,27 @@ void									Game::checkCollisions()
 	it = _entityList.begin();
 	while (it != _entityList.end())
 	{
-		if ((*it)->getType() != rtype::BARRIER)
+		if (!IS_WALL(*it))
 		{
 			itOther = _entityList.begin();
+
 			while (itOther != _entityList.end())
 			{
-				if ((*it) != (*itOther) &&
-					((*it)->getType() != (*itOther)->getType()
-						|| ((*it)->getType() == rtype::MISSILE && (*itOther)->getType() == rtype::MISSILE)))
+				if (IS_COLLIDING(*it, *itOther))
 				{
-					if ((*it)->isColliding((*itOther)->getCollisionBox()))
-					{
-//						std::cout << "COLLISION BETWEEN " << (*it)->getType() << " AND " << (*itOther)->getType() << std::endl;
+					if (IS_PLAYER(*it))
+						playerCollisions(*it, *itOther);
 
-						if ((*it)->getType() != rtype::PLAYER)
-						{
-							(*it)->setDead(true);
-							(*it)->refresh();
-						}
-						if ((*itOther)->getType() != rtype::PLAYER)
-						{
-							(*itOther)->setDead(true);
-							(*itOther)->refresh();
-						}
+					else if (IS_MONSTER(*it))
+						monsterCollisions(*it, *itOther);
 
-					}
+					else if (IS_MISSILE(*it) && IS_PLAYER_MISSILE(static_cast<Missile *>(*it)))
+						playerMissileCollisions(*it, *itOther);
+
+					else if (IS_MISSILE(*it) && IS_MONSTER_MISSILE(static_cast<Missile *>(*it)))
+						monsterMissileCollisions(*it, *itOther);
 				}
+				
 				itOther++;
 			}
 		}

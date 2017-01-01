@@ -12,7 +12,7 @@ private:
   int			_score;
 
 public:
-  Player(const int, const int, const int);
+  Player(const int, const int, const int, const std::string &);
   virtual ~Player();
 
   int getWaveNumber() const;

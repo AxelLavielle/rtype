@@ -40,6 +40,7 @@ bool		DlLoader::load(const std::string &path)
 		if (_dlHandle == NULL)
 			std::cerr << dlerror() << std::endl;
 	#elif _WIN32
+		std::cout << "Trying to open lib [" << path << "]" << std::endl;
 		_dlHandle = (void*)LoadLibrary(path.c_str());
 		if (_dlHandle == NULL)
 		  std::cerr << "Cannot load library : " << GetLastError() << std::endl;

@@ -6,7 +6,15 @@
 #include "InputCmd.hh"
 #include "Wave.hh"
 
-#define MISSILE_COOLDOWN	(10)
+#define MISSILE_COOLDOWN		(10)
+
+#define IS_PLAYER(elem)				((elem)->getType() == rtype::PLAYER)
+#define IS_WALL(elem)				((elem)->getType() == rtype::BARRIER)
+#define IS_MONSTER(elem)			((elem)->getType() == rtype::MONSTER)
+#define IS_MISSILE(elem)			((elem)->getType() == rtype::MISSILE)
+#define IS_PLAYER_MISSILE(elem)		((elem)->getIdPlayer() != 0)
+#define IS_MONSTER_MISSILE(elem)	((elem)->getIdPlayer() == 0)
+#define IS_COLLIDING(e1, e2)		((e1)->isColliding((e2)->getCollisionBox()))
 
 class Game
 {

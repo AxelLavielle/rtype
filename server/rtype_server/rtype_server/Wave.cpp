@@ -125,7 +125,7 @@ IEntity	*Wave::generateBoss()
 	  {
 	    std::cout << "BOSS IS COMING !" << std::endl;
 	    newBoss = _dlManager->getInstance(_bossEntities.at(0).second);
-	    newBoss->setPosX(x - 10);
+	    newBoss->setPosX(x - 20);
 	    newBoss->setPosY(y);
 	    newBoss->refresh();
 	    _waveEntities.push(std::make_pair(_time, newBoss));

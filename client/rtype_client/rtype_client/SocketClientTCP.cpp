@@ -11,7 +11,7 @@ SocketClientTCP::~SocketClientTCP()
 
 bool				SocketClientTCP::init(const std::string &addr, const int port)
 {
-//	_mutex.lock();
+	_mutex.lock();
 	if (_port == -1)
 		_port = port;
 	if (_ip == "")
@@ -92,7 +92,7 @@ bool				SocketClientTCP::init(const std::string &addr, const int port)
 	  std::cerr << "setsockopt failed" << std::endl;
 
 #endif
-	//_mutex.unlock();
+	_mutex.unlock();
 	return (true);
 }
 
@@ -108,13 +108,13 @@ bool				SocketClientTCP::sendData(const char *data)
 	const char		*sendbuf = data;
 	int				iResult;
 
-//	_mutex.lock();
+	_mutex.lock();
 	if (!_connected)
 	{
-//		_mutex.unlock();
+		_mutex.unlock();
 		return (false);
 	}
-//	_mutex.unlock();
+	_mutex.unlock();
 	std::cout << "SIZE SENT == " << datasize << std::endl;
 	iResult = send(_sock, sendbuf, static_cast<int>(datasize), 0);
 	if (iResult == SOCKET_ERROR)
@@ -124,9 +124,9 @@ bool				SocketClientTCP::sendData(const char *data)
 #elif __linux__
 		perror("send");
 #endif
-//		_mutex.lock();
+		_mutex.lock();
 		_connected = false;
-//		_mutex.unlock();
+		_mutex.unlock();
 		return (false);
 	}
 
@@ -173,14 +173,14 @@ char				*SocketClientTCP::receiveData()
 	tv.tv_sec = 0;
 	tv.tv_usec = 1000;
 
-//	_mutex.lock();
+	_mutex.lock();
 	if (!_connected)
 	{
 		delete[] recvbuf;
-//		_mutex.unlock();
+		_mutex.unlock();
 		return (NULL);
 	}
-//	_mutex.unlock();
+	_mutex.unlock();
 	fd_set readfds;
 	FD_ZERO(&readfds);
 	FD_SET(_sock, &readfds);
@@ -249,9 +249,9 @@ bool				SocketClientTCP::connectToServer()
 	}
 
 #endif
-//	_mutex.lock();
+	_mutex.lock();
 	_connected = true;
-//	_mutex.unlock();
+	_mutex.unlock();
 	return (true);
 }
 

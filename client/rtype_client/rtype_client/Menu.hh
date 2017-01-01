@@ -45,7 +45,7 @@ public:
 	virtual void setPort(const int port);
 private:
 	std::vector<AGUIElement* >	_guiElement;
-	Game						_game;
+	Game						*_game;
 	Sound						_music;
 	Sound						_clickSound;
 	SFMLSound					_soundManager;

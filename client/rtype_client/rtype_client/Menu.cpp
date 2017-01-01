@@ -14,6 +14,7 @@ Menu::Menu()
 	_errorEvent = IPage::NONE;
 	_roomList = NULL;
 	_roomInfo = NULL;
+	_game = new Game();
 }
 
 Menu::~Menu()
@@ -272,10 +273,14 @@ void	Menu::manageReturnToMenu()
 	_successEvent = IPage::NONE;
 	_errorEvent = IPage::NONE;
 	_soundManager.play(_music);
+	delete _game;
+	_game = new Game();
 }
 
 bool	Menu::refreshRoomInfo()
 {
+	int		id;
+
 	if (_page && _page->getPageType() == IPage::PLAY)
 	{
 		_page->clear();
@@ -289,7 +294,8 @@ bool	Menu::refreshRoomInfo()
 		_page->clear();
 		_mutexReceive.lock();
 		setRoomInfo();
-		if (_cmdManager.getId() != -1)
+		id = _cmdManager.getId();
+		if (id != -1)
 		{
 			_mutexReceive.unlock();
 			_mutexRun.lock();
@@ -297,7 +303,7 @@ bool	Menu::refreshRoomInfo()
 			_mutexRun.unlock();
 			_pool.joinAll();
 			_run = true;
-			_id = _cmdManager.getId();
+			_id = id;
 			delete _page;
 			if (startGame() == 1)
 				return (true);
@@ -314,17 +320,17 @@ int		Menu::startGame()
 {
 	std::cout << "Game" << std::endl;
 	_soundManager.stopAll();
-	_game.setGraph(_graph);
-	_game.setEvent(_event);
-	_game.setPort(9999);
-	_game.setId(_id);
-	_game.setIp(_ip);
+	_game->setGraph(_graph);
+	_game->setEvent(_event);
+	_game->setPort(9999);
+	_game->setId(_id);
+	_game->setIp(_ip);
 	_mutex->lock();
-	_game.setTCPSocket(_socket);
+	_game->setTCPSocket(_socket);
 	_mutex->unlock();
 	if (_roomInfo)
-		_game.setNbPlayer(_roomInfo->getPlayersList().size());
-	return (_game.launch());
+		_game->setNbPlayer(_roomInfo->getPlayersList().size());
+	return (_game->launch());
 }
 
 void	Menu::reconnection()

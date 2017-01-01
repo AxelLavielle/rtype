@@ -67,6 +67,7 @@ int				CmdManager::getId()
 
 	_mutex.lock();
 	res = _id;
+	_id = -1;
 	_mutex.unlock();
 	return (res);
 }

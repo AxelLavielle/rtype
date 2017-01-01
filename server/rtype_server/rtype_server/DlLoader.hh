@@ -7,6 +7,8 @@
 # include <windows.h>
 #endif
 
+typedef IEntity *(__stdcall *createFunc)();
+
 class DlLoader : public ADlLoader
 {
 public:

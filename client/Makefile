@@ -66,7 +66,7 @@ SRC	=	$(SER)/ACommand.cpp	 	\
 		$(COM)/ThreadPool.cpp		\
 		$(COM)/Thread.cpp		\
 		$(COM)/MemTools.cpp		\
-		$(DIR)/PathFileManager.cpp
+		$(COM)/PathFileManager.cpp
 
 OBJ	=	$(SRC:.cpp=.o)
 

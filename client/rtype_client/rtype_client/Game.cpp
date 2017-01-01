@@ -185,21 +185,6 @@ void	Game::manageQuit()
 	_soundManager.stopAll();
 }
 
-void	Game::receive()
-{
-	while (1)
-	{
-		_mutexRun.lock();
-		while (!_run)
-		{
-			_mutexRun.unlock();
-			return;
-		}
-		_mutexRun.unlock();
-
-	}
-}
-
 int Game::launch()
 {
 	std::chrono::high_resolution_clock::time_point		tGame;
@@ -247,7 +232,7 @@ int Game::launch()
 			}
 			if (_event->getKeyReleased() == _key)
 				_key = "";
-			if (_key != "" && (_event->getKeyStroke() == "UP" || _event->getKeyStroke() == "LEFT"
+			if (_key == "" && (_event->getKeyStroke() == "UP" || _event->getKeyStroke() == "LEFT"
 				|| _event->getKeyStroke() == "DOWN" || _event->getKeyStroke() == "RIGHT" || _event->getKeyStroke() == "SHOOT" || _event->getKeyStroke() == "SUPERSHOOT"))
 			{
 				_key = _event->getKeyStroke();

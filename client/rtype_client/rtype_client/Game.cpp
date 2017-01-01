@@ -158,6 +158,33 @@ void	Game::manageEntity()
 	}
 }
 
+void	Game::clearEntity()
+{
+	std::vector<IEntity* >::iterator		it;
+
+	it = _entity.begin();
+	while (it != _entity.end())
+	{
+		delete *it;
+		++it;
+	}
+	_entity.clear();
+}
+
+void	Game::manageQuit()
+{
+	_cmdManager.sendQuit();
+	_cmdManager.sendCmd();
+	_sock->closure();
+	clearEntity();
+	_mutexRun.lock();
+	_run = false;
+	_mutexRun.unlock();
+	_pool.joinAll();
+	_pool.clearPool();
+	_soundManager.stopAll();
+}
+
 int Game::launch()
 {
 	std::chrono::high_resolution_clock::time_point		tGame;
@@ -200,13 +227,7 @@ int Game::launch()
 		{
 			if (_event->getCloseEvent() || (_pausePage && _pausePage->event() == IPage::QUIT))
 			{
-				_cmdManager.sendQuit();
-				_cmdManager.sendCmd();
-				_sock->closure();
-				_mutexRun.lock();
-				_run = false;
-				_mutexRun.unlock();
-				_pool.joinAll();
+				manageQuit();
 				return (1);
 			}
 			if (_event->getKeyReleased() == _key)
@@ -229,10 +250,7 @@ int Game::launch()
 			}
 			if (_pausePage && _pausePage->event() == IPage::HOME)
 			{
-				_cmdManager.sendQuit();
-				_cmdManager.sendCmd();
-				_sock->closure();
-				std::cout << "Return to menu." << std::endl;
+				manageQuit();
 				return (0);
 			}
 		}

@@ -79,6 +79,8 @@ private:
 	bool initSocket();
 	void initGraphElements();
 	void manageEntity();
+	void clearEntity();
+	void manageQuit();
 	void updateEntities(IEntity *);
 };
 

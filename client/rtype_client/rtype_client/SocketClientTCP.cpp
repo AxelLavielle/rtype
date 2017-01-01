@@ -2,17 +2,16 @@
 
 SocketClientTCP::SocketClientTCP()
 {
-
 }
 
 
 SocketClientTCP::~SocketClientTCP()
 {
-
 }
 
 bool				SocketClientTCP::init(const std::string &addr, const int port)
 {
+	_mutex.lock();
 	if (_port == -1)
 		_port = port;
 	if (_ip == "")
@@ -24,6 +23,7 @@ bool				SocketClientTCP::init(const std::string &addr, const int port)
 	if (iResult != 0)
 	{
 		std::cerr << "WSAStartup failed: " << iResult << std::endl;
+		_mutex.unlock();
 		return (false);
 	}
 
@@ -42,6 +42,7 @@ bool				SocketClientTCP::init(const std::string &addr, const int port)
 	{
 		std::cerr << "getaddrinfo failed: " << iResult << std::endl;
 		WSACleanup();
+		_mutex.unlock();
 		return (false);
 	}
 
@@ -53,6 +54,7 @@ bool				SocketClientTCP::init(const std::string &addr, const int port)
 		std::cerr << "Error at socket(): " << WSAGetLastError() << std::endl;
 		freeaddrinfo(_result);
 		WSACleanup();
+		_mutex.unlock();
 		return (false);
 	}
 
@@ -63,6 +65,7 @@ bool				SocketClientTCP::init(const std::string &addr, const int port)
 	if (iResult == SOCKET_ERROR)
 	{
 		std::cerr << "setsockopt for SO_KEEPALIVE failed with error : " << WSAGetLastError() << std::endl;
+		_mutex.unlock();
 		return (false);
 	}
 
@@ -70,6 +73,7 @@ bool				SocketClientTCP::init(const std::string &addr, const int port)
 	if ((_sock = socket(AF_INET, SOCK_STREAM, 0)) == -1)
 	{
 		std::cerr << "Could not create socket" << std::endl;
+		_mutex.unlock();
 		return (false);
 	}
 	_server.sin_addr.s_addr = inet_addr(_ip.c_str());
@@ -88,6 +92,7 @@ bool				SocketClientTCP::init(const std::string &addr, const int port)
 	  std::cerr << "setsockopt failed" << std::endl;
 
 #endif
+	_mutex.unlock();
 	return (true);
 }
 
@@ -103,6 +108,13 @@ bool				SocketClientTCP::sendData(const char *data)
 	const char		*sendbuf = data;
 	int				iResult;
 
+	_mutex.lock();
+	if (!_connected)
+	{
+		_mutex.unlock();
+		return (false);
+	}
+	_mutex.unlock();
 	std::cout << "SIZE SENT == " << datasize << std::endl;
 	iResult = send(_sock, sendbuf, static_cast<int>(datasize), 0);
 	if (iResult == SOCKET_ERROR)
@@ -112,6 +124,9 @@ bool				SocketClientTCP::sendData(const char *data)
 #elif __linux__
 		perror("send");
 #endif
+		_mutex.lock();
+		_connected = false;
+		_mutex.unlock();
 		return (false);
 	}
 
@@ -158,6 +173,14 @@ char				*SocketClientTCP::receiveData()
 	tv.tv_sec = 0;
 	tv.tv_usec = 1000;
 
+	_mutex.lock();
+	if (!_connected)
+	{
+		delete[] recvbuf;
+		_mutex.unlock();
+		return (NULL);
+	}
+	_mutex.unlock();
 	fd_set readfds;
 	FD_ZERO(&readfds);
 	FD_SET(_sock, &readfds);
@@ -226,7 +249,9 @@ bool				SocketClientTCP::connectToServer()
 	}
 
 #endif
+	_mutex.lock();
 	_connected = true;
+	_mutex.unlock();
 	return (true);
 }
 

@@ -240,11 +240,15 @@ bool		CmdManager::confirmHandshake(ICommand *cmd)
 
 EndGameCmd	*CmdManager::receiveEndGame()
 {
-	ICommand	*cmd;
+	//ICommand	*cmd;
+	//EndGameCmd	*end;
 
-	cmd = receiveCmd();
-
-	delete cmd;
+	//cmd = receiveCmd();
+	//if (cmd && cmd->getCommandName() == END_GAME)
+	//{
+	//	return ();
+	//}
+	//delete cmd;
 }
 
 bool		CmdManager::sendCmd()

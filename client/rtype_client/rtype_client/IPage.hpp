@@ -31,6 +31,7 @@ public:
       PAUSE,
       CREATEROOMACTION,
 	  LOADING,
+	  REFRESH,
       NONE
     };
 

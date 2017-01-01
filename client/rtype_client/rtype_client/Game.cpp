@@ -67,23 +67,23 @@ void	Game::initGraphElements()
 void	Game::updateEntities(IEntity *entity)
 {
 	std::vector<IEntity* >::iterator		it = _entity.begin();
-	std::vector<char>::iterator				it2 = _refreshed.begin();
 	bool deleted = false;
+	bool deleted2 = false;
 
 	while (it != _entity.end())
 	{
 		if ((*it)->getId() == entity->getId())
 		{
-			(*it2) = 0;
 			if (entity->isDead() == true)
 			{
 				delete (*it);
 				it = _entity.erase(it);
-				it2 = _refreshed.erase(it2);
 				deleted = true;
+				deleted2 = true;
 			}
 			else
 			{
+				(*it)->setA(0);
 				(*it)->setPosX(entity->getPosX());
 				(*it)->setPosY(entity->getPosY());
 				(*it)->setHeight(entity->getHeight());
@@ -94,35 +94,32 @@ void	Game::updateEntities(IEntity *entity)
 				(*it)->setName(entity->getName());
 				(*it)->setLife(entity->getLife());
 				(*it)->setSpriteRepo(entity->getSpriteRepo());
-				(*it)->setArgs(entity->getArgs());
 			}
 			break;
 		}
 		else
 		{
-			(*it2)++;
-			if ((*it2) >= 10)
+			(*it)->setA((*it)->getA() + 1);
+			if ((*it)->getA() >= 10)
 			{
 				delete (*it);
 				it = _entity.erase(it);
-				it2 = _refreshed.erase(it2);
 				deleted = true;
+				deleted2 = true;
 			}
 		}
 		if (deleted == false)
-		{
 			it++;
-			it2++;
-		}
 		deleted = false;
 	}
-	if (it == _entity.end())
+	if (it == _entity.end() && deleted2 == false)
 	{
 		if (entity->getType() == rtype::MISSILE)
 			_soundManager.play(_pew);
 		_entity.push_back(entity);
 		_refreshed.push_back(0);
 	}
+	std::cout << "entity size : " << _entity.size() << std::endl;
 }
 
 void	Game::manageEntity()
@@ -209,21 +206,21 @@ int Game::launch()
 			if (_event->getKeyReleased() == _key)
 				_key = "";
 			if (_key == "" && (_event->getKeyStroke() == "UP" || _event->getKeyStroke() == "LEFT"
-				|| _event->getKeyStroke() == "DOWN" || _event->getKeyStroke() == "RIGHT"))
+				|| _event->getKeyStroke() == "DOWN" || _event->getKeyStroke() == "RIGHT" || _event->getKeyStroke() == "SHOOT" || _event->getKeyStroke() == "SUPERSHOOT"))
 			{
 				_key = _event->getKeyStroke();
 				_cmdManager.sendInput(_id, _event->getKeyStroke());
 			}
-			if (_key == "" && _event->getKeyStroke() == "SHOOT")
-			{
-				_key = _event->getKeyStroke();
-				_cmdManager.sendInput(_id, _event->getKeyStroke());
-			}
-			if (_key == "" && _event->getKeyStroke() == "SUPERSHOOT")
-			{
-				_key = _event->getKeyStroke();
-				_cmdManager.sendInput(_id, _event->getKeyStroke());
-			}
+			//if (_key == "" && _event->getKeyStroke() == "SHOOT")
+			//{
+			//	_key = _event->getKeyStroke();
+			//	_cmdManager.sendInput(_id, _event->getKeyStroke());
+			//}
+			//if (_key == "" && _event->getKeyStroke() == "SUPERSHOOT")
+			//{
+			//	_key = _event->getKeyStroke();
+			//	_cmdManager.sendInput(_id, _event->getKeyStroke());
+			//}
 			if (_event->getKeyStroke() == "ECHAP")
 			{
 				delete _guiPage;

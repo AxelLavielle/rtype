@@ -43,7 +43,6 @@ void									ListRoomCmd::setCommandArg(const std::string &arg)
 		}
 		i += 3;
 	}
-	std::cout << this <<" DANS LA FUNCTION = " << _roomList.size() << std::endl;
 }
 
 CmdName			ListRoomCmd::getCommandName() const
@@ -53,7 +52,6 @@ CmdName			ListRoomCmd::getCommandName() const
 
 const std::string	ListRoomCmd::getCommandArg() const
 {
-	std::cout << "[ListRoomCmd] : ARG = {" << _arg << "}" << std::endl;
 	return (_arg);
 }
 
@@ -64,6 +62,5 @@ RoomIdInfos					ListRoomCmd::getRoom(const int index) const
 
 std::vector<RoomIdInfos>	ListRoomCmd::getAllRooms() const
 {
-	std::cout << this << " DANS LE GETTEUR = " << _roomList.size() << std::endl;
 	return (_roomList);
 }

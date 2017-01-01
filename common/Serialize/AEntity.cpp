@@ -19,6 +19,7 @@ AEntity::AEntity()
 
 	_separator = '|';
 	id++;
+	_a = 0;
 }
 
 AEntity::~AEntity()
@@ -292,4 +293,14 @@ bool		AEntity::isColliding(CollisionBox *other) const
 	if (!other)
 		return (false);
 	return (_collisionBox->isColliding(other));
+}
+
+void		AEntity::setA(const int a)
+{
+	_a = a;
+}
+
+int			AEntity::getA() const
+{
+	return (_a);
 }

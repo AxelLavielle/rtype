@@ -29,6 +29,9 @@
 #include "CmdManager.hh"
 
 #define RECO_DURATION 5000
+#define MENU_LOOP_DURATION (1)
+#define MENU_RECEIVE_DURATION (10)
+#define MENU_REFRESH_ROOM_LIST (1000)
 
 class Menu :
 	public AMenu
@@ -48,7 +51,6 @@ private:
 	SFMLSound					_soundManager;
 	PathFileManager				_fileManager;
 	APage						*_page;
-	CmdManager					_cmdManager;
 	std::string					_playerName;
 	bool						_newEvent;
 	std::string					_ip;
@@ -59,15 +61,24 @@ private:
 	Thread						*_th;
 	SaveConfig					_sv;
 	bool						_run;
+	IPage::PAGE					_successEvent;
+	IPage::PAGE					_errorEvent;
+	std::chrono::high_resolution_clock::time_point			_t1Loop;
+	IPage::PAGE												_curr_event;
+	ListRoomCmd					*_roomList;
+	Mutex						_mutexRun;
+	Mutex						_mutexRoomList;
+	bool						_getRoomList;
 
 	std::chrono::high_resolution_clock::time_point        _t1Conn;
 
-	void initLobby();
-	bool tryToConnect();
-	void manageReco(Thread * th);
-	void setRoomInfo(RoomInfoCmd * roomInfo, InsideRoomPage * page);
-	void receiveData();
-	void checkGameReady();
-	void manageLaunchGame();
+	void managePageEvent();
+	void manageWaiting();
+	void setRoomList();
+	void setRoomInfo();
+	bool refreshRoomInfo();
+	void startGame();
+	void reconnection();
+	void receiveInfo();
 };
 

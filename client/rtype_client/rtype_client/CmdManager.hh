@@ -10,29 +10,32 @@
 #include "ListRoomCmd.hh"
 #include "RoomInfoCmd.hh"
 #include "IEntity.hpp"
+#include "Mutex.hh"
 
 class CmdManager
 {
 public:
 	CmdManager();
 	~CmdManager();
+	int getLatsReply();
+	bool isWaiting();
+	int getId();
 	bool sendLaunchGame(const int id);
 	bool sendInput(const int id, const std::string & key);
-	int launchGame();
 	RoomInfoCmd * getRoomInfo();
 	bool setStatus();
 	bool leaveRoom();
 	bool handshake();
 	bool createRoom(const std::string & rommName, const std::string & playerName);
 	bool joinRoom(const int id, std::string & playerName);
+	void sendRoomList();
 	ListRoomCmd *getRoomList();
-	ICommand * receiveCmd();
+	ICommand * receiveCmd(const int sec = 0, const int usec = 100);
 	bool newCmd(ICommand *command);
 	void setSocket(ASocketClient * sosket);
 	void setUDPSocket(ASocketClient *socket);
 	bool sendCmd();
 	bool sendUDPCmd();
-	bool updateRoom();
 
 	IEntity * receiveUDPCmd();
 
@@ -46,5 +49,10 @@ private:
 	bool confirmHandshake(ICommand * cmd);
 	RoomInfoCmd				*_roomInfo;
 	int						_id;
+	ListRoomCmd				*_roomList;
+	ReplyCodes				_wait;
+	int						_error;
+	Mutex					_mutex;
+	Mutex					_mutexSocket;
 };
 

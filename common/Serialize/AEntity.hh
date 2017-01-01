@@ -42,6 +42,8 @@ public:
 	virtual CollisionBox		*getCollisionBox() const;
 	virtual bool			isColliding(CollisionBox *) const;
 	virtual void			refresh();
+	virtual void					setA(const int);
+	virtual int						getA() const;
 
 protected:
 	int						_id;
@@ -59,6 +61,7 @@ protected:
 	std::string				_args;
 	char					_separator;
 	CollisionBox			*_collisionBox;
+	int						_a;
 
 	std::vector<std::string>	split(const std::string & s);
 };

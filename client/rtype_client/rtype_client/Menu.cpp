@@ -213,16 +213,16 @@ void	Menu::manageWaiting()
 			_curr_event = IPage::NONE;
 
 	}
-	else if (_page && _page->getPageType() != IPage::LOADING)
-	{
-		_mutexRoomList.lock();
-		_getRoomList = false;
-		_mutexRoomList.unlock();
-		_newEvent = true;
-		delete _page;
-		_page = new LoadingPage(_graph, _event, _fileManager, &_soundManager);
-		_page->init();
-	}
+	//else if (_page && _page->getPageType() != IPage::LOADING)
+	//{
+	//	_mutexRoomList.lock();
+	//	_getRoomList = false;
+	//	_mutexRoomList.unlock();
+	//	_newEvent = true;
+	//	delete _page;
+	//	_page = new LoadingPage(_graph, _event, _fileManager, &_soundManager);
+	//	_page->init();
+	//}
 }
 
 void	Menu::setRoomList()

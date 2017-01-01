@@ -303,7 +303,7 @@ void Game::setNbPlayer(const int nb)
 	_nbPlayer = nb;
 }
 
-//void	Game::setTCPSocket()
+//void	Game::setTCPSocket(ASocketClient * socket)
 //{
 //
 //}

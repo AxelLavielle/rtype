@@ -144,6 +144,7 @@
     <ClInclude Include="..\..\..\common\Serialize\ChatInfoCmd.hh" />
     <ClInclude Include="..\..\..\common\Serialize\CmdEnum.hh" />
     <ClInclude Include="..\..\..\common\Serialize\CollisionBox.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\EndGameCmd.hh" />
     <ClInclude Include="..\..\..\common\Serialize\EntityCmd.hh" />
     <ClInclude Include="..\..\..\common\Serialize\EntityType.hh" />
     <ClInclude Include="..\..\..\common\Serialize\ICommand.hpp" />
@@ -212,6 +213,7 @@
     <ClCompile Include="..\..\..\common\Serialize\BasicCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\ChatInfoCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\CollisionBox.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\EndGameCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\EntityCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\InputCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\ListRoomCmd.cpp" />

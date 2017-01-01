@@ -11,6 +11,7 @@
 #include "RoomInfoCmd.hh"
 #include "IEntity.hpp"
 #include "Mutex.hh"
+#include "EndGameCmd.hh"
 
 class CmdManager
 {

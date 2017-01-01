@@ -59,6 +59,7 @@
     <ClCompile Include="SaveConfig.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\CollisionBox.cpp" />
     <ClCompile Include="..\..\..\common\PathFileManager.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\EndGameCmd.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />
@@ -132,5 +133,6 @@
     <ClInclude Include="SaveConfig.hh" />
     <ClInclude Include="..\..\..\common\Serialize\CollisionBox.hh" />
     <ClInclude Include="..\..\..\common\PathFileManager.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\EndGameCmd.hh" />
   </ItemGroup>
 </Project>

@@ -38,7 +38,7 @@ public:
 	void setUDPSocket(ASocketClient *socket);
 	bool sendCmd();
 	bool sendUDPCmd();
-
+	EndGameCmd * receiveEndGame();
 	IEntity * receiveUDPCmd();
 
 private:
@@ -49,7 +49,6 @@ private:
 	std::vector<ICommand*>	_cmd;
 	std::vector<ICommand *>	_cmdReceive;
 	bool confirmHandshake(ICommand * cmd);
-	EndGameCmd * receiveEndGame();
 	RoomInfoCmd				*_roomInfo;
 	int						_id;
 	ListRoomCmd				*_roomList;

@@ -1,7 +1,6 @@
 #include "EndGameCmd.hh"
 
 
-
 EndGameCmd::EndGameCmd()
 {
 	_arg = "";
@@ -9,7 +8,6 @@ EndGameCmd::EndGameCmd()
 	_nbWave = 0;
 	_cmdName = END_GAME;
 }
-
 
 EndGameCmd::~EndGameCmd()
 {

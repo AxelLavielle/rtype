@@ -225,6 +225,8 @@ int Game::launch()
 			_cmdManager.sendInput(_id, _key);
 		}
 
+		
+
 		while (_event->refresh())
 		{
 			if (_event->getCloseEvent() || (_pausePage && _pausePage->event() == IPage::QUIT))

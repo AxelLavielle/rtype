@@ -2,6 +2,9 @@
 
 Game::Game()
 {
+	SaveConfig	sv;
+
+	sv.readFromFile();
 	_size.first = 0;
 	_size.second = 0;
 	_dificulty = 0;
@@ -14,7 +17,7 @@ Game::Game()
 	_sock = new SocketClientUDP();
 	_id = -1;
 	_ip = "";
-	_playerName = "";
+	_playerName = sv.getPlayerName();
 	_port = -1;
 	_nbPlayer = 0;
 	_run = true;
@@ -122,7 +125,6 @@ void	Game::updateEntities(IEntity *entity)
 		_entity.push_back(entity);
 		_refreshed.push_back(0);
 	}
-	std::cout << "entity size : " << _entity.size() << std::endl;
 }
 
 void	Game::manageEntity()

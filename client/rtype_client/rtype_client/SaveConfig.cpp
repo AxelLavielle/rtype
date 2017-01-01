@@ -63,59 +63,108 @@ void			SaveConfig::writeToFile()
 	fileStream.close();
 }
 
-void				SaveConfig::needleInHaystack(const std::string &haystack)
+void				SaveConfig::ssToPlayer(const std::string &haystack)
 {
-	// ifs to replace with a dual tab string tab and var adress tab on a single if
 	if (haystack.find("<PlayerName>") != std::string::npos && haystack.find("</PlayerName>") != std::string::npos)
 	{
 		std::istringstream ss(haystack.substr(haystack.find("<PlayerName>") + 12, haystack.find("</PlayerName>") - 12));
 		ss >> _playerName;
 	}
+}
+
+void				SaveConfig::ssToUp(const std::string &haystack)
+{
 	if (haystack.find("<Up>") != std::string::npos && haystack.find("</Up>") != std::string::npos)
 	{
 		std::istringstream ss(haystack.substr(haystack.find("<Up>") + 4, haystack.find("</Up>") - 4));
 		ss >> _up;
 	}
+}
+
+void				SaveConfig::ssToDown(const std::string &haystack)
+{
 	if (haystack.find("<Down>") != std::string::npos && haystack.find("</Down>") != std::string::npos)
 	{
 		std::istringstream ss(haystack.substr(haystack.find("<Down>") + 6, haystack.find("</Down>") - 6));
 		ss >> _down;
 	}
+}
+
+void				SaveConfig::ssToRight(const std::string &haystack)
+{
 	if (haystack.find("<Right>") != std::string::npos && haystack.find("</Right>") != std::string::npos)
 	{
 		std::istringstream ss(haystack.substr(haystack.find("<Right>") + 7, haystack.find("</Right>") - 7));
 		ss >> _right;
 	}
+}
+
+void				SaveConfig::ssToLeft(const std::string &haystack)
+{
 	if (haystack.find("<Left>") != std::string::npos && haystack.find("</Left>") != std::string::npos)
 	{
 		std::istringstream ss(haystack.substr(haystack.find("<Left>") + 6, haystack.find("</Left>") - 6));
 		ss >> _left;
 	}
+}
+
+void				SaveConfig::ssToPew(const std::string &haystack)
+{
 	if (haystack.find("<Pew>") != std::string::npos && haystack.find("</Pew>") != std::string::npos)
 	{
 		std::istringstream ss(haystack.substr(haystack.find("<Pew>") + 5, haystack.find("</Pew>") - 5));
 		ss >> _pew;
 	}
+}
+
+void				SaveConfig::ssToSuperPew(const std::string &haystack)
+{
 	if (haystack.find("<SuperPew>") != std::string::npos && haystack.find("</SuperPew>") != std::string::npos)
 	{
 		std::istringstream ss(haystack.substr(haystack.find("<SuperPew>") + 10, haystack.find("</SuperPew>") - 10));
 		ss >> _superPew;
 	}
+}
+
+void				SaveConfig::ssToMusic(const std::string &haystack)
+{
 	if (haystack.find("<Music>") != std::string::npos && haystack.find("</Music>") != std::string::npos)
 	{
-		std::istringstream ss(haystack.substr(haystack.find("<Music>") + 7,	haystack.find("</Music>")));
+		std::istringstream ss(haystack.substr(haystack.find("<Music>") + 7, haystack.find("</Music>")));
 		ss >> _music;
 	}
+}
+
+void				SaveConfig::ssToSFX(const std::string &haystack)
+{
 	if (haystack.find("<SFX>") != std::string::npos	&& haystack.find("</SFX>") != std::string::npos)
 	{
 		std::istringstream ss(haystack.substr(haystack.find("<SFX>") + 5, haystack.find("</SFX>")));
 		ss >> _sfx;
 	}
+}
+
+void				SaveConfig::ssToIport(const std::string &haystack)
+{
 	if (haystack.find("<Iport>") != std::string::npos && haystack.find("</Iport>") != std::string::npos)
 	{
 		std::istringstream ss(haystack.substr(haystack.find("<Iport>") + 7, haystack.find("</Iport>") - 7));
 		ss >> _iport;
 	}
+}
+
+void				SaveConfig::needleInHaystack(const std::string &haystack)
+{
+	ssToPlayer(haystack);
+	ssToUp(haystack);
+	ssToDown(haystack);
+	ssToRight(haystack);
+	ssToLeft(haystack);
+	ssToPew(haystack);
+	ssToSuperPew(haystack);
+	ssToMusic(haystack);
+	ssToSFX(haystack);
+	ssToIport(haystack);
 }
 
 void				SaveConfig::readFromFile()
@@ -130,8 +179,6 @@ void				SaveConfig::readFromFile()
 		while (getline(fileStream, line))
 			needleInHaystack(line);
 	}
-	//else
-	//	std::cerr << "Error: Menu File Failed to Open!1" << std::endl;
 	fileStream.close();
 }
 
@@ -145,7 +192,7 @@ void			SaveConfig::setPlayerName(const std::string &playerName)
 	std::string pn;
 	unsigned int i = 0;
 
-	while (i < playerName.size())
+	while (i < playerName.size() && i < 11)
 	{
 		if (playerName[i] != '|')
 			pn += playerName[i];

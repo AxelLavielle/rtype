@@ -20,6 +20,7 @@
 #include "ThreadPool.hh"
 #include "Thread.hh"
 #include "Mutex.hh"
+#include "SaveConfig.hh"
 
 #define NB_CELL_X (150)
 #define NB_CELL_Y (80)

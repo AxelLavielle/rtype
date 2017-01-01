@@ -5,10 +5,6 @@ EndGamePage::EndGamePage(IGraphManager *graph, IEventManager *event, const PathF
 	_backgroundSprite = _fileManager.getRoot() + "/res/img/background_menu3.jpg";
 	_clickSound.setDuration(-1);
 	_clickSound.setFilePath(_fileManager.getRoot() + "/res/sounds/buttonClick.wav");
-	_scores.push_back(std::make_pair<std::string, int>("Kebabaman", 684684));
-	_scores.push_back(std::make_pair<std::string, int>("hmardingdingdong", 453738));
-	_scores.push_back(std::make_pair<std::string, int>("hihijaiungroszizi", 98384));
-	_scores.push_back(std::make_pair<std::string, int>("alexislepd", 12));
 }
 
 EndGamePage::~EndGamePage()
@@ -51,6 +47,7 @@ void			EndGamePage::draw()
 		y += 60;
 		it++;
 	}
+	_graph->drawText("Destroyed waves : " + std::to_string(_destroyedWaves), _windowSize.first / 2 - 230, 800, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
 }
 
 IPage::PAGE		EndGamePage::event()
@@ -62,4 +59,14 @@ IPage::PAGE		EndGamePage::event()
 	if (page != IPage::NONE)
 		_soundManager->play(_clickSound);
 	return (page);
+}
+
+void			EndGamePage::addPlayer(const std::string &name, const int score)
+{
+	_scores.push_back(std::make_pair(name, score));
+}
+
+void			EndGamePage::setWave(const int wave)
+{
+	_destroyedWaves = wave;
 }

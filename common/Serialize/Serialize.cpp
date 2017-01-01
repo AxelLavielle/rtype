@@ -84,7 +84,7 @@ IEntity		*Serialize::unserializeEntity(char *data)
   }
   return (res);
 }
-#include <iostream>
+
 ICommand	*Serialize::unserializeCommand(char *data)
 {
   packet	*p;

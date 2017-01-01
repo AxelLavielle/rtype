@@ -45,7 +45,7 @@ void Game::init(std::vector<ServerClient*> &clients, const int id)
 	}
 
 	addWalls(0);
-	_currentWave = new Wave(2, _dlManager);
+	_currentWave = new Wave(5, _dlManager);
 	_currentWave->generate();
 	_currentTime = 0;
 	_bossEntity = NULL;
@@ -62,7 +62,6 @@ void								Game::shootMissile(const int x, const int y, const int idPlayer)
 
 void								Game::shootSuperMissile(const int x, const int y, const int idPlayer)
 {
-	std::cout << "SHOOT SUPER MISSILE !!!" << std::endl;
 	IEntity *missile = new SuperMissile(x, y, idPlayer);
 	addEntity(missile);
 }
@@ -87,7 +86,7 @@ void								Game::manageInput(ServerClient *client)
 		newX = player->getPosX();
 		newY = player->getPosY();
 
-		std::cout << "Player input {" << it->getKey() << "}" << std::endl;
+		//std::cout << "Player input {" << it->getKey() << "}" << std::endl;
 
 		if (it->getKey() == "UP" || it->getKey() == "DOWN")
 			newY = (it->getKey() == "UP") ? (newY - 1) : (newY + 1);
@@ -322,7 +321,10 @@ void	Game::playerMissileCollisions(IEntity *it, IEntity *itOther)
 		itOther->setLife(itOther->getLife() - it->getAttack());
 		it->setDead(true);
 		it->refresh();
-		addScoreToPlayer(static_cast<Missile *>(it)->getIdPlayer(), KILL_MONSTER_SCORE);
+		if (itOther->getName().find("Boss") == std::string::npos)
+			addScoreToPlayer(static_cast<Missile *>(it)->getIdPlayer(), KILL_MONSTER_SCORE);
+		else
+			addScoreToPlayer(static_cast<Missile *>(it)->getIdPlayer(), KILL_BOSS_SCORE);
 	}
 
 }
@@ -398,6 +400,7 @@ void			Game::setNbWaves()
 		if (IS_PLAYER(*it))
 		{
 			(*it)->setWaveNumber(_nbWaves);
+			addScoreToPlayer(static_cast<Player *>(*it)->getIdPlayer(), KILL_WAVE_SCORE);
 			(*it)->refresh();
 		}
 		it++;
@@ -434,15 +437,17 @@ void									Game::refreshWave()
 	}
 	if (_currentWave->isOver() && _bossWave == false)
 	  {
-		if (_nbWaves >= 2)
+		if (_nbWaves >= 3)
 		{
-			std::cout << "---------------------------------------------ROOM [" << _roomId << "] GENERATING BOSS !!!" << std::endl;
-			  _bossEntity = _currentWave->generateBoss();
-			  _bossWave = true;
+			if (DEBUG_MSG)
+				std::cout << "---------------------------------------------ROOM [" << _roomId << "] GENERATING BOSS !!!" << std::endl;
+			_bossEntity = _currentWave->generateBoss();
+			_bossWave = true;
 		}
 	    else
 		{
-			std::cout << "Current Wave ROOM [" << _roomId << "]= [" << _nbWaves << "]" << std::endl;
+			if (DEBUG_MSG)
+				std::cout << "Current Wave ROOM [" << _roomId << "]= [" << _nbWaves << "]" << std::endl;
 			_currentWave->generate();
 	    }
 	    _nbWaves++;

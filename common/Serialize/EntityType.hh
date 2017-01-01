@@ -9,6 +9,7 @@ namespace rtype
       MONSTER,
       BARRIER,
 	  MISSILE,
+	  SUPER_MISSILE,
 	  ABSTRACT
     };
 }

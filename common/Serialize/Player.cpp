@@ -17,6 +17,7 @@ Player::Player(const int x, const int y, const int idPlayer, const std::string &
   refresh();
   this->_missileCooldown = 0;
   this->_idPlayer = idPlayer;
+  _nbSuperShoot = 1;
   _nbWave = 0;
 }
 

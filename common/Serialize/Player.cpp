@@ -10,7 +10,7 @@ Player::Player(const int x, const int y, const int idPlayer, const std::string &
   this->setWidth(10);
   this->setSpeedX(1);
   this->setSpeedY(1);
-  this->setLife(8);
+  this->setLife(4);
   this->setAttack(1);
   this->setSpriteRepo("/res/img/ship/spaceShip" + std::to_string(idPlayer) + "0.png");
   this->_collisionBox = new CollisionBox(this);

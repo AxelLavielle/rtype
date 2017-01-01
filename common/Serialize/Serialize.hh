@@ -13,6 +13,7 @@
 #include	"InputCmd.hh"
 #include	"MemTools.hh"
 #include	"Missile.hh"
+#include	"SuperMissile.hh"
 #include	"EndGameCmd.hh"
 
 class		Serialize

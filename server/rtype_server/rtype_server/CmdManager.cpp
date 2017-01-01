@@ -448,9 +448,9 @@ void										CmdManager::sendEndGame(const Room &room)
 	char									*msgSerialized;
 
 	std::cout << "END GAME !!!" << std::endl;
-	endCmd.addPlayer("test", 42);
 	endCmd.setVictory(true);
 	endCmd.setWaveNumber(2);
+	endCmd.addPlayer("test", 42);
 	msgSerialized = Serialize::serialize(&endCmd);
 
 	vectClients = room.getClients();

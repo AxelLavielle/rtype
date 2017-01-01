@@ -6,7 +6,8 @@
 #include "InputCmd.hh"
 #include "Wave.hh"
 
-#define MISSILE_COOLDOWN		(10)
+#define MISSILE_COOLDOWN			(10)
+#define KILL_MONSTER_SCORE			(100)
 
 #define IS_PLAYER(elem)				((elem)->getType() == rtype::PLAYER)
 #define IS_WALL(elem)				((elem)->getType() == rtype::BARRIER)
@@ -42,9 +43,16 @@ private:
 	void	sendEntitiesToClients(std::vector<ServerClient *> &);
 	void	updatePlayers(std::vector<ServerClient *> &);
 	void	shootMissile(const int, const int, const int);
+	void	shootSuperMissile(const int, const int, const int);
 	void	addEntity(IEntity *);
 	void	deleteEntities();
 	void	addWalls(const int);
 	void	checkCollisions();
+	void	playerMissileCollisions(IEntity *, IEntity *);
+	void	monsterMissileCollisions(IEntity *, IEntity *);
+	void	monsterCollisions(IEntity *, IEntity *);
+	void	playerCollisions(IEntity *, IEntity *);
 	void	refreshWave();
+	void	setNbWaves();
+	void	addScoreToPlayer(const int, const int);
 };

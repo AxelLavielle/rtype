@@ -60,6 +60,13 @@ void								Game::shootMissile(const int x, const int y, const int idPlayer)
 	addEntity(missile);
 }
 
+void								Game::shootSuperMissile(const int x, const int y, const int idPlayer)
+{
+	std::cout << "SHOOT SUPER MISSILE !!!" << std::endl;
+	IEntity *missile = new SuperMissile(x, y, idPlayer);
+	addEntity(missile);
+}
+
 void								Game::addEntity(IEntity *newEntity)
 {
 	_entityList.push_back(newEntity);
@@ -80,6 +87,8 @@ void								Game::manageInput(ServerClient *client)
 		newX = player->getPosX();
 		newY = player->getPosY();
 
+		std::cout << "Player input {" << it->getKey() << "}" << std::endl;
+
 		if (it->getKey() == "UP" || it->getKey() == "DOWN")
 			newY = (it->getKey() == "UP") ? (newY - 1) : (newY + 1);
 		else if (it->getKey() == "RIGHT" || it->getKey() == "LEFT")
@@ -88,6 +97,11 @@ void								Game::manageInput(ServerClient *client)
 		{
 			shootMissile(newX + player->getWidth(), newY + player->getHeight() / 2, player->getIdPlayer());
 			player->setMissileCooldown(MISSILE_COOLDOWN);
+		}
+		else if (it->getKey() == "SUPERSHOOT" && player->getNbSuperShoot() > 0)
+		{
+			shootSuperMissile(newX + player->getWidth(), newY + player->getHeight() / 2, player->getIdPlayer());
+			player->setNbSuperShoot(player->getNbSuperShoot() - 1);
 		}
 		if (newX > 0 && newX < NB_CELLS_X && newY > 0 && newY < NB_CELLS_Y)
 		{
@@ -127,14 +141,28 @@ bool			Game::updateGame(std::vector<ServerClient *> &clients)
 void										Game::updatePlayers(std::vector<ServerClient *> &clients)
 {
 	std::vector<ServerClient *>::iterator	it;
+	int										nbDeadPlayers;
 
+	nbDeadPlayers = 0;
 	it = clients.begin();
 	while (it != clients.end())
 	{
-		manageInput(*it);
-		(*it)->clearInput();
+		if ((*it)->getPlayer()->isDead() == false)
+		{
+			manageInput(*it);
+			(*it)->clearInput();
+		}
+		else
+		{
+			(*it)->getPlayer()->setPosX(-100);
+			(*it)->getPlayer()->setPosY(-100);
+			(*it)->getPlayer()->refresh();
+			nbDeadPlayers++;
+		}
 		it++;
 	}
+	if (nbDeadPlayers == clients.size())
+		_gameRunning = false;
 }
 
 void										Game::sendEntitiesToClients(std::vector<ServerClient *> &clients)
@@ -158,7 +186,7 @@ void										Game::sendEntitiesToClients(std::vector<ServerClient *> &clients)
 	}
 }
 
-void		Game::updateEntities()
+void									Game::updateEntities()
 {
 	std::vector<IEntity *>::iterator	it;
 
@@ -186,7 +214,7 @@ void	Game::deleteEntities()
 	it = _entityList.begin();
 	while (it != _entityList.end())
 	{
-		if ((*it)->isDead())
+		if ((*it)->isDead() && !IS_PLAYER(*it))
 		{
 			if ((*it) == _bossEntity)
 				_gameRunning = false;
@@ -216,14 +244,14 @@ void	Game::addWalls(const int startX)
 	}
 }
 
-void	playerCollisions(IEntity *it, IEntity *itOther)
+void	Game::playerCollisions(IEntity *it, IEntity *itOther)
 {
 	if (IS_PLAYER(itOther))
 		return;
 
 	if (IS_WALL(itOther))
 	{
-		it->setLife(itOther->getAttack());
+		it->setLife(it->getLife() - itOther->getAttack());
 		return;
 	}
 
@@ -232,23 +260,23 @@ void	playerCollisions(IEntity *it, IEntity *itOther)
 
 	if (IS_MISSILE(itOther) && IS_MONSTER_MISSILE(static_cast<Missile *>(itOther)))
 	{
-		it->setLife(itOther->getAttack());
+		it->setLife(it->getLife() - itOther->getAttack());
 		itOther->setDead(true);
 		itOther->refresh();
 	}
 	if (IS_MONSTER(itOther))
 	{
-		it->setLife(itOther->getAttack());
-		itOther->setLife(it->getAttack());
+		it->setLife(it->getLife() - itOther->getAttack());
+		itOther->setLife(itOther->getLife() - it->getAttack());
 	}
 }
 
-void	monsterCollisions(IEntity *it, IEntity *itOther)
+void	Game::monsterCollisions(IEntity *it, IEntity *itOther)
 {
 	if (IS_PLAYER(itOther))
 	{
-		it->setLife(itOther->getAttack());
-		itOther->setLife(it->getAttack());
+		it->setLife(it->getLife() - itOther->getAttack());
+		itOther->setLife(itOther->getLife() - it->getAttack());
 	}
 
 	if (IS_WALL(itOther))
@@ -256,7 +284,7 @@ void	monsterCollisions(IEntity *it, IEntity *itOther)
 
 	if (IS_MISSILE(itOther) && IS_PLAYER_MISSILE(static_cast<Missile *>(itOther)))
 	{
-		it->setLife(itOther->getAttack());
+		it->setLife(it->getLife() - itOther->getAttack());
 		itOther->setDead(true);
 		itOther->refresh();
 	}
@@ -268,7 +296,7 @@ void	monsterCollisions(IEntity *it, IEntity *itOther)
 		return;
 }
 
-void	playerMissileCollisions(IEntity *it, IEntity *itOther)
+void	Game::playerMissileCollisions(IEntity *it, IEntity *itOther)
 {
 	if (IS_PLAYER(itOther))
 		return;
@@ -291,18 +319,19 @@ void	playerMissileCollisions(IEntity *it, IEntity *itOther)
 	}
 	if (IS_MONSTER(itOther))
 	{
-		itOther->setLife(itOther->getAttack());
+		itOther->setLife(itOther->getLife() - it->getAttack());
 		it->setDead(true);
 		it->refresh();
+		addScoreToPlayer(static_cast<Missile *>(it)->getIdPlayer(), KILL_MONSTER_SCORE);
 	}
 
 }
 
-void	monsterMissileCollisions(IEntity *it, IEntity *itOther)
+void	Game::monsterMissileCollisions(IEntity *it, IEntity *itOther)
 {
 	if (IS_PLAYER(itOther))
 	{
-		itOther->setLife(itOther->getAttack());
+		itOther->setLife(itOther->getLife() - it->getAttack());
 		it->setDead(true);
 		it->refresh();
 	}
@@ -344,19 +373,48 @@ void									Game::checkCollisions()
 				{
 					if (IS_PLAYER(*it))
 						playerCollisions(*it, *itOther);
-
 					else if (IS_MONSTER(*it))
 						monsterCollisions(*it, *itOther);
-
 					else if (IS_MISSILE(*it) && IS_PLAYER_MISSILE(static_cast<Missile *>(*it)))
 						playerMissileCollisions(*it, *itOther);
-
 					else if (IS_MISSILE(*it) && IS_MONSTER_MISSILE(static_cast<Missile *>(*it)))
 						monsterMissileCollisions(*it, *itOther);
 				}
 				
 				itOther++;
 			}
+		}
+		it++;
+	}
+}
+
+void			Game::setNbWaves()
+{
+	std::vector<IEntity *>::iterator	it;
+
+	it = _entityList.begin();
+	while (it != _entityList.end())
+	{
+		if (IS_PLAYER(*it))
+		{
+			(*it)->setWaveNumber(_nbWaves);
+			(*it)->refresh();
+		}
+		it++;
+	}
+}
+
+void									Game::addScoreToPlayer(const int playerId, const int score)
+{
+	std::vector<IEntity *>::iterator	it;
+
+	it = _entityList.begin();
+	while (it != _entityList.end())
+	{
+		if (IS_PLAYER(*it) && static_cast<Player *>(*it)->getIdPlayer() == playerId)
+		{
+			(*it)->setScore((*it)->getScore() + score);
+			(*it)->refresh();
 		}
 		it++;
 	}
@@ -388,5 +446,6 @@ void									Game::refreshWave()
 			_currentWave->generate();
 	    }
 	    _nbWaves++;
+		setNbWaves();
 	  }
 }

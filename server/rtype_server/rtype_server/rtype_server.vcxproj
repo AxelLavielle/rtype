@@ -142,6 +142,7 @@
     <ClInclude Include="..\..\..\common\Serialize\PowerUp.hh" />
     <ClInclude Include="..\..\..\common\Serialize\RoomInfoCmd.hh" />
     <ClInclude Include="..\..\..\common\Serialize\Serialize.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\SuperMissile.hh" />
     <ClInclude Include="..\..\..\common\Thread.hh" />
     <ClInclude Include="..\..\..\common\ThreadPool.hh" />
     <ClInclude Include="ADirectoryBrowser.hh" />
@@ -181,6 +182,7 @@
     <ClCompile Include="..\..\..\common\Serialize\PowerUp.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\RoomInfoCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\Serialize.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\SuperMissile.cpp" />
     <ClCompile Include="..\..\..\common\Thread.cpp" />
     <ClCompile Include="..\..\..\common\ThreadPool.cpp" />
     <ClCompile Include="ADirectoryBrowser.cpp" />

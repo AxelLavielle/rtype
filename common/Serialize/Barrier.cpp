@@ -11,6 +11,7 @@ Barrier::Barrier(const int x, const int y)
   this->setSpeedX(-1);
   this->setSpeedY(0);
   this->setLife(100);
+  this->setAttack(100);
   this->setSpriteRepo("/res/img/spikyWallHLong.png");
   _collisionBox = new CollisionBox(this);
   refresh();

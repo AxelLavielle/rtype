@@ -78,6 +78,7 @@ private:
 	void setRoomInfo();
 	bool refreshRoomInfo();
 	void startGame();
+	void reconnection();
 	void receiveInfo();
 };
 

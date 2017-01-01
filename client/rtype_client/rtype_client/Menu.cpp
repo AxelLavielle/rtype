@@ -153,6 +153,8 @@ void Menu::managePageEvent()
 	case IPage::QUIT:
 		_graph->close();
 		break;
+	default:
+		break;
 	}
 }
 
@@ -309,10 +311,17 @@ void	Menu::startGame()
 	_game.launch();
 }
 
-//void	Menu::reconnexion()
-//{
-//
-//}
+void	Menu::reconnection()
+{
+	while (1)
+	{
+		_mutexRun.lock();
+		if ()
+		{
+			return;
+		}
+	}
+}
 
 bool Menu::launch()
 {

@@ -22,7 +22,6 @@ public:
 	int getId();
 	bool sendLaunchGame(const int id);
 	bool sendInput(const int id, const std::string & key);
-	int launchGame();
 	RoomInfoCmd * getRoomInfo();
 	bool setStatus();
 	bool leaveRoom();

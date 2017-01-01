@@ -84,37 +84,6 @@ bool			CmdManager::sendInput(const int id, const std::string &key)
 	return (true);
 }
 
-int			CmdManager::launchGame()
-{
-	ICommand	*cmd;
-	int			res;
-
-	if (_id != -1)
-		return (_id);
-	cmd = receiveCmd();
-	if (cmd && cmd->getCommandName() == BASIC_CMD && cmd->getCommandType() == LAUNCH_GAME)
-	{
-		BasicCmd		*basicCmd;
-
-		basicCmd = static_cast<BasicCmd* >(cmd);
-		res = std::stod(basicCmd->getArg(1));
-		std::cout << "LAUNCH GAME received " << basicCmd->getArg(1) << std::endl;
-		return (res);
-	}
-	else if (cmd && cmd->getCommandName() == BASIC_CMD
-		&& cmd->getCommandType() == UPDATE_ROOM)
-	{
-		BasicCmd		*newCmd;
-		ICommand		*cmd;
-		
-		newCmd = new BasicCmd();
-		newCmd->setCommandType(GET_ROOM);
-		_cmd.push_back(newCmd);
-		std::cout << "UPDATE ROOM RECEIVED" << std::endl;
-	}
-	return (-1);
-}
-
 RoomInfoCmd		*CmdManager::getRoomInfo()
 {
 	RoomInfoCmd		*res;

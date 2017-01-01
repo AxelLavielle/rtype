@@ -39,7 +39,7 @@ void			EndGamePage::draw()
 	initDecor(Rect(_windowSize.first / 2 - 250, 460, 250, 500), "/res/img/buttonRoom.png");
 	drawGUIElement(_buttons);
 	drawGUIElement(_guiElement);
-	_graph->drawText("GAME OVER", _windowSize.first / 2 - 300, 100, 90, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
+	_graph->drawText(_msg, _windowSize.first / 2 - 300, 100, 90, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
 	_graph->drawText("Score : ", _windowSize.first / 2 - 230, 400, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
 	while (it != _scores.end())
 	{
@@ -70,4 +70,12 @@ void			EndGamePage::addPlayer(const std::string &name, const int score)
 void			EndGamePage::setWave(const int wave)
 {
 	_destroyedWaves = wave;
+}
+
+void			EndGamePage::setVictory(const bool v)
+{
+	if (v == true)
+		_msg = "YOU   WIN";
+	else
+		_msg = "GAME OVER";
 }

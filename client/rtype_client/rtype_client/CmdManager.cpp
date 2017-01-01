@@ -132,7 +132,9 @@ bool	CmdManager::setStatus()
 
 	newCmd = new BasicCmd();
 	newCmd->setCommandType(SET_STATUS);
+	_mutex.lock();
 	_cmd.push_back(newCmd);
+	_mutex.unlock();
 	_wait = STATUS_CHANGED;
 	return (false);
 }
@@ -144,7 +146,9 @@ bool	CmdManager::leaveRoom()
 
 	newCmd = new BasicCmd();
 	newCmd->setCommandType(LEAVE_ROOM);
+	_mutex.lock();
 	_cmd.push_back(newCmd);
+	_mutex.unlock();
 	_wait = LEFT_ROOM;
 	return (false);
 }
@@ -189,7 +193,9 @@ bool	CmdManager::joinRoom(const int id, std::string & playerName)
 	basicCmd->addArg(ss.str());
 	basicCmd->addArg(playerName);
 	std::cout << "Player name = " << basicCmd->getArg(1) << std::endl;
+	_mutex.lock();
 	_cmd.push_back(basicCmd);
+	_mutex.unlock();
 	_wait = ROOM_JOINED;
 	return (false);
 }
@@ -261,8 +267,10 @@ bool		CmdManager::sendCmd()
 			std::cerr << "ERROR: cant not send data" << std::endl;
 			return (false);
 		}
+		_mutex.lock();
 		delete (*it);
 		it = _cmd.erase(it);
+		_mutex.unlock();
 	}
 	return (true);
 }

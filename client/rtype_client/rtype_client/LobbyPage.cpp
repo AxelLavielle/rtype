@@ -20,7 +20,6 @@ void LobbyPage::addRoom(RoomIdInfos room)
 	ss << room.second.second;
 	_roomName.push_back(room.second.first + " : " + ss.str() + " players");
 	_room.push_back(room);
-	std::cout << "Room size = " << _room.size() << std::endl;
 }
 
 bool LobbyPage::init()

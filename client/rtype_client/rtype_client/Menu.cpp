@@ -119,12 +119,6 @@ void Menu::managePageEvent()
 		_cmdManager.createRoom(tmpPage->getRoomName(), _playerName);
 		//				delete (_page);
 		break;
-	case IPage::LOADING:
-		delete (_page);
-		_newEvent = true;
-		_page = new LoadingPage(_graph, _event, _fileManager, &_soundManager);
-		std::cout << "Loading Page" << std::endl;
-		break;
 	case IPage::PLAY:
 		_mutexRoomList.lock();
 		_getRoomList = true;
@@ -172,9 +166,8 @@ void	Menu::manageWaiting()
 	_curr_event = IPage::NONE;
 	if (!_cmdManager.isWaiting())
 	{
-		if ((res = _cmdManager.getLatsReply()) == -1)
-			_curr_event = _page->event();
-		else if (res == 0)
+		res = _cmdManager.getLatsReply();
+		if (res == 0)
 		{
 			if (_successEvent == IPage::INSIDEROOM)
 			{
@@ -190,7 +183,7 @@ void	Menu::manageWaiting()
 				_page = new LobbyPage(_graph, _event, _fileManager, &_soundManager);
 			}
 		}
-		else
+		else if (res == 1)
 		{
 			if (_errorEvent == IPage::INSIDEROOM)
 			{
@@ -211,6 +204,9 @@ void	Menu::manageWaiting()
 				_page = new CreateRoomPage(_graph, _event, _fileManager, &_soundManager);
 			}
 		}
+		else
+			_curr_event = IPage::NONE;
+
 	}
 	else if (_page && _page->getPageType() != IPage::LOADING)
 	{		
@@ -303,6 +299,7 @@ void	Menu::startGame()
 	_game.setIp(_ip);
 	if (_roomInfo)
 		_game.setNbPlayer(_roomInfo->getPlayersList().size());
+	delete _page;
 	_game.launch();
 }
 
@@ -335,10 +332,11 @@ bool Menu::launch()
 		  if (refreshRoomInfo())
 			  return (true);
 
+		  manageWaiting();
+
 		  while (_event->refresh())
 		  {
-
-			  manageWaiting();
+			  _curr_event = _page->event();
 
 			  if (_page->getPageType() == IPage::PLAY)
 			  {
@@ -349,6 +347,11 @@ bool Menu::launch()
 				  {
 					  std::cout << "Join Room" << std::endl;
 					  _cmdManager.joinRoom(lobbyPage->getSelectedRoom().first, _playerName);
+					  _curr_event = IPage::NONE;
+					  _successEvent = IPage::INSIDEROOM;
+					  _errorEvent = IPage::PLAY;
+					  if (refreshRoomInfo())
+						  return (true);
 				  }
 			  }
 

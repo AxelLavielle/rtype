@@ -131,6 +131,7 @@
     <ClInclude Include="..\..\..\common\Serialize\BossMonster.hh" />
     <ClInclude Include="..\..\..\common\Serialize\CmdEnum.hh" />
     <ClInclude Include="..\..\..\common\Serialize\CollisionBox.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\EndGameCmd.hh" />
     <ClInclude Include="..\..\..\common\Serialize\EntityType.hh" />
     <ClInclude Include="..\..\..\common\Serialize\ICommand.hpp" />
     <ClInclude Include="..\..\..\common\Serialize\IEntity.hpp" />
@@ -172,6 +173,7 @@
     <ClCompile Include="..\..\..\common\Serialize\Barrier.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\BasicCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\CollisionBox.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\EndGameCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\InputCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\ListRoomCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\Missile.cpp" />

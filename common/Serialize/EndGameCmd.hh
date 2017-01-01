@@ -1,7 +1,8 @@
 #pragma once
-#include "C:\rtype\common\Serialize\ACommand.hh"
-class EndGameCmd :
-	public ACommand
+
+#include "ACommand.hh"
+
+class EndGameCmd :public ACommand
 {
 public:
 	EndGameCmd();

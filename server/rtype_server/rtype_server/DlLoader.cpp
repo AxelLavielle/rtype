@@ -18,7 +18,7 @@ IEntity			*DlLoader::getInstance()
 	createFunc	func;
 
 	#ifdef __linux__
-		Entity = reinterpret_cast<IEntity*(*)()>(dlsym(_dlHandle, "createEntity"));
+		func = reinterpret_cast<createFunc>(dlsym(_dlHandle, "createEntity"));
 	#elif _WIN32
 		func = reinterpret_cast<createFunc>(GetProcAddress((HINSTANCE)_dlHandle, "createEntity"));
 	#endif

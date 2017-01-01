@@ -189,6 +189,8 @@ char				*SocketClientTCP::receiveData()
 		delete[] recvbuf;
 		return (NULL);
 	}
+	_connected = false;
+	return (NULL);
 }
 
 bool				SocketClientTCP::connectToServer()

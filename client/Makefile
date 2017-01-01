@@ -2,7 +2,7 @@ CC	=	g++
 
 DIR	=	rtype_client/rtype_client
 
-COM	=	../common/
+COM	=	../common
 
 SER	=	../common/Serialize
 
@@ -45,6 +45,7 @@ SRC	=	$(SER)/ACommand.cpp	 	\
 		$(DIR)/LobbyPage.cpp 		\
 		$(DIR)/main.cpp 		\
 		$(DIR)/SaveConfig.cpp 		\
+		$(SER)/EndGameCmd.cpp 		\
 		$(DIR)/Menu.cpp 		\
 		$(COM)/Mutex.cpp 		\
 		$(DIR)/PausePage.cpp 		\

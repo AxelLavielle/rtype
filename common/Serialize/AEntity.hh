@@ -13,6 +13,8 @@ public:
 	AEntity();
 	virtual ~AEntity();
 	virtual		void			update() = 0;
+	virtual		int				getAttack() const;
+	virtual		void			setAttack(const int attack);
 	virtual		double			getPosX() const;
 	virtual		void			setPosX(const double);
 	virtual		double			getPosY() const;
@@ -62,6 +64,7 @@ protected:
 	char					_separator;
 	CollisionBox			*_collisionBox;
 	int						_a;
+	int						_attack;
 
 	std::vector<std::string>	split(const std::string & s);
 };

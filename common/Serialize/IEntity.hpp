@@ -16,6 +16,8 @@ public:
 	{}
 
 	virtual void			update() = 0;
+	virtual		int				getAttack() const = 0;
+	virtual		void			setAttack(const int attack) = 0;
 	virtual double			getPosX() const = 0;
 	virtual void			setPosX(const double) = 0;
 	virtual double			getPosY() const = 0;

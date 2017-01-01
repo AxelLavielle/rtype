@@ -26,6 +26,16 @@ AEntity::~AEntity()
 {
 }
 
+int AEntity::getAttack() const
+{
+	return (_attack);
+}
+
+void AEntity::setAttack(const int attack)
+{
+	_attack = attack;
+}
+
 void			AEntity::setPosX(const double posX)
 {
 	std::stringstream	ss;

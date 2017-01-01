@@ -16,6 +16,7 @@
 
 #include <string.h>
 #include "ASocketClient.hh"
+#include "Mutex.hh"
 
 class					SocketClientTCP : public ASocketClient
 {
@@ -34,6 +35,7 @@ public:
 
 private:
 	int					_optLen;
+	Mutex				_mutex;
 
 #ifdef _WIN32
 	WSADATA				_wsaData;

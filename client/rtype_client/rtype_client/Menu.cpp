@@ -319,7 +319,9 @@ int		Menu::startGame()
 	_game.setPort(9999);
 	_game.setId(_id);
 	_game.setIp(_ip);
+	_mutex->lock();
 	_game.setTCPSocket(_socket);
+	_mutex->unlock();
 	if (_roomInfo)
 		_game.setNbPlayer(_roomInfo->getPlayersList().size());
 	return (_game.launch());
@@ -347,15 +349,22 @@ void	Menu::reconnection()
 			return;
 		}
 		_mutexRun.unlock();
-		if (!_socket->isConnected())
+		_mutex->lock();
+		if (_socket)
 		{
-			if (!_socket->init(_ip, _port)
-				|| !_socket->connectToServer())
+			_mutex->unlock();
+			if (!_socket->isConnected())
 			{
-				_cmdManager.setSocket(_socket);
-				_cmdManager.handshake();
+				if (!_socket->init(_ip, _port)
+					|| !_socket->connectToServer())
+				{
+					_cmdManager.setSocket(_socket);
+					_cmdManager.handshake();
+				}
 			}
 		}
+		else
+			_mutex->unlock();
 	}
 }
 
@@ -364,7 +373,11 @@ bool Menu::launch()
 	  _page = new HomePage(_graph, _event, _fileManager, &_soundManager);
 	  std::chrono::high_resolution_clock::time_point        t2Loop;
 	  double												duration;
+	  Thread												*th;
 
+	  //th = new Thread();
+	  //th->createThread(std::bind(&Menu::reconnection, this));
+	  //_pool.addThread(th); 
 	  _t1Loop = std::chrono::high_resolution_clock::now();
 	  _th->createThread(std::bind(&Menu::receiveInfo, this));
 	  _pool.addThread(_th);

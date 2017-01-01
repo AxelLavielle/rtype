@@ -32,15 +32,17 @@ bool Client::initSocket()
 	if (!_socket->init(_ip, _port)
 		|| !_socket->connectToServer())
 	{
+		_mutex->lock();
 		_menu->setSocketTCPSocket(_socket);
+		_mutex->unlock();
 		return (false);
 	}
-//	_mutex->lock();
+	_mutex->lock();
 	_menu->setSocketTCPSocket(_socket);
 	_cmdManager.setSocket(_socket);
 	_cmdManager.handshake();
 	_cmdManager.sendCmd();
-	//	_mutex->unlock();
+	_mutex->unlock();
 	return (true);
 }
 
@@ -68,15 +70,15 @@ bool Client::launch()
 	_menu->setEventManager(_event);
 	_menu->setGraphManager(_graph);
 	_menu->setMutex(_mutex);
-	initSocket();
-	//th.createThread(std::bind(&Client::initSocket, this));
-	//_pool.addThread(&th);
+	//initSocket();
+	th.createThread(std::bind(&Client::initSocket, this));
+	_pool.addThread(&th);
 	_menu->init();
 	if (!_menu->launch())
 	{
-//		_pool.joinAll();
+		_pool.joinAll();
 		return (false);
 	}
-//_pool.joinAll();
+	_pool.joinAll();
 	return (true);
 }

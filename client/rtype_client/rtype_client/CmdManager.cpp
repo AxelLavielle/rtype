@@ -275,13 +275,13 @@ bool		CmdManager::sendUDPCmd()
 	std::vector<ICommand*>::iterator	it;
 	char								*res;
 
-	_mutexSocket.lock();
+	_mutex.lock();
 	if (!_socketClientUDP || !_socketClientUDP->isConnected())
 	{
-		_mutexSocket.unlock();
+		_mutex.unlock();
 		return (false);
 	}
-	_mutexSocket.unlock();
+	_mutex.unlock();
 	it = _cmd.begin();
 	while (it != _cmd.end())
 	{
@@ -304,8 +304,13 @@ IEntity		*CmdManager::receiveUDPCmd()
 	char	*res;
 
 	entity = NULL;
+	_mutex.lock();
 	if (!_socketClientUDP || !_socketClientUDP->isConnected())
+	{
+		_mutex.unlock();
 		return (NULL);
+	}
+	_mutex.unlock();
 	res = _socketClientUDP->receiveData();
 	entity = Serialize::unserializeEntity(res);
 	if (res != NULL)

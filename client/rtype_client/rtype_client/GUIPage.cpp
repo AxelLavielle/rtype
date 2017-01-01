@@ -27,13 +27,11 @@ bool GUIPage::init()
 	_bottompBarHeight = 150;
 	initDecor(Rect(0, 0, _topBarHeight, _windowSize.first), "/res/img/barreJeu.png");
 	initDecor(Rect(0, _windowSize.second - 150, _bottompBarHeight, _windowSize.first), "/res/img/barreJeu.png");
-	initDecor(Rect(20, _windowSize.second - 130, 50, 50), "/res/img/iconeDefense.png");
-	initDecor(Rect(20, _windowSize.second - 75, 50, 50), "/res/img/iconeVie.png");
 	initDecor(Rect(_windowSize.first - 250, _windowSize.second - 130, 100, 200), "/res/img/fondCadre.png");
 	initDecor(Rect(600, _windowSize.second - 140, 130, 20), "/res/img/splitBar.png");
 	initDecor(Rect(640, _windowSize.second - 95, 30, 70), "/res/img/ship/spaceShip10.png", Color(0, 0, 0));
-	initDecor(Rect(80, _windowSize.second - 130, 50, 300), "/res/img/barreDefense" + std::to_string(_def) + ".png");
-	initDecor(Rect(80, _windowSize.second - 75, 50, 300), "/res/img/barreVie" + std::to_string(_hp) + ".png");
+	initDecor(Rect(20, _windowSize.second - 100, 50, 50), "/res/img/iconeVie.png");
+	initDecor(Rect(80, _windowSize.second - 100, 50, 300), "/res/img/barreVie" + std::to_string(_hp) + ".png");
 	initDecor(Rect(420, _windowSize.second - 125, 100, 100), "/res/img/superMissile1.png");
 	_textPosX = 60;
 	_textPosY = 10;

@@ -56,8 +56,8 @@ void LoadingPage::draw()
 	drawGUIElement(_guiElement);
 	drawGUIElement(_buttons);
 	_graph->drawText(_text, _windowSize.first / 2 - 200 + _textPos, _windowSize.second / 2 - 20, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
-	_graph->drawRectangle(_fileManager.getRoot() + "/res/img/spaceShip10.png", Rect(_animInc, _windowSize.second / 2 - 60, 0, 0), Rect(0, 0, 0, 0), Rect(0, 0, 30, 70));
-	_graph->drawRectangle(_fileManager.getRoot() + "/res/img/spaceShip10.png", Rect(_animInc2, _windowSize.second / 2 + 30, 0, 0), Rect(0, 0, 0, 0), Rect(0, 0, 30, 70));
+	_graph->drawRectangle(_fileManager.getRoot() + "/res/img/ship/spaceShip10.png", Rect(_animInc, _windowSize.second / 2 - 60, 0, 0), Rect(0, 0, 0, 0), Rect(0, 0, 30, 70));
+	_graph->drawRectangle(_fileManager.getRoot() + "/res/img/ship/spaceShip10.png", Rect(_animInc2, _windowSize.second / 2 + 30, 0, 0), Rect(0, 0, 0, 0), Rect(0, 0, 30, 70));
 }
 
 IPage::PAGE LoadingPage::event()

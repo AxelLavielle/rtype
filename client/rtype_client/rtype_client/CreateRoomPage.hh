@@ -14,6 +14,8 @@ public:
 	virtual void			draw();
 	virtual IPage::PAGE	event();
 	std::string				getRoomName() const;
+	int						getWaves() const;
+	int						getSeed() const;
 
 private:
 	Sound						_clickSound;

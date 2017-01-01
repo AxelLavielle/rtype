@@ -45,6 +45,7 @@ SRC		=	$(DIR)/ASocketServer.cpp		\
 			$(SERIALIZE)/PowerUp.cpp		\
 			$(SERIALIZE)/Barrier.cpp		\
 			$(SERIALIZE)/Missile.cpp		\
+			$(SERIALIZE)/SuperMissile.cpp		\
 			$(SERIALIZE)/CollisionBox.cpp		\
 			$(SERIALIZE)/EndGameCmd.cpp		\
 

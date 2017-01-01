@@ -10,6 +10,18 @@ CmdManager::CmdManager()
 	_error = -1;
 }
 
+void	CmdManager::sendQuit()
+{
+	BasicCmd	*cmd;
+
+	cmd = new BasicCmd();
+
+	cmd->setCommandType(QUIT_GAME);
+	_mutex.lock();
+	_cmd.push_back(cmd);
+	_mutex.unlock();
+}
+
 void CmdManager::setSocket(ASocketClient * socketClient)
 {
 	_mutexSocket.lock();

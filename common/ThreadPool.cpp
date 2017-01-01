@@ -45,8 +45,6 @@ void ThreadPool::joinAll()
 	while (i < _threadGroup.size())
 	{
 		_threadGroup[i]->join();
-		//delete _threadGroup[i];
-		//_threadGroup.erase(_threadGroup.begin() + i);
 		i++;
 	}
 }
@@ -78,6 +76,19 @@ void ThreadPool::deleteUnusedThread()
 		i++;
 	}
 	_size = _threadGroup.size();
+}
+
+void	ThreadPool::clearPool()
+{
+	unsigned int	i = 0;
+
+	while (i < _threadGroup.size())
+	{
+		delete _threadGroup[i];
+		i++;
+	}
+	_threadGroup.clear();
+	_size = 0;
 }
 
 int ThreadPool::getSize() const

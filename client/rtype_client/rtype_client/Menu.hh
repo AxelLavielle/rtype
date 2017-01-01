@@ -74,6 +74,7 @@ private:
 	void manageWaiting();
 	void setRoomList();
 	void setRoomInfo();
+	void manageReturnToMenu();
 	bool refreshRoomInfo();
 	int startGame();
 	void reconnection();

@@ -258,6 +258,21 @@ void	Menu::setRoomInfo()
 	}
 }
 
+void	Menu::manageReturnToMenu()
+{
+	_id = -1;
+	_pool.clearPool();
+	_th = new Thread();
+	_th->createThread(std::bind(&Menu::receiveInfo, this));
+	_pool.addThread(_th);
+	_page = new HomePage(_graph, _event, _fileManager, &_soundManager);
+	_newEvent = true;
+	_curr_event = IPage::HOME;
+	_successEvent = IPage::NONE;
+	_errorEvent = IPage::NONE;
+	_soundManager.play(_music);
+}
+
 bool	Menu::refreshRoomInfo()
 {
 	if (_page && _page->getPageType() == IPage::PLAY)
@@ -282,9 +297,11 @@ bool	Menu::refreshRoomInfo()
 			_pool.joinAll();
 			_run = true;
 			_id = _cmdManager.getId();
+			delete _page;
 			if (startGame() == 1)
 				return (true);
-			return (true);
+			manageReturnToMenu();
+			return (false);
 		}
 		_mutexReceive.unlock();
 		_page->init();
@@ -304,7 +321,6 @@ int		Menu::startGame()
 	_game.setTCPSocket(_socket);
 	if (_roomInfo)
 		_game.setNbPlayer(_roomInfo->getPlayersList().size());
-	delete _page;
 	return (_game.launch());
 }
 

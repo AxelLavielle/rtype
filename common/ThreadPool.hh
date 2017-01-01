@@ -14,6 +14,7 @@ public:
 	void	joinAll();
 	bool	isThreadIn(IThread *thread);
 	void	deleteUnusedThread();
+	void clearPool();
         int	getSize() const;
 
 

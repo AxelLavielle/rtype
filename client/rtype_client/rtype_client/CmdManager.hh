@@ -16,6 +16,7 @@ class CmdManager
 {
 public:
 	CmdManager();
+	void sendQuit();
 	~CmdManager();
 	int getLatsReply();
 	bool isWaiting();

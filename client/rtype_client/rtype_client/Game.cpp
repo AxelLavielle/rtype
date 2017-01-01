@@ -199,6 +199,9 @@ int Game::launch()
 		{
 			if (_event->getCloseEvent() || _guiPage->event() == IPage::QUIT)
 			{
+				_cmdManager.sendQuit();
+				_cmdManager.sendCmd();
+				_sock->closure();
 				_mutexRun.lock();
 				_run = false;
 				_mutexRun.unlock();
@@ -227,7 +230,11 @@ int Game::launch()
 			}
 			if (_guiPage->event() == IPage::HOME)
 			{
-				return (1);
+				_cmdManager.sendQuit();
+				_cmdManager.sendCmd();
+				_sock->closure();
+				std::cout << "Return to menu." << std::endl;
+				return (0);
 			}
 		}
 
@@ -300,4 +307,5 @@ void Game::setNbPlayer(const int nb)
 void	Game::setTCPSocket(ASocketClient * socket)
 {
 	_tcpSocket = socket;
+	_cmdManager.setSocket(socket);
 }

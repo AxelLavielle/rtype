@@ -247,9 +247,10 @@ EndGameCmd	*CmdManager::receiveEndGame()
 	if (cmd && cmd->getCommandName() == END_GAME)
 	{
 		end = static_cast<EndGameCmd *>(cmd);
-		return ();
+		return (end);
 	}
 	delete cmd;
+	return (NULL);
 }
 
 bool		CmdManager::sendCmd()

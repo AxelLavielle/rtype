@@ -18,6 +18,8 @@ void			EndGameCmd::addPlayer(const std::string &name, const int score)
 	_player.push_back(std::make_pair(name, score));
 }
 
+std::vector<std::pair<std::string, int> >
+
 const std::string	EndGameCmd::getCommandArg() const
 {
 	return (_arg);

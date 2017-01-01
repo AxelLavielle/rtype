@@ -1,18 +1,11 @@
 #include "Room.hh"
 
-Room::Room(const int id)
-{
-	_id = id;
-	_ready = false;
-	_gameManager = new Game();
-}
-
-Room::Room(const int id, const std::string &name)
+Room::Room(const int id, const std::string &name, DlManager *dlM)
 {
 	_id = id;
 	_name = name;
 	_ready = false;
-	_gameManager = new Game();
+	_gameManager = new Game(dlM);
 }
 
 Room::~Room()

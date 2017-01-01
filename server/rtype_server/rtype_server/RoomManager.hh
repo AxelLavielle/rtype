@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <string>
 #include <vector>
 #include <stdexcept>
@@ -10,13 +9,13 @@ class RoomManager
 {
 private:
 	std::vector<Room>	_roomList;
-	//ThreadPool			_threadPool;
-	//DLManager				_dlManager;
+	DlManager		*_dlManager;
 
 public:
 	RoomManager();
 	~RoomManager();
 
+  void				setDlManager(DlManager *);
 	int					addRoom(const std::string &);
 	bool				removeRoom(const int);
 	Room				&getRoomByName(const std::string &);

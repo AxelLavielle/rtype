@@ -22,6 +22,11 @@ SRC		=	$(DIR)/ASocketServer.cpp		\
 			$(DIR)/SocketAddress.cpp		\
 			$(DIR)/CmdManager.cpp			\
 			$(DIR)/Wave.cpp				\
+			$(DIR)/DlManager.cpp			\
+			$(DIR)/DlLoader.cpp			\
+			$(DIR)/ADlLoader.cpp			\
+			$(DIR)/DirectoryBrowser.cpp		\
+			$(DIR)/ADirectoryBrowser.cpp		\
 			$(COMMON)/MemTools.cpp			\
 			$(COMMON)/Thread.cpp			\
 			$(COMMON)/Mutex.cpp			\
@@ -39,16 +44,12 @@ SRC		=	$(DIR)/ASocketServer.cpp		\
 			$(SERIALIZE)/PowerUp.cpp		\
 			$(SERIALIZE)/Barrier.cpp		\
 			$(SERIALIZE)/Missile.cpp		\
-			$(SERIALIZE)/BolidFighterMonster.cpp	\
-			$(SERIALIZE)/BossMonster.cpp		\
 			$(SERIALIZE)/CollisionBox.cpp		\
-			$(SERIALIZE)/FireTacleMonster.cpp	\
-			$(SERIALIZE)/RedSpiralMonster.cpp
 
 
 OBJ		=	$(SRC:.cpp=.o)
 
-LDFLAGS 	=  	-pthread
+LDFLAGS 	=  	-pthread -ldl
 
 CPPFLAGS	=	-W -Wall -Wextra -ansi -pedantic -g -std=c++11 -I$(DIR) -I$(COMMON) -I$(SERIALIZE)
 

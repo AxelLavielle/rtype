@@ -9,12 +9,17 @@ RoomManager::~RoomManager()
 {
 }
 
+void	RoomManager::setDlManager(DlManager *dlM)
+{
+  _dlManager = dlM;
+}
+
 int								RoomManager::addRoom(const std::string &roomName)
 {
 	static int					idRoom = 0;
 
 	std::cout << "@@@@@@@@@@@@@@ ADD ROOM" << std::endl;
-	_roomList.push_back(Room(idRoom, roomName));
+	_roomList.push_back(Room(idRoom, roomName, _dlManager));
 	idRoom++;
 	return (idRoom - 1);
 }
@@ -81,7 +86,7 @@ bool		RoomManager::addClientToRoom(ServerClient *client, const std::string &name
 		std::cerr << "############ " << error.what() << std::endl;
 		return (false);
 	}
-	
+
 	if (getRoomByName(name).addClient(client) == false)
 		return (false);
 
@@ -162,7 +167,7 @@ std::vector<Room>						RoomManager::getRoomsReadyToLaunch() const
 
 	if (_roomList.size() == 0)
 		return (roomsReady);
-	
+
 	it = _roomList.begin();
 	while (it != _roomList.end())
 	{

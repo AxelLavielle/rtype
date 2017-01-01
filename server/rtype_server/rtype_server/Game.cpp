@@ -1,7 +1,8 @@
 #include "Game.hh"
 
-Game::Game()
+Game::Game(DlManager *dlM)
 {
+  _dlManager = dlM;
 	_currentWall = 0;
 }
 
@@ -15,7 +16,7 @@ void Game::init(std::vector<ServerClient*> &clients)
 	std::vector<ServerClient *>::iterator	it;
 	std::vector<ServerClient *>::iterator	it2;
 	char									*msg;
-	
+
 	std::cout << "INITIALIZATION GAME" << std::endl;
 	it = clients.begin();
 	i = 0;
@@ -43,7 +44,7 @@ void Game::init(std::vector<ServerClient*> &clients)
 	}
 
 	addWalls(0);
-	_currentWave = new Wave(5);
+	_currentWave = new Wave(5, _dlManager);
 	_currentWave->generate();
 	_currentTime = 0;
 }
@@ -107,10 +108,10 @@ void										Game::updateGame(std::vector<ServerClient *> &clients)
 
 	updateEntities();
 
-	
-	//checkCollisions();
 
-	
+	checkCollisions();
+
+
 	sendEntitiesToClients(clients);
 
 	deleteEntities();
@@ -179,7 +180,7 @@ void		Game::updateEntities()
 		}
 		it++;
 	}
-	
+
 	//if (n > 0)
 		//std::cout << "[Game] : Updated " << n << " Entities" << std::endl << std::endl;
 }
@@ -208,7 +209,7 @@ void	Game::addWalls(const int startX)
 	x = startX;
 	while (x < NB_CELLS_X)
 	{
-		IEntity *wall = new Barrier(x, 0);
+		IEntity *wall = new Barrier(x, -5);
 		addEntity(wall);
 
 		IEntity *wall2 = new Barrier(x, NB_CELLS_Y - 3);
@@ -239,7 +240,7 @@ void									Game::checkCollisions()
 					if ((*it)->isColliding((*itOther)->getCollisionBox()))
 					{
 //						std::cout << "COLLISION BETWEEN " << (*it)->getType() << " AND " << (*itOther)->getType() << std::endl;
-						
+
 						if ((*it)->getType() != rtype::PLAYER)
 						{
 							(*it)->setDead(true);
@@ -250,7 +251,7 @@ void									Game::checkCollisions()
 							(*itOther)->setDead(true);
 							(*itOther)->refresh();
 						}
-						
+
 					}
 				}
 				itOther++;
@@ -260,10 +261,11 @@ void									Game::checkCollisions()
 	}
 }
 
-void									Game::refreshWave()
+void							Game::refreshWave()
 {
 	std::vector<IEntity *>				entities;
 	std::vector<IEntity *>::iterator	it;
+	static int				nbWaves = 0;
 
 	entities = _currentWave->getEntities(_currentTime);
 	it = entities.begin();
@@ -273,5 +275,14 @@ void									Game::refreshWave()
 		it++;
 	}
 	if (_currentWave->isOver())
-		_currentWave->generateBoss();
+	  {
+	    if (nbWaves >= 2)
+	      _currentWave->generateBoss();
+	    else
+	      {
+		std::cout << "Current Wave = [" << nbWaves << "]" << std::endl;
+		_currentWave->generate();
+	      }
+	    nbWaves++;
+	  }
 }

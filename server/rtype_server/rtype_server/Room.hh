@@ -11,8 +11,7 @@ class ServerClient;
 class Room
 {
 public:
-	Room(const int);
-	Room(const int, const std::string &);
+  Room(const int, const std::string &, DlManager *);
 	~Room();
 
 	std::string					getName() const;
@@ -36,4 +35,3 @@ private:
 	bool						_ready;
 	Game						*_gameManager;
 };
-

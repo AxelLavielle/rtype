@@ -1,55 +1,80 @@
+
 #include "Wave.hh"
 
-Wave::Wave()
+Wave::Wave(DlManager *dlM)
 {
 	_nbEntities = std::rand() % MAX_ENTITIES;
 	_time = INITIAL_TIME;
+	_dlManager = dlM;
 }
 
-Wave::Wave(const int nbEntities)
+Wave::Wave(const int nbEntities, DlManager *dlM)
 {
 	if (nbEntities > MAX_ENTITIES || nbEntities <= 0)
 		_nbEntities = MAX_ENTITIES;
 	else
 		_nbEntities = nbEntities;
 	_time = INITIAL_TIME;
+	_dlManager = dlM;
 }
 
 Wave::~Wave()
 {
 }
 
-IEntity	*Wave::getRandomMonster(const int x, const int y)
-{
-	switch (std::rand() % 3)
-	{
-	case 0:
-		return (new FireTacleMonster(x, y));
-	case 1:
-		return (new BolidFighterMonster(x, y));
-	case 2:
-		return (new RedSpiralMonster(x, y));
-	default:
-		return (new FireTacleMonster(x, y));
-	}
-}
+// IEntity	*Wave::getRandomMonster(const int x, const int y)
+// {
+//   if (_monsterEntities.size() == 0)
+//     return (NULL);
+//   IEntity *newEntity;
+
+//   newEntity = _monsterEntities.at(std::rand() % _monsterEntities.size());
+//   return (newEntity->createEntity(x, y));
+//   // return (_monsterEntities.at(std::rand() % _monsterEntities.size()))
+//   // 	{
+//   // 	case 0:
+//   // 		return (new FireTacleMonster(x, y));
+//   // 	case 1:
+//   // 		return (new BolidFighterMonster(x, y));
+//   // 	case 2:
+//   // 		return (new RedSpiralMonster(x, y));
+//   // 	default:
+//   // 		return (new FireTacleMonster(x, y));
+//   // 	}
+// }
 
 IEntity	*Wave::getNewMonster(const int x, const int y, const int type)
 {
-	switch (type)
-	{
-	case 0:
-		return (new FireTacleMonster(x, y));
-	case 1:
-		return (new BolidFighterMonster(x, y));
-	case 2:
-		return (new RedSpiralMonster(x, y));
-	default:
-		return (new FireTacleMonster(x, y));
-	}
+  IEntity *newEntity;
+
+  //  std::cout << "Getting new Monster of type [" << type << "]" << std::endl;
+  if (static_cast<size_t>(type) >= _monsterEntities.size())
+    {
+      std::cout << "NO MONSTER" << std::endl;
+      return (NULL);
+    }
+  else
+    newEntity = _dlManager->getInstance(_monsterEntities.at(type).second);
+
+  newEntity->setPosX(x);
+  newEntity->setPosY(y);
+  newEntity->refresh();
+  return (newEntity);
+//
+// 	switch (type)
+// 	{
+// 	case 0:
+// 		return (new FireTacleMonster(x, y));
+// 	case 1:
+// 		return (new BolidFighterMonster(x, y));
+// 	case 2:
+// 		return (new RedSpiralMonster(x, y));
+// 	default:
+// 		return (new FireTacleMonster(x, y));
+// 	}
 }
 
-void	Wave::redWave(const int nbMonsters)
+void	Wave::getMiniWave(const int nbMonsters)
 {
 	int		x;
 	int		y;
@@ -59,29 +84,59 @@ void	Wave::redWave(const int nbMonsters)
 	x = NB_CELLS_X;
 	y = (NB_CELLS_Y / 2);
 
-	//IEntity *newMonster = getRandomMonster(x, y);
-	int type = std::rand() % 3;
+	if (_monsterEntities.size() == 0)
+	  {
+	    std::cout << "NO MONSTERS" << std::endl;
+	    return;
+	  }
+	int type = std::rand() % _monsterEntities.size();
+//IEntity *newMonster = getRandomMonster(x, y);
+//	int type = std::rand() % 3;
 	while (i < nbMonsters)
 	{
 		IEntity *newMonster = getNewMonster(x, y, type);
-		_waveEntities.push(std::make_pair(_time, newMonster));
-		std::cout << "===================================> Adding new Entity to the Wave time [" << _time << "]" << std::endl;
-		_time += newMonster->getHeight();
+		if (newMonster)
+		  {
+		    _waveEntities.push(std::make_pair(_time, newMonster));
+		    std::cout << "===================================> Adding new Entity to the Wave time [" << _time << "]" << std::endl;
+		    _time += newMonster->getHeight();
+		  }
 		i++;
 	}
 
 }
 
+void						Wave::refreshEntities(const std::vector<DynamicLib> &entities)
+{
+  std::vector<DynamicLib>::const_iterator	it;
+  size_t					found;
+
+  it = entities.begin();
+  while (it != entities.end())
+    {
+      //      std::cout << "Refresh Entities " << (*it).second << std::endl;
+      found = (*it).second.find("Boss");
+      if (found == std::string::npos)
+	_monsterEntities.push_back(*it);
+      else
+	_bossEntities.push_back(*it);
+      it++;
+    }
+}
+
 void	Wave::generate()
 {
-	int	i;
-	int nb;
+	int		i;
+	int		nb;
 
+	std::cout << "GENERATING WAVE" << std::endl;
+	_dlManager->refresh();
+	refreshEntities(_dlManager->getAlldl());
 	i = 0;
 	while (i < _nbEntities)
 	{
 		nb = std::rand() % _nbEntities + 2;
-		redWave(nb);
+		getMiniWave(nb);
 		_time += TIME_BETWEEN_WAVE;
 		i += nb;
 	}
@@ -92,14 +147,24 @@ void Wave::generateBoss()
 	static bool boss = false;
 
 	if (boss)
-		return;
-	int	x = NB_CELLS_X;
+	  return;
+
+	int x = NB_CELLS_X;
 	int y = (NB_CELLS_Y / 3);
-	std::cout << "BOSS IS COMING !" << std::endl;
+	IEntity *newBoss;
 	_time += TIME_BETWEEN_WAVE;
 
-	IEntity *newBoss = new BossMonster(x - 10, y);
-	_waveEntities.push(std::make_pair(_time, newBoss));
+	if (_bossEntities.size() == 0)
+	  std::cout << "BOSS IS not COMING !" << std::endl;
+	else
+	  {
+	    std::cout << "BOSS IS COMING !" << std::endl;
+	    newBoss = _dlManager->getInstance(_bossEntities.at(0).second);
+	    newBoss->setPosX(x - 10);
+	    newBoss->setPosY(y);
+	    newBoss->refresh();
+	    _waveEntities.push(std::make_pair(_time, newBoss));
+	  }
 	boss = true;
 }
 

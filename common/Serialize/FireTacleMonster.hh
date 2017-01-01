@@ -5,7 +5,7 @@
 class FireTacleMonster : public AEntity
 {
 private:
-	int		_currentSprite;
+  int		_currentSprite;
 public:
 	FireTacleMonster();
 	FireTacleMonster(const int, const int);

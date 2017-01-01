@@ -29,6 +29,7 @@ private:
 	ThreadPool		_pool;
 	AMutex			*_mutex;
 	int				_acknowledgementNumber;
+	DlManager		*_dlManager;
 
 	void			processMsg(const std::vector<ClientMsg> &);
 	void			processBasicCmd(ServerClient *, BasicCmd *);

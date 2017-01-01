@@ -83,5 +83,12 @@ bool							DlManager::loadEntities(const std::vector<std::string> &files)
 	std::cout << "error on loading entity" << std::endl;
     }
   this->getBrowser()->clear();
+  this->getBrowser()->refresh();
   return (true);
+}
+
+IEntity		*DlManager::getInstance(const std::string &name)
+{
+  _DlLoader->load("lib" + name + ".so");
+  return (_DlLoader->getInstance());
 }

@@ -22,6 +22,9 @@ public:
 	IDirectoryBrowser				*getBrowser() const;
 	bool						loadEntities(const std::vector<std::string>&);
 	bool						loadEntity(const std::string &path);
+
+	IEntity						*getInstance(const std::string &);
+
 private:
 	std::string					_folderPath;
 	IDlLoader      					*_DlLoader;

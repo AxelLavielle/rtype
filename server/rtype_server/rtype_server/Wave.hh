@@ -1,5 +1,6 @@
 #pragma once
 
+#include "DlManager.hh"
 #include "IEntity.hpp"
 #include "RedSpiralMonster.hh"
 #include "FireTacleMonster.hh"
@@ -13,7 +14,8 @@
 #define NB_CELLS_Y			(80)
 #define NB_CELLS_X			(160)
 
-typedef	std::pair<int, IEntity *>	WaveElement;
+typedef	std::pair<int, IEntity *>		WaveElement;
+typedef	std::pair<IEntity *, std::string>	DynamicLib;
 
 class Wave
 {
@@ -21,19 +23,22 @@ private:
 	int						_time;
 	std::queue<WaveElement>	_waveEntities;
 	int						_nbEntities;
+  DlManager						*_dlManager;
+  std::vector<DynamicLib>				_bossEntities;
+  std::vector<DynamicLib>				_monsterEntities;
 
-	void					redWave(const int);
+  void	refreshEntities(const std::vector<DynamicLib> &);
+	void					getMiniWave(const int);
 	IEntity					*getRandomMonster(const int, const int);
 	IEntity					*getNewMonster(const int, const int, const int);
 
 public:
-	Wave();
-	Wave(const int);
+	Wave(DlManager *);
+  Wave(const int, DlManager *);
 	~Wave();
 
-	void					generate();
+  void					generate();
 	void					generateBoss();
 	std::vector<IEntity *>	getEntities(const int);
 	bool					isOver() const;
 };
-

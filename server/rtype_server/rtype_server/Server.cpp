@@ -23,6 +23,10 @@ Server::Server() : _cmdManager(&_clientManager, &_roomManager)
 	_acknowledgementNumber = 103;
 	_mutex = new Mutex();
 	_cmdManager.setMutex(_mutex);
+	_dlManager = new DlManager();
+	_dlManager->init();
+	_dlManager->setFolderPath("../common/entities");
+	_roomManager.setDlManager(_dlManager);
 	std::srand(std::time(NULL));
 }
 

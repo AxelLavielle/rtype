@@ -11,7 +11,7 @@
 class Game
 {
 public:
-	Game();
+	Game(DlManager *);
 	~Game();
 
 	void	init(std::vector<ServerClient *> &);
@@ -22,6 +22,7 @@ private:
 	std::vector<IEntity *>	_entityList;
 	Wave					*_currentWave;
 	int						_currentTime;
+  DlManager				*_dlManager;
 
 	void	manageInput(ServerClient *client);
 	void	updateEntities();

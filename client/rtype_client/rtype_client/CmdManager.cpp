@@ -105,7 +105,7 @@ bool	CmdManager::setStatus()
 	_mutex.lock();
 	_cmd.push_back(newCmd);
 	_mutex.unlock();
-	_wait = STATUS_CHANGED;
+	//_wait = STATUS_CHANGED;
 	return (false);
 }
 

@@ -93,6 +93,8 @@ void Menu::managePageEvent()
 	case IPage::GAME:
 		std::cout << "wait launch game" << std::endl;
 		
+		//_successEvent = IPage::INSIDEROOM;
+		//_errorEvent = IPage::INSIDEROOM;
 		_cmdManager.setStatus();
 
 		break;

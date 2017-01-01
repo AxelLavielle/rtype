@@ -28,7 +28,7 @@
 #include "Thread.hh"
 #include "CmdManager.hh"
 
-#define RECO_DURATION 5000
+#define RECO_DURATION (5000)
 #define MENU_LOOP_DURATION (1)
 #define MENU_RECEIVE_DURATION (10)
 #define MENU_REFRESH_ROOM_LIST (1000)

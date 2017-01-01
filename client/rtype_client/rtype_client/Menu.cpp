@@ -313,8 +313,19 @@ void	Menu::startGame()
 
 void	Menu::reconnection()
 {
+	std::chrono::high_resolution_clock::time_point        t1Loop;
+	std::chrono::high_resolution_clock::time_point        t2Loop;
+	double												duration;
+
+	t1Loop = std::chrono::high_resolution_clock::now();
 	while (1)
 	{
+		t2Loop = std::chrono::high_resolution_clock::now();
+		duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2Loop - _t1Loop).count();
+		if (duration >= RECO_DURATION)
+			_t1Loop = std::chrono::high_resolution_clock::now();
+		else
+			std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<unsigned long>((RECO_DURATION - duration))));
 		_mutexRun.lock();
 		if (!_run)
 		{
@@ -322,6 +333,15 @@ void	Menu::reconnection()
 			return;
 		}
 		_mutexRun.unlock();
+		if (!_socket->isConnected())
+		{
+			if (!_socket->init(_ip, _port)
+				|| !_socket->connectToServer())
+			{
+				_cmdManager.setSocket(_socket);
+				_cmdManager.handshake();
+			}
+		}
 	}
 }
 

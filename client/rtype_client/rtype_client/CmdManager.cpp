@@ -132,7 +132,9 @@ bool	CmdManager::handshake()
 	ss << _handKey;
 	cmd->setCommandArg(ss.str());
 	cmd->setCommandType(CmdType::HANDSHAKE_SYN);
+	_mutex.lock();
 	_cmd.push_back(cmd);
+	_mutex.unlock();
 	return (true);
 }
 
@@ -147,7 +149,9 @@ bool		CmdManager::createRoom(const std::string & rommName, const std::string & p
 	newCmd->setCommandType(CREATE_ROOM);
 	newCmd->addArg(rommName);
 	newCmd->addArg(playerName);
+	_mutex.lock();
 	_cmd.push_back(newCmd);
+	_mutex.unlock();
 	_wait = ROOM_CREATED;
 	return (true);
 }

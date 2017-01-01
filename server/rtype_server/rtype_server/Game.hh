@@ -14,15 +14,20 @@ public:
 	Game(DlManager *);
 	~Game();
 
-	void	init(std::vector<ServerClient *> &);
-	void	updateGame(std::vector<ServerClient *> &);
+	void	init(std::vector<ServerClient *> &, const int);
+	bool	updateGame(std::vector<ServerClient *> &);
 
 private:
 	int						_currentWall;
 	std::vector<IEntity *>	_entityList;
 	Wave					*_currentWave;
 	int						_currentTime;
-  DlManager				*_dlManager;
+	DlManager				*_dlManager;
+	IEntity					*_bossEntity;
+	bool					_gameRunning;
+	int						_roomId;
+	int						_nbWaves;
+	bool					_bossWave;
 
 	void	manageInput(ServerClient *client);
 	void	updateEntities();
@@ -34,6 +39,4 @@ private:
 	void	addWalls(const int);
 	void	checkCollisions();
 	void	refreshWave();
-
-
 };

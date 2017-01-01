@@ -185,7 +185,11 @@ void							Server::processGames()
 	while (it != roomsReadyToPlay.end())
 	{
 		_mutex->lock();
-		(*it).updateGame();
+		if ((*it).updateGame() == false)
+		{
+			_cmdManager.sendEndGame(*it);
+			(*it).setReady(false);
+		}
 		_mutex->unlock();
 		it++;
 	}
@@ -300,7 +304,6 @@ bool									Server::UDPLoop()
 	while (42)
 	{
 		if (_socketServerUDP.selectFds() != -1)
-		//while (_socketServerUDP.selectFds() != -1)
 		{
 			vectMsg = _socketServerUDP.receiveData();
 			processUDPMessages(vectMsg);

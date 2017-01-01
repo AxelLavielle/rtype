@@ -10,7 +10,7 @@ Game::~Game()
 {
 }
 
-void Game::init(std::vector<ServerClient*> &clients)
+void Game::init(std::vector<ServerClient*> &clients, const int id)
 {
 	unsigned int							i;
 	std::vector<ServerClient *>::iterator	it;
@@ -18,6 +18,7 @@ void Game::init(std::vector<ServerClient*> &clients)
 	char									*msg;
 
 	std::cout << "INITIALIZATION GAME" << std::endl;
+	_roomId = id;
 	it = clients.begin();
 	i = 0;
 	while (it != clients.end())
@@ -44,9 +45,13 @@ void Game::init(std::vector<ServerClient*> &clients)
 	}
 
 	addWalls(0);
-	_currentWave = new Wave(5, _dlManager);
+	_currentWave = new Wave(2, _dlManager);
 	_currentWave->generate();
 	_currentTime = 0;
+	_bossEntity = NULL;
+	_gameRunning = true;
+	_nbWaves = 0;
+	_bossWave = false;
 }
 
 void								Game::shootMissile(const int x, const int y, const int idPlayer)
@@ -98,19 +103,18 @@ void								Game::manageInput(ServerClient *client)
 	client->setPlayer(player);
 }
 
-void										Game::updateGame(std::vector<ServerClient *> &clients)
+bool			Game::updateGame(std::vector<ServerClient *> &clients)
 {
 	updatePlayers(clients);
 
 	if (_currentWall < NB_CELLS_X - 1)
 		addWalls(_currentWall);
+	
 	refreshWave();
 
 	updateEntities();
 
-
 	checkCollisions();
-
 
 	sendEntitiesToClients(clients);
 
@@ -118,6 +122,8 @@ void										Game::updateGame(std::vector<ServerClient *> &clients)
 
 	_currentTime++;
 	_currentWall--;
+
+	return (_gameRunning);
 }
 
 void										Game::updatePlayers(std::vector<ServerClient *> &clients)
@@ -194,6 +200,8 @@ void	Game::deleteEntities()
 	{
 		if ((*it)->isDead())
 		{
+			if ((*it) == _bossEntity)
+				_gameRunning = false;
 			delete (*it);
 			it = _entityList.erase(it);
 		}
@@ -261,11 +269,10 @@ void									Game::checkCollisions()
 	}
 }
 
-void							Game::refreshWave()
+void									Game::refreshWave()
 {
 	std::vector<IEntity *>				entities;
 	std::vector<IEntity *>::iterator	it;
-	static int				nbWaves = 0;
 
 	entities = _currentWave->getEntities(_currentTime);
 	it = entities.begin();
@@ -274,15 +281,19 @@ void							Game::refreshWave()
 		addEntity(*it);
 		it++;
 	}
-	if (_currentWave->isOver())
+	if (_currentWave->isOver() && _bossWave == false)
 	  {
-	    if (nbWaves >= 2)
-	      _currentWave->generateBoss();
+		if (_nbWaves >= 2)
+		{
+			std::cout << "---------------------------------------------ROOM [" << _roomId << "] GENERATING BOSS !!!" << std::endl;
+			  _bossEntity = _currentWave->generateBoss();
+			  _bossWave = true;
+		}
 	    else
-	      {
-		std::cout << "Current Wave = [" << nbWaves << "]" << std::endl;
-		_currentWave->generate();
-	      }
-	    nbWaves++;
+		{
+			std::cout << "Current Wave ROOM [" << _roomId << "]= [" << _nbWaves << "]" << std::endl;
+			_currentWave->generate();
+	    }
+	    _nbWaves++;
 	  }
 }

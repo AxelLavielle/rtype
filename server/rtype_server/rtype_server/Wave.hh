@@ -2,19 +2,15 @@
 
 #include "DlManager.hh"
 #include "IEntity.hpp"
-//#include "RedSpiralMonster.hh"
-//#include "FireTacleMonster.hh"
-//#include "BolidFighterMonster.hh"
-//#include "BossMonster.hh"
 #include <queue>
 
 #define MAX_ENTITIES		(50)
 #define INITIAL_TIME		(50)
-#define TIME_BETWEEN_WAVE	(100)
+#define TIME_BETWEEN_WAVE	(30)
 #define NB_CELLS_Y			(80)
 #define NB_CELLS_X			(160)
 
-typedef	std::pair<int, IEntity *>		WaveElement;
+typedef	std::pair<int, IEntity *>			WaveElement;
 typedef	std::pair<IEntity *, std::string>	DynamicLib;
 
 class Wave
@@ -29,7 +25,6 @@ private:
 
   void	refreshEntities(const std::vector<DynamicLib> &);
 	void					getMiniWave(const int);
-	IEntity					*getRandomMonster(const int, const int);
 	IEntity					*getNewMonster(const int, const int, const int);
 
 public:
@@ -38,7 +33,7 @@ public:
 	~Wave();
 
   void					generate();
-	void					generateBoss();
+	IEntity					*generateBoss();
 	std::vector<IEntity *>	getEntities(const int);
 	bool					isOver() const;
 };

@@ -110,7 +110,7 @@ void								CmdManager::cmdCreateRoom(ServerClient *client, BasicCmd *msgClient)
 	msgSerialized = serializer.serialize(&reply);
 	_mutex->lock();
 	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(reply));
-	sendUpdateRoom(client);
+	sendUpdateRoom(client->getCurrentRoom());
 	_mutex->unlock();
 	std::cout << std::endl;
 }
@@ -272,7 +272,7 @@ void			CmdManager::cmdJoinRoom(ServerClient *client, BasicCmd *msgClient)
 	msgSerialized = serializer.serialize(&reply);
 	_mutex->lock();
 	_clientManager->addDataToSendTCP(client->getTCPSocket(), msgSerialized, sizeof(reply));
-	sendUpdateRoom(client);
+	sendUpdateRoom(client->getCurrentRoom());
 	_mutex->unlock();
 	std::cout << std::endl;
 }
@@ -292,10 +292,12 @@ void			CmdManager::cmdLeaveRoom(ServerClient *client, BasicCmd *msgClient)
 		_mutex->lock();
 		_roomManager->removeClientFromRoom(client, client->getCurrentRoom());
 		_mutex->unlock();
+
+		int roomId = client->getCurrentRoom();
 		client->setCurrentRoom(-1);
 		reply.setCommandArg(std::to_string(LEFT_ROOM));
 		_mutex->lock();
-		sendUpdateRoom(client);
+		sendUpdateRoom(roomId);
 		_mutex->unlock();
 	}
 	else
@@ -332,9 +334,8 @@ void			CmdManager::cmdSetStatus(ServerClient *client, BasicCmd *msgClient)
 		reply.setCommandArg(std::to_string(STATUS_CHANGED));
 		std::cout << "Status changed : " << client->isReady() << std::endl;
 		_mutex->lock();
-		sendUpdateRoom(client);
+		sendUpdateRoom(client->getCurrentRoom());
 		_mutex->unlock();
-		std::cout << "Sent Update Room !" << std::endl;
 	}
 	msgSerialized = Serialize::serialize(&reply);
 	_mutex->lock();
@@ -367,7 +368,7 @@ void			CmdManager::cmdQuitGame(ServerClient *client, BasicCmd *msgClient)
 		client->setCurrentRoom(-1);
 		client->setStatus(false);
 		_mutex->lock();
-		sendUpdateRoom(client);
+		sendUpdateRoom(client->getCurrentRoom());
 		_mutex->unlock();
 		reply.setCommandArg(std::to_string(UNDERSTOOD));
 	}
@@ -409,27 +410,55 @@ void											CmdManager::cmdLaunchGame(const std::vector<ServerClient *> &clie
 	std::cout << std::endl;
 }
 
-void										CmdManager::sendUpdateRoom(ServerClient *client)
+void										CmdManager::sendUpdateRoom(const int roomId)
 {
 	std::vector<ServerClient *>				vectClients;
 	std::vector<ServerClient *>::iterator	it;
 	BasicCmd								infoCmd;
 	char									*msgSerialized;
 
-	if (client->getCurrentRoom() == -1)
+	if (roomId == -1)
 		return;
 	infoCmd.setCommandType(UPDATE_ROOM);
 	msgSerialized = Serialize::serialize(&infoCmd);
-	vectClients = _roomManager->getRoomById(client->getCurrentRoom())->getClients();
+	try
+	{
+		vectClients = _roomManager->getRoomById(roomId)->getClients();
+	}
+	catch (const std::exception&)
+	{
+		return;
+	}
 	
 	it = vectClients.begin();
 	while (it != vectClients.end())
 	{
-		//if ((*it)->getTCPSocket() != client->getTCPSocket())
-		//{
 		std::cout << "Sending UPDATE ROOM to [" << (*it)->getTCPSocket() << "]" << std::endl;
 		_clientManager->addDataToSendTCP((*it)->getTCPSocket(), msgSerialized, sizeof(infoCmd));
-		//}
+		it++;
+	}
+	std::cout << "Sent Update Room !" << std::endl;
+}
+
+void										CmdManager::sendEndGame(const Room &room)
+{
+	std::vector<ServerClient *>				vectClients;
+	std::vector<ServerClient *>::iterator	it;
+	EndGameCmd								endCmd;
+	char									*msgSerialized;
+
+	std::cout << "END GAME !!!" << std::endl;
+	endCmd.addPlayer("test", 42);
+	endCmd.setVictory(true);
+	endCmd.setWaveNumber(2);
+	msgSerialized = Serialize::serialize(&endCmd);
+
+	vectClients = room.getClients();
+	it = vectClients.begin();
+	while (it != vectClients.end())
+	{
+		_clientManager->addDataToSendTCP((*it)->getTCPSocket(), msgSerialized, sizeof(endCmd));
+		(*it)->setStatus(false);
 		it++;
 	}
 }

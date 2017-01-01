@@ -8,6 +8,7 @@
 #include "ACommand.hh"
 #include "ListRoomCmd.hh"
 #include "AMutex.hh"
+#include "EndGameCmd.hh"
 
 class CmdManager
 {
@@ -33,7 +34,8 @@ public:
 	void			cmdQuitGame(ServerClient *, BasicCmd *);
 
 	void			cmdLaunchGame(const std::vector<ServerClient *> &, const int);
-	void			sendUpdateRoom(ServerClient *);
+	void			sendUpdateRoom(const int);
 	void			removeEmptyRooms();
+	void			sendEndGame(const Room &);
 
 };

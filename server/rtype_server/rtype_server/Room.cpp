@@ -95,12 +95,12 @@ bool			Room::isReady() const
 
 bool Room::initGame()
 {
-	_gameManager->init(_clients);
+	_gameManager->init(_clients, _id);
 	return (true);
 }
 
 bool Room::updateGame()
 {
-	_gameManager->updateGame(_clients);
-	return (true);
+	return (_gameManager->updateGame(_clients));
 }
+

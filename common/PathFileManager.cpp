@@ -32,7 +32,7 @@ bool PathFileManager::init()
 	if (!buff)
 		return (false);
 	_root = buff;
-	_root += "/henType";
+	_root += "/.henType";
 	it = _root.begin();
 	while (it != _root.end())
 	{

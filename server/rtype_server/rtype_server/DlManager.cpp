@@ -78,9 +78,9 @@ bool							DlManager::loadEntities(const std::vector<std::string> &files)
       _DlLoader->load(*it);
       tmp = _DlLoader->getInstance();
       if (tmp)
-	_dl.push_back(std::pair<IEntity*, std::string>(tmp, tmp->getName()));
+		_dl.push_back(std::pair<IEntity*, std::string>(tmp, tmp->getName()));
       else
-	std::cout << "error on loading entity" << std::endl;
+		std::cout << "error on loading entity" << std::endl;
     }
   this->getBrowser()->clear();
   this->getBrowser()->refresh();
@@ -89,6 +89,10 @@ bool							DlManager::loadEntities(const std::vector<std::string> &files)
 
 IEntity		*DlManager::getInstance(const std::string &name)
 {
-  _DlLoader->load("lib" + name + ".so");
+#ifdef __linux__
+	_DlLoader->load("lib" + name + ".so");
+#elif _WIN32
+	_DlLoader->load("lib" + name + ".dll");
+#endif
   return (_DlLoader->getInstance());
 }

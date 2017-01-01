@@ -33,15 +33,16 @@ bool	DirectoryBrowser::refresh()
   std::cerr << "Can't open dir" << std::endl;
 
   #elif _WIN32
-	if ((_handle = FindFirstFile(_path.c_str(), &_findFileData)) == INVALID_HANDLE_VALUE)
+	std::string winPath = _path + "\\*";
+	std::cout << "[DirectoryBrowser] Opening (" << winPath << ")" << std::endl;
+	if ((_handle = FindFirstFile(winPath.c_str(), &_findFileData)) == INVALID_HANDLE_VALUE)
 	{
 		std::cerr << "Can't open dir" << std::endl;
 		return (false);
 	}
 	while (FindNextFile(_handle, &_findFileData))
     {
-//		std::cout << _findFileData.cFileName << std::endl;
-		if (this->extIsValid(".lib", _findFileData.cFileName) && std::string(_findFileData.cFileName).size() > 3)
+		if (this->extIsValid(".dll", _findFileData.cFileName) && std::string(_findFileData.cFileName).size() > 3)
 		  {
 		    std::cout << _findFileData.cFileName << std::endl;
 		    _files.push_back(_path + "/" + _findFileData.cFileName);

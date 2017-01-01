@@ -2,10 +2,10 @@
 
 #include "DlManager.hh"
 #include "IEntity.hpp"
-#include "RedSpiralMonster.hh"
-#include "FireTacleMonster.hh"
-#include "BolidFighterMonster.hh"
-#include "BossMonster.hh"
+//#include "RedSpiralMonster.hh"
+//#include "FireTacleMonster.hh"
+//#include "BolidFighterMonster.hh"
+//#include "BossMonster.hh"
 #include <queue>
 
 #define MAX_ENTITIES		(50)

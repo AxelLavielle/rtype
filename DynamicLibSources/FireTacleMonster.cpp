@@ -1,13 +1,26 @@
 #include "FireTacleMonster.hh"
 
 FireTacleMonster::FireTacleMonster()
-{}
+{
+	this->setType(rtype::MONSTER);
+	this->setName("FireTacleMonster1");
+	this->setPosX(0);
+	this->setPosY(0);
+	this->setHeight(8);
+	this->setWidth(8);
+	this->setSpeedX(-1);
+	this->setSpeedY(1);
+	this->setLife(100);
+	_currentSprite = 0;
+	this->setSpriteRepo("/res/img/firetacle/firetacle" + std::to_string(_currentSprite) + ".png");
+	refresh();
+	this->_collisionBox = new CollisionBox(this);
+}
 
 FireTacleMonster::FireTacleMonster(const int x, const int y)
 {
   this->setType(rtype::MONSTER);
-  _name = "FireTacleMonster1";
-  this->setName("");
+  this->setName("FireTacleMonster1");
   this->setPosX(x);
   this->setPosY(y);
   this->setHeight(8);
@@ -53,7 +66,7 @@ void		FireTacleMonster::update()
 
 }
 
-//extern "C" IEntity	*createEntity()
-//{
-//  return (new FireTacleMonster);
-//}
+extern "C" IEntity	*createEntity()
+{
+  return (new FireTacleMonster);
+}

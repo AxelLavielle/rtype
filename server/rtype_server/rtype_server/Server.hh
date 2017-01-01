@@ -12,6 +12,7 @@
 #include "Thread.hh"
 #include "ThreadPool.hh"
 #include "Mutex.hh"
+#include "PathFileManager.hh"
 
 # define GAME_LOOP_TIME (100)
 
@@ -30,7 +31,8 @@ private:
 	AMutex			*_mutex;
 	int				_acknowledgementNumber;
 	DlManager		*_dlManager;
-
+	PathFileManager	_fileManager;
+	
 	void			processMsg(const std::vector<ClientMsg> &);
 	void			processBasicCmd(ServerClient *, BasicCmd *);
 	void			processGames();

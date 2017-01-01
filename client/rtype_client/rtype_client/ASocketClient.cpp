@@ -26,12 +26,16 @@ bool ASocketClient::isConnected()
 
 void ASocketClient::setIp(const std::string & ip)
 {
+	_mutex.lock();
 	_ip = ip;
+	_mutex.unlock();
 }
 
 void ASocketClient::setPort(const int port)
 {
+	_mutex.lock();
 	_port = port;
+	_mutex.unlock();
 }
 
 std::string ASocketClient::getIp() const

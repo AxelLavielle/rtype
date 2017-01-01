@@ -313,14 +313,14 @@ void	Menu::startGame()
 
 void	Menu::reconnection()
 {
-	while (1)
-	{
-		_mutexRun.lock();
-		if ()
-		{
-			return;
-		}
-	}
+	//while (1)
+	//{
+	//	_mutexRun.lock();
+	//	if ()
+	//	{
+	//		return;
+	//	}
+	//}
 }
 
 bool Menu::launch()

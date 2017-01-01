@@ -225,7 +225,8 @@ int Game::launch()
 			_cmdManager.sendInput(_id, _key);
 		}
 
-		
+		if (_cmdManager.receiveEndGame())
+			return (0);
 
 		while (_event->refresh())
 		{

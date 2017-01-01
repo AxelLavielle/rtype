@@ -32,6 +32,7 @@ public:
       CREATEROOMACTION,
 	  LOADING,
 	  REFRESH,
+	  GUI,
       NONE
     };
 

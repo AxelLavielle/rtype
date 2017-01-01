@@ -29,6 +29,10 @@ Game::Game()
 	_bgX = 0;
 	_pausePage = NULL;
 	_curr_event = IPage::NONE;
+	_endGame = NULL;
+	_curr_wave = 0;
+	_score = 0;
+	_hp = 0;
 }
 
 Game::~Game()
@@ -71,6 +75,21 @@ void	Game::initGraphElements()
 	_windowGameSize.second = _windowSize.second - (gui->getBottomBarHeight() + gui->getTopBarHeight());
 }
 
+void	Game::setPlsyerInfo(IEntity *entity)
+{
+	Player				*player;
+
+	if (entity->getType() == rtype::EntityType::PLAYER && entity->getName() == _playerName)
+	{
+		player = static_cast<Player* >(entity);
+		_mutexPlayer.lock();
+		_score = player->getScore();
+		_curr_wave = player->getWaveNumber();
+		_hp = player->getLife();
+		_mutexPlayer.unlock();
+	}
+}
+
 void	Game::updateEntities(IEntity *entity)
 {
 	std::vector<IEntity* >::iterator		it = _entity.begin();
@@ -79,6 +98,7 @@ void	Game::updateEntities(IEntity *entity)
 
 	while (it != _entity.end())
 	{
+		setPlsyerInfo(*it);
 		if ((*it)->getId() == entity->getId())
 		{
 			if (entity->isDead() == true)
@@ -174,6 +194,11 @@ void	Game::clearEntity()
 	_entity.clear();
 }
 
+void	Game::updateGUI()
+{
+
+}
+
 void	Game::manageQuit()
 {
 	_cmdManager.sendQuit();
@@ -190,13 +215,37 @@ void	Game::manageQuit()
 	_soundManager.stopAll();
 }
 
+void	Game::initEndPage()
+{
+	EndGamePage			*endPage;
+	endPage = new EndGamePage(_graph, _event, _fileManager, &_soundManager);
+	std::vector<std::pair<std::string, int> >					pl;
+	std::vector<std::pair<std::string, int> >::iterator			it;
+
+	if (!_endGame || !endPage)
+		return;
+	std::cout << "EndGame page initied" << std::endl;
+	delete _guiPage;
+	delete _pausePage;
+	endPage->setVictory(_endGame->getVictory());
+	endPage->setWave(_endGame->getWaveNumber());
+	pl = _endGame->getPlayerList();
+	it = pl.begin();
+	while (it != pl.end())
+	{
+		endPage->addPlayer(it->first, it->second);
+		++it;
+	}
+	_guiPage = endPage;
+	_guiPage->init();
+}
+
 int Game::launch()
 {
 	std::chrono::high_resolution_clock::time_point		tGame;
 	std::chrono::high_resolution_clock::time_point	    tGame2;
 	std::chrono::high_resolution_clock::time_point		t1;
 	std::chrono::high_resolution_clock::time_point	    t2;
-	EndGameCmd											*endGame;
 	double												duration;
 	 Thread												*th;
 
@@ -229,13 +278,10 @@ int Game::launch()
 			_cmdManager.sendInput(_id, _key);
 		}
 
-		if ((endGame = _cmdManager.receiveEndGame()))
-		{
-			delete endGame;
+		if ((_endGame = _cmdManager.receiveEndGame()))
 			_curr_event = IPage::ENDGAME;
-		}
 
-		while (_event->refresh())
+		if (_event->refresh())
 		{
 			if (_event->getCloseEvent())
 			{
@@ -269,10 +315,9 @@ int Game::launch()
 			return (0);
 			break;
 		case IPage::ENDGAME:
-			delete _guiPage;
-			delete _pausePage;
-			_guiPage = new EndGamePage(_graph, _event, _fileManager, &_soundManager);
-			_guiPage->init();
+			std::cout << "ENDGAME page" << std::endl;
+			initEndPage();
+			delete _endGame;
 			break;
 		case IPage::QUIT:
 			manageQuit();
@@ -284,7 +329,6 @@ int Game::launch()
 			break;
 		default:
 			break;
-
 		}
 
 		if (_newEvent)
@@ -310,6 +354,19 @@ int Game::launch()
 				++it;
 			}
 			_mutex.unlock();
+
+			if (_guiPage->getPageType() == IPage::GUI)
+			{
+				GUIPage				*gui;
+
+				gui = static_cast<GUIPage* >(_guiPage);
+				_mutexPlayer.lock();
+				gui->setScore(_score);
+				gui->setMode(std::to_string(_curr_wave));
+				gui->setHp(_hp);
+				_mutexPlayer.unlock();
+			}
+
 			_guiPage->draw();
 			if (_pausePage)
 				_pausePage->draw();

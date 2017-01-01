@@ -49,4 +49,8 @@ public:
 	virtual void			refresh() = 0;
 	virtual void			setA(const int) = 0;
 	virtual int				getA() const = 0;
+	virtual int getWaveNumber() const = 0;
+	virtual void setWaveNumber(const int nbWave) = 0;
+	virtual int getScore() const = 0;
+	virtual void setScore(const int score) = 0;
 };

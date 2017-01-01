@@ -7,6 +7,8 @@ class EndGameCmd :public ACommand
 public:
 	EndGameCmd();
 	virtual ~EndGameCmd();
+	bool getVictory() const;
+	int getWaveNumber() const;
 	void addPlayer(const std::string & name, const int score);
 	void setVictory(const bool victory);
 	void setWaveNumber(const int wave);

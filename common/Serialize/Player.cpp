@@ -24,26 +24,6 @@ Player::~Player()
 {
 }
 
-int			Player::getWaveNumber() const
-{
-	return (_nbWave);
-}
-
-void		Player::setWaveNumber(const int nbWave)
-{
-	_nbWave = nbWave;
-}
-
-int			Player::getScore() const
-{
-	return (_score);
-}
-
-void		Player::setScore(const int score)
-{
-	_score = score;
-}
-
 int			Player::getMissileCooldown() const
 {
 	return (_missileCooldown);
@@ -61,4 +41,14 @@ int			Player::getIdPlayer() const
 
 void		Player::update()
 {
+}
+
+int Player::getNbSuperShoot() const
+{
+	return (_nbSuperShoot);
+}
+
+void Player::setNbSuperShoot(const int shoot)
+{
+	_nbSuperShoot = shoot;
 }

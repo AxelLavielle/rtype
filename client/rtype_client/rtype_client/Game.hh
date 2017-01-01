@@ -22,6 +22,8 @@
 #include "Mutex.hh"
 #include "SaveConfig.hh"
 #include "EndGamePage.hh"
+#include "EntityType.hh"
+#include "Player.hh"
 
 #define NB_CELL_X (150)
 #define NB_CELL_Y (80)
@@ -78,13 +80,20 @@ private:
 	int							_bgX;
 	ASocketClient				*_tcpSocket;
 	IPage::PAGE					_curr_event;
+	EndGameCmd					*_endGame;
+	int							_score;
+	int							_curr_wave;
+	Mutex						_mutexPlayer;
+	int							_hp;
 
 	bool initSocket();
 	void initGraphElements();
+	void setPlsyerInfo(IEntity * entity);
 	void manageEntity();
 	void clearEntity();
+	void updateGUI();
 	void manageQuit();
-	void receive();
+	void initEndPage();
 	void updateEntities(IEntity *);
 };
 

@@ -16,6 +16,9 @@ AEntity::AEntity()
 	setSpriteRepo("");
 	setId(id);
 	setDead(false);
+	setAttack(-1);
+	setScore(0);
+	setWaveNumber(0);
 
 	_separator = '|';
 	id++;
@@ -26,6 +29,34 @@ AEntity::~AEntity()
 {
 }
 
+int			AEntity::getWaveNumber() const
+{
+	return (_nbWave);
+}
+
+void		AEntity::setWaveNumber(const int nbWave)
+{
+	std::stringstream	ss;
+
+	ss << nbWave;
+	_args += ss.str() + _separator;
+	_nbWave = nbWave;
+}
+
+int			AEntity::getScore() const
+{
+	return (_score);
+}
+
+void		AEntity::setScore(const int score)
+{
+	std::stringstream	ss;
+
+	ss << score;
+	_args += ss.str() + _separator;
+	_score = score;
+}
+
 int AEntity::getAttack() const
 {
 	return (_attack);
@@ -33,6 +64,10 @@ int AEntity::getAttack() const
 
 void AEntity::setAttack(const int attack)
 {
+	std::stringstream	ss;
+
+	ss << attack;
+	_args += ss.str() + _separator;
 	_attack = attack;
 }
 
@@ -215,6 +250,9 @@ bool AEntity::setArgs(const std::string & args)
 	_spritePath = res[8];
 	_id = std::stoi(res[9]);
 	_isDead = std::stoi(res[10]);
+	_attack = std::stoi(res[11]);
+	_score = std::stoi(res[12]);
+	_nbWave = std::stoi(res[13]);
 
 	_args = args;
 	return (true);
@@ -280,6 +318,20 @@ void AEntity::refresh()
 	ss.str("");
 	ss.clear();
 
+	ss << _attack;
+	_args += ss.str() + _separator;
+	ss.str("");
+	ss.clear();
+
+	ss << _score;
+	_args += ss.str() + _separator;
+	ss.str("");
+	ss.clear();
+
+	ss << _nbWave;
+	_args += ss.str() + _separator;
+	ss.str("");
+	ss.clear();
 }
 
 std::vector<std::string>		AEntity::split(const std::string &s)

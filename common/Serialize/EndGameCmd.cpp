@@ -13,6 +13,16 @@ EndGameCmd::~EndGameCmd()
 {
 }
 
+bool			EndGameCmd::getVictory() const
+{
+	return (_isVictory);
+}
+
+int				EndGameCmd::getWaveNumber() const
+{
+	return (_nbWave);
+}
+
 void			EndGameCmd::addPlayer(const std::string &name, const int score)
 {
 	_player.push_back(std::make_pair(name, score));
@@ -52,7 +62,7 @@ const std::string	EndGameCmd::getCommandArg()
 	parsePlayer();
 	return (_arg);
 }
-
+//#include <iostream>
 void EndGameCmd::setCommandArg(const std::string &arg)
 {
 	std::stringstream			ss;
@@ -61,6 +71,8 @@ void EndGameCmd::setCommandArg(const std::string &arg)
 	int							j;
 	std::pair<std::string, int>	pl;
 
+	//std::cout << "ARGUMENTS = " << arg << std::endl;
+	//std::cout << "size PLAYER = " << _player.size()  << std::endl;
 	ss.str(arg);
 	i = 0;
 	j = 0;

@@ -46,6 +46,10 @@ public:
 	virtual void			refresh();
 	virtual void					setA(const int);
 	virtual int						getA() const;
+	virtual int getWaveNumber() const;
+	virtual void setWaveNumber(const int nbWave);
+	virtual int getScore() const;
+	virtual void setScore(const int score);
 
 protected:
 	int						_id;
@@ -65,6 +69,8 @@ protected:
 	CollisionBox			*_collisionBox;
 	int						_a;
 	int						_attack;
+	int						_nbWave;
+	int						_score;
 
 	std::vector<std::string>	split(const std::string & s);
 };

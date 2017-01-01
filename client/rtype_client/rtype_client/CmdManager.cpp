@@ -26,9 +26,11 @@ void	CmdManager::sendQuit()
 void CmdManager::setSocket(ASocketClient * socketClient)
 {
 	_mutexSocket.lock();
+	_mutex.lock();
 	_socketClient = socketClient;
 	_error = -1;
 	_wait = UNDERSTOOD;
+	_mutex.unlock();
 	_mutexSocket.unlock();
 }
 

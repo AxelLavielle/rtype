@@ -48,6 +48,7 @@ void			EndGamePage::draw()
 		it++;
 	}
 	_graph->drawText("Destroyed waves : " + std::to_string(_destroyedWaves), _windowSize.first / 2 - 230, 800, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
+	_graph->setMouseCursorVisible(true);
 }
 
 IPage::PAGE		EndGamePage::event()

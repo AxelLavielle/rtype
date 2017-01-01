@@ -28,6 +28,7 @@ Game::Game()
 	_pew.setFilePath(_fileManager.getRoot() + "/res/sounds/buttonClick.wav");
 	_bgX = 0;
 	_pausePage = NULL;
+	_curr_event = IPage::NONE;
 }
 
 Game::~Game()
@@ -178,7 +179,9 @@ void	Game::manageQuit()
 	_cmdManager.sendQuit();
 	_cmdManager.sendCmd();
 	_sock->closure();
+	_mutex.lock();
 	clearEntity();
+	_mutex.unlock();
 	_mutexRun.lock();
 	_run = false;
 	_mutexRun.unlock();
@@ -193,6 +196,7 @@ int Game::launch()
 	std::chrono::high_resolution_clock::time_point	    tGame2;
 	std::chrono::high_resolution_clock::time_point		t1;
 	std::chrono::high_resolution_clock::time_point	    t2;
+	EndGameCmd											*endGame;
 	double												duration;
 	 Thread												*th;
 
@@ -225,12 +229,15 @@ int Game::launch()
 			_cmdManager.sendInput(_id, _key);
 		}
 
-		if (_cmdManager.receiveEndGame())
-			return (0);
+		if ((endGame = _cmdManager.receiveEndGame()))
+		{
+			delete endGame;
+			_curr_event = IPage::ENDGAME;
+		}
 
 		while (_event->refresh())
 		{
-			if (_event->getCloseEvent() || (_pausePage && _pausePage->event() == IPage::QUIT))
+			if (_event->getCloseEvent())
 			{
 				manageQuit();
 				return (1);
@@ -248,16 +255,36 @@ int Game::launch()
 				_pausePage = new PausePage(_graph, _event, _fileManager, &_soundManager);
 				_pausePage->init();
 			}
-			if (_pausePage && _pausePage->event() == IPage::PAUSE)
-			{
-				delete _pausePage;
-				_pausePage = NULL;
+
+			if (_pausePage)
+				_curr_event = _pausePage->event();
+			else if (_guiPage)
+				_curr_event = _guiPage->event();
 			}
-			if (_pausePage && _pausePage->event() == IPage::HOME)
-			{
-				manageQuit();
-				return (0);
-			}
+
+		switch (_curr_event)
+		{
+		case IPage::HOME:
+			manageQuit();
+			return (0);
+			break;
+		case IPage::ENDGAME:
+			delete _guiPage;
+			delete _pausePage;
+			_guiPage = new EndGamePage(_graph, _event, _fileManager, &_soundManager);
+			_guiPage->init();
+			break;
+		case IPage::QUIT:
+			manageQuit();
+			return (1);
+			break;
+		case IPage::PAUSE:
+			delete _pausePage;
+			_pausePage = NULL;
+			break;
+		default:
+			break;
+
 		}
 
 		if (_newEvent)

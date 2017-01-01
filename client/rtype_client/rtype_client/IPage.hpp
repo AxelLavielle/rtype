@@ -27,7 +27,7 @@ public:
       SETTINGSNEXT,
       QUIT,
       GAME,
-      EndGameCmd,
+      ENDGAME,
       PAUSE,
       CREATEROOMACTION,
 	  LOADING,

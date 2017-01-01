@@ -1,11 +1,11 @@
 //
 // Page for Page in /home/laviel_a/
-// 
+//
 // Made by Axel Lavielle
 // Login   <laviel_a@epitech.net>
-// 
+//
 // Started on  Wed Dec 14 15:41:00 2016 Axel Lavielle
-// Last update Thu Dec 22 21:33:27 2016 Axel Lavielle
+// Last update Sun Jan  1 02:29:36 2017 Sarah TACCONELLI
 //
 
 #include	"APage.hh"
@@ -77,7 +77,7 @@ void		APage::initInputBox(const Rect &pos, const std::string &sprite, const Colo
   input->setEvent(_event);
   input->setGraph(_graph);
   input->setBackgroundSprite(_fileManager.getRoot() + sprite);
-  input->setBackgroundOverSprite(_fileManager.getRoot() + "res/img/buttonRoomOver.png");
+  input->setBackgroundOverSprite(_fileManager.getRoot() + "/res/img/buttonRoomOver.png");
   input->setFontPath(_fileManager.getRoot() + "/res/fonts/OpenSans-Regular.ttf");
   input->setTextColor(rgb);
   _guiElement.push_back(input);
@@ -90,7 +90,7 @@ void		APage::initInputKey(const Rect &pos, const std::string &sprite, const Colo
   input->setEvent(_event);
   input->setGraph(_graph);
   input->setBackgroundSprite(_fileManager.getRoot() + sprite);
-  input->setBackgroundOverSprite(_fileManager.getRoot() + "res/img/buttonRoomOver.png");
+  input->setBackgroundOverSprite(_fileManager.getRoot() + "/res/img/buttonRoomOver.png");
   input->setFontPath(_fileManager.getRoot() + "/res/fonts/OpenSans-Regular.ttf");
   input->setTextColor(rgb);
   _guiElement.push_back(input);
@@ -103,7 +103,7 @@ void APage::initInputBox(const Rect & pos, const std::string & sprite, const Col
 	input->setEvent(_event);
 	input->setGraph(_graph);
 	input->setBackgroundSprite(_fileManager.getRoot() + sprite);
-	input->setBackgroundOverSprite(_fileManager.getRoot() + "res/img/buttonRoomOver.png");
+	input->setBackgroundOverSprite(_fileManager.getRoot() + "/res/img/buttonRoomOver.png");
 	input->setFontPath(_fileManager.getRoot() + "/res/fonts/OpenSans-Regular.ttf");
 	input->setTextColor(rgb);
 	input->setText(inputText);
@@ -117,7 +117,7 @@ void APage::initInputKey(const Rect & pos, const std::string & sprite, const Col
 	input->setEvent(_event);
 	input->setGraph(_graph);
 	input->setBackgroundSprite(_fileManager.getRoot() + sprite);
-	input->setBackgroundOverSprite(_fileManager.getRoot() + "res/img/buttonRoomOver.png");
+	input->setBackgroundOverSprite(_fileManager.getRoot() + "/res/img/buttonRoomOver.png");
 	input->setFontPath(_fileManager.getRoot() + "/res/fonts/OpenSans-Regular.ttf");
 	input->setTextColor(rgb);
 	input->setText(inputText);

@@ -361,9 +361,15 @@ void	Menu::reconnection()
 			_mutex->unlock();
 			if (!_socket->isConnected())
 			{
+				std::cout << "Try to reconnect..." << std::endl;
 				if (!_socket->init(_ip, _port)
 					|| !_socket->connectToServer())
 				{
+					std::cout << "Reconnect failed" << std::endl;
+				}
+				else
+				{
+					std::cout << "Reconnect success" << std::endl;
 					_cmdManager.setSocket(_socket);
 					_cmdManager.handshake();
 				}
@@ -381,9 +387,9 @@ bool Menu::launch()
 	  double												duration;
 	  Thread												*th;
 
-	  //th = new Thread();
-	  //th->createThread(std::bind(&Menu::reconnection, this));
-	  //_pool.addThread(th); 
+	  th = new Thread();
+	  th->createThread(std::bind(&Menu::reconnection, this));
+	  _pool.addThread(th); 
 	  _t1Loop = std::chrono::high_resolution_clock::now();
 	  _th->createThread(std::bind(&Menu::receiveInfo, this));
 	  _pool.addThread(_th);

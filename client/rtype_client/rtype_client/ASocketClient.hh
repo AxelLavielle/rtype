@@ -2,6 +2,7 @@
 
 #include <sstream>
 #include "ISocket.hpp"
+#include "Mutex.hh"
 
 #ifdef _WIN32
 	#pragma comment(lib, "Ws2_32.lib")
@@ -19,7 +20,7 @@ public:
 	virtual bool	sendData(const char *) = 0;
 	virtual char	*receiveData() = 0;
 	virtual bool	connectToServer() = 0;
-	virtual bool	isConnected() const;
+	virtual bool	isConnected();
 	virtual void	setIp(const std::string &ip);
 	virtual void	setPort(const int);
 	virtual std::string		getIp() const;
@@ -30,5 +31,6 @@ protected:
 	int				_socketClientId;
 	bool			_connected;
 	std::string		_ip;
+	Mutex				_mutex;
 };
 

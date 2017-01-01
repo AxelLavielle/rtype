@@ -14,9 +14,14 @@ ASocketClient::~ASocketClient()
 
 }
 
-bool ASocketClient::isConnected() const
+bool ASocketClient::isConnected()
 {
-	return (_connected);
+	bool	res;
+
+	_mutex.lock();
+	res = _connected;
+	_mutex.unlock();
+	return (res);
 }
 
 void ASocketClient::setIp(const std::string & ip)

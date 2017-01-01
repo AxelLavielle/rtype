@@ -35,7 +35,6 @@ public:
 
 private:
 	int					_optLen;
-	Mutex				_mutex;
 
 #ifdef _WIN32
 	WSADATA				_wsaData;

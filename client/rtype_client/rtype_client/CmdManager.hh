@@ -32,7 +32,7 @@ public:
 	bool joinRoom(const int id, std::string & playerName);
 	void sendRoomList();
 	ListRoomCmd *getRoomList();
-	ICommand * receiveCmd(const int sec = 0, const int usec = 100);
+	ICommand * receiveCmd();
 	bool newCmd(ICommand *command);
 	void setSocket(ASocketClient * sosket);
 	void setUDPSocket(ASocketClient *socket);

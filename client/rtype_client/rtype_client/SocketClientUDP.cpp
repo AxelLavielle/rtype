@@ -95,11 +95,6 @@ bool			SocketClientUDP::sendData(const char *data, const int datasize)
 	return (true);
 }
 
-char * SocketClientUDP::receiveData(const int secTimeOut, const int usecTimeOut)
-{
-	return (NULL);
-}
-
 char			*SocketClientUDP::receiveData()
 {
 	char		*buf = new char[TCP_PACKET_SIZE];

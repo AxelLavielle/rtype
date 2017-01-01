@@ -46,9 +46,6 @@ void Menu::receiveInfo()
 	std::chrono::high_resolution_clock::time_point        t1Loop;
 	std::chrono::high_resolution_clock::time_point        t2Loop;
 	double												duration;
-	ListRoomCmd											*listRoom;
-	RoomInfoCmd											*roomInfo;
-	int													res;
 
 	t1Loop = std::chrono::high_resolution_clock::now();
 	while (1)

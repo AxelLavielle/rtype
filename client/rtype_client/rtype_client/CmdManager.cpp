@@ -116,7 +116,6 @@ RoomInfoCmd		*CmdManager::getRoomInfo()
 bool	CmdManager::setStatus()
 {
 	BasicCmd		*newCmd;
-	ICommand		*cmd;
 
 	newCmd = new BasicCmd();
 	newCmd->setCommandType(SET_STATUS);
@@ -130,7 +129,6 @@ bool	CmdManager::setStatus()
 bool	CmdManager::leaveRoom()
 {
 	BasicCmd		*newCmd;
-	ICommand		*cmd;
 
 	newCmd = new BasicCmd();
 	newCmd->setCommandType(LEAVE_ROOM);
@@ -145,7 +143,6 @@ bool	CmdManager::handshake()
 {
 	std::stringstream	ss;
 	ICommand			*cmd = new BasicCmd();
-	ICommand			*oldCmd;
 
 	ss << _handKey;
 	cmd->setCommandArg(ss.str());
@@ -159,7 +156,6 @@ bool	CmdManager::handshake()
 bool		CmdManager::createRoom(const std::string & rommName, const std::string & playerName)
 {
 	BasicCmd		*newCmd;
-	ICommand		*cmd;
 
 	if (!_socketClient || !_socketClient->isConnected())
 		return (false);
@@ -176,7 +172,6 @@ bool		CmdManager::createRoom(const std::string & rommName, const std::string & p
 
 bool	CmdManager::joinRoom(const int id, std::string & playerName)
 {
-	ICommand	*cmd;
 	BasicCmd	*basicCmd = new BasicCmd();
 	std::stringstream ss;
 
@@ -194,7 +189,6 @@ bool	CmdManager::joinRoom(const int id, std::string & playerName)
 
 void	CmdManager::sendRoomList()
 {
-	ListRoomCmd			*resCmd;
 	BasicCmd			*basicCmd = new BasicCmd();
 
 	basicCmd->setCommandType(GET_ROOM_LIST);
@@ -356,7 +350,7 @@ IEntity		*CmdManager::receiveUDPCmd()
 	return (entity);
 }
 
-ICommand	*CmdManager::receiveCmd(const int sec, const int usec)
+ICommand	*CmdManager::receiveCmd()
 {
 	ICommand			*cmd;
 	char				*res;
@@ -410,7 +404,6 @@ ICommand	*CmdManager::receiveCmd(const int sec, const int usec)
 		else if (cmd->getCommandType() == UPDATE_ROOM)
 		{
 			BasicCmd		*newCmd;
-			ICommand		*cmd;
 
 			newCmd = new BasicCmd();
 			newCmd->setCommandType(GET_ROOM);

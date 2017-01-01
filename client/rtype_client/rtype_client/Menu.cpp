@@ -152,6 +152,7 @@ void Menu::managePageEvent()
 		_port = std::stoi(_sv.getIport().substr(_sv.getIport().find(":") + 1));
 		_soundManager.setMusicVolume(_sv.getMusic());
 		_soundManager.setSoundVolume(_sv.getSfx());
+		_playerName = _sv.getPlayerName();
 		break;
 	case IPage::QUIT:
 		_graph->close();

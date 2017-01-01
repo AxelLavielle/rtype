@@ -6,9 +6,7 @@ InsideRoomPage::InsideRoomPage(IGraphManager *graph, IEventManager *event, const
 	_backgroundSprite = _fileManager.getRoot() + "/res/img/background_menu2.jpg";
 	_clickSound.setDuration(-1);
 	_clickSound.setFilePath(_fileManager.getRoot() + "/res/sounds/buttonClick.wav");
-	_roomName = "";
 	_pageType = IPage::INSIDEROOM;
-
 	_roomName = "ROOM NAME";
 }
 

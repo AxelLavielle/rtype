@@ -2,4 +2,5 @@
 
 /bin/echo "Copie des assets"
 mkdir -p ~/.henType/
-cp  -r ./entities ~/.henType/entities/
+rm -Rf ~/.henType/entities/*
+cp  -r ./entities ~/.henType/

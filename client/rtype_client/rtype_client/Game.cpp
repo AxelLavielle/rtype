@@ -239,6 +239,8 @@ void	Game::initEndPage()
 	std::cout << "EndGame page initied" << std::endl;
 	delete _guiPage;
 	delete _pausePage;
+	_guiPage = NULL;
+        _pausePage = NULL;
 	endPage->setVictory(_endGame->getVictory());
 	endPage->setWave(_endGame->getWaveNumber());
 	pl = _endGame->getPlayerList();

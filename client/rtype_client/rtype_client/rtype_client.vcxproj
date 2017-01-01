@@ -136,6 +136,7 @@
     <ClInclude Include="..\..\..\common\IThread.hpp" />
     <ClInclude Include="..\..\..\common\MemTools.hh" />
     <ClInclude Include="..\..\..\common\Mutex.hh" />
+    <ClInclude Include="..\..\..\common\PathFileManager.hh" />
     <ClInclude Include="..\..\..\common\Serialize\ACommand.hh" />
     <ClInclude Include="..\..\..\common\Serialize\AEntity.hh" />
     <ClInclude Include="..\..\..\common\Serialize\Barrier.hh" />
@@ -143,6 +144,7 @@
     <ClInclude Include="..\..\..\common\Serialize\ChatInfoCmd.hh" />
     <ClInclude Include="..\..\..\common\Serialize\CmdEnum.hh" />
     <ClInclude Include="..\..\..\common\Serialize\CollisionBox.hh" />
+    <ClInclude Include="..\..\..\common\Serialize\EndGameCmd.hh" />
     <ClInclude Include="..\..\..\common\Serialize\EntityCmd.hh" />
     <ClInclude Include="..\..\..\common\Serialize\EntityType.hh" />
     <ClInclude Include="..\..\..\common\Serialize\ICommand.hpp" />
@@ -185,7 +187,6 @@
     <ClInclude Include="LoadingPage.hh" />
     <ClInclude Include="LobbyPage.hh" />
     <ClInclude Include="Menu.hh" />
-    <ClInclude Include="PathFileManager.hh" />
     <ClInclude Include="PausePage.hh" />
     <ClInclude Include="Rect.hh" />
     <ClInclude Include="CursorBox.hh" />
@@ -205,12 +206,14 @@
     <ClCompile Include="..\..\..\common\AThread.cpp" />
     <ClCompile Include="..\..\..\common\MemTools.cpp" />
     <ClCompile Include="..\..\..\common\Mutex.cpp" />
+    <ClCompile Include="..\..\..\common\PathFileManager.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\ACommand.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\AEntity.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\Barrier.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\BasicCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\ChatInfoCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\CollisionBox.cpp" />
+    <ClCompile Include="..\..\..\common\Serialize\EndGameCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\EntityCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\InputCmd.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\ListRoomCmd.cpp" />
@@ -245,7 +248,6 @@
     <ClCompile Include="LobbyPage.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="PathFileManager.cpp" />
     <ClCompile Include="PausePage.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="CursorBox.cpp" />

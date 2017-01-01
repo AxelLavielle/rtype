@@ -56,9 +56,14 @@ IEntity	*Wave::getNewMonster(const int x, const int y, const int type)
   else
     newEntity = _dlManager->getInstance(_monsterEntities.at(type).second);
 
-  newEntity->setPosX(x);
-  newEntity->setPosY(y);
-  newEntity->refresh();
+  if (newEntity)
+  {
+	  newEntity->setPosX(x);
+	  newEntity->setPosY(y);
+	  newEntity->refresh();
+  }
+  else
+	  std::cout << "NEW ENTITY IS NULL" << std::endl;
   return (newEntity);
 //
 // 	switch (type)

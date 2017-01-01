@@ -40,6 +40,9 @@ bool					SocketServerTCP::init(const std::string &addr, const int port)
 		#endif
 		return (false);
 	}
+	int one = 1;
+	if (setsockopt(_socketServerID, IPPROTO_TCP, TCP_NODELAY, reinterpret_cast<char *>(&one), sizeof(one)) < 0)
+		std::cout << "SET SOCKET OPT ERROR " << std::endl;
 	_fdMax = _socketServerID;
 	(void)addr;
 	_port = port;
@@ -100,7 +103,9 @@ NewClientInfo		SocketServerTCP::acceptNewClient()
 		#endif
 		return (std::make_pair(-1, new SocketAddress(nullPtr)));
 	}
-
+	int one = 1;
+	if (setsockopt(newClientSocketID, IPPROTO_TCP, TCP_NODELAY, reinterpret_cast<char *>(&one), sizeof(one)) < 0)
+		std::cout << "SET SOCKET OPT ERROR " << std::endl;
 	if (DEBUG_MSG)
 		std::cout << "NEW CLIENT ------->" << newClientSocketID << std::endl;
 

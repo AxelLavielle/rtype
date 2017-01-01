@@ -82,6 +82,7 @@ private:
 	void manageEntity();
 	void clearEntity();
 	void manageQuit();
+	void receive();
 	void updateEntities(IEntity *);
 };
 

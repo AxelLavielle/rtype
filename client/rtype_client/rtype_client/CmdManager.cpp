@@ -7,6 +7,7 @@ CmdManager::CmdManager()
 	_roomInfo = NULL;
 	_roomList = NULL;
 	_wait = UNDERSTOOD;
+	_socketClient = NULL;
 	_error = -1;
 }
 
@@ -26,6 +27,8 @@ void CmdManager::setSocket(ASocketClient * socketClient)
 {
 	_mutexSocket.lock();
 	_socketClient = socketClient;
+	_error = -1;
+	_wait = UNDERSTOOD;
 	_mutexSocket.unlock();
 }
 
@@ -237,6 +240,21 @@ bool		CmdManager::confirmHandshake(ICommand *cmd)
 	return (true);
 }
 
+EndGameCmd	*CmdManager::receiveEndGame()
+{
+	ICommand	*cmd;
+	EndGameCmd	*end;
+
+	cmd = receiveCmd();
+	if (cmd && cmd->getCommandName() == END_GAME)
+	{
+		end = static_cast<EndGameCmd *>(cmd);
+		return (end);
+	}
+	delete cmd;
+	return (NULL);
+}
+
 bool		CmdManager::sendCmd()
 {
 	std::vector<ICommand*>::iterator	it;
@@ -249,8 +267,14 @@ bool		CmdManager::sendCmd()
 	//	return (false);
 	//}
 	//_mutex.unlock();
+
+	_mutexSocket.lock();
 	if (!_socketClient || !_socketClient->isConnected())
+	{
+		_mutexSocket.unlock();
 		return (false);
+	}
+	_mutexSocket.unlock();
 	it = _cmd.begin();
 	while (it != _cmd.end())
 	{
@@ -276,13 +300,13 @@ bool		CmdManager::sendUDPCmd()
 	std::vector<ICommand*>::iterator	it;
 	char								*res;
 
-	_mutex.lock();
+	_mutexSocket.lock();
 	if (!_socketClientUDP || !_socketClientUDP->isConnected())
 	{
-		_mutex.unlock();
+		_mutexSocket.unlock();
 		return (false);
 	}
-	_mutex.unlock();
+	_mutexSocket.unlock();
 	it = _cmd.begin();
 	while (it != _cmd.end())
 	{
@@ -305,13 +329,13 @@ IEntity		*CmdManager::receiveUDPCmd()
 	char	*res;
 
 	entity = NULL;
-	_mutex.lock();
+	_mutexSocket.lock();
 	if (!_socketClientUDP || !_socketClientUDP->isConnected())
 	{
-		_mutex.unlock();
+		_mutexSocket.unlock();
 		return (NULL);
 	}
-	_mutex.unlock();
+	_mutexSocket.unlock();
 	res = _socketClientUDP->receiveData();
 	entity = Serialize::unserializeEntity(res);
 	if (res != NULL)

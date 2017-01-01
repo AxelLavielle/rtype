@@ -365,6 +365,10 @@ void			CmdManager::cmdQuitGame(ServerClient *client, BasicCmd *msgClient)
 		_roomManager->removeClientFromRoom(client, client->getCurrentRoom());
 		_mutex->unlock();
 		client->setCurrentRoom(-1);
+		client->setStatus(false);
+		_mutex->lock();
+		sendUpdateRoom(client);
+		_mutex->unlock();
 		reply.setCommandArg(std::to_string(UNDERSTOOD));
 	}
 	msgSerialized = Serialize::serialize(&reply);

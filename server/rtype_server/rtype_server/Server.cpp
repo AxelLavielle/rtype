@@ -25,7 +25,6 @@ Server::Server() : _cmdManager(&_clientManager, &_roomManager)
 	_cmdManager.setMutex(_mutex);
 	_dlManager = new DlManager();
 	_dlManager->init();
-	_dlManager->setFolderPath("../common/entities");
 	_roomManager.setDlManager(_dlManager);
 	std::srand(std::time(NULL));
 }
@@ -50,6 +49,9 @@ bool	Server::init()
 #endif
 	  return (false);
 	}
+	if (_fileManager.init() == false)
+		return (false);
+	_dlManager->setFolderPath(_fileManager.getRoot() + "/entities");
 	return (true);
 }
 

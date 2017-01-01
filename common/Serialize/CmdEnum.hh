@@ -17,7 +17,6 @@ enum		CmdType
     ALIVE,
     UPDATE_ROOM,
     LAUNCH_GAME,
-    END_GAME,
     EMPTY_TYPE
   };
 
@@ -29,6 +28,7 @@ enum		CmdName
     ENTITY,
     INPUT_CMD,
     BASIC_CMD,
+	END_GAME,
     EMPTY_NAME
   };
 

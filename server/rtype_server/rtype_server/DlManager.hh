@@ -1,6 +1,9 @@
 #pragma once
 
-#include <dlfcn.h>
+#ifdef __linux__
+	#include <dlfcn.h>
+#endif
+
 #include <vector>
 #include <utility>
 #include "DlLoader.hh"

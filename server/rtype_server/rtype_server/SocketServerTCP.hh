@@ -3,6 +3,7 @@
 #ifdef __linux__
 # define INVALID_SOCKET (-1)
 # define SOCKET_ERROR	(-1)
+# include <netinet/tcp.h>
 #endif
 
 #include "ASocketServer.hh"

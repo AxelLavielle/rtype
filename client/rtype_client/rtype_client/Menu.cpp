@@ -151,9 +151,14 @@ void Menu::managePageEvent()
 		_sv.readFromFile();
 		_ip = _sv.getIport().substr(0, _sv.getIport().find(":"));
 		_port = std::stoi(_sv.getIport().substr(_sv.getIport().find(":") + 1));
+		_mutex->lock();
+		_socket->setIp(_ip);
+		_socket->setPort(_port);
+		_mutex->unlock();
 		_soundManager.setMusicVolume(_sv.getMusic());
 		_soundManager.setSoundVolume(_sv.getSfx());
 		_playerName = _sv.getPlayerName();
+		std::cout << "Settings saved" << std::endl;
 		break;
 	case IPage::QUIT:
 		_graph->close();
@@ -361,9 +366,15 @@ void	Menu::reconnection()
 			_mutex->unlock();
 			if (!_socket->isConnected())
 			{
+				std::cout << "Try to reconnect..." << std::endl;
 				if (!_socket->init(_ip, _port)
 					|| !_socket->connectToServer())
 				{
+					std::cout << "Reconnect failed" << std::endl;
+				}
+				else
+				{
+					std::cout << "Reconnect success" << std::endl;
 					_cmdManager.setSocket(_socket);
 					_cmdManager.handshake();
 				}
@@ -381,9 +392,9 @@ bool Menu::launch()
 	  double												duration;
 	  Thread												*th;
 
-	  //th = new Thread();
-	  //th->createThread(std::bind(&Menu::reconnection, this));
-	  //_pool.addThread(th); 
+	  th = new Thread();
+	  th->createThread(std::bind(&Menu::reconnection, this));
+	  _pool.addThread(th); 
 	  _t1Loop = std::chrono::high_resolution_clock::now();
 	  _th->createThread(std::bind(&Menu::receiveInfo, this));
 	  _pool.addThread(_th);

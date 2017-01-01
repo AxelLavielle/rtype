@@ -33,6 +33,7 @@ SRC		=	$(DIR)/ASocketServer.cpp		\
 			$(COMMON)/AThread.cpp			\
 			$(COMMON)/AMutex.cpp			\
 			$(COMMON)/ThreadPool.cpp		\
+			$(COMMON)/PathFileManager.cpp		\
 			$(SERIALIZE)/AEntity.cpp		\
 			$(SERIALIZE)/Serialize.cpp		\
 			$(SERIALIZE)/InputCmd.cpp		\
@@ -51,7 +52,7 @@ OBJ		=	$(SRC:.cpp=.o)
 
 LDFLAGS 	=  	-pthread -ldl
 
-CPPFLAGS	=	-W -Wall -Wextra -ansi -pedantic -g -std=c++11 -I$(DIR) -I$(COMMON) -I$(SERIALIZE)
+CPPFLAGS	=	-W -Wall -Wextra -ansi -g -std=c++11 -I$(DIR) -I$(COMMON) -I$(SERIALIZE)
 
 
 all		:	$(NAME)

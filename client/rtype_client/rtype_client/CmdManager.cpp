@@ -180,7 +180,9 @@ void	CmdManager::sendRoomList()
 	BasicCmd			*basicCmd = new BasicCmd();
 
 	basicCmd->setCommandType(GET_ROOM_LIST);
+	_mutex.lock();
 	_cmd.push_back(basicCmd);
+	_mutex.unlock();
 }
 
 ListRoomCmd * CmdManager::getRoomList()
@@ -227,6 +229,13 @@ bool		CmdManager::sendCmd()
 	std::vector<ICommand*>::iterator	it;
 	char								*res;
 
+	//_mutex.lock();
+	//if (_wait != UNDERSTOOD)
+	//{
+	//	_mutex.unlock();
+	//	return (false);
+	//}
+	//_mutex.unlock();
 	if (!_socketClient || !_socketClient->isConnected())
 		return (false);
 	it = _cmd.begin();

@@ -14,7 +14,6 @@ Menu::Menu()
 	_errorEvent = IPage::NONE;
 	_roomList = NULL;
 	_roomInfo = NULL;
-	_getRoomList = false;
 }
 
 Menu::~Menu()
@@ -68,10 +67,6 @@ void Menu::receiveInfo()
 		_mutexRun.unlock();
 		
 		_cmdManager.receiveCmd();
-		_mutexRoomList.lock();
-		if (_getRoomList)
-			_cmdManager.sendRoomList();
-		_mutexRoomList.unlock();
 		_cmdManager.sendCmd();
 	}
 }
@@ -81,18 +76,15 @@ void Menu::managePageEvent()
 	switch (_curr_event)
 	{
 	case IPage::HOME:
-		_mutexRoomList.lock();
-		_getRoomList = false;
-		_mutexRoomList.unlock();
 		delete (_page);
 		_newEvent = true;
 		_page = new HomePage(_graph, _event, _fileManager, &_soundManager);
 		std::cout << "Home Page" << std::endl;
 		break;
+	case IPage::REFRESH:
+			_cmdManager.sendRoomList();
+		break;
 	case IPage::CREATEROOM:
-		_mutexRoomList.lock();
-		_getRoomList = false;
-		_mutexRoomList.unlock();
 		delete (_page);
 		_newEvent = true;
 		_page = new CreateRoomPage(_graph, _event, _fileManager, &_soundManager);
@@ -118,9 +110,7 @@ void Menu::managePageEvent()
 		//				delete (_page);
 		break;
 	case IPage::PLAY:
-		_mutexRoomList.lock();
-		_getRoomList = true;
-		_mutexRoomList.unlock();
+		_cmdManager.sendRoomList();
 		if (_page->getPageType() == IPage::INSIDEROOM)
 		{
 			_successEvent = IPage::PLAY;
@@ -171,9 +161,6 @@ void	Menu::manageWaiting()
 		{
 			if (_successEvent == IPage::INSIDEROOM)
 			{
-				_mutexRoomList.lock();
-				_getRoomList = false;
-				_mutexRoomList.unlock();
 				_newEvent = true;
 				delete _page;
 				_page = new InsideRoomPage(_graph, _event, _fileManager, &_soundManager);
@@ -189,9 +176,6 @@ void	Menu::manageWaiting()
 		{
 			if (_errorEvent == IPage::INSIDEROOM)
 			{
-				_mutexRoomList.lock();
-				_getRoomList = false;
-				_mutexRoomList.unlock();
 				delete _page;
 				_newEvent = true;
 				_page = new InsideRoomPage(_graph, _event, _fileManager, &_soundManager);
@@ -213,16 +197,13 @@ void	Menu::manageWaiting()
 			_curr_event = IPage::NONE;
 
 	}
-	//else if (_page && _page->getPageType() != IPage::LOADING)
-	//{
-	//	_mutexRoomList.lock();
-	//	_getRoomList = false;
-	//	_mutexRoomList.unlock();
-	//	_newEvent = true;
-	//	delete _page;
-	//	_page = new LoadingPage(_graph, _event, _fileManager, &_soundManager);
-	//	_page->init();
-	//}
+	else if (_page && _page->getPageType() != IPage::LOADING)
+	{
+		_newEvent = true;
+		delete _page;
+		_page = new LoadingPage(_graph, _event, _fileManager, &_soundManager);
+		_page->init();
+	}
 }
 
 void	Menu::setRoomList()

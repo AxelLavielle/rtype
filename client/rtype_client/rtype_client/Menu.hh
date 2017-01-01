@@ -67,8 +67,6 @@ private:
 	IPage::PAGE												_curr_event;
 	ListRoomCmd					*_roomList;
 	Mutex						_mutexRun;
-	Mutex						_mutexRoomList;
-	bool						_getRoomList;
 
 	std::chrono::high_resolution_clock::time_point        _t1Conn;
 

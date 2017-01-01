@@ -6,6 +6,7 @@ LoadingPage::LoadingPage(IGraphManager *graph, IEventManager *event, const PathF
 
 LoadingPage::~LoadingPage()
 {
+	clear();
 }
 
 bool LoadingPage::init()

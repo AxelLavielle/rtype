@@ -17,18 +17,21 @@ SFML::~SFML()
 		delete (*it).first;
 		++it;
 	}
+	_texture.clear();
 	it2 = _fonts.begin();
 	while (it2 != _fonts.end())
 	{
 		delete (*it2).first;
 		++it2;
 	}
+	_fonts.clear();
 	it3 = _img.begin();
 	while (it3 != _img.end())
 	{
 		delete (*it3).first;
 		++it3;
 	}
+	_img.clear();
 	delete _window;
 }
 

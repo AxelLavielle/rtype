@@ -57,7 +57,7 @@ bool InsideRoomPage::launch()
 void InsideRoomPage::draw()
 {
 	_graph->setBackground(_backgroundSprite, 1.0f, 1.1f);
-	_graph->drawText(_roomName, _windowSize.first / 2 - 200, 0, 90, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+	_graph->drawText(_roomName, _windowSize.first / 2 - 200, 0, 90, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
 	drawGUIElement(_buttons);
 	drawGUIElement(_guiElement);
 }

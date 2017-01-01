@@ -249,6 +249,7 @@ void	Menu::setRoomInfo()
 	std::vector<PlayerInfo>::iterator		it;
 	InsideRoomPage							*page;
 	
+	delete _roomInfo;
 	_roomInfo = _cmdManager.getRoomInfo();
 	if (!_roomInfo)
 		return;

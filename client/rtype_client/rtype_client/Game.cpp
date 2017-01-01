@@ -37,6 +37,8 @@ Game::~Game()
 		++it;
 	}
 	_guiElement.clear();
+	delete _input;
+	delete _sock;
 }
 
 bool Game::initSocket()

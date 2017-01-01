@@ -34,7 +34,7 @@ bool	DirectoryBrowser::refresh()
 
   #elif _WIN32
 	std::string winPath = _path + "\\*";
-	std::cout << "[DirectoryBrowser] Opening (" << winPath << ")" << std::endl;
+	//std::cout << "[DirectoryBrowser] Opening (" << winPath << ")" << std::endl;
 	if ((_handle = FindFirstFile(winPath.c_str(), &_findFileData)) == INVALID_HANDLE_VALUE)
 	{
 		std::cerr << "Can't open dir" << std::endl;

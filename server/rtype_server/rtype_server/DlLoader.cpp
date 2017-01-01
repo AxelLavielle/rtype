@@ -13,51 +13,37 @@ DlLoader::~DlLoader()
 #endif
 }
 
-typedef IEntity *(__stdcall *f_funci)();
-
-IEntity		*DlLoader::getInstance()
+IEntity			*DlLoader::getInstance()
 {
-  //IEntity	*(*Entity)();
-	f_funci Entity;
+	createFunc	func;
 
-  #ifdef __linux__
-  Entity = reinterpret_cast<IEntity*(*)()>(dlsym(_dlHandle, "createEntity"));
-#elif _WIN32
-//  Entity = (lpfnDllFunc1)(GetProcAddress((HINSTANCE)_dlHandle, "createEntity"));
-  //Entity = reinterpret_cast<IEntity* (*)()>(GetProcAddress((HINSTANCE)_dlHandle, "createEntity"));
-  //Entity = (f_funci)(GetProcAddress((HINSTANCE)_dlHandle, "createEntity"));
+	#ifdef __linux__
+		func = reinterpret_cast<createFunc>(dlsym(_dlHandle, "createEntity"));
+	#elif _WIN32
+		func = reinterpret_cast<createFunc>(GetProcAddress((HINSTANCE)_dlHandle, "createEntity"));
+	#endif
 
-	Entity = (f_funci)GetProcAddress((HINSTANCE)_dlHandle, "createEntity");
-
-#endif
-  if (Entity == NULL)
+	if (func == NULL)
     {
-      std::cout << "Error in getInstance" << std::endl;
-	  std::cout << GetLastError() << std::endl;
-      return (NULL);
+      std::cerr << "Error in getInstance" << std::endl;
+	  return (NULL);
     }
-  else
-	  std::cout << "getInstance OK " << std::endl;
-  IEntity	*rtn = Entity();
+
+  IEntity	*rtn = func();
   return (rtn);
 }
 
 bool		DlLoader::load(const std::string &path)
 {
-  #ifdef __linux__
-  _dlHandle = dlopen(path.c_str(), RTLD_LAZY | RTLD_NOW);
-  if (_dlHandle == NULL)
-    std::cout << dlerror() << std::endl;
-  return (_dlHandle != NULL);
-  #elif _WIN32
-	_dlHandle = (void*)LoadLibrary(path.c_str());
-	  if (_dlHandle == NULL)
-	  {
-		  std::cout << "Cannot load library" << std::endl;
-		  std::cout << GetLastError() << std::endl;
-	  }
-#endif
-
+	#ifdef __linux__
+		_dlHandle = dlopen(path.c_str(), RTLD_LAZY | RTLD_NOW);
+		if (_dlHandle == NULL)
+			std::cerr << dlerror() << std::endl;
+	#elif _WIN32
+		_dlHandle = (void*)LoadLibrary(path.c_str());
+		if (_dlHandle == NULL)
+		  std::cerr << "Cannot load library : " << GetLastError() << std::endl;
+	#endif
   return (_dlHandle != NULL);
 }
 

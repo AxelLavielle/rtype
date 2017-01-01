@@ -108,6 +108,9 @@ ICommand	*Serialize::unserializeCommand(char *data)
 	case INPUT_CMD:
 		res = new InputCmd();
 		break;
+	case END_GAME:
+		res = new EndGameCmd();
+		break;
 	case ENTITY:
       break;
     default:

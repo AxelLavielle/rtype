@@ -45,4 +45,6 @@ public:
 	virtual CollisionBox		*getCollisionBox() const = 0;
 	virtual bool			isColliding(CollisionBox *) const = 0;
 	virtual void			refresh() = 0;
+	virtual void			setA(const int) = 0;
+	virtual int				getA() const = 0;
 };

@@ -3,10 +3,10 @@
 SaveConfig::SaveConfig()
 {
 	_playerName = "player";
-	_up = "z";
-	_down = "s";
-	_right = "d";
-	_left = "q";
+	_up = "";
+	_down = "";
+	_right = "";
+	_left = "";
 	_pew = "k";
 	_superPew = "l";
 	_music = 50;
@@ -215,7 +215,7 @@ std::string		SaveConfig::getPew() const
 
 void			SaveConfig::setPew(const std::string &pew)
 {
-	if (pew == "|")
+	if (pew == "|" || pew.size() == 0)
 		_pew = "k";
 	else
 		_pew = pew;
@@ -228,7 +228,7 @@ std::string		SaveConfig::getSuperPew() const
 
 void			SaveConfig::setSuperPew(const std::string &superPew)
 {
-	if (superPew == "|")
+	if (superPew == "|" || superPew.size() == 0)
 		_superPew = "l";
 	else
 		_superPew = superPew;

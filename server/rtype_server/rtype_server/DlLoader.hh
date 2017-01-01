@@ -7,7 +7,11 @@
 # include <windows.h>
 #endif
 
-typedef IEntity *(__stdcall *createFunc)();
+#ifdef __linux__
+	typedef IEntity *(*createFunc)();
+#elif _WIN32
+	typedef IEntity *(__stdcall *createFunc)();
+#endif
 
 class DlLoader : public ADlLoader
 {

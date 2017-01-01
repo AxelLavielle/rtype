@@ -118,7 +118,7 @@ char			*SocketClientUDP::receiveData()
 			if ((ret = recvfrom(_sock, buf, TCP_PACKET_SIZE, 0, reinterpret_cast<struct sockaddr *>(&_siOther), reinterpret_cast<socklen_t *>(&slen))) == SOCKET_ERROR)
 			{
 #ifdef _WIN32
-				std::cout << "recvfrom failed with the error : " << WSAGetLastError() << std::endl;
+				std::cerr << "recvfrom failed with the error : " << WSAGetLastError() << std::endl;
 
 #elif __linux__
 

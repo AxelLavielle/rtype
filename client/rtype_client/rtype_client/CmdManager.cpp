@@ -7,6 +7,7 @@ CmdManager::CmdManager()
 	_roomInfo = NULL;
 	_roomList = NULL;
 	_wait = UNDERSTOOD;
+	_socketClient = NULL;
 	_error = -1;
 }
 

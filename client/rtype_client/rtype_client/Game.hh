@@ -54,6 +54,7 @@ private:
 	Serialize					_serialize;
 	ASocketClient				*_sock;
 	APage						*_guiPage;
+	APage						*_pausePage;
 	PathFileManager				_fileManager;
 	std::string					_ip;
 	int							_port;

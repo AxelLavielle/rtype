@@ -7,7 +7,7 @@ InsideRoomPage::InsideRoomPage(IGraphManager *graph, IEventManager *event, const
 	_clickSound.setDuration(-1);
 	_clickSound.setFilePath(_fileManager.getRoot() + "/res/sounds/buttonClick.wav");
 	_pageType = IPage::INSIDEROOM;
-	_roomName = "ROOM NAME";
+	_roomName = "Room";
 }
 
 InsideRoomPage::~InsideRoomPage()

@@ -100,9 +100,9 @@ void SettingsPage::draw()
 {
   _graph->setBackground(_backgroundSprite, 1.0f, 1.1f);
   _graph->drawText("Hen Type", _windowSize.first / 2 - 250, 100, 90, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
-  _graph->drawText("Volume Musique", _windowSize.first / 2 - 150, 300, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
-  _graph->drawText("Volume SFX", _windowSize.first / 2 - 100, 450, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
-  _graph->drawText("ADRESSEIP PORT", _windowSize.first / 2 - 150, 600, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+  _graph->drawText("Music volume", _windowSize.first / 2 - 130, 300, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+  _graph->drawText("SFX volume", _windowSize.first / 2 - 100, 450, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
+  _graph->drawText("IP PORT", _windowSize.first / 2 - 70, 600, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Aerospace.ttf");
   drawGUIElement(_buttons);
   drawGUIElement(_guiElement);
 }

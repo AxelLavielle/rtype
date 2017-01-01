@@ -7,7 +7,9 @@
 #include "Wave.hh"
 
 #define MISSILE_COOLDOWN			(10)
-#define KILL_MONSTER_SCORE			(100)
+#define KILL_MONSTER_SCORE			(50)
+#define KILL_BOSS_SCORE				(1000)
+#define KILL_WAVE_SCORE				(100)
 
 #define IS_PLAYER(elem)				((elem)->getType() == rtype::PLAYER)
 #define IS_WALL(elem)				((elem)->getType() == rtype::BARRIER)

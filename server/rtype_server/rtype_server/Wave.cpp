@@ -68,7 +68,7 @@ void	Wave::getMiniWave(const int nbMonsters)
 		if (newMonster)
 		  {
 		    _waveEntities.push(std::make_pair(_time, newMonster));
-			std::cout << "===================================> Adding new Entity to the Wave time [" << _time << "]" << std::endl;
+//			std::cout << "===================================> Adding new Entity to the Wave time [" << _time << "]" << std::endl;
 		    _time += newMonster->getHeight();
 		  }
 		i++;
@@ -119,17 +119,12 @@ IEntity	*Wave::generateBoss()
 
 	_time += TIME_BETWEEN_WAVE;
 
-	if (_bossEntities.size() == 0)
-	  std::cout << "BOSS IS not COMING !" << std::endl;
-	else
-	  {
-	    std::cout << "BOSS IS COMING !" << std::endl;
-	    newBoss = _dlManager->getInstance(_bossEntities.at(0).second);
-	    newBoss->setPosX(x - 20);
-	    newBoss->setPosY(y);
-	    newBoss->refresh();
-	    _waveEntities.push(std::make_pair(_time, newBoss));
-	  }
+	newBoss = _dlManager->getInstance(_bossEntities.at(0).second);
+	newBoss->setPosX(x - 20);
+	newBoss->setPosY(y);
+	newBoss->refresh();
+	_waveEntities.push(std::make_pair(_time, newBoss));
+
 	return (newBoss);
 }
 

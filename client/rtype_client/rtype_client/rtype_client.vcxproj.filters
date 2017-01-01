@@ -22,7 +22,6 @@
     <ClCompile Include="SocketClientTCP.cpp" />
     <ClCompile Include="SocketClientUDP.cpp" />
     <ClCompile Include="Sound.cpp" />
-    <ClCompile Include="PathFileManager.cpp" />
     <ClCompile Include="SFMLSound.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="APage.cpp" />
@@ -59,6 +58,7 @@
     <ClCompile Include="InputKey.cpp" />
     <ClCompile Include="SaveConfig.cpp" />
     <ClCompile Include="..\..\..\common\Serialize\CollisionBox.cpp" />
+    <ClCompile Include="..\..\..\common\PathFileManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEventManager.hh" />
@@ -88,7 +88,6 @@
     <ClInclude Include="SocketClientUDP.hh" />
     <ClInclude Include="Sound.hh" />
     <ClInclude Include="..\..\..\common\ISocket.hpp" />
-    <ClInclude Include="PathFileManager.hh" />
     <ClInclude Include="SFMLSound.hh" />
     <ClInclude Include="Client.hh" />
     <ClInclude Include="APage.hh" />
@@ -132,5 +131,6 @@
     <ClInclude Include="InputKey.hh" />
     <ClInclude Include="SaveConfig.hh" />
     <ClInclude Include="..\..\..\common\Serialize\CollisionBox.hh" />
+    <ClInclude Include="..\..\..\common\PathFileManager.hh" />
   </ItemGroup>
 </Project>

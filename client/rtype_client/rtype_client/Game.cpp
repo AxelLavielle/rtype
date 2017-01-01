@@ -196,7 +196,19 @@ void	Game::clearEntity()
 
 void	Game::updateGUI()
 {
+	if (_guiPage && _guiPage->getPageType() == IPage::GUI)
+	{
+		GUIPage				*gui;
 
+		gui = static_cast<GUIPage* >(_guiPage);
+		_mutexPlayer.lock();
+		gui->clear();
+		gui->setScore(_score);
+		gui->setMode(std::to_string(_curr_wave));
+		gui->setHp(_hp);
+		gui->init();
+		_mutexPlayer.unlock();
+	}
 }
 
 void	Game::manageQuit()
@@ -281,7 +293,7 @@ int Game::launch()
 		if ((_endGame = _cmdManager.receiveEndGame()))
 			_curr_event = IPage::ENDGAME;
 
-		if (_event->refresh())
+		while (_event->refresh())
 		{
 			if (_event->getCloseEvent())
 			{
@@ -298,6 +310,7 @@ int Game::launch()
 			}
 			if (_event->getKeyStroke() == "ECHAP")
 			{
+				_newEvent = true;
 				_pausePage = new PausePage(_graph, _event, _fileManager, &_soundManager);
 				_pausePage->init();
 			}
@@ -306,7 +319,8 @@ int Game::launch()
 				_curr_event = _pausePage->event();
 			else if (_guiPage)
 				_curr_event = _guiPage->event();
-			}
+
+		}
 
 		switch (_curr_event)
 		{
@@ -331,6 +345,8 @@ int Game::launch()
 			break;
 		}
 
+		updateGUI();
+
 		if (_newEvent)
 		{
 			_graph->clearWindow();
@@ -354,25 +370,13 @@ int Game::launch()
 				++it;
 			}
 			_mutex.unlock();
-
-			if (_guiPage->getPageType() == IPage::GUI)
-			{
-				GUIPage				*gui;
-
-				gui = static_cast<GUIPage* >(_guiPage);
-				_mutexPlayer.lock();
-				gui->setScore(_score);
-				gui->setMode(std::to_string(_curr_wave));
-				gui->setHp(_hp);
-				_mutexPlayer.unlock();
-			}
-
 			_guiPage->draw();
 			if (_pausePage)
 				_pausePage->draw();
 			_graph->refresh();
 			_newEvent = false;
 		}
+
 	}
 	_mutexRun.lock();
 	_run = false;

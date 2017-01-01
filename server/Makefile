@@ -46,6 +46,7 @@ SRC		=	$(DIR)/ASocketServer.cpp		\
 			$(SERIALIZE)/Barrier.cpp		\
 			$(SERIALIZE)/Missile.cpp		\
 			$(SERIALIZE)/CollisionBox.cpp		\
+			$(SERIALIZE)/EndGameCmd.cpp		\
 
 
 OBJ		=	$(SRC:.cpp=.o)

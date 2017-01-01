@@ -119,12 +119,14 @@ IEntity	*Wave::generateBoss()
 
 	_time += TIME_BETWEEN_WAVE;
 
-	newBoss = _dlManager->getInstance(_bossEntities.at(0).second);
-	newBoss->setPosX(x - 20);
-	newBoss->setPosY(y);
-	newBoss->refresh();
-	_waveEntities.push(std::make_pair(_time, newBoss));
-
+	if (_bossEntities.size() > 0)
+	  {
+	    newBoss = _dlManager->getInstance(_bossEntities.at(0).second);
+	    newBoss->setPosX(x - 20);
+	    newBoss->setPosY(y);
+	    newBoss->refresh();
+	    _waveEntities.push(std::make_pair(_time, newBoss));
+	  }
 	return (newBoss);
 }
 

@@ -24,6 +24,7 @@ Game::Game()
 	_pew.setDuration(-1);
 	_pew.setFilePath(_fileManager.getRoot() + "/res/sounds/buttonClick.wav");
 	_bgX = 0;
+	_pausePage = NULL;
 }
 
 Game::~Game()
@@ -197,7 +198,7 @@ int Game::launch()
 
 		while (_event->refresh())
 		{
-			if (_event->getCloseEvent() || _guiPage->event() == IPage::QUIT)
+			if (_event->getCloseEvent() || (_pausePage && _pausePage->event() == IPage::QUIT))
 			{
 				_cmdManager.sendQuit();
 				_cmdManager.sendCmd();
@@ -218,17 +219,15 @@ int Game::launch()
 			}
 			if (_event->getKeyStroke() == "ECHAP")
 			{
-				delete _guiPage;
-				_guiPage = new PausePage(_graph, _event, _fileManager, &_soundManager);
-				_guiPage->init();
+				_pausePage = new PausePage(_graph, _event, _fileManager, &_soundManager);
+				_pausePage->init();
 			}
-			if (_guiPage->event() == IPage::PAUSE)
+			if (_pausePage && _pausePage->event() == IPage::PAUSE)
 			{
-				delete _guiPage;
-				_guiPage = new GUIPage(_graph, _event, _fileManager, &_soundManager);
-				_guiPage->init();
+				delete _pausePage;
+				_pausePage = NULL;
 			}
-			if (_guiPage->event() == IPage::HOME)
+			if (_pausePage && _pausePage->event() == IPage::HOME)
 			{
 				_cmdManager.sendQuit();
 				_cmdManager.sendCmd();
@@ -262,6 +261,8 @@ int Game::launch()
 			}
 			_mutex.unlock();
 			_guiPage->draw();
+			if (_pausePage)
+				_pausePage->draw();
 			_graph->refresh();
 			_newEvent = false;
 		}

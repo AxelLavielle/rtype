@@ -98,11 +98,20 @@ int			CreateRoomPage::getWaves() const
 		if ((*it)->getTypeName() == "InputBox" && i == 2)
 		{
 			InputBox	*box;
+			int			ret;
 
 			box = static_cast<InputBox* >((*it));
 			if (box->getText().size() == 0)
 				return (0);
-			return (std::stoi(box->getText()));
+			try
+			{
+				ret = std::stoi(box->getText());
+			}
+			catch (const std::exception &error)
+			{
+				ret = 0;
+			}
+			return (ret);
 		}
 		++it;
 	}
@@ -122,11 +131,20 @@ int			CreateRoomPage::getSeed() const
 		if ((*it)->getTypeName() == "InputBox" && i == 3)
 		{
 			InputBox	*box;
+			int ret;
 
 			box = static_cast<InputBox* >((*it));
 			if (box->getText().size() == 0)
 				return (0);
-			return (std::stoi(box->getText()));
+			try
+			{
+				ret = std::stoi(box->getText());
+			}
+			catch (const std::exception &error)
+			{
+				ret = 0;
+			}
+			return (ret);
 		}
 		++it;
 	}

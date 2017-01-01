@@ -9,7 +9,6 @@ Menu::Menu()
 	_roomInfo = new RoomInfoCmd();
 	_th = new Thread();
 	_id = -1;
-	_th = NULL;
 	_run = true;
 	_successEvent = IPage::NONE;
 	_errorEvent = IPage::NONE;

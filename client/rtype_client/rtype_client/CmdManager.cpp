@@ -249,8 +249,14 @@ bool		CmdManager::sendCmd()
 	//	return (false);
 	//}
 	//_mutex.unlock();
+
+	_mutexSocket.lock();
 	if (!_socketClient || !_socketClient->isConnected())
+	{
+		_mutexSocket.unlock();
 		return (false);
+	}
+	_mutex.unlock();
 	it = _cmd.begin();
 	while (it != _cmd.end())
 	{

@@ -135,4 +135,7 @@
     <ClInclude Include="..\..\..\common\PathFileManager.hh" />
     <ClInclude Include="..\..\..\common\Serialize\EndGameCmd.hh" />
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
+  </ItemGroup>
 </Project>

@@ -15,9 +15,11 @@ public:
 	virtual IPage::PAGE				event();
 	void							addPlayer(const std::string &, const int);
 	void							setWave(const int);
+	void							setVictory(const bool);
 
 private:
 	Sound							_clickSound;
 	std::vector < std::pair<std::string, int>> _scores;
 	int								_destroyedWaves;
+	std::string						_msg;
 };

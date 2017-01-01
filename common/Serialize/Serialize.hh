@@ -1,5 +1,6 @@
 #pragma once
 
+#include	<queue>
 #include	"IEntity.hpp"
 #include	"ICommand.hpp"
 #include	"CmdEnum.hh"
@@ -31,4 +32,5 @@ private:
     short	cmdType;
     char	data[65465];
   };
+
 };

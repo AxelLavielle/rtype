@@ -59,7 +59,7 @@ bool				SocketClientTCP::init(const std::string &addr, const int port)
 	BOOL optVal = FALSE;
 	_optLen = 1;
 
-	iResult = setsockopt(_sock, SOL_SOCKET, SO_KEEPALIVE, (char *)&optVal, _optLen);
+	iResult = setsockopt(_sock, SOL_SOCKET, TCP_NODELAY, (char *)&optVal, _optLen);
 	if (iResult == SOCKET_ERROR)
 	{
 		std::cerr << "setsockopt for SO_KEEPALIVE failed with error : " << WSAGetLastError() << std::endl;
@@ -145,7 +145,8 @@ bool				SocketClientTCP::sendData(const char *data, const int datasize)
 #endif
 	return (true);
 }
-
+#include "ICommand.hpp"
+#include "Serialize.hh"
 char				*SocketClientTCP::receiveData()
 {
 	int				recvbuflen = TCP_BUFLEN;
@@ -168,8 +169,12 @@ char				*SocketClientTCP::receiveData()
 			iResult = recv(_sock, recvbuf, recvbuflen, 0);
 			if (iResult > 0)
 			{
+				ICommand *cmd;
 				_connected = true;
 				recvbuf[iResult - 1] = '\0';
+				cmd = Serialize::unserializeCommand(recvbuf);
+				std::cout << "DATA LENGHT = " << iResult  << std::endl;
+				std::cout << "COMMAND RECEIVED : " << cmd->getCommandName() << "COMMAND TYPE : " << cmd->getCommandType() << std::endl;
 				return (recvbuf);
 			}
 			_connected = false;

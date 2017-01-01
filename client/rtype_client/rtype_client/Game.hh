@@ -39,6 +39,7 @@ public:
 	void setPort(const int port);
 	void setId(const int id);
 	void setNbPlayer(const int nb);
+	void setTCPSocket(ASocketClient * socket);
 
 private:
 	IGraphManager				*_graph;
@@ -72,6 +73,7 @@ private:
 	std::string					_key;
 	Sound						_pew;
 	int							_bgX;
+	ASocketClient				*_tcpSocket;
 
 	bool initSocket();
 	void initGraphElements();

@@ -73,6 +73,8 @@ void Menu::receiveInfo()
 
 void Menu::managePageEvent()
 {
+	std::pair<std::string, std::pair<int, int> >	tmp;
+
 	switch (_curr_event)
 	{
 	case IPage::HOME:
@@ -93,8 +95,8 @@ void Menu::managePageEvent()
 	case IPage::GAME:
 		std::cout << "wait launch game" << std::endl;
 		
-		//_successEvent = IPage::INSIDEROOM;
-		//_errorEvent = IPage::INSIDEROOM;
+		_successEvent = IPage::INSIDEROOM;
+		_errorEvent = IPage::INSIDEROOM;
 		_cmdManager.setStatus();
 
 		break;
@@ -142,6 +144,14 @@ void Menu::managePageEvent()
 		_newEvent = true;
 		_page = new SettingsNextPage(_graph, _event, _fileManager, &_soundManager);
 		std::cout << "SettingsNext Page" << std::endl;
+		break;
+	case IPage::SAVE:
+		tmp = static_cast<SettingsPage *>(_page)->save();
+		_sv.readFromFile();
+		_ip = _sv.getIport().substr(0, _sv.getIport().find(":"));
+		_port = std::stoi(_sv.getIport().substr(_sv.getIport().find(":") + 1));
+		_soundManager.setMusicVolume(_sv.getMusic());
+		_soundManager.setSoundVolume(_sv.getSfx());
 		break;
 	case IPage::QUIT:
 		_graph->close();
@@ -201,10 +211,10 @@ void	Menu::manageWaiting()
 	}
 	else if (_page && _page->getPageType() != IPage::LOADING)
 	{
+//		_curr_event = IPage::LOADING;
 		_newEvent = true;
 		delete _page;
 		_page = new LoadingPage(_graph, _event, _fileManager, &_soundManager);
-		_page->init();
 	}
 }
 
@@ -272,7 +282,8 @@ bool	Menu::refreshRoomInfo()
 			_pool.joinAll();
 			_run = true;
 			_id = _cmdManager.getId();
-			startGame();
+			if (startGame() == 1)
+				return (true);
 			return (true);
 		}
 		_mutexReceive.unlock();
@@ -281,7 +292,7 @@ bool	Menu::refreshRoomInfo()
 	return (false);
 }
 
-void	Menu::startGame()
+int		Menu::startGame()
 {
 	std::cout << "Game" << std::endl;
 	_soundManager.stopAll();
@@ -290,10 +301,11 @@ void	Menu::startGame()
 	_game.setPort(9999);
 	_game.setId(_id);
 	_game.setIp(_ip);
+	_game.setTCPSocket(_socket);
 	if (_roomInfo)
 		_game.setNbPlayer(_roomInfo->getPlayersList().size());
 	delete _page;
-	_game.launch();
+	return (_game.launch());
 }
 
 void	Menu::reconnection()
@@ -358,6 +370,7 @@ bool Menu::launch()
 		  while (_event->refresh())
 		  {
 			  _curr_event = _page->event();
+
 
 			  if (_page->getPageType() == IPage::PLAY)
 			  {

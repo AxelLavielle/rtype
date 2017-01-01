@@ -75,7 +75,7 @@ private:
 	void setRoomList();
 	void setRoomInfo();
 	bool refreshRoomInfo();
-	void startGame();
+	int startGame();
 	void reconnection();
 	void receiveInfo();
 };

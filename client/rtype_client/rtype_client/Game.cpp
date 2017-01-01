@@ -169,7 +169,7 @@ int Game::launch()
 	 if (!initSocket())
 	 {
 		 std::cerr << "ERROR: connexion udp socket" << std::endl;
-		 return (0);
+		 return (-1);
 	 }
 	 initGraphElements();
 	 tGame = std::chrono::high_resolution_clock::now();
@@ -213,16 +213,6 @@ int Game::launch()
 				_key = _event->getKeyStroke();
 				_cmdManager.sendInput(_id, _event->getKeyStroke());
 			}
-			//if (_key == "" && _event->getKeyStroke() == "SHOOT")
-			//{
-			//	_key = _event->getKeyStroke();
-			//	_cmdManager.sendInput(_id, _event->getKeyStroke());
-			//}
-			//if (_key == "" && _event->getKeyStroke() == "SUPERSHOOT")
-			//{
-			//	_key = _event->getKeyStroke();
-			//	_cmdManager.sendInput(_id, _event->getKeyStroke());
-			//}
 			if (_event->getKeyStroke() == "ECHAP")
 			{
 				delete _guiPage;
@@ -234,6 +224,10 @@ int Game::launch()
 				delete _guiPage;
 				_guiPage = new GUIPage(_graph, _event, _fileManager, &_soundManager);
 				_guiPage->init();
+			}
+			if (_guiPage->event() == IPage::HOME)
+			{
+				return (1);
 			}
 		}
 
@@ -303,7 +297,7 @@ void Game::setNbPlayer(const int nb)
 	_nbPlayer = nb;
 }
 
-//void	Game::setTCPSocket(ASocketClient * socket)
-//{
-//
-//}
+void	Game::setTCPSocket(ASocketClient * socket)
+{
+	_tcpSocket = socket;
+}

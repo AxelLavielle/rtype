@@ -26,9 +26,11 @@ void	CmdManager::sendQuit()
 void CmdManager::setSocket(ASocketClient * socketClient)
 {
 	_mutexSocket.lock();
+	_mutex.lock();
 	_socketClient = socketClient;
 	_error = -1;
 	_wait = UNDERSTOOD;
+	_mutex.unlock();
 	_mutexSocket.unlock();
 }
 
@@ -242,12 +244,23 @@ bool		CmdManager::confirmHandshake(ICommand *cmd)
 
 EndGameCmd	*CmdManager::receiveEndGame()
 {
-	ICommand	*cmd;
 	EndGameCmd	*end;
 
-	cmd = receiveCmd();
+	ICommand			*cmd;
+	char				*res;
+
+	_mutexSocket.lock();
+	if (!_socketClient || !(res = _socketClient->receiveData()))
+	{
+		_mutexSocket.unlock();
+		return (NULL);
+	}
+	_mutexSocket.unlock();
+	cmd = _serialize.unserializeCommand(res);
+	delete[] res;
 	if (cmd && cmd->getCommandName() == END_GAME)
 	{
+		std::cout << "End Received" << std::endl;
 		end = static_cast<EndGameCmd *>(cmd);
 		return (end);
 	}

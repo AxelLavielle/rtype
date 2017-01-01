@@ -16,10 +16,31 @@ Player::Player(const int x, const int y, const int idPlayer)
   refresh();
   this->_missileCooldown = 0;
   this->_idPlayer = idPlayer;
+  _nbWave = 0;
 }
 
 Player::~Player()
 {
+}
+
+int			Player::getWaveNumber() const
+{
+	return (_nbWave);
+}
+
+void		Player::setWaveNumber(const int nbWave)
+{
+	_nbWave = nbWave;
+}
+
+int			Player::getScore() const
+{
+	return (_score);
+}
+
+void		Player::setScore(const int score)
+{
+	_score = score;
 }
 
 int			Player::getMissileCooldown() const

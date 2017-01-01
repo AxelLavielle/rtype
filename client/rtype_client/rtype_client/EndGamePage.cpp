@@ -5,10 +5,6 @@ EndGamePage::EndGamePage(IGraphManager *graph, IEventManager *event, const PathF
 	_backgroundSprite = _fileManager.getRoot() + "/res/img/background_menu3.jpg";
 	_clickSound.setDuration(-1);
 	_clickSound.setFilePath(_fileManager.getRoot() + "/res/sounds/buttonClick.wav");
-	_scores.push_back(std::make_pair<std::string, int>("Kebabaman", 684684));
-	_scores.push_back(std::make_pair<std::string, int>("hmardingdingdong", 453738));
-	_scores.push_back(std::make_pair<std::string, int>("hihijaiungroszizi", 98384));
-	_scores.push_back(std::make_pair<std::string, int>("alexislepd", 12));
 }
 
 EndGamePage::~EndGamePage()
@@ -43,7 +39,7 @@ void			EndGamePage::draw()
 	initDecor(Rect(_windowSize.first / 2 - 250, 460, 250, 500), "/res/img/buttonRoom.png");
 	drawGUIElement(_buttons);
 	drawGUIElement(_guiElement);
-	_graph->drawText("GAME OVER", _windowSize.first / 2 - 300, 100, 90, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
+	_graph->drawText(_msg, _windowSize.first / 2 - 300, 100, 90, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
 	_graph->drawText("Score : ", _windowSize.first / 2 - 230, 400, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
 	while (it != _scores.end())
 	{
@@ -51,6 +47,8 @@ void			EndGamePage::draw()
 		y += 60;
 		it++;
 	}
+	_graph->drawText("Destroyed waves : " + std::to_string(_destroyedWaves), _windowSize.first / 2 - 230, 800, 30, Color(135, 206, 250, 255), _fileManager.getRoot() + "/res/fonts/Space.ttf");
+	_graph->setMouseCursorVisible(true);
 }
 
 IPage::PAGE		EndGamePage::event()
@@ -62,4 +60,22 @@ IPage::PAGE		EndGamePage::event()
 	if (page != IPage::NONE)
 		_soundManager->play(_clickSound);
 	return (page);
+}
+
+void			EndGamePage::addPlayer(const std::string &name, const int score)
+{
+	_scores.push_back(std::make_pair(name, score));
+}
+
+void			EndGamePage::setWave(const int wave)
+{
+	_destroyedWaves = wave;
+}
+
+void			EndGamePage::setVictory(const bool v)
+{
+	if (v == true)
+		_msg = "YOU   WIN";
+	else
+		_msg = "GAME OVER";
 }

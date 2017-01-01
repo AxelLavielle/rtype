@@ -171,7 +171,7 @@ char				*SocketClientTCP::receiveData()
 	int			ret;
 	struct timeval tv;
 	tv.tv_sec = 0;
-	tv.tv_usec = 1000;
+	tv.tv_usec = 0;
 
 	_mutex.lock();
 	if (!_connected)

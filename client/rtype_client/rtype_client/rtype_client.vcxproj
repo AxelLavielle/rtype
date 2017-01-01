@@ -262,6 +262,9 @@
     <ClCompile Include="SocketClientUDP.cpp" />
     <ClCompile Include="Sound.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

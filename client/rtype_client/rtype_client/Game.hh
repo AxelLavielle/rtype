@@ -20,6 +20,8 @@
 #include "ThreadPool.hh"
 #include "Thread.hh"
 #include "Mutex.hh"
+#include "SaveConfig.hh"
+#include "EndGamePage.hh"
 
 #define NB_CELL_X (150)
 #define NB_CELL_Y (80)
@@ -75,6 +77,7 @@ private:
 	Sound						_pew;
 	int							_bgX;
 	ASocketClient				*_tcpSocket;
+	IPage::PAGE					_curr_event;
 
 	bool initSocket();
 	void initGraphElements();

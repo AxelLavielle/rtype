@@ -46,5 +46,17 @@ private:
 	int			_music;
 	int			_sfx;
 	std::string _iport;
+
 	void    needleInHaystack(const std::string &);
+	void	ssToPlayer(const std::string &);
+	void	ssToUp(const std::string &);
+	void	ssToDown(const std::string &);
+	void	ssToRight(const std::string &);
+	void	ssToLeft(const std::string &);
+	void	ssToPew(const std::string &);
+	void	ssToSuperPew(const std::string &);
+	void	ssToMusic(const std::string &);
+	void	ssToSFX(const std::string &);
+	void	ssToIport(const std::string &);
+
 };

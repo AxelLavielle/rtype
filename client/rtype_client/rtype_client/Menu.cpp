@@ -7,6 +7,7 @@ Menu::Menu()
 	_playerName = _sv.getPlayerName();
 	_newEvent = true;
 	_roomInfo = new RoomInfoCmd();
+	_th = new Thread();
 	_id = -1;
 	_th = NULL;
 	_run = true;
@@ -19,7 +20,8 @@ Menu::Menu()
 
 Menu::~Menu()
 {
-	delete _roomInfo;
+	//delete _roomInfo;
+	delete _th;
 }
 
 bool Menu::init()
@@ -249,7 +251,7 @@ void	Menu::setRoomInfo()
 	std::vector<PlayerInfo>::iterator		it;
 	InsideRoomPage							*page;
 	
-	delete _roomInfo;
+	//delete _roomInfo;
 	_roomInfo = _cmdManager.getRoomInfo();
 	if (!_roomInfo)
 		return;
@@ -353,7 +355,6 @@ bool Menu::launch()
 	  double												duration;
 
 	  _t1Loop = std::chrono::high_resolution_clock::now();
-	  _th = new Thread();
 	  _th->createThread(std::bind(&Menu::receiveInfo, this));
 	  _pool.addThread(_th);
 
@@ -414,47 +415,6 @@ bool Menu::launch()
   return (true);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//void	Menu::initLobby()
-//{
-//	LobbyPage		*page;
-//	ListRoomCmd		*cmd;
-//	std::vector<RoomIdInfos>		rooms;
-//	std::vector<RoomIdInfos>::iterator		it;
-//
-//	page = new LobbyPage(_graph, _event, _fileManager, &_soundManager);
-//	_page = page;
-//	if (!(cmd = _cmdManager.getRoomList()))
-//		return;
-//	std::cout << "Got rooom list" << static_cast<int>(cmd->getCommandName()) << std::endl;
-//	rooms = cmd->getAllRooms();
-//	it = rooms.begin();
-//	while (it != rooms.end())
-//	{
-//		page->addRoom(*it);
-//		++it;
-//	}
-//}
-//
 //bool Menu::tryToConnect()
 //{
 //	bool	res;
@@ -505,116 +465,6 @@ bool Menu::launch()
 //		_t1Conn = std::chrono::high_resolution_clock::now();
 //	}
 //}
-//
-//void	Menu::setRoomInfo(RoomInfoCmd *roomInfo, InsideRoomPage *page)
-//{
-//	std::vector<PlayerInfo>					pl;
-//	std::vector<PlayerInfo>::iterator		it;
-//
-//	pl = roomInfo->getPlayersList();
-//	page->setRoomName(roomInfo->getName());
-//	it = pl.begin();
-//	while (it != pl.end())
-//	{
-//		page->addPlayer(it->first, it->second);
-//		++it;
-//	}
-//}
-//
-//void	Menu::checkGameReady()
-//{
-//	int				res;
-//
-//	while (1)
-//	{
-//		if (_id != -1 || !_run)
-//			return;
-////		std::cout << "THREAD LAUNCH" << std::endl;
-//		_cmdManager.receiveCmd();
-//		//if ((res = _cmdManager.launchGame()) != -1)
-//		//{
-//			//_mutexReceive.lock();
-//		//	std::cout << "SET ID = " << _id << std::endl;
-//		//	_id = res;
-//		//	_mutexReceive.unlock();
-//		//	return;
-//		//}
-//		//if (_cmdManager.getRoomInfo() != NULL)
-//		//{
-//		//	_mutexReceive.lock();
-//		//	_roomInfo = _cmdManager.getRoomInfo();
-//		//	_mutexReceive.unlock();
-//		//}
-//	}
-//}
-//
-//void	Menu::startGame()
-//{
-//	std::cout << "Game" << std::endl;
-//	_soundManager.stopAll();
-//	_game.setGraph(_graph);
-//	_game.setEvent(_event);
-//	_game.setPort(9999);
-//	_game.setId(_id);
-//	_game.setIp(_ip);
-//	if (_roomInfo)
-//		_game.setNbPlayer(_roomInfo->getPlayersList().size());
-//	_pool.joinAll();
-//	_game.launch();
-//
-//}
-//
-//void	Menu::manageLaunchGame()
-//{
-//	_newEvent = true;
-//	_cmdManager.setStatus();
-//	startGame();
-//}
-//
-//void	Menu::refreshRoomInside()
-//{
-//	if (_page->getPageType() == IPage::INSIDEROOM && _th)
-//	{
-//		_page->clear();
-//		if (_roomInfo)
-//			setRoomInfo(_roomInfo, (static_cast<InsideRoomPage*>(_page)));
-//		_page->init();
-//	}
-//}
-//
-//void	Menu::manageEvent()
-//{
-//	if (_page->getPageType() == IPage::PLAY)
-//	{
-//		LobbyPage		*lobbyPage;
-//
-//		lobbyPage = static_cast<LobbyPage* >(_page);
-//		if (lobbyPage->getSelectedRoom().first != -84)
-//		{
-//			std::cout << lobbyPage->getSelectedRoom().first << std::endl;
-//			if (!_cmdManager.joinRoom(lobbyPage->getSelectedRoom().first, _playerName))
-//				std::cerr << "Can not join room" << std::endl;
-//			else
-//			{
-//				RoomInfoCmd			*roomInfo1;
-//				Thread				*th2;
-//
-//				delete _page;
-//				_newEvent = true;
-//				_page = new InsideRoomPage(_graph, _event, _fileManager, &_soundManager);
-//				_page->clear();
-//				_page->init();
-//				if (_th == NULL)
-//				{
-//					_th = new Thread();
-//					_th->createThread(std::bind(&Menu::checkGameReady, this));
-//					_pool.addThread(_th);
-//				}
-//			}
-//		}
-//	}
-//}
-//
 //bool Menu::launch()
 //{
 //  IPage::PAGE									curr_event;

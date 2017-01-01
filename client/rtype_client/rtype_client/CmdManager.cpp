@@ -252,22 +252,18 @@ bool		CmdManager::sendCmd()
 {
 	std::vector<ICommand*>::iterator	it;
 
-//	_mutexSocket->lock();
 	if (!_socketClient || !_socketClient->isConnected())
-	{
-	//	_mutexSocket->unlock();
 		return (false);
-	}
-//	_mutexSocket->unlock();
 	it = _cmd.begin();
 	while (it != _cmd.end())
 	{
+		_mutex.lock();
 		if (!_socketClient->sendData(_serialize.serialize(*it)))
 		{
 			std::cerr << "ERROR: cant not send data" << std::endl;
+			_mutex.unlock();
 			return (false);
 		}
-		_mutex.lock();
 		delete (*it);
 		it = _cmd.erase(it);
 		_mutex.unlock();
@@ -366,7 +362,9 @@ ICommand	*CmdManager::receiveCmd(const int sec, const int usec)
 
 			newCmd = new BasicCmd();
 			newCmd->setCommandType(GET_ROOM);
+			_mutex.lock();
 			_cmd.push_back(newCmd);
+			_mutex.unlock();
 		}
 		break;
 	case (ROOM_LIST):
@@ -384,8 +382,8 @@ ICommand	*CmdManager::receiveCmd(const int sec, const int usec)
 	default:
 	  break;
 	}
-//	delete cmd;
-	return (cmd);
+	delete cmd;
+	return (NULL);
 }
 
 bool CmdManager::newCmd(ICommand *cmd)

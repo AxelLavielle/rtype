@@ -100,9 +100,6 @@ void Menu::managePageEvent()
 	case IPage::GAME:
 		std::cout << "wait launch game" << std::endl;
 		
-		//_successEvent = IPage::GAME;
-		//_errorEvent = _page->getPageType();
-
 		_cmdManager.setStatus();
 
 		break;
@@ -174,12 +171,14 @@ void	Menu::manageWaiting()
 				_mutexRoomList.lock();
 				_getRoomList = false;
 				_mutexRoomList.unlock();
+				_newEvent = true;
 				delete _page;
 				_page = new InsideRoomPage(_graph, _event, _fileManager, &_soundManager);
 			}
 			else if (_successEvent == IPage::PLAY)
 			{
 				delete _page;
+				_newEvent = true;
 				_page = new LobbyPage(_graph, _event, _fileManager, &_soundManager);
 			}
 		}
@@ -191,16 +190,19 @@ void	Menu::manageWaiting()
 				_getRoomList = false;
 				_mutexRoomList.unlock();
 				delete _page;
+				_newEvent = true;
 				_page = new InsideRoomPage(_graph, _event, _fileManager, &_soundManager);
 			}
 			else if (_errorEvent == IPage::PLAY)
 			{
 				delete _page;
+				_newEvent = true;
 				_page = new LobbyPage(_graph, _event, _fileManager, &_soundManager);
 			}
 			else if (_errorEvent == IPage::CREATEROOM)
 			{
 				delete _page;
+				_newEvent = true;
 				_page = new CreateRoomPage(_graph, _event, _fileManager, &_soundManager);
 			}
 		}
@@ -209,7 +211,11 @@ void	Menu::manageWaiting()
 
 	}
 	else if (_page && _page->getPageType() != IPage::LOADING)
-	{		
+	{
+		_mutexRoomList.lock();
+		_getRoomList = false;
+		_mutexRoomList.unlock();
+		_newEvent = true;
 		delete _page;
 		_page = new LoadingPage(_graph, _event, _fileManager, &_soundManager);
 		_page->init();
@@ -350,8 +356,6 @@ bool Menu::launch()
 					  _curr_event = IPage::NONE;
 					  _successEvent = IPage::INSIDEROOM;
 					  _errorEvent = IPage::PLAY;
-					  if (refreshRoomInfo())
-						  return (true);
 				  }
 			  }
 

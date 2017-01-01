@@ -32,5 +32,4 @@ void AMenu::setSocketTCPSocket(ASocketClient * socket)
 void AMenu::setMutex(AMutex * mutex)
 {
 	_mutex = mutex;
-	_cmdManager.setMutexSocket(_mutex);
 }

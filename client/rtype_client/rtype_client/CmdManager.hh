@@ -32,7 +32,6 @@ public:
 	ListRoomCmd *getRoomList();
 	ICommand * receiveCmd(const int sec = 0, const int usec = 100);
 	bool newCmd(ICommand *command);
-	void setMutexSocket(AMutex * mutex);
 	void setSocket(ASocketClient * sosket);
 	void setUDPSocket(ASocketClient *socket);
 	bool sendCmd();
@@ -54,6 +53,6 @@ private:
 	ReplyCodes				_wait;
 	int						_error;
 	Mutex					_mutex;
-	AMutex					*_mutexSocket;
+	Mutex					_mutexSocket;
 };
 

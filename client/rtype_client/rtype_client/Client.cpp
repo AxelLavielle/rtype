@@ -8,11 +8,11 @@ Client::Client()
 	_mutex = new Mutex();
 	_socket = new SocketClientTCP();
 	//_ip = "127.0.0.1";
-	//_ip = "10.16.253.70"; //Sarah2
+	_ip = "10.16.253.70"; //Sarah2
 //	_ip = "10.16.252.95"; // Sarah
 //	_ip = "10.16.253.119"; // Anthony
 	//_ip = "10.16.252.135"; // Momo
-	_ip = "10.16.253.15"; // Alexis
+//	_ip = "10.16.253.15"; // Alexis
 	//_ip = sv.getIport().substr(0, sv.getIport().find(":"));
 	_port = std::stoi(sv.getIport().substr(sv.getIport().find(":") + 1));
 }

@@ -8,12 +8,13 @@ CmdManager::CmdManager()
 	_roomList = NULL;
 	_wait = UNDERSTOOD;
 	_error = -1;
-	_mutexSocket = NULL;
 }
 
 void CmdManager::setSocket(ASocketClient * socketClient)
 {
+	_mutexSocket.lock();
 	_socketClient = socketClient;
+	_mutexSocket.unlock();
 }
 
 void CmdManager::setUDPSocket(ASocketClient * socket)
@@ -220,6 +221,7 @@ bool		CmdManager::confirmHandshake(ICommand *cmd)
 bool		CmdManager::sendCmd()
 {
 	std::vector<ICommand*>::iterator	it;
+	char								*res;
 
 	if (!_socketClient || !_socketClient->isConnected())
 		return (false);
@@ -227,12 +229,15 @@ bool		CmdManager::sendCmd()
 	while (it != _cmd.end())
 	{
 		_mutex.lock();
-		if (!_socketClient->sendData(_serialize.serialize(*it)))
+		res = _serialize.serialize(*it);
+		if (!_socketClient->sendData(res))
 		{
 			std::cerr << "ERROR: cant not send data" << std::endl;
 			_mutex.unlock();
+			delete[] res;
 			return (false);
 		}
+		delete[] res;
 		delete (*it);
 		it = _cmd.erase(it);
 		_mutex.unlock();
@@ -245,8 +250,13 @@ bool		CmdManager::sendUDPCmd()
 	std::vector<ICommand*>::iterator	it;
 	char								*res;
 
+	_mutexSocket.lock();
 	if (!_socketClientUDP || !_socketClientUDP->isConnected())
+	{
+		_mutexSocket.unlock();
 		return (false);
+	}
+	_mutexSocket.unlock();
 	it = _cmd.begin();
 	while (it != _cmd.end())
 	{
@@ -283,8 +293,13 @@ ICommand	*CmdManager::receiveCmd(const int sec, const int usec)
 	ICommand			*cmd;
 	char				*res;
 
+	_mutexSocket.lock();
 	if (!_socketClient || !(res = _socketClient->receiveData()))
+	{
+		_mutexSocket.unlock();
 		return (NULL);
+	}
+	_mutexSocket.unlock();
 	cmd = _serialize.unserializeCommand(res);
 	delete[] res;
 	//std::cout << "COMMAND RECEIVED : " << cmd->getCommandName() << "COMMAND TYPE : " << cmd->getCommandType() << std::endl;
@@ -359,9 +374,4 @@ bool CmdManager::newCmd(ICommand *cmd)
 {
 	_cmd.push_back(cmd);
 	return (true);
-}
-
-void CmdManager::setMutexSocket(AMutex *mutex)
-{
-	_mutexSocket = mutex;
 }

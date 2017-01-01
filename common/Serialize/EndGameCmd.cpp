@@ -7,6 +7,7 @@ EndGameCmd::EndGameCmd()
 	_arg = "";
 	_isVictory = false;
 	_nbWave = 0;
+	_cmdName = END_GAME;
 }
 
 

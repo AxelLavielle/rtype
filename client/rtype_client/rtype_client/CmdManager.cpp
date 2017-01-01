@@ -238,6 +238,15 @@ bool		CmdManager::confirmHandshake(ICommand *cmd)
 	return (true);
 }
 
+EndGameCmd	*CmdManager::receiveEndGame()
+{
+	ICommand	*cmd;
+
+	cmd = receiveCmd();
+
+	delete cmd;
+}
+
 bool		CmdManager::sendCmd()
 {
 	std::vector<ICommand*>::iterator	it;

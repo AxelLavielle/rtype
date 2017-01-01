@@ -11,6 +11,7 @@
 #include "RoomInfoCmd.hh"
 #include "IEntity.hpp"
 #include "Mutex.hh"
+#include "EndGameCmd.hh"
 
 class CmdManager
 {
@@ -48,6 +49,7 @@ private:
 	std::vector<ICommand*>	_cmd;
 	std::vector<ICommand *>	_cmdReceive;
 	bool confirmHandshake(ICommand * cmd);
+	EndGameCmd * receiveEndGame();
 	RoomInfoCmd				*_roomInfo;
 	int						_id;
 	ListRoomCmd				*_roomList;

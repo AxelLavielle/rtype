@@ -29,6 +29,7 @@ enum		CmdName
     ENTITY,
     INPUT_CMD,
     BASIC_CMD,
+	END_GAME,
     EMPTY_NAME
   };
 

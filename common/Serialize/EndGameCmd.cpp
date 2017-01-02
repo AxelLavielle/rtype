@@ -26,16 +26,19 @@ int				EndGameCmd::getWaveNumber() const
 void			EndGameCmd::addPlayer(const std::string &name, const int score)
 {
 	_player.push_back(std::make_pair(name, score));
+       	_arg += name + _separator + std::to_string(score) + _separator;
 }
 
 void		EndGameCmd::setVictory(const bool victory)
 {
 	_isVictory = victory;
+	_arg += std::to_string(static_cast<int>(_isVictory)) + _separator;
 }
 
 void	EndGameCmd::setWaveNumber(const int wave)
 {
 	_nbWave = wave;
+	_arg += std::to_string(_nbWave) + _separator;
 }
 
 std::vector<std::pair<std::string, int> >		EndGameCmd::getPlayerList() const
@@ -57,9 +60,9 @@ void	EndGameCmd::parsePlayer()
 
 const std::string	EndGameCmd::getCommandArg()
 {
-	_arg += std::to_string(static_cast<int>(_isVictory)) + _separator;
-	_arg += std::to_string(_nbWave) + _separator;
-	parsePlayer();
+	// _arg += std::to_string(static_cast<int>(_isVictory)) + _separator;
+	// _arg += std::to_string(_nbWave) + _separator;
+	// parsePlayer();
 	return (_arg);
 }
 //#include <iostream>

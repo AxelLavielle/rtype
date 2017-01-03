@@ -120,7 +120,7 @@ bool			Game::updateGame(std::vector<ServerClient *> &clients)
 
 	if (_currentWall < NB_CELLS_X - 1)
 		addWalls(_currentWall);
-	
+
 	refreshWave();
 
 	updateEntities();
@@ -140,7 +140,7 @@ bool			Game::updateGame(std::vector<ServerClient *> &clients)
 void										Game::updatePlayers(std::vector<ServerClient *> &clients)
 {
 	std::vector<ServerClient *>::iterator	it;
-	int										nbDeadPlayers;
+	unsigned int										nbDeadPlayers;
 
 	nbDeadPlayers = 0;
 	it = clients.begin();
@@ -305,7 +305,7 @@ void	Game::playerMissileCollisions(IEntity *it, IEntity *itOther)
 		it->setDead(true);
 		it->refresh();
 	}
-	
+
 	if (IS_MISSILE(itOther) && IS_PLAYER_MISSILE(static_cast<Missile *>(itOther)))
 		return;
 
@@ -382,7 +382,7 @@ void									Game::checkCollisions()
 					else if (IS_MISSILE(*it) && IS_MONSTER_MISSILE(static_cast<Missile *>(*it)))
 						monsterMissileCollisions(*it, *itOther);
 				}
-				
+
 				itOther++;
 			}
 		}
